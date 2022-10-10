@@ -1,0 +1,839 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="sweetying">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前言很高兴遇见你~ 在本系列的上一篇文章中，我们对注解进行了讲解，还没有看过上一篇文章的朋友，建议先去阅读 Android APT 系列 （二）：APT 筑基之注解。至此，关于 Apt 基础部分我们都讲完了，接下来就正式进入 APT 技术的学习 Github Demo 地址 , 大家可以看 Demo 跟随我的思路一起分析 一、APT 介绍1）、什么是 APT ?APT 全称 Annotation">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android APT 系列 （三）：APT 技术探究">
+<meta property="og:url" content="https://sweetying520.github.io/2022/10/10/Android%20APT%20%E7%B3%BB%E5%88%97%20%EF%BC%88%E4%B8%89%EF%BC%89%EF%BC%9AAPT%20%E6%8A%80%E6%9C%AF%E6%8E%A2%E7%A9%B6/index.html">
+<meta property="og:site_name" content="sweetying">
+<meta property="og:description" content="前言很高兴遇见你~ 在本系列的上一篇文章中，我们对注解进行了讲解，还没有看过上一篇文章的朋友，建议先去阅读 Android APT 系列 （二）：APT 筑基之注解。至此，关于 Apt 基础部分我们都讲完了，接下来就正式进入 APT 技术的学习 Github Demo 地址 , 大家可以看 Demo 跟随我的思路一起分析 一、APT 介绍1）、什么是 APT ?APT 全称 Annotation">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202210101947271.jpeg">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4415046ff7434044bc7959dd77d21358~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0fcccf3c6fe64a88bb00488bb1cb9308~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/cd59cb4022624f7c9c171fa22441dd99~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3d51e6dd32ab4042a4d5905122b6ef43~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="article:published_time" content="2022-10-10T09:54:47.000Z">
+<meta property="article:modified_time" content="2022-10-10T11:48:35.843Z">
+<meta property="article:author" content="sweetying">
+<meta property="article:tag" content="原创">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="Android APT">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202210101947271.jpeg">
+  
+  
+  
+  <title>Android APT 系列 （三）：APT 技术探究 - sweetying</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sweetying520.github.io","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"zN1E017kYhKuj6GqXHJSbGMb-gzGzoHsz","app_key":"JSwY8PjtA131Y78OHn7kKtio","server_url":"https://zn1e017k.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>sweetying</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Android APT 系列 （三）：APT 技术探究"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        sweetying
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-10-10 17:54" pubdate>
+          2022年10月10日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          10k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          85 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Android APT 系列 （三）：APT 技术探究</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202210101947271.jpeg" srcset="/img/loading.gif" lazyload alt="luc-vlekken-9Y8A97opXQ4-unsplash"></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>很高兴遇见你~</p>
+<p>在本系列的上一篇文章中，我们对注解进行了讲解，还没有看过上一篇文章的朋友，建议先去阅读 <a target="_blank" rel="noopener" href="https://juejin.cn/post/6978293956450713630">Android APT 系列 （二）：APT 筑基之注解</a>。至此，关于 Apt 基础部分我们都讲完了，接下来就正式进入 APT 技术的学习</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/sweetying520/AptDemo">Github Demo 地址</a> , 大家可以看 Demo 跟随我的思路一起分析</p>
+<h2 id="一、APT-介绍"><a href="#一、APT-介绍" class="headerlink" title="一、APT 介绍"></a>一、APT 介绍</h2><h3 id="1）、什么是-APT"><a href="#1）、什么是-APT" class="headerlink" title="1）、什么是 APT ?"></a>1）、什么是 APT ?</h3><p>APT 全称 <code>Annotation Processing Tool</code>，翻译过来即注解处理器。引用官方一段对 APT 的介绍：<strong>APT 是一种处理注释的工具, 它对源代码文件进行检测找出其中的注解，并使用注解进行额外的处理。</strong></p>
+<h3 id="2）、APT-有什么用？"><a href="#2）、APT-有什么用？" class="headerlink" title="2）、APT 有什么用？"></a>2）、APT 有什么用？</h3><p>APT 能在编译期根据编译阶段注解，给我们自动生成代码，简化使用。很多流行框架都使用到了 APT 技术，如 ButterKnife，Retrofit，Arouter，EventBus 等等</p>
+<h2 id="二、APT-工程"><a href="#二、APT-工程" class="headerlink" title="二、APT 工程"></a>二、APT 工程</h2><h3 id="1）、APT-工程创建"><a href="#1）、APT-工程创建" class="headerlink" title="1）、APT 工程创建"></a>1）、APT 工程创建</h3><p>一般情况下，APT 大致的的一个实现过程：</p>
+<p>1、创建一个 <code>Java Module</code> ，用来编写注解</p>
+<p>2、创建一个 <code>Java Module</code> ，用来读取注解信息，并根据指定规则，生成相应的类文件</p>
+<p>3、创建一个 <code>Android Module</code> ，通过反射获取生成的类，进行合理的封装，提供给上层调用</p>
+<p>如下图：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4415046ff7434044bc7959dd77d21358~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210627182425586"></p>
+<p>这是我的 APT 工程，关于 Module 名称可以任意取，按照我上面说的规则去进行就好了</p>
+<h3 id="2）、Module-依赖"><a href="#2）、Module-依赖" class="headerlink" title="2）、Module 依赖"></a>2）、Module 依赖</h3><p>工程创建好后，我们就需要理清楚各个 Module 之间的一个依赖关系：</p>
+<p>1、因为 <code>apt-processor</code> 要读取 <code>apt-annotation</code> 的注解，所以 <code>apt-processor</code> 需要依赖 <code>apt-annotation</code> </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//apt-processor 的 build.gradle 文件</span><br>dependencies &#123;<br>    implementation <span class="hljs-title function_">project</span><span class="hljs-params">(path: <span class="hljs-string">&#x27;:apt-annotation&#x27;</span>)</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>2、app 作为调用层，以上 3 个 Module 都需要进行依赖</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//app 的 build.gradle 文件</span><br>dependencies &#123;<br>    <span class="hljs-comment">//...</span><br>    implementation <span class="hljs-title function_">project</span><span class="hljs-params">(path: <span class="hljs-string">&#x27;:apt-api&#x27;</span>)</span><br>    implementation <span class="hljs-title function_">project</span><span class="hljs-params">(path: <span class="hljs-string">&#x27;:apt-annotation&#x27;</span>)</span><br>    annotationProcessor <span class="hljs-title function_">project</span><span class="hljs-params">(path: <span class="hljs-string">&#x27;:apt-processor&#x27;</span>)</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>APT 工程配置好之后，我们就可以对各个 Module 进行一个具体代码的编写了</p>
+<h2 id="三、apt-annotation-注解编写"><a href="#三、apt-annotation-注解编写" class="headerlink" title="三、apt-annotation 注解编写"></a>三、apt-annotation 注解编写</h2><p>这个 Module 的处理相对来说很简单，就是编写相应的自定义注解就好了，我编写的如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Inherited</span><br><span class="hljs-meta">@Documented</span><br><span class="hljs-meta">@Retention(RetentionPolicy.SOURCE)</span><br><span class="hljs-meta">@Target(&#123;ElementType.TYPE,ElementType.METHOD&#125;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> AptAnnotation &#123;<br>    String <span class="hljs-title function_">desc</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span> <span class="hljs-string">&quot;&quot;</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="四、apt-processor-自动生成代码"><a href="#四、apt-processor-自动生成代码" class="headerlink" title="四、apt-processor 自动生成代码"></a>四、apt-processor 自动生成代码</h2><p>这个 Module 相对来说比较复杂，我们把它分为以下 3 个步骤：</p>
+<p>1、注解处理器声明</p>
+<p>2、注解处理器注册</p>
+<p>3、注解处理器生成类文件</p>
+<h3 id="1）、注解处理器声明"><a href="#1）、注解处理器声明" class="headerlink" title="1）、注解处理器声明"></a>1）、注解处理器声明</h3><h4 id="1、新建一个类，类名按照自己的喜好取，继承-javax-annotation-processing-这个包下的-AbstractProcessor-类并实现其抽象方法"><a href="#1、新建一个类，类名按照自己的喜好取，继承-javax-annotation-processing-这个包下的-AbstractProcessor-类并实现其抽象方法" class="headerlink" title="1、新建一个类，类名按照自己的喜好取，继承 javax.annotation.processing 这个包下的 AbstractProcessor 类并实现其抽象方法"></a>1、新建一个类，类名按照自己的喜好取，继承 <code>javax.annotation.processing</code> 这个包下的 AbstractProcessor 类并实现其抽象方法</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AptAnnotationProcessor</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">AbstractProcessor</span> &#123;<br>  <br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 编写生成 Java 类的相关逻辑</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> set              支持处理的注解集合</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> roundEnvironment 通过该对象查找指定注解下的节点信息</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> true: 表示注解已处理，后续注解处理器无需再处理它们；false: 表示注解未处理，可能要求后续注解处理器处理</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">process</span><span class="hljs-params">(Set&lt;? extends TypeElement&gt; set, RoundEnvironment roundEnvironment)</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>重点看下第一个参数中的 TypeElement ，这个就涉及到 Element 的知识，我们简单的介绍一下：</p>
+<p><strong>Element 介绍</strong></p>
+<p>实际上，Java 源文件是一种结构体语言，源代码的每一个部分都对应了一个特定类型的 Element ，例如包，类，字段，方法等等：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.dream;         <span class="hljs-comment">// PackageElement：包元素</span><br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Main</span>&lt;T&gt; &#123;     <span class="hljs-comment">// TypeElement：类元素; 其中 &lt;T&gt; 属于 TypeParameterElement 泛型元素</span><br><br>    <span class="hljs-keyword">private</span> <span class="hljs-type">int</span> x;         <span class="hljs-comment">// VariableElement：变量、枚举、方法参数元素</span><br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">Main</span><span class="hljs-params">()</span> &#123;        <span class="hljs-comment">// ExecuteableElement：构造函数、方法元素</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>Java 的 Element 是一个接口，源码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">Element</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">javax</span>.lang.model.AnnotatedConstruct &#123;<br>    <span class="hljs-comment">// 获取元素的类型，实际的对象类型</span><br>    TypeMirror <span class="hljs-title function_">asType</span><span class="hljs-params">()</span>;<br>    <span class="hljs-comment">// 获取Element的类型，判断是哪种Element</span><br>    ElementKind <span class="hljs-title function_">getKind</span><span class="hljs-params">()</span>;<br>    <span class="hljs-comment">// 获取修饰符，如public static final等关键字</span><br>    Set&lt;Modifier&gt; <span class="hljs-title function_">getModifiers</span><span class="hljs-params">()</span>;<br>    <span class="hljs-comment">// 获取类名</span><br>    Name <span class="hljs-title function_">getSimpleName</span><span class="hljs-params">()</span>;<br>    <span class="hljs-comment">// 返回包含该节点的父节点，与getEnclosedElements()方法相反</span><br>    Element <span class="hljs-title function_">getEnclosingElement</span><span class="hljs-params">()</span>;<br>    <span class="hljs-comment">// 返回该节点下直接包含的子节点，例如包节点下包含的类节点</span><br>    List&lt;? <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Element</span>&gt; getEnclosedElements();<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-type">boolean</span> <span class="hljs-title function_">equals</span><span class="hljs-params">(Object obj)</span>;<br>  <br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-type">int</span> <span class="hljs-title function_">hashCode</span><span class="hljs-params">()</span>;<br>  <br>    <span class="hljs-meta">@Override</span><br>    List&lt;? <span class="hljs-keyword">extends</span> <span class="hljs-title class_">AnnotationMirror</span>&gt; getAnnotationMirrors();<br>  <br>    <span class="hljs-comment">//获取注解</span><br>    <span class="hljs-meta">@Override</span><br>    &lt;A <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Annotation</span>&gt; A <span class="hljs-title function_">getAnnotation</span><span class="hljs-params">(Class&lt;A&gt; annotationType)</span>;<br>  <br>    &lt;R, P&gt; R <span class="hljs-title function_">accept</span><span class="hljs-params">(ElementVisitor&lt;R, P&gt; v, P p)</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>我们可以通过 Element 获取如上一些信息（写了注释的都是一些常用的）</p>
+<p>由 Element 衍生出来的扩展类共有 5 种：</p>
+<p>1、PackageElement 表示一个包程序元素</p>
+<p>2、TypeElement 表示一个类或者接口程序元素</p>
+<p>3、TypeParameterElement 表示一个泛型元素</p>
+<p>4、VariableElement 表示一个字段、enum 常量、方法或者构造方法的参数、局部变量或异常参数</p>
+<p>5、ExecuteableElement 表示某个类或者接口的方法、构造方法或初始化程序（静态或者实例）</p>
+<p>可以发现，Element 有时会代表多种元素，例如 TypeElement 代表类或接口，此时我们可以通过 element.getKind() 来区分：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java">Set&lt;? <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Element</span>&gt; elements = roundEnvironment.getElementsAnnotatedWith(AptAnnotation.class);<br><span class="hljs-keyword">for</span> (Element element : elements) &#123;<br>    <span class="hljs-keyword">if</span> (element.getKind() == ElementKind.CLASS) &#123;<br>        <span class="hljs-comment">// 如果元素是类</span><br><br>    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (element.getKind() == ElementKind.INTERFACE) &#123;<br>        <span class="hljs-comment">// 如果元素是接口</span><br><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>ElementKind 是一个枚举类，它的取值有很多，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java">PACKAGE	<span class="hljs-comment">//表示包</span><br>ENUM <span class="hljs-comment">//表示枚举</span><br>CLASS <span class="hljs-comment">//表示类</span><br>ANNOTATION_TYPE	<span class="hljs-comment">//表示注解</span><br>INTERFACE <span class="hljs-comment">//表示接口</span><br>ENUM_CONSTANT <span class="hljs-comment">//表示枚举常量</span><br>FIELD <span class="hljs-comment">//表示字段</span><br>PARAMETER <span class="hljs-comment">//表示参数</span><br>LOCAL_VARIABLE <span class="hljs-comment">//表示本地变量</span><br>EXCEPTION_PARAMETER <span class="hljs-comment">//表示异常参数</span><br>METHOD <span class="hljs-comment">//表示方法</span><br>CONSTRUCTOR <span class="hljs-comment">//表示构造函数</span><br>OTHER <span class="hljs-comment">//表示其他</span><br></code></pre></td></tr></table></figure>
+
+<p>关于 Element 就介绍到这，我们接着往下看</p>
+<h4 id="2、重写方法解读"><a href="#2、重写方法解读" class="headerlink" title="2、重写方法解读"></a>2、重写方法解读</h4><p>除了必须实现的这个抽象方法，我们还可以重写其他 4 个常用的方法，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AptAnnotationProcessor</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">AbstractProcessor</span> &#123;<br>    <span class="hljs-comment">//...</span><br>  <br>    <span class="hljs-comment">/** </span><br><span class="hljs-comment">     * 节点工具类（类、函数、属性都是节点）</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> Elements mElementUtils;<br><br>    <span class="hljs-comment">/** </span><br><span class="hljs-comment">     * 类信息工具类</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> Types mTypeUtils;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 文件生成器</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> Filer mFiler;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 日志信息打印器</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> Messager mMessager;<br>  <br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 做一些初始化的工作</span><br><span class="hljs-comment">     * </span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> processingEnvironment 这个参数提供了若干工具类，供编写生成 Java 类时所使用</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">synchronized</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">init</span><span class="hljs-params">(ProcessingEnvironment processingEnv)</span> &#123;<br>        <span class="hljs-built_in">super</span>.init(processingEnv);<br>        mElementUtils = processingEnv.getElementUtils();<br>        mTypeUtils = processingEnv.getTypeUtils();<br>        mFiler = processingEnv.getFiler();<br>        mMessager = processingEnv.getMessager();<br>    &#125;<br>  <br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 接收外来传入的参数，最常用的形式就是在 build.gradle 脚本文件里的 javaCompileOptions 的配置</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> 属性的 Key 集合</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> Set&lt;String&gt; <span class="hljs-title function_">getSupportedOptions</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">super</span>.getSupportedOptions();<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 当前注解处理器支持的注解集合，如果支持，就会调用 process 方法</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> 支持的注解集合</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> Set&lt;String&gt; <span class="hljs-title function_">getSupportedAnnotationTypes</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">super</span>.getSupportedAnnotationTypes();<br>    &#125;<br>		<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 编译当前注解处理器的 JDK 版本</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> JDK 版本</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> SourceVersion <span class="hljs-title function_">getSupportedSourceVersion</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">super</span>.getSupportedSourceVersion();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>注意</strong>：<code>getSupportedAnnotationTypes()</code>、<code>getSupportedSourceVersion()</code>和<code>getSupportedOptions()</code> 这三个方法，我们还可以采用注解的方式进行提供：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@SupportedOptions(&quot;MODULE_NAME&quot;)</span><br><span class="hljs-meta">@SupportedAnnotationTypes(&quot;com.dream.apt_annotation.AptAnnotation&quot;)</span><br><span class="hljs-meta">@SupportedSourceVersion(SourceVersion.RELEASE_8)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AptAnnotationProcessor</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">AbstractProcessor</span> &#123;<br>    <span class="hljs-comment">//...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="2）、注解处理器注册"><a href="#2）、注解处理器注册" class="headerlink" title="2）、注解处理器注册"></a>2）、注解处理器注册</h3><p>注解处理器声明好了，下一步我们就要注册它，其中注册有两种方式：</p>
+<p>1、手动注册</p>
+<p>2、自动注册</p>
+<p>手动注册比较繁琐固定且容易出错，不推荐使用，这里就不讲了。我们主要看下自动注册</p>
+<h4 id="自动注册"><a href="#自动注册" class="headerlink" title="自动注册"></a>自动注册</h4><p>1、首先我们要在 <code>apt-processor</code>这个 Module 下的 build.gradle 文件导入如下依赖：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java">implementation <span class="hljs-string">&#x27;com.google.auto.service:auto-service:1.0-rc6&#x27;</span><br>annotationProcessor <span class="hljs-string">&#x27;com.google.auto.service:auto-service:1.0-rc6&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>注意</strong>：这两句必须都要加，否则注册不成功，我之前踩坑了</p>
+<p>2、在注解处理器上加上 <code>@AutoService(Processor.class)</code> 即可完成注册</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@AutoService(Processor.class)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AptAnnotationProcessor</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">AbstractProcessor</span> &#123;<br>    <span class="hljs-comment">//...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="3）、注解处理器生成类文件"><a href="#3）、注解处理器生成类文件" class="headerlink" title="3）、注解处理器生成类文件"></a>3）、注解处理器生成类文件</h3><p>注册完成之后，我们就可以正式编写生成 Java 类文件的代码了，其中生成也有两种方式：</p>
+<p>1、常规的写文件方式</p>
+<p>2、通过 javapoet 框架来编写</p>
+<p>1 的方式比较死板，需要把每一个字母都写上，不推荐使用，这里就不讲了。我们主要看下通过 javapoet 这个框架生成 Java 类文件</p>
+<h4 id="javapoet-方式"><a href="#javapoet-方式" class="headerlink" title="javapoet 方式"></a>javapoet 方式</h4><p>这种方式更加符合面向对象编码的一个风格，对 javapoet 还不熟的朋友，可以去 github 上学习一波 <a target="_blank" rel="noopener" href="https://github.com/square/javapoet">传送门</a>，这里我们介绍一下它常用的一些类：</p>
+<blockquote>
+<p>TypeSpec：用于生成类、接口、枚举对象的类</p>
+<p>MethodSpec：用于生成方法对象的类</p>
+<p>ParameterSpec：用于生成参数对象的类</p>
+<p>AnnotationSpec：用于生成注解对象的类</p>
+<p>FieldSpec：用于配置生成成员变量的类</p>
+<p>ClassName：通过包名和类名生成的对象，在JavaPoet中相当于为其指定 Class</p>
+<p>ParameterizedTypeName：通过 MainClass 和 IncludeClass 生成包含泛型的 Class</p>
+<p>JavaFile：控制生成的 Java 文件的输出的类</p>
+</blockquote>
+<h5 id="1、导入-javapoet-框架依赖"><a href="#1、导入-javapoet-框架依赖" class="headerlink" title="1、导入 javapoet 框架依赖"></a>1、导入 javapoet 框架依赖</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">implementation <span class="hljs-string">&#x27;com.squareup:javapoet:1.13.0&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<h5 id="2、按照指定代码模版生成-Java-类文件"><a href="#2、按照指定代码模版生成-Java-类文件" class="headerlink" title="2、按照指定代码模版生成 Java 类文件"></a>2、按照指定代码模版生成 Java 类文件</h5><p>例如，我在 app 的 build.gradle 下进行了如下配置：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs groovy">android &#123;<br>    <span class="hljs-comment">//...</span><br>    defaultConfig &#123;<br>        <span class="hljs-comment">//...</span><br>        javaCompileOptions &#123;<br>            annotationProcessorOptions &#123;<br>                arguments = [<span class="hljs-attr">MODULE_NAME:</span> project.getName()]<br>            &#125;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>在 MainActivity 下面进行了如下注解：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0fcccf3c6fe64a88bb00488bb1cb9308~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210627212604288"></p>
+<p>我希望生成的代码如下：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/cd59cb4022624f7c9c171fa22441dd99~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210627220320906"></p>
+<p>现在我们来实操一下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@AutoService(Processor.class)</span><br><span class="hljs-meta">@SupportedOptions(&quot;MODULE_NAME&quot;)</span><br><span class="hljs-meta">@SupportedAnnotationTypes(&quot;com.dream.apt_annotation.AptAnnotation&quot;)</span><br><span class="hljs-meta">@SupportedSourceVersion(SourceVersion.RELEASE_8)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AptAnnotationProcessor</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">AbstractProcessor</span> &#123;<br>		<br>    <span class="hljs-comment">//文件生成器</span><br>    Filer filer;<br>    <span class="hljs-comment">//模块名</span><br>    <span class="hljs-keyword">private</span> String mModuleName;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">synchronized</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">init</span><span class="hljs-params">(ProcessingEnvironment processingEnvironment)</span> &#123;<br>        <span class="hljs-built_in">super</span>.init(processingEnvironment);<br>      	<span class="hljs-comment">//初始化文件生成器</span><br>        filer = processingEnvironment.getFiler();<br>      	<span class="hljs-comment">//通过 key 获取 build.gradle 中对应的 value</span><br>        mModuleName = processingEnv.getOptions().get(<span class="hljs-string">&quot;MODULE_NAME&quot;</span>);<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">process</span><span class="hljs-params">(Set&lt;? extends TypeElement&gt; set, RoundEnvironment roundEnvironment)</span> &#123;<br>        <span class="hljs-keyword">if</span> (set == <span class="hljs-literal">null</span> || set.isEmpty()) &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>        &#125;<br>				<br>      	<span class="hljs-comment">//获取当前注解下的节点信息</span><br>        Set&lt;? <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Element</span>&gt; rootElements = roundEnvironment.getElementsAnnotatedWith(AptAnnotation.class);<br><br>        <span class="hljs-comment">// 构建 test 函数</span><br>        MethodSpec.<span class="hljs-type">Builder</span> <span class="hljs-variable">builder</span> <span class="hljs-operator">=</span> MethodSpec.methodBuilder(<span class="hljs-string">&quot;test&quot;</span>)<br>                .addModifiers(Modifier.PUBLIC) <span class="hljs-comment">// 指定方法修饰符</span><br>                .returns(<span class="hljs-keyword">void</span>.class) <span class="hljs-comment">// 指定返回类型</span><br>                .addParameter(String.class, <span class="hljs-string">&quot;param&quot;</span>); <span class="hljs-comment">// 添加参数</span><br>        builder.addStatement(<span class="hljs-string">&quot;$T.out.println($S)&quot;</span>, System.class, <span class="hljs-string">&quot;模块: &quot;</span> + mModuleName);<br><br>        <span class="hljs-keyword">if</span> (rootElements != <span class="hljs-literal">null</span> &amp;&amp; !rootElements.isEmpty()) &#123;<br>            <span class="hljs-keyword">for</span> (Element element : rootElements) &#123;<br>              	<span class="hljs-comment">//当前节点名称</span><br>                <span class="hljs-type">String</span> <span class="hljs-variable">elementName</span> <span class="hljs-operator">=</span> element.getSimpleName().toString();<br>              	<span class="hljs-comment">//当前节点下注解的属性</span><br>                <span class="hljs-type">String</span> <span class="hljs-variable">desc</span> <span class="hljs-operator">=</span> element.getAnnotation(AptAnnotation.class).desc();<br>                <span class="hljs-comment">// 构建方法体</span><br>                builder.addStatement(<span class="hljs-string">&quot;$T.out.println($S)&quot;</span>, System.class, <br>                                     <span class="hljs-string">&quot;节点: &quot;</span> + elementName + <span class="hljs-string">&quot;  &quot;</span> + <span class="hljs-string">&quot;描述: &quot;</span> + desc);<br>            &#125;<br>        &#125;<br>        <span class="hljs-type">MethodSpec</span> <span class="hljs-variable">main</span> <span class="hljs-operator">=</span>builder.build();<br><br>        <span class="hljs-comment">// 构建 HelloWorld 类</span><br>        <span class="hljs-type">TypeSpec</span> <span class="hljs-variable">helloWorld</span> <span class="hljs-operator">=</span> TypeSpec.classBuilder(<span class="hljs-string">&quot;HelloWorld&quot;</span>)<br>                .addModifiers(Modifier.PUBLIC) <span class="hljs-comment">// 指定类修饰符</span><br>                .addMethod(main) <span class="hljs-comment">// 添加方法</span><br>                .build();<br><br>        <span class="hljs-comment">// 指定包路径，构建文件体</span><br>        <span class="hljs-type">JavaFile</span> <span class="hljs-variable">javaFile</span> <span class="hljs-operator">=</span> JavaFile.builder(<span class="hljs-string">&quot;com.dream.aptdemo&quot;</span>, helloWorld).build();<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-comment">// 创建文件</span><br>            javaFile.writeTo(filer);<br>        &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>            e.printStackTrace();<br>        &#125;<br><br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>经过上面这些步骤，我们运行 App 就能生成上面截图的代码了，现在还差最后一步，对生成的代码进行使用</p>
+<p><strong>注意</strong>：不同版本的 Gradle 生成的类文件位置可能不一样，我的 Gradle 版本是 6.7.1，生成的类文件在如下位置：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3d51e6dd32ab4042a4d5905122b6ef43~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210627221836736"></p>
+<p>一些低版本的 Gradle 生成的类文件在 <code>/build/generated/source</code> 这个目录下</p>
+<h2 id="五、apt-api-调用生成代码完成业务功能"><a href="#五、apt-api-调用生成代码完成业务功能" class="headerlink" title="五、apt-api 调用生成代码完成业务功能"></a>五、apt-api 调用生成代码完成业务功能</h2><p>这个 Module 的操作相对来说也比较简单，就是通过反射获取到生成的类，进行相应的封装使用即可，我的编写如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyAptApi</span> &#123;<br><br>    <span class="hljs-meta">@SuppressWarnings(&quot;all&quot;)</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">init</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-type">Class</span> <span class="hljs-variable">c</span> <span class="hljs-operator">=</span> Class.forName(<span class="hljs-string">&quot;com.dream.aptdemo.HelloWorld&quot;</span>);<br>            <span class="hljs-type">Constructor</span> <span class="hljs-variable">declaredConstructor</span> <span class="hljs-operator">=</span> c.getDeclaredConstructor();<br>            <span class="hljs-type">Object</span> <span class="hljs-variable">o</span> <span class="hljs-operator">=</span> declaredConstructor.newInstance();<br>            <span class="hljs-type">Method</span> <span class="hljs-variable">test</span> <span class="hljs-operator">=</span> c.getDeclaredMethod(<span class="hljs-string">&quot;test&quot;</span>, String.class);<br>            test.invoke(o, <span class="hljs-string">&quot;&quot;</span>);<br>        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>            e.printStackTrace();<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>接着我们在 MainActivity 的 oncreate 方法里面进行调用：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@AptAnnotation(desc = &quot;我是 MainActivity 上面的注解&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MainActivity</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">AppCompatActivity</span> &#123;<br>  <br>    <span class="hljs-meta">@AptAnnotation(desc = &quot;我是 onCreate 上面的注解&quot;)</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">onCreate</span><span class="hljs-params">(Bundle savedInstanceState)</span> &#123;<br>        <span class="hljs-built_in">super</span>.onCreate(savedInstanceState);<br>        setContentView(R.layout.activity_main);<br>        MyAptApi.init();<br>    &#125;<br>&#125;<br><span class="hljs-comment">//打印结果</span><br>模块: app<br>节点: MainActivity  描述: 我是 MainActivity 上面的注解<br>节点: onCreate  描述: 我是 onCreate 上面的注解<br></code></pre></td></tr></table></figure>
+
+<h2 id="六、总结"><a href="#六、总结" class="headerlink" title="六、总结"></a>六、总结</h2><p>本篇文章讲的一些重点内容：</p>
+<p>1、APT 工程所需创建的不同种类的 Module 及 Module 之间的依赖关系</p>
+<p>2、Java 源文件实际上是一种结构体语言，源代码的每一个部分都对应了一个特定类型的 Element</p>
+<p>3、采用 auto-service 对注解处理器进行自动注册</p>
+<p>4、采用 javapoet 框架编写所需生成的 Java 类文件</p>
+<p>5、通过反射及适当的封装，将生成的类的功能提供给上层调用</p>
+<p>好了，本篇文章到这里就结束了，希望能给你带来帮助 🤝 </p>
+<p><strong>感谢你阅读这篇文章</strong></p>
+<h3 id="下篇预告"><a href="#下篇预告" class="headerlink" title="下篇预告"></a>下篇预告</h3><p>下篇文章我会讲我是如何应用 APT 技术实现反射创建 View 的一个替换，敬请期待吧😄</p>
+<h3 id="参考和推荐"><a href="#参考和推荐" class="headerlink" title="参考和推荐"></a>参考和推荐</h3><p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6963873016220663844#comment">Android注解处理器APT技术探究</a></p>
+<blockquote>
+<p>全文到此，原创不易，欢迎点赞，收藏，评论和转发，你的认可是我创作的动力</p>
+</blockquote>
+<blockquote>
+<p>欢迎关注我的 <strong>公 众 号</strong>，微信搜索 <strong>sweetying</strong> ，文章更新可第一时间收到</p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Android/" class="category-chain-item">Android</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Android/APT/" class="category-chain-item">APT</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%8E%9F%E5%88%9B/">#原创</a>
+      
+        <a href="/tags/Android/">#Android</a>
+      
+        <a href="/tags/Android-APT/">#Android APT</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Android APT 系列 （三）：APT 技术探究</div>
+      <div>https://sweetying520.github.io/2022/10/10/Android APT 系列 （三）：APT 技术探究/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>sweetying</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年10月10日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/10/10/Android%20APT%20%E7%B3%BB%E5%88%97%20%EF%BC%88%E5%9B%9B%EF%BC%89%EF%BC%9AAPT%20%E5%AE%9E%E6%88%98%E5%BA%94%E7%94%A8/" title="Android APT 系列 （四）：APT 实战应用">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Android APT 系列 （四）：APT 实战应用</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/10/10/Android%20APT%20%E7%B3%BB%E5%88%97%20%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9AAPT%20%E7%AD%91%E5%9F%BA%E4%B9%8B%E6%B3%A8%E8%A7%A3/" title="Android APT 系列 （二）：APT 筑基之注解">
+                        <span class="hidden-mobile">Android APT 系列 （二）：APT 筑基之注解</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.4.17/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"zN1E017kYhKuj6GqXHJSbGMb-gzGzoHsz","appKey":"JSwY8PjtA131Y78OHn7kKtio","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
