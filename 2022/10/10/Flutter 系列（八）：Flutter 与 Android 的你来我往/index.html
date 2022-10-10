@@ -1,0 +1,882 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="sweetying">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前言很高兴遇见你~ 在本系列的上一篇文章中，我们介绍了 Flutter 中的路由：  1、基本路由 2、命名路由 3、返回上一级 4、替换路由 5、返回到根路由  以及集成 http 库进行 https 请求实战。 还没有看过上一篇文章的朋友，建议先去阅读 Flutter 系列（七）：Flutter 路由和 HTTPS 请求实战。接下来我们对 Flutter 与 Android 原生的交互与通信">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flutter 系列（八）：Flutter 与 Android 的你来我往">
+<meta property="og:url" content="https://sweetying520.github.io/2022/10/10/Flutter%20%E7%B3%BB%E5%88%97%EF%BC%88%E5%85%AB%EF%BC%89%EF%BC%9AFlutter%20%E4%B8%8E%20Android%20%E7%9A%84%E4%BD%A0%E6%9D%A5%E6%88%91%E5%BE%80/index.html">
+<meta property="og:site_name" content="sweetying">
+<meta property="og:description" content="前言很高兴遇见你~ 在本系列的上一篇文章中，我们介绍了 Flutter 中的路由：  1、基本路由 2、命名路由 3、返回上一级 4、替换路由 5、返回到根路由  以及集成 http 库进行 https 请求实战。 还没有看过上一篇文章的朋友，建议先去阅读 Flutter 系列（七）：Flutter 路由和 HTTPS 请求实战。接下来我们对 Flutter 与 Android 原生的交互与通信">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202210101704046.jpeg">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/bf366145424946f193676017f1a2bc42~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/63073b782a5e4716a0a0a8659673cc28~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d61a34bea63840d3a74083913adccf2a~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/120d15e966e24a588e0a212d36ffbd7d~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e34d61c673024ce2bdc36f6c13602b0f~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6a1404b92feb4ad1b7c00c89964a619c~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/22fcb0303f744a7984f2f2feff10f47a~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c5303863bc054b7aac3216a3ce715d50~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5ea43f0988ec478a873e01c11d347917~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2d49e854843e46c7bd7ad58a846b21f5~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7da4428000554b0eac543f1530a0c3c2~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d749ee7774ba41518b615972d6ac7004~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b581ad4490034520b24e1940f3311118~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="article:published_time" content="2022-10-10T08:54:23.000Z">
+<meta property="article:modified_time" content="2022-10-10T09:05:38.160Z">
+<meta property="article:author" content="sweetying">
+<meta property="article:tag" content="原创">
+<meta property="article:tag" content="Flutter">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202210101704046.jpeg">
+  
+  
+  
+  <title>Flutter 系列（八）：Flutter 与 Android 的你来我往 - sweetying</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sweetying520.github.io","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"zN1E017kYhKuj6GqXHJSbGMb-gzGzoHsz","app_key":"JSwY8PjtA131Y78OHn7kKtio","server_url":"https://zn1e017k.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>sweetying</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Flutter 系列（八）：Flutter 与 Android 的你来我往"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        sweetying
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-10-10 16:54" pubdate>
+          2022年10月10日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          21k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          175 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Flutter 系列（八）：Flutter 与 Android 的你来我往</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202210101704046.jpeg" srcset="/img/loading.gif" lazyload alt="rapeseed-6599950_1920"></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>很高兴遇见你~</p>
+<p>在本系列的上一篇文章中，我们介绍了 Flutter 中的路由：</p>
+<blockquote>
+<p>1、基本路由</p>
+<p>2、命名路由</p>
+<p>3、返回上一级</p>
+<p>4、替换路由</p>
+<p>5、返回到根路由</p>
+</blockquote>
+<p>以及集成 http 库进行 https 请求实战。</p>
+<p>还没有看过上一篇文章的朋友，建议先去阅读 <a target="_blank" rel="noopener" href="https://juejin.cn/post/7142650961868095524#heading-11">Flutter 系列（七）：Flutter 路由和 HTTPS 请求实战</a>。接下来我们对 Flutter 与 Android 原生的交互与通信进行介绍</p>
+<p>我做 Android 原生开发时，通常会以组件化的方式去进行，根据业务划分不同的组件，每个组件都是一个独立的工程，可以进行独立的运行和调试，当需要发版时，我们会将每个组件打成 aar 包并上传到 Maven 私服仓库，然后整合到 App 壳工程中，最终进行打包上线。在这个开发过程中，组件之间是需要进行通信的，如果需要通信的组件都是 Android 原生开发的，那么可以选择一个路由框架进行通信，例如：Arouter。</p>
+<p>但是我们有些业务组件是使用 Flutter 开发的，因此这里就涉及到 Flutter 与 Android 原生的通信，那么它们是如何进行通信的呢？且听我细细道来</p>
+<h2 id="一、Android-壳工程集成-Flutter-组件"><a href="#一、Android-壳工程集成-Flutter-组件" class="headerlink" title="一、Android 壳工程集成 Flutter 组件"></a>一、Android 壳工程集成 Flutter 组件</h2><p>1、打开 AndroidStudio ，创建一个 Android 工程 AndroidAndFlutterInteractive：</p>
+<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/bf366145424946f193676017f1a2bc42~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20220918215022577" width="50%" />
+
+<p>2、接着在创建一个 Flutter 工程 fluttermodule：</p>
+<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/63073b782a5e4716a0a0a8659673cc28~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20220918215214876" width="50%" />
+
+<p>main.dart 文件初始代码如下：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:flutter/material.dart&#x27;</span>;<br><br><span class="hljs-keyword">void</span> main() =&gt; runApp(<span class="hljs-keyword">const</span> MyApp());<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyApp</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">StatelessWidget</span> </span>&#123;<br>  <span class="hljs-keyword">const</span> MyApp(&#123;Key? key&#125;) : <span class="hljs-keyword">super</span>(key: key);<br><br>  <span class="hljs-comment">// This widget is the root of your application.</span><br>  <span class="hljs-meta">@override</span><br>  Widget build(BuildContext context) &#123;<br>    <span class="hljs-keyword">return</span> MaterialApp(<br>      title: <span class="hljs-string">&#x27;Flutter Demo&#x27;</span>,<br>      theme: ThemeData(<br>        primarySwatch: Colors.blue,<br>      ),<br>      home: <span class="hljs-keyword">const</span> MyHomePage(title: <span class="hljs-string">&#x27;Flutter Demo Home Page&#x27;</span>),<br>    );<br>  &#125;<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyHomePage</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">StatefulWidget</span> </span>&#123;<br>  <span class="hljs-keyword">const</span> MyHomePage(&#123;Key? key, <span class="hljs-keyword">required</span> <span class="hljs-keyword">this</span>.title&#125;) : <span class="hljs-keyword">super</span>(key: key);<br><br>  <span class="hljs-keyword">final</span> <span class="hljs-built_in">String</span> title;<br><br>  <span class="hljs-meta">@override</span><br>  State&lt;MyHomePage&gt; createState() =&gt; _MyHomePageState();<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">_MyHomePageState</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">State</span>&lt;<span class="hljs-title">MyHomePage</span>&gt; </span>&#123;<br>  <span class="hljs-built_in">int</span> _counter = <span class="hljs-number">0</span>;<br><br>  <span class="hljs-keyword">void</span> _incrementCounter() &#123;<br>    setState(() &#123;<br>      _counter++;<br>    &#125;);<br>  &#125;<br><br>  <span class="hljs-meta">@override</span><br>  Widget build(BuildContext context) &#123;<br>    <span class="hljs-keyword">return</span> Scaffold(<br>      appBar: AppBar(<br>        title: Text(widget.title),<br>      ),<br>      body: Center(<br>        child: Column(<br>          mainAxisAlignment: MainAxisAlignment.center,<br>          children: &lt;Widget&gt;[<br>            <span class="hljs-keyword">const</span> Text(<br>              <span class="hljs-string">&#x27;You have clicked the button this many times:&#x27;</span>,<br>            ),<br>            Text(<br>              <span class="hljs-string">&#x27;<span class="hljs-subst">$_counter</span>&#x27;</span>,<br>              style: Theme.of(context).textTheme.headline4,<br>            ),<br>          ],<br>        ),<br>      ),<br>      floatingActionButton: FloatingActionButton(<br>        onPressed: _incrementCounter,<br>        tooltip: <span class="hljs-string">&#x27;Increment&#x27;</span>,<br>        child: <span class="hljs-keyword">const</span> Icon(Icons.add),<br>      ),<br>    );<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>3、在 Flutter 工程中执行 <code>flutter build aar</code> 命令或者直接使用 AndroidStudio 上的可视化操作：</p>
+<img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d61a34bea63840d3a74083913adccf2a~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="202209221609588.png" width="70%" />
+
+<p>执行完后会有如下提示：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs dart">Consuming the Module<br>  <span class="hljs-number">1.</span> Open &lt;host&gt;/app/build.gradle<br>  <span class="hljs-number">2.</span> Ensure you have the repositories configured, otherwise add them:<br><br>      <span class="hljs-built_in">String</span> storageUrl = System.env.FLUTTER_STORAGE_BASE_URL ?: <span class="hljs-string">&quot;https://storage.googleapis.com&quot;</span><br>      repositories &#123;<br>        maven &#123;<br>            url <span class="hljs-string">&#x27;/Users/zhouying/codeandnotes/Flutter/fluttermodule/build/host/outputs/repo&#x27;</span><br>        &#125;<br>        maven &#123;<br>            url <span class="hljs-string">&quot;<span class="hljs-subst">$storageUrl</span>/download.flutter.io&quot;</span><br>        &#125;<br>      &#125;<br><br>  <span class="hljs-number">3.</span> Make the host app depend <span class="hljs-keyword">on</span> the Flutter module:<br><br>    dependencies &#123;<br>      debugImplementation <span class="hljs-string">&#x27;com.example.fluttermodule:flutter_debug:1.0&#x27;</span><br>      profileImplementation <span class="hljs-string">&#x27;com.example.fluttermodule:flutter_profile:1.0&#x27;</span><br>      releaseImplementation <span class="hljs-string">&#x27;com.example.fluttermodule:flutter_release:1.0&#x27;</span><br>    &#125;<br><br><br>  <span class="hljs-number">4.</span> Add the `profile` build type:<br><br>    android &#123;<br>      buildTypes &#123;<br>        profile &#123;<br>          initWith debug<br>        &#125;<br>      &#125;<br>    &#125;<br></code></pre></td></tr></table></figure>
+
+<p>大致意思就是在我们创建的 Android 工程中配置生成的 Flutter aar 的仓库地址，然后引用这个 aar，大家按照上述步骤配置即可</p>
+<p><strong>注意</strong>：上述演示生成的 Flutter aar 只是存在本地，实际开发中，我们会自己编写脚本生成 aar 并上传到 Maven 私服仓库</p>
+<p>配置完成后，同步一下项目，如果没啥报错，我们就算是成功集成了 Flutter 组件</p>
+<h2 id="二、Android-调起-Flutter-页面（FlutterActivity）"><a href="#二、Android-调起-Flutter-页面（FlutterActivity）" class="headerlink" title="二、Android 调起 Flutter 页面（FlutterActivity）"></a>二、Android 调起 Flutter 页面（FlutterActivity）</h2><p>接下来我们继续对 Android 工程进行配置，让 Flutter 页面显示出来</p>
+<p>1、在 Android 工程的 AndroidManifest.xml 文件中添加 FlutterActivity</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs dart">&lt;!--注册FlutterActivity--&gt;<br>&lt;activity<br>    android:name=<span class="hljs-string">&quot;io.flutter.embedding.android.FlutterActivity&quot;</span><br>    android:configChanges=<span class="hljs-string">&quot;orientation|keyboardHidden|screenSize&quot;</span><br>    android:hardwareAccelerated=<span class="hljs-string">&quot;true&quot;</span><br>    android:windowSoftInputMode=<span class="hljs-string">&quot;adjustResize&quot;</span> /&gt;<br></code></pre></td></tr></table></figure>
+
+<p>2、编写一个 button 跳转到 Flutter 页面</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-comment">//1、activity_main.xml</span><br>&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;utf-8&quot;</span>?&gt;<br>&lt;LinearLayout xmlns:android=<span class="hljs-string">&quot;http://schemas.android.com/apk/res/android&quot;</span><br>    xmlns:tools=<span class="hljs-string">&quot;http://schemas.android.com/tools&quot;</span><br>    android:layout_width=<span class="hljs-string">&quot;match_parent&quot;</span><br>    android:layout_height=<span class="hljs-string">&quot;match_parent&quot;</span><br>    android:orientation=<span class="hljs-string">&quot;vertical&quot;</span><br>    tools:context=<span class="hljs-string">&quot;.MainActivity&quot;</span>&gt;<br><br>    &lt;Button<br>        android:layout_width=<span class="hljs-string">&quot;match_parent&quot;</span><br>        android:layout_height=<span class="hljs-string">&quot;wrap_content&quot;</span><br>        android:layout_marginHorizontal=<span class="hljs-string">&quot;20dp&quot;</span><br>        android:textAllCaps=<span class="hljs-string">&quot;false&quot;</span><br>        android:onClick=<span class="hljs-string">&quot;toFlutterActivity&quot;</span><br>        android:text=<span class="hljs-string">&quot;跳转 FlutterActivity&quot;</span><br>        tools:ignore=<span class="hljs-string">&quot;HardcodedText,UsingOnClickInXml&quot;</span> /&gt;<br><br>&lt;/LinearLayout&gt;<br><br><span class="hljs-comment">//2、MainActivity</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MainActivity</span> : <span class="hljs-title">AppCompatActivity</span>() </span>&#123;<br>    <br>    <span class="hljs-meta">@SuppressLint</span>(<span class="hljs-string">&quot;SetTextI18n&quot;</span>)<br>    override fun onCreate(savedInstanceState: Bundle?) &#123;<br>        <span class="hljs-keyword">super</span>.onCreate(savedInstanceState)<br>        setContentView(R.layout.activity_main)<br>    &#125;<br><br>    <span class="hljs-comment">//跳转到 FlutterActivity</span><br>    fun toFlutterActivity(view: View) &#123;<br>        val intent = FlutterActivity.createDefaultIntent(<span class="hljs-keyword">this</span>)<br>        startActivity(intent)<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>3、效果展示：</p>
+<img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/120d15e966e24a588e0a212d36ffbd7d~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="ezgif.com-gif-maker.gif" width="30%" />
+
+<p>上述效果图虽然跳过去了，但是我们可以看到点击 button 时一个明显的停顿感，用户体验不好，接下来介绍一种预初始化 Flutter 的方式</p>
+<h3 id="2-1、Android-预初始化-Flutter-页面跳转"><a href="#2-1、Android-预初始化-Flutter-页面跳转" class="headerlink" title="2.1、Android 预初始化 Flutter 页面跳转"></a>2.1、Android 预初始化 Flutter 页面跳转</h3><p>核心思想就是缓存 FlutterEngine，然后从缓存中取出 FlutterEngine 进行跳转</p>
+<p>1、修改 MainActivity ：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MainActivity</span> : <span class="hljs-title">AppCompatActivity</span>() </span>&#123;<br><br>    companion object&#123;<br>        <span class="hljs-comment">//缓存 FlutterEngine 的 key</span><br>        <span class="hljs-keyword">const</span> val FLUTTER_ENGINE_ID = <span class="hljs-string">&quot;default&quot;</span><br>    &#125;<br>    <span class="hljs-comment">//FlutterEngine</span><br>    private lateinit <span class="hljs-keyword">var</span> flutterEngine: FlutterEngine<br><br>    <span class="hljs-meta">@SuppressLint</span>(<span class="hljs-string">&quot;SetTextI18n&quot;</span>)<br>    override fun onCreate(savedInstanceState: Bundle?) &#123;<br>        <span class="hljs-keyword">super</span>.onCreate(savedInstanceState)<br>        setContentView(R.layout.activity_main)<br>        <span class="hljs-comment">//初始化 FlutterEngine</span><br>        flutterEngine = initFlutterEngine(FLUTTER_ENGINE_ID)<br>    &#125;<br><br>    <span class="hljs-comment">//跳转到 FlutterActivity</span><br>    fun toFlutterActivity(view: View) &#123;<br>        val intent = FlutterActivity.withCachedEngine(FLUTTER_ENGINE_ID).build(<span class="hljs-keyword">this</span>)<br>        startActivity(intent)<br>    &#125;<br><br>    <span class="hljs-comment"><span class="language-markdown">/<span class="hljs-strong">**</span></span></span><br><span class="hljs-strong"><span class="language-markdown"><span class="hljs-comment">     <span class="hljs-emphasis">* 初始化 FlutterEngine</span></span></span></span><br><span class="hljs-emphasis"><span class="hljs-strong"><span class="language-markdown"><span class="hljs-comment">     *</span> 一般在跳转前调用，从缓存中取出 FlutterEngine，这样可以加快我们页面的一个跳转</span></span></span><br><span class="hljs-strong"><span class="language-markdown"><span class="hljs-comment">     <span class="hljs-emphasis">*/</span></span></span></span><br>    private fun initFlutterEngine(engineId: <span class="hljs-built_in">String</span>): FlutterEngine &#123;<br>        <span class="hljs-comment">//创建 FlutterEngine</span><br>        val flutterEngine = FlutterEngine(<span class="hljs-keyword">this</span>)<br>        <span class="hljs-comment">//指定要跳转的 Flutter 页面</span><br>        flutterEngine.navigationChannel.setInitialRoute(<span class="hljs-string">&quot;main&quot;</span>)<br>        flutterEngine.dartExecutor.executeDartEntrypoint(DartExecutor.DartEntrypoint.createDefault())<br>        <span class="hljs-comment">//缓存 FlutterEngine</span><br>        val flutterEngineCache = FlutterEngineCache.getInstance()<br>        flutterEngineCache.put(engineId,flutterEngine)<br>        <span class="hljs-keyword">return</span> flutterEngine<br>    &#125;<br><br>    override fun onDestroy() &#123;<br>        <span class="hljs-keyword">super</span>.onDestroy()<br>        <span class="hljs-comment"><span class="language-markdown"><span class="hljs-strong"><span class="hljs-emphasis">/*</span><span class="hljs-emphasis">*</span></span></span></span><br><span class="hljs-emphasis"><span class="hljs-strong"><span class="language-markdown"><span class="hljs-comment">         *</span> 注意这里一定要销毁，否则会导致内存泄漏</span></span></span><br><span class="hljs-strong"><span class="language-markdown"><span class="hljs-comment">         <span class="hljs-emphasis">* 因为 FlutterEngine 比显示它的 FlutterActivity 生命周期要长</span></span></span></span><br><span class="hljs-emphasis"><span class="hljs-strong"><span class="language-markdown"><span class="hljs-comment">         *</span> 当我们退出 FlutterActivity 时，FlutterEngine 可能还会继续执行代码</span></span></span><br><span class="hljs-strong"><span class="language-markdown"><span class="hljs-comment">         <span class="hljs-emphasis">* 所以我们应该在 FlutterActivity 退出时调用 flutterEngine.destroy 停止执行并释放资源</span></span></span></span><br><span class="hljs-emphasis"><span class="hljs-strong"><span class="language-markdown"><span class="hljs-comment">         *</span>/</span></span></span><br>        flutterEngine.destroy()<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>2、Flutter 端也要做相应的修改：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-keyword">void</span> main() =&gt; runApp(getRouter(<span class="hljs-built_in">window</span>.defaultRouteName));<br><br><span class="hljs-comment">///<span class="language-markdown">接收 Android 跳转过来的启动路由参数，如果匹配上了走正常流程</span></span><br><span class="hljs-comment">///<span class="language-markdown">如果没匹配上，则提示 page not found</span></span><br>Widget getRouter(<span class="hljs-built_in">String</span> routeName) &#123;<br>  <span class="hljs-keyword">switch</span>(routeName)&#123;<br>    <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;main&quot;</span>:<br>      <span class="hljs-keyword">return</span> <span class="hljs-keyword">const</span> MyApp();<br>    <span class="hljs-keyword">default</span>:<br>      <span class="hljs-keyword">return</span> MaterialApp(<br>        home: Scaffold(<br>          appBar: AppBar(<br>            title: <span class="hljs-keyword">const</span> Text(<span class="hljs-string">&quot;Flutter Demo Home Page&quot;</span>),<br>          ),<br>          body: <span class="hljs-keyword">const</span> Center(<br>            child: Text(<br>              <span class="hljs-string">&quot;page not found&quot;</span>,<br>              style: TextStyle(<br>                fontSize: <span class="hljs-number">24</span>,<br>                color: Colors.red<br>              ),<br>            ),<br>          ),<br>        ),<br>      );<br>  &#125;<br>&#125;		<br></code></pre></td></tr></table></figure>
+
+<p>3、当我们修改 Flutter 工程的代码后，重新运行 Android 项目并不会生效，我们需要：</p>
+<blockquote>
+<p>1、在 Flutter 工程重新执行 <code>flutter build aar</code> 命令</p>
+<p>2、待 Flutter 命令执行完成，clean Android 工程</p>
+</blockquote>
+<p>此时我们运行 Android 项目，就可以看到效果了：</p>
+<img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e34d61c673024ce2bdc36f6c13602b0f~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="ezgif.com-gif-maker (1).gif" width="30%" />
+
+<p>可以看到，页面跳转变得非常丝滑</p>
+<p>现在只是简单的跳转，那么如果我想在跳转时给 Flutter 页面传值要怎么做呢？</p>
+<h3 id="2-2、Android-给-Flutter-页面传值"><a href="#2-2、Android-给-Flutter-页面传值" class="headerlink" title="2.2、Android 给 Flutter 页面传值"></a>2.2、Android 给 Flutter 页面传值</h3><p>分析 2.1 这个例子，我们在 Android 工程中设置了启动路由：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dart">flutterEngine.navigationChannel.setInitialRoute(<span class="hljs-string">&quot;main&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>然后在 Flutter 中通过 <code>window.defaultRouteName</code> 获取了路由</p>
+<p>那么我是否可以在启动路由中多添加一些数据，然后 Flutter 获取后进行解析呢？例如：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-comment">//1、我在 Android 中这样设置</span><br>flutterEngine.navigationChannel.setInitialRoute(<span class="hljs-string">&quot;main?&#123;\&quot;name\&quot;:\&quot;erdai\&quot;,\&quot;age\&quot;:18&#125;&quot;</span>)<br><br><span class="hljs-comment">//2、Flutter 中获取路由并进行解析</span><br><span class="hljs-built_in">String</span> url = <span class="hljs-built_in">window</span>.defaultRouteName;<br><span class="hljs-comment">//获取路由名称</span><br><span class="hljs-built_in">String</span> routeName = url.substring(<span class="hljs-number">0</span>,url.indexOf(<span class="hljs-string">&quot;?&quot;</span>));<br><span class="hljs-comment">//获取参数，将参数解析并转换成一个 Map 对象</span><br><span class="hljs-built_in">String</span> paramsString = url.substring(url.indexOf(<span class="hljs-string">&quot;?&quot;</span>) + <span class="hljs-number">1</span>);<br><span class="hljs-built_in">Map</span>&lt;<span class="hljs-built_in">String</span>,<span class="hljs-built_in">dynamic</span>&gt; paramsMap = json.decode(paramsString);<br><br></code></pre></td></tr></table></figure>
+
+<p>实际上就是这么干的，我们修改 Flutter 端的代码：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-keyword">void</span> main()&#123;<br>  <span class="hljs-comment">//获取 Android 传过来的路由</span><br>  <span class="hljs-built_in">String</span> url = <span class="hljs-built_in">window</span>.defaultRouteName;<br>  <span class="hljs-comment">//解析并获取路由名称</span><br>  <span class="hljs-built_in">String</span> routeName = url.substring(<span class="hljs-number">0</span>,url.indexOf(<span class="hljs-string">&quot;?&quot;</span>));<br>  <span class="hljs-comment">//解析并将参数转换成一个 Map 对象</span><br>  <span class="hljs-built_in">String</span> paramsString = url.substring(url.indexOf(<span class="hljs-string">&quot;?&quot;</span>) + <span class="hljs-number">1</span>);<br>  <span class="hljs-built_in">Map</span>&lt;<span class="hljs-built_in">String</span>,<span class="hljs-built_in">dynamic</span>&gt; paramsMap = json.decode(paramsString);<br>  <span class="hljs-comment">//打印参数</span><br>  <span class="hljs-built_in">print</span>(paramsMap);<br>  runApp(getRouter(routeName));<br>&#125;<br><span class="hljs-comment">//...</span><br></code></pre></td></tr></table></figure>
+
+<p>当我们发布 aar，clean Android 工程并重新运行会进行参数的打印：</p>
+<img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6a1404b92feb4ad1b7c00c89964a619c~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="202209221611327.png" width="70%" />
+
+<h2 id="三、Android-嵌入-Flutter-页面（FlutterFragment）"><a href="#三、Android-嵌入-Flutter-页面（FlutterFragment）" class="headerlink" title="三、Android 嵌入 Flutter 页面（FlutterFragment）"></a>三、Android 嵌入 Flutter 页面（FlutterFragment）</h2><p>类比 Android 启动 FlutterActivity，主要是通过两种方式构建 intent 对象：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-comment">//方式一</span><br><span class="hljs-keyword">var</span> intent: Intent = FlutterActivity.createDefaultIntent(<span class="hljs-keyword">this</span>)<br>  <br><span class="hljs-comment">//方式二</span><br><span class="hljs-keyword">var</span> intent = FlutterActivity<br>  .withCachedEngine(FLUTTER_ENGINE_ID)<br>  .build(<span class="hljs-keyword">this</span>)<br></code></pre></td></tr></table></figure>
+
+<p>构建 FlutterFragment 类似：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-comment">//方式一</span><br><span class="hljs-keyword">var</span> flutterFragment: FlutterFragment = FlutterFragment.createDefault()<br>  <br><span class="hljs-comment">//方式二</span><br><span class="hljs-keyword">var</span> flutterFragment: FlutterFragment = FlutterFragment<br>     .withCachedEngine(FLUTTER_ENGINE_ID)<br>     .build()<br></code></pre></td></tr></table></figure>
+
+<p>修改 Android 代码 ：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-comment">//1、我们新建一个 SecondActivity</span><br><span class="hljs-comment">//activity_second.xml内容：FrameLayout 用于承载 FlutterFragment</span><br>&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;utf-8&quot;</span>?&gt;<br>&lt;FrameLayout <br>    xmlns:android=<span class="hljs-string">&quot;http://schemas.android.com/apk/res/android&quot;</span><br>    xmlns:tools=<span class="hljs-string">&quot;http://schemas.android.com/tools&quot;</span><br>    android:id=<span class="hljs-string">&quot;@+id/flFragmentContainer&quot;</span><br>    android:layout_width=<span class="hljs-string">&quot;match_parent&quot;</span><br>    android:layout_height=<span class="hljs-string">&quot;match_parent&quot;</span><br>    tools:context=<span class="hljs-string">&quot;.SecondActivity&quot;</span>/&gt;<br>      <br><span class="hljs-comment">//2、修改 SecondActivity</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SecondActivity</span> : <span class="hljs-title">AppCompatActivity</span>() </span>&#123;<br>    companion object&#123;<br>        <span class="hljs-comment">//缓存 FlutterEngine 的 key</span><br>        <span class="hljs-keyword">const</span> val FLUTTER_ENGINE_ID = <span class="hljs-string">&quot;default&quot;</span><br>    &#125;<br>    <span class="hljs-comment">//FlutterEngine</span><br>    private lateinit <span class="hljs-keyword">var</span> flutterEngine: FlutterEngine<br>    <span class="hljs-comment">//FlutterFragment</span><br>    private lateinit <span class="hljs-keyword">var</span> flutterFragment: FlutterFragment<br><br>    <span class="hljs-meta">@SuppressLint</span>(<span class="hljs-string">&quot;SetTextI18n&quot;</span>)<br>    override fun onCreate(savedInstanceState: Bundle?) &#123;<br>        <span class="hljs-keyword">super</span>.onCreate(savedInstanceState)<br>        setContentView(R.layout.activity_second)<br>        <span class="hljs-comment">//初始化 FlutterEngine</span><br>        flutterEngine = initFlutterEngine(FLUTTER_ENGINE_ID)<br><br>        <span class="hljs-comment">//初始化 FlutterFragment</span><br>        flutterFragment = FlutterFragment<br>            .withCachedEngine(FLUTTER_ENGINE_ID)<br>            .build()<br><br>        <span class="hljs-comment">//将 FlutterFragment 嵌入到 SecondActivity 中</span><br>        supportFragmentManager.beginTransaction().replace(R.id.flFragmentContainer,flutterFragment).commit()<br>    &#125;<br><br>    <span class="hljs-comment"><span class="language-markdown">/<span class="hljs-strong">**</span></span></span><br><span class="hljs-strong"><span class="language-markdown"><span class="hljs-comment">     <span class="hljs-emphasis">* 初始化 FlutterEngine</span></span></span></span><br><span class="hljs-emphasis"><span class="hljs-strong"><span class="language-markdown"><span class="hljs-comment">     *</span> 上述代码一般在跳转前调用，这样可以加快我们页面的一个跳转</span></span></span><br><span class="hljs-strong"><span class="language-markdown"><span class="hljs-comment">     <span class="hljs-emphasis">*/</span></span></span></span><br>    private fun initFlutterEngine(engineId: <span class="hljs-built_in">String</span>): FlutterEngine &#123;<br>        <span class="hljs-comment">//创建 FlutterEngine</span><br>        val flutterEngine = FlutterEngine(<span class="hljs-keyword">this</span>)<br>        <span class="hljs-comment">//指定要跳转的 Flutter 页面并携带参数</span><br>        flutterEngine.navigationChannel.setInitialRoute(<span class="hljs-string">&quot;main?&#123;\&quot;name\&quot;:\&quot;erdai\&quot;,\&quot;age\&quot;:18&#125;&quot;</span>)<br>        flutterEngine.dartExecutor.executeDartEntrypoint(DartExecutor.DartEntrypoint.createDefault())<br>        <span class="hljs-comment">//缓存 FlutterEngine</span><br>        val flutterEngineCache = FlutterEngineCache.getInstance()<br>        flutterEngineCache.put(engineId,flutterEngine)<br>        <span class="hljs-keyword">return</span> flutterEngine<br>    &#125;<br><br>    <span class="hljs-comment">//重写一些方法，然后将其转发到了 FlutterFragment 中</span><br>    override fun onPostResume() &#123;<br>        <span class="hljs-keyword">super</span>.onPostResume()<br>        flutterFragment.onPostResume()<br>    &#125;<br><br>    override fun onNewIntent(intent: Intent) &#123;<br>        <span class="hljs-keyword">super</span>.onNewIntent(intent)<br>        flutterFragment.onNewIntent(intent)<br>    &#125;<br><br>    override fun onBackPressed() &#123;<br>        <span class="hljs-keyword">super</span>.onBackPressed()<br>        flutterFragment.onBackPressed()<br>    &#125;<br><br>    override fun onRequestPermissionsResult(<br>        requestCode: Int,<br>        permissions: Array&lt;out <span class="hljs-built_in">String</span>&gt;,<br>        grantResults: IntArray<br>    ) &#123;<br>        <span class="hljs-keyword">super</span>.onRequestPermissionsResult(requestCode, permissions, grantResults)<br>        flutterFragment.onRequestPermissionsResult(requestCode,permissions,grantResults)<br>    &#125;<br><br>    override fun onUserLeaveHint() &#123;<br>        <span class="hljs-keyword">super</span>.onUserLeaveHint()<br>        flutterFragment.onUserLeaveHint()<br>    &#125;<br><br>    override fun onTrimMemory(level: Int) &#123;<br>        <span class="hljs-keyword">super</span>.onTrimMemory(level)<br>        flutterFragment.onTrimMemory(level)<br>    &#125;<br><br>    override fun onDestroy() &#123;<br>        <span class="hljs-keyword">super</span>.onDestroy()<br>        <span class="hljs-comment">//停止代码执行并释放资源</span><br>        flutterEngine.destroy()<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//3、在 AndroidManifest 文件中设置 SecondActivity 主题</span><br>&lt;activity<br>   android:name=<span class="hljs-string">&quot;.SecondActivity&quot;</span><br>   android:exported=<span class="hljs-string">&quot;false&quot;</span><br>   android:theme=<span class="hljs-string">&quot;@style/Theme.MaterialComponents.DayNight.NoActionBar&quot;</span>/&gt;<br><br><span class="hljs-comment">//4、修改 MainActivity 跳转按钮跳转到 SecondActivity</span><br>fun toSecondActivity(view: View) &#123;<br>    startActivity(Intent(<span class="hljs-keyword">this</span>,SecondActivity::<span class="hljs-keyword">class</span>.java))<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>上述 SecondActivity 中我们重写了很多方法，然后将其转发到了 FlutterFragment 中，主要目的是为了实现 Flutter 中所有预期的行为</p>
+<p>接下来看下效果：</p>
+<img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/22fcb0303f744a7984f2f2feff10f47a~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="ezgif.com-gif-maker2.gif" width="30%" />
+
+<h2 id="四、Android-与-Flutter-通信"><a href="#四、Android-与-Flutter-通信" class="headerlink" title="四、Android 与 Flutter 通信"></a>四、Android 与 Flutter 通信</h2><p>Flutter 提供了一套 PlatformChannel 机制用于 Flutter 和 Android 的通信，主要分为三种类型：</p>
+<p>1、<strong>MethodChannel</strong>：主要用于传递方法调用，Flutter 和 Native（Android）之间进行方法调用时可以使用，是一种双向的通信方式</p>
+<p>2、<strong>EventChannel</strong>：主要用于用户数据流的通信，如：手机电量变化，网络连接变化等。这种方式只能  Native（Android）向 Flutter 发送数据，是一种单向的通信方式</p>
+<p>3、<strong>BaseicMessageChannel</strong>：主要用于传递各种类型数据，它支持的类型有很多，如：String，半结构化信息等，是一种双向的通信方式</p>
+<h3 id="4-1、MethodChannel"><a href="#4-1、MethodChannel" class="headerlink" title="4.1、MethodChannel"></a>4.1、MethodChannel</h3><p>上面我们介绍了 Android 给 Flutter 页面传值，主要是通过这行代码：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dart">flutterEngine.navigationChannel.setInitialRoute(<span class="hljs-string">&quot;main?&#123;\&quot;name\&quot;:\&quot;erdai\&quot;,\&quot;age\&quot;:18&#125;&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>点击查看 navigationChannel 的源码：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-comment">//NavigationChannel 源码</span><br>public <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">NavigationChannel</span> </span>&#123;<br>  private <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-built_in">String</span> TAG = <span class="hljs-string">&quot;NavigationChannel&quot;</span>;<br><br>  <span class="hljs-meta">@NonNull</span> public <span class="hljs-keyword">final</span> MethodChannel channel;<br><br>  public NavigationChannel(<span class="hljs-meta">@NonNull</span> DartExecutor dartExecutor) &#123;<br>    <span class="hljs-keyword">this</span>.channel = <span class="hljs-keyword">new</span> MethodChannel(dartExecutor, <span class="hljs-string">&quot;flutter/navigation&quot;</span>, JSONMethodCodec.INSTANCE);<br>    channel.setMethodCallHandler(defaultHandler);<br>  &#125;<br>  <span class="hljs-comment">//...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>发现它实际就是对 MethodChannel 做了一层封装，底层是通过 MethodChannel 来进行通信</p>
+<p>这种方式在开发中用的比较多，使用也比较简单，我们直接通过例子说明</p>
+<p>下面实现这么一个需求：<strong>首先从 MainActivity 跳转到 SecondActivity，然后 SecondActivity 每隔一秒给 Flutter 页面发送一个数字，Flutter 接收到数字并显示到中间的 Text 中，当接收到数字等于 5 ，通知 SecondActivty finish</strong></p>
+<p>先看一眼实现的效果：</p>
+<img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c5303863bc054b7aac3216a3ce715d50~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="ezgif.com-gif-maker (3).gif" width="30%" />
+
+<p>1、首先来看 Android 端代码实现，SecondActivity 新增的部分：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SecondActivity</span> : <span class="hljs-title">AppCompatActivity</span>() </span>&#123;<br>   <br>    <span class="hljs-comment">//...</span><br>    <span class="hljs-comment">//MethodChannel</span><br>    private lateinit <span class="hljs-keyword">var</span> methodChannel: MethodChannel<br>    <span class="hljs-comment">//发送给 Flutter 的数字</span><br>    private <span class="hljs-keyword">var</span> count = <span class="hljs-number">0</span><br><br>    <span class="hljs-meta">@SuppressLint</span>(<span class="hljs-string">&quot;SetTextI18n&quot;</span>)<br>    override fun onCreate(savedInstanceState: Bundle?) &#123;<br>        <span class="hljs-keyword">super</span>.onCreate(savedInstanceState)<br>        setContentView(R.layout.activity_second)<br>        <span class="hljs-comment">//...</span><br>	<span class="hljs-comment">//MethodChannel初始化，注意后面的字符串必须保持 Android 和 Flutter 一致</span><br>        methodChannel = MethodChannel(flutterEngine.dartExecutor,<span class="hljs-string">&quot;com.dream.interactive&quot;</span>)<br>       	<span class="hljs-comment">//设置 Flutter 传给我们的方法回调</span><br>        methodChannel.setMethodCallHandler &#123; call, result -&gt;<br>            <span class="hljs-keyword">if</span>(call.method == <span class="hljs-string">&quot;sendFinish&quot;</span>)&#123;<br>                finish()<br>            &#125;<br>        &#125;<br>      	<span class="hljs-comment">//开启定时器，每隔一秒给 Flutter 发送一个数字</span><br>        startTimer()<br>    &#125;<br>	<br>    private fun startTimer() &#123;<br>        Timer().schedule(timerTask &#123;<br>            runOnUiThread &#123;<br>                val map = mapOf(<span class="hljs-string">&quot;count&quot;</span> to count++)<br>                methodChannel.invokeMethod(<span class="hljs-string">&quot;timer&quot;</span>, map)<br>            &#125;<br>        &#125;, <span class="hljs-number">0</span>, <span class="hljs-number">1000</span>)<br>    &#125;<br><br>    <span class="hljs-comment">//...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>2、Flutter 端代码实现，新增部分：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">_MyHomePageState</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">State</span>&lt;<span class="hljs-title">MyHomePage</span>&gt; </span>&#123;<br>  <span class="hljs-comment">//记录传递过来的数字</span><br>  <span class="hljs-built_in">int</span> _counter = <span class="hljs-number">0</span>;<br>  <span class="hljs-comment">//初始化 MethodChannel，字符串必须保持 Android 和 Flutter 一致</span><br>  <span class="hljs-keyword">final</span> _channel = <span class="hljs-keyword">const</span> MethodChannel(<span class="hljs-string">&quot;com.dream.interactive&quot;</span>);<br>  <span class="hljs-comment">//...</span><br><br>  <span class="hljs-meta">@override</span><br>  <span class="hljs-keyword">void</span> initState() &#123;<br>    <span class="hljs-keyword">super</span>.initState();<br>    <span class="hljs-comment">//设置接收 Android 传递过来的方法回调</span><br>    _channel.setMethodCallHandler((call) <span class="hljs-keyword">async</span> &#123;<br>      <span class="hljs-built_in">String</span> method = call.method;<br>      <span class="hljs-keyword">switch</span>(method)&#123;<br>        <span class="hljs-comment">//如果匹配到了 timer 方法</span><br>        <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;timer&quot;</span>:<br>          <span class="hljs-comment">//接收传递过来的数字并刷新 UI</span><br>          setState(() &#123;<br>            _counter = call.arguments[<span class="hljs-string">&quot;count&quot;</span>];<br>          &#125;);<br>          <span class="hljs-comment">//当数字等于 5，通知 Android finish SecondActivity</span><br>          <span class="hljs-keyword">if</span>(_counter == <span class="hljs-number">5</span>)&#123;<br>            _channel.invokeMethod(<span class="hljs-string">&quot;sendFinish&quot;</span>);<br>            <span class="hljs-keyword">break</span>;<br>          &#125;<br>          <span class="hljs-keyword">break</span>;<br>        <span class="hljs-keyword">default</span>:<br>          <span class="hljs-keyword">break</span>;<br>      &#125;<br>    &#125;);<br>  &#125;<br>  <span class="hljs-comment">//...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="4-2、EventChannel"><a href="#4-2、EventChannel" class="headerlink" title="4.2、EventChannel"></a>4.2、EventChannel</h3><p><strong>我们使用 EventChannel 模拟 Android 发送一个充电信息给 Flutter ，Flutter 接收后在中间的 Text 展示出来</strong></p>
+<p>1、 Android 端代码实现，SecondActivity 新增的部分：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SecondActivity</span> : <span class="hljs-title">AppCompatActivity</span>() </span>&#123;<br>   <br>    <span class="hljs-comment"><span class="language-markdown">/<span class="hljs-strong">**</span></span></span><br><span class="hljs-strong"><span class="language-markdown"><span class="hljs-comment">     <span class="hljs-emphasis">* EventChannel 事件接收器，它是一个接口，我们主要通过它给 Flutter 传递 event 事件</span></span></span></span><br><span class="hljs-emphasis"><span class="hljs-strong"><span class="language-markdown"><span class="hljs-comment">     *</span>/</span></span></span>	<br>    private lateinit <span class="hljs-keyword">var</span> eventSink: EventChannel.EventSink<br>    <span class="hljs-comment">//电量信息</span><br>    private <span class="hljs-keyword">var</span> electricity = <span class="hljs-number">0</span><br><br>    <span class="hljs-meta">@SuppressLint</span>(<span class="hljs-string">&quot;SetTextI18n&quot;</span>)<br>    override fun onCreate(savedInstanceState: Bundle?) &#123;<br>        <span class="hljs-keyword">super</span>.onCreate(savedInstanceState)<br>        setContentView(R.layout.activity_second)<br>          <br>        <span class="hljs-comment">//初始化 EventChannel，注意后面的字符串必须保持 Android 和 Flutter 一致</span><br>        val eventChannel =  EventChannel(flutterEngine.dartExecutor,<span class="hljs-string">&quot;com.dream.eventchannel&quot;</span>)<br>        <span class="hljs-comment">//设置接收 Flutter 传递过来的数据流回调</span><br>        eventChannel.setStreamHandler(object : EventChannel.StreamHandler &#123;<br>            <span class="hljs-comment">//当 Flutter 与 Android 建立连接后会回调此方法</span><br>            override fun onListen(arguments: Any?, events: EventChannel.EventSink) &#123;<br>              	<span class="hljs-comment">//打印 Flutter 传过来的参数，建立连接时返回的值，仅此一次</span><br>                Log.d(<span class="hljs-string">&quot;erdai&quot;</span>, <span class="hljs-string">&quot;onListen: <span class="hljs-subst">$arguments</span>&quot;</span>)<br>                <span class="hljs-comment">//对 eventSink 赋值</span><br>                eventSink = events<br>                <span class="hljs-comment">//开启定时器，每隔一秒电量增加 20%</span><br>                startTimer()<br>            &#125;<br>						<br>            <span class="hljs-comment">//当 Flutter 与 Android 断开连接后会回调此方法</span><br>            override fun onCancel(arguments: Any?) &#123;<br>                Log.d(<span class="hljs-string">&quot;erdai&quot;</span>, <span class="hljs-string">&quot;onCancel: 断开连接&quot;</span>)<br>            &#125;<br>        &#125;)<br>    &#125;<br><br>    <span class="hljs-comment">//开启定时器，每隔一秒电量增加 20%</span><br>    private fun startTimer() &#123;<br>        Timer().schedule(timerTask &#123;<br>            runOnUiThread &#123;<br>              	<span class="hljs-comment">//每隔一秒电量 +20</span><br>                electricity += <span class="hljs-number">20</span><br>                <span class="hljs-comment">//发送事件给 Flutter</span><br>                eventSink.success(<span class="hljs-string">&quot;电量：<span class="hljs-subst">$electricity</span>%&quot;</span>)<br>                <span class="hljs-keyword">if</span>(electricity == <span class="hljs-number">100</span>)&#123;<br>                   <span class="hljs-comment">//当电量为 100 ，发送完成事件给 Flutter</span><br>                   eventSink.endOfStream()<br>                &#125;<br>            &#125;<br>        &#125;, <span class="hljs-number">0</span>, <span class="hljs-number">1000</span>)<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>2、Flutter 端代码实现，新增部分：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">_MyHomePageState</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">State</span>&lt;<span class="hljs-title">MyHomePage</span>&gt; </span>&#123;<br>  <span class="hljs-comment">//电量信息</span><br>  <span class="hljs-built_in">dynamic</span> electricity;<br>  <span class="hljs-comment">//EventChannel 注意后面的字符串必须保持 Android 和 Flutter 一致</span><br>  <span class="hljs-keyword">final</span> _eventChannel = <span class="hljs-keyword">const</span> EventChannel(<span class="hljs-string">&quot;com.dream.eventchannel&quot;</span>);<br>  <span class="hljs-comment">//订阅流信息</span><br>  StreamSubscription? _streamSubscription;<br>  <br><br>  <span class="hljs-meta">@override</span><br>  <span class="hljs-keyword">void</span> initState() &#123;<br>    <span class="hljs-keyword">super</span>.initState();<br>    <span class="hljs-comment">//初始化 StreamSubscription</span><br>    _streamSubscription = _eventChannel<br>        .receiveBroadcastStream([<span class="hljs-string">&quot;Hello，建立连接吧&quot;</span>])<br>        .listen(_onData,onError: _onError,onDone: _onDone);<br>  &#125;<br><br>  <span class="hljs-comment">//接收 Andorid 发送过来的正常事件</span><br>  <span class="hljs-keyword">void</span> _onData(event)&#123;<br>    <span class="hljs-comment">//打印</span><br>    <span class="hljs-built_in">print</span>(event);<br>    <span class="hljs-comment">//对 electricity 赋值，刷新 UI</span><br>    setState(() &#123;<br>      electricity = event;<br>    &#125;);<br>  &#125;<br><br>  <span class="hljs-comment">//接收 Andorid 发送过来的 error 事件</span><br>  <span class="hljs-keyword">void</span> _onError(error)&#123;<br>    <span class="hljs-comment">//打印</span><br>    <span class="hljs-built_in">print</span>(error);<br>  &#125;<br><br>  <span class="hljs-comment">//接收 Android 发送过来的完成事件</span><br>  <span class="hljs-keyword">void</span> _onDone()&#123;<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;_onDone&#x27;</span>);<br>  &#125;<br><br>  <span class="hljs-comment">//释放资源</span><br>  <span class="hljs-meta">@override</span><br>  <span class="hljs-keyword">void</span> dispose() &#123;<br>    <span class="hljs-keyword">if</span>(_streamSubscription != <span class="hljs-keyword">null</span>)&#123;<br>      _streamSubscription?.cancel();<br>      _streamSubscription = <span class="hljs-keyword">null</span>;<br>    &#125;<br>  &#125;<br><br>  <span class="hljs-meta">@override</span><br>  Widget build(BuildContext context) &#123;<br>    <span class="hljs-keyword">return</span> Scaffold(<br>      <span class="hljs-comment">//...</span><br>      body: Center(<br>        child: Column(<br>          mainAxisAlignment: MainAxisAlignment.center,<br>          children: &lt;Widget&gt;[<br>            <span class="hljs-comment">//...</span><br>            Text(<br>              <span class="hljs-string">&#x27;<span class="hljs-subst">$electricity</span>&#x27;</span>,<br>              style: Theme.of(context).textTheme.headline4,<br>            ),<br>          ],<br>        ),<br>      ),<br>      <span class="hljs-comment">//..</span><br>    );<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>接下来我们看下效果和 Log 日志：</p>
+<img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5ea43f0988ec478a873e01c11d347917~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="ezgif.com-gif-maker (4).gif" width="30%" />
+
+
+<img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2d49e854843e46c7bd7ad58a846b21f5~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="202209221613607.png" width="70%" />
+
+<h3 id="4-3、BaseicMessageChannel"><a href="#4-3、BaseicMessageChannel" class="headerlink" title="4.3、BaseicMessageChannel"></a>4.3、BaseicMessageChannel</h3><p><strong>我们使用 BaseicMessageChannel 实现一段 Andorid 和 Flutter 的对话，Flutter 收到 Android 的消息，在中间的 Text 展示出来，Android 收到 Flutter 的消息，使用 Toast 展示出来</strong> </p>
+<p>1、 Android 端代码实现，SecondActivity 新增的部分：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SecondActivity</span> : <span class="hljs-title">AppCompatActivity</span>() </span>&#123;<br>    <span class="hljs-comment">//...</span><br>    <span class="hljs-comment">//BasicMessageChannel</span><br>    private lateinit <span class="hljs-keyword">var</span> messageChannel: BasicMessageChannel&lt;<span class="hljs-built_in">String</span>&gt;<br>  	<br>    <span class="hljs-meta">@SuppressLint</span>(<span class="hljs-string">&quot;SetTextI18n&quot;</span>)<br>    override fun onCreate(savedInstanceState: Bundle?) &#123;<br>        <span class="hljs-keyword">super</span>.onCreate(savedInstanceState)<br>        setContentView(R.layout.activity_second)<br>      	<span class="hljs-comment">//...</span><br><br>	<span class="hljs-comment">//初始化 BasicMessageChannel，注意后面的字符串必须保持 Android 和 Flutter 一致</span><br>        messageChannel = <br>          BasicMessageChannel(flutterEngine.dartExecutor,<span class="hljs-string">&quot;com.dream.messagechannel&quot;</span>,StringCodec.INSTANCE)<br>        <span class="hljs-comment">//设置接收 Flutter 传递过来的消息回调</span><br>        messageChannel.setMessageHandler &#123; replay: <span class="hljs-built_in">String?</span>, reply: BasicMessageChannel.Reply&lt;<span class="hljs-built_in">String</span>&gt; -&gt;<br>            <span class="hljs-comment">//打印 Flutter 发过来的消息</span><br>            Log.d(<span class="hljs-string">&quot;erdai&quot;</span>, <span class="hljs-string">&quot;onCreate: <span class="hljs-subst">$replay</span>&quot;</span>)<br>            <span class="hljs-comment">//使用 Toast 展示出来</span><br>            Toast.makeText(<span class="hljs-keyword">this</span>,replay,Toast.LENGTH_SHORT).<span class="hljs-keyword">show</span>()<br>            <span class="hljs-comment">//回传消息给 Flutter</span><br>            reply.reply(<span class="hljs-string">&quot;梧桐山&quot;</span>)<br>        &#125;<br>      	<br>      	<span class="hljs-comment">//发送消息给 Flutter</span><br>        messageChannel.send(<span class="hljs-string">&quot;周末去爬山吗?&quot;</span>) &#123; replay: <span class="hljs-built_in">String?</span> -&gt;<br>            <span class="hljs-comment">//接收 Flutter 回传的消息</span><br>            <span class="hljs-comment">//打印 Flutter 回传的消息</span><br>            Log.d(<span class="hljs-string">&quot;erdai&quot;</span>, <span class="hljs-string">&quot;onCreate: <span class="hljs-subst">$replay</span>&quot;</span>)<br>            <span class="hljs-comment">//使用 Toast 展示出来</span><br>            Toast.makeText(<span class="hljs-keyword">this</span>,replay,Toast.LENGTH_SHORT).<span class="hljs-keyword">show</span>()<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-comment">//...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>2、Flutter 端代码实现，新增部分：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">_MyHomePageState</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">State</span>&lt;<span class="hljs-title">MyHomePage</span>&gt; </span>&#123;<br> <br>  <span class="hljs-comment">//记录 Android 传过来的值</span><br>  <span class="hljs-built_in">dynamic</span> _content;<br>  <span class="hljs-comment">//BasicMessageChannel，注意后面的字符串必须保持 Android 和 Flutter 一致</span><br>  <span class="hljs-keyword">final</span> _messageChannel = <span class="hljs-keyword">const</span> BasicMessageChannel(<span class="hljs-string">&quot;com.dream.messagechannel&quot;</span>, StringCodec());<br><br>  <span class="hljs-meta">@override</span><br>  <span class="hljs-keyword">void</span> initState() &#123;<br>    <span class="hljs-keyword">super</span>.initState();<br>    <span class="hljs-comment">//设置接收 Android 传递过来的消息回调</span><br>    _messageChannel.setMessageHandler((message) =&gt;Future&lt;<span class="hljs-built_in">String</span>&gt;(()&#123;<br>      <span class="hljs-comment">//打印 Android 发送过来的消息</span><br>      <span class="hljs-built_in">print</span>(message);<br>      <span class="hljs-comment">//给 _content 赋值，刷新 UI</span><br>      setState(() &#123;<br>        _content = message;<br>      &#125;);<br>      <span class="hljs-comment">//回传值给 Android</span><br>      <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;好啊&quot;</span>;<br>    &#125;));<br>    <br>    <span class="hljs-comment">//...</span><br>  &#125;<br>  <br>  <span class="hljs-comment">//点击 FloatingActionButton 的响应方法</span><br>  <span class="hljs-keyword">void</span> _incrementCounter() <span class="hljs-keyword">async</span>&#123;<br>    <span class="hljs-comment">//给 Android 发送消息，并接收 Android 回传的消息</span><br>    <span class="hljs-keyword">var</span> result = <span class="hljs-keyword">await</span> _messageChannel.send(<span class="hljs-string">&quot;去爬哪座山?&quot;</span>);<br>    <span class="hljs-comment">//打印 Android 回传的消息</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;<span class="hljs-subst">$result</span>&quot;</span>);<br>    <span class="hljs-comment">//给 _content 赋值，刷新 UI</span><br>    setState(() &#123;<br>      _content = result;<br>    &#125;);<br>  &#125;<br><br>  <span class="hljs-meta">@override</span><br>  Widget build(BuildContext context) &#123;<br>    <span class="hljs-keyword">return</span> Scaffold(<br>      appBar: AppBar(<br>        title: Text(widget.title),<br>      ),<br>      body: Center(<br>        child: Column(<br>          mainAxisAlignment: MainAxisAlignment.center,<br>          children: &lt;Widget&gt;[<br>            <span class="hljs-comment">//...</span><br>            Text(<br>              <span class="hljs-string">&#x27;<span class="hljs-subst">$_content</span>&#x27;</span>,<br>              style: Theme.of(context).textTheme.headline4,<br>            ),<br>          ],<br>        ),<br>      ),<br>      floatingActionButton: FloatingActionButton(<br>        onPressed: _incrementCounter,<br>        tooltip: <span class="hljs-string">&#x27;Increment&#x27;</span>,<br>        child: <span class="hljs-keyword">const</span> Icon(Icons.add),<br>      ), <br>    );<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>看下效果和 Log 日志：</p>
+<img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7da4428000554b0eac543f1530a0c3c2~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="ezgif.com-gif-maker (5).gif" width="30%" />
+
+
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d749ee7774ba41518b615972d6ac7004~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="202209221614000.png"></p>
+<h3 id="4-4、通信原理"><a href="#4-4、通信原理" class="headerlink" title="4.4、通信原理"></a>4.4、通信原理</h3><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b581ad4490034520b24e1940f3311118~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="202209221615654.png" width="100%" />
+
+<p>从图中我们可以看出：</p>
+<p>1、Android 和 Flutter 都是以 ByteBuffer 为载体，然后通过 BinaryMessenger 来发送和接收数据</p>
+<p>2、Android 和 Flutter 都是基于 PlatformChannel 机制来进行通信的</p>
+<p>之所以我们能够如此简单的进行通信，实则是系统给我们做了大量的封装：线程的切换，数据拷贝等复杂操作</p>
+<p>另外需要注意的是：<strong>在 Android 侧，BinaryMessenger 是一个接口，在 FlutterView 中实现了该接口，在 BinaryMessenger 的方法中通过 JNI 来与系统底层沟通。在 Flutter 侧，BinaryMessenger 是一个类，该类的作用就是与类 window 沟通，而类 window 才真正与系统底层沟通</strong></p>
+<h2 id="五、总结"><a href="#五、总结" class="headerlink" title="五、总结"></a>五、总结</h2><p>本篇文章我们介绍了：</p>
+<p>1、Android 集成 Flutter </p>
+<blockquote>
+<p>主要就是将 Flutter 端的代码打成 aar ，然后 Android 引用这个 aar</p>
+</blockquote>
+<p>2、Android 调起 Flutter 页面（FlutterActivity，FlutterFragment），并给 Flutter 页面传值</p>
+<blockquote>
+<p>传值底层使用的 MethodChannel</p>
+</blockquote>
+<p>3、Android 与 Flutter 通信，主要使用到了 Flutter 的 PlatformChannel 机制，其实现主要有三种类型：</p>
+<blockquote>
+<p>1、MethodChannel：用于 Flutter 和 Android 之间的方法通信，双向的</p>
+<p>2、EventChannel：用于 Flutter 和 Android 之间的数据流通信，单向的：Android -&gt; Flutter</p>
+<p>3、BaseicMessageChannel：用于 Flutter 和 Android 之间的数据通信，双向的</p>
+</blockquote>
+<p>4、简单的介绍了 Android 与 Flutter 通信的原理</p>
+<p>好了，本篇文章到这里就结束了，希望能给你带来帮助 🤝</p>
+<p><strong>感谢你阅读这篇文章</strong></p>
+<h3 id="下篇预告"><a href="#下篇预告" class="headerlink" title="下篇预告"></a>下篇预告</h3><p>下篇文章我会讲开发 Flutter 项目的一个技术选型，尽请期待吧🍺</p>
+<h3 id="参考和推荐"><a href="#参考和推荐" class="headerlink" title="参考和推荐"></a>参考和推荐</h3><p><a target="_blank" rel="noopener" href="https://juejin.cn/post/7054743801520193543">Android 集成 Flutter | 与交互</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903873358856200#heading-7">一篇看懂Android与Flutter之间的通信</a></p>
+<blockquote>
+<p><strong>你的点赞，评论，是对我巨大的鼓励！</strong></p>
+<p>欢迎关注我的<strong>公众号：</strong>  <a href="https://link.juejin.cn/?target=http://m6z.cn/6jwi7b" title="http://m6z.cn/6jwi7b"><strong>sweetying</strong></a> ，文章更新可第一时间收到</p>
+<p>如果<strong>有问题</strong>，公众号内有加我微信的入口，在技术学习、个人成长的道路上，我们一起前进！</p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Flutter/" class="category-chain-item">Flutter</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%8E%9F%E5%88%9B/">#原创</a>
+      
+        <a href="/tags/Flutter/">#Flutter</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Flutter 系列（八）：Flutter 与 Android 的你来我往</div>
+      <div>https://sweetying520.github.io/2022/10/10/Flutter 系列（八）：Flutter 与 Android 的你来我往/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>sweetying</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年10月10日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/10/10/Flutter%20%E7%B3%BB%E5%88%97%EF%BC%88%E4%BA%94%EF%BC%89%EF%BC%9AFlutter%20%E5%B8%B8%E7%94%A8%E6%8C%89%E9%92%AE%20Widget/" title="Flutter 系列（五）：Flutter 常用按钮 Widget">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Flutter 系列（五）：Flutter 常用按钮 Widget</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/10/10/Flutter%20%E7%B3%BB%E5%88%97%EF%BC%88%E5%85%AD%EF%BC%89%EF%BC%9AFlutter%20%E5%B8%B8%E7%94%A8%E8%A1%A8%E5%8D%95%20Widget/" title="Flutter 系列（六）：Flutter 常用表单 Widget">
+                        <span class="hidden-mobile">Flutter 系列（六）：Flutter 常用表单 Widget</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.4.17/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"zN1E017kYhKuj6GqXHJSbGMb-gzGzoHsz","appKey":"JSwY8PjtA131Y78OHn7kKtio","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

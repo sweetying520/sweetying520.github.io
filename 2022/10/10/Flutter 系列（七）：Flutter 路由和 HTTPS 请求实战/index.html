@@ -1,0 +1,822 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="sweetying">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前言很高兴遇见你~ 在本系列的上一篇文章中，我们介绍了 Flutter 中常用的表单 Widget：TextField，CheckBox，Radio，Switch，CheckboxListTile，RadioListTile，SwitchListTile，Slider，最后通过这些 Widget 实现了一个综合案例。还没有看过上一篇文章的朋友，建议先去阅读 Flutter 系列（六）：Flutt">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flutter 系列（七）：Flutter 路由和 HTTPS 请求实战">
+<meta property="og:url" content="https://sweetying520.github.io/2022/10/10/Flutter%20%E7%B3%BB%E5%88%97%EF%BC%88%E4%B8%83%EF%BC%89%EF%BC%9AFlutter%20%E8%B7%AF%E7%94%B1%E5%92%8C%20HTTPS%20%E8%AF%B7%E6%B1%82%E5%AE%9E%E6%88%98/index.html">
+<meta property="og:site_name" content="sweetying">
+<meta property="og:description" content="前言很高兴遇见你~ 在本系列的上一篇文章中，我们介绍了 Flutter 中常用的表单 Widget：TextField，CheckBox，Radio，Switch，CheckboxListTile，RadioListTile，SwitchListTile，Slider，最后通过这些 Widget 实现了一个综合案例。还没有看过上一篇文章的朋友，建议先去阅读 Flutter 系列（六）：Flutt">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202210101704446.jpeg">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5b1faa83a0564f1484c55168cdd74ae6~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e7b86175f8c846238ea6a1b18c0b8d3b~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/da99b98353d949b08570cb1c0b3443ea~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e2c6bf6ff3eb4510bbd21d66cd4af71f~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/45f74a89d3914ba7bfb01a74833891ec~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="article:published_time" content="2022-10-10T08:54:23.000Z">
+<meta property="article:modified_time" content="2022-10-10T09:05:27.751Z">
+<meta property="article:author" content="sweetying">
+<meta property="article:tag" content="原创">
+<meta property="article:tag" content="Flutter">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202210101704446.jpeg">
+  
+  
+  
+  <title>Flutter 系列（七）：Flutter 路由和 HTTPS 请求实战 - sweetying</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sweetying520.github.io","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"zN1E017kYhKuj6GqXHJSbGMb-gzGzoHsz","app_key":"JSwY8PjtA131Y78OHn7kKtio","server_url":"https://zn1e017k.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>sweetying</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Flutter 系列（七）：Flutter 路由和 HTTPS 请求实战"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        sweetying
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-10-10 16:54" pubdate>
+          2022年10月10日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          9.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          82 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Flutter 系列（七）：Flutter 路由和 HTTPS 请求实战</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202210101704446.jpeg" srcset="/img/loading.gif" lazyload alt="sea-7352141_1920"></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>很高兴遇见你~</p>
+<p>在本系列的上一篇文章中，我们介绍了 Flutter 中常用的表单 Widget：TextField，CheckBox，Radio，Switch，CheckboxListTile，RadioListTile，SwitchListTile，Slider，最后通过这些 Widget 实现了一个综合案例。还没有看过上一篇文章的朋友，建议先去阅读 <a target="_blank" rel="noopener" href="https://juejin.cn/post/7137457377959706654">Flutter 系列（六）：Flutter 常用表单 Widget</a>。接下来我们对 Flutter 路由和 HTTPS 请求实战进行介绍</p>
+<h2 id="一、Flutter-路由"><a href="#一、Flutter-路由" class="headerlink" title="一、Flutter 路由"></a>一、Flutter 路由</h2><p>1）、Flutter 中的路由简单理解就是页面跳转。Flutter 通过 Navigator 组件管理路由导航，并提供了管理堆栈的方法。如：Navigator.push，Navigator.pop</p>
+<p>2）、Flutter 给我们提供了两种配置路由跳转的方式：</p>
+<blockquote>
+<p>1、基本路由</p>
+<p>2、命名路由</p>
+</blockquote>
+<h3 id="1-1、基本路由"><a href="#1-1、基本路由" class="headerlink" title="1.1、基本路由"></a>1.1、基本路由</h3><h4 id="1-1-1、基本路由使用"><a href="#1-1-1、基本路由使用" class="headerlink" title="1.1.1、基本路由使用"></a>1.1.1、基本路由使用</h4><p>假设我们有两个页面：HomePage.dart，SearchPage.dart，先看一眼它们初始的一个代码：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-comment">//1、HomePage.dart</span><br><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:flutter/material.dart&#x27;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:flutterapplication/route/Routes.dart&#x27;</span>;<br><br><span class="hljs-keyword">void</span> main() &#123;<br>  runApp(MaterialApp(<br>      home: HomePage()<br>  ));<br>&#125;<br><br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HomePage</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">StatelessWidget</span> </span>&#123;<br>  <span class="hljs-meta">@override</span><br>  Widget build(BuildContext context) &#123;<br>    <span class="hljs-keyword">return</span> Scaffold(<br>      appBar: AppBar(<br>        title: Text(<span class="hljs-string">&quot;HomePage&quot;</span>), <span class="hljs-comment">//设置标题栏标题</span><br>      ),<br>      body: Center(<br>        child: RaisedButton(<br>          child: Text(<span class="hljs-string">&quot;跳转到 SearchPage&quot;</span>),<br>          <span class="hljs-comment">//按钮点击事件</span><br>          onPressed: () &#123;<br>            <br>          &#125;,<br>        ),<br>      ), <br>    );<br>  &#125;<br>&#125;<br><br><br><span class="hljs-comment">//2、SearchPage.dart</span><br><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:flutter/material.dart&#x27;</span>;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SearchPage</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">StatelessWidget</span></span>&#123;<br><br>  <span class="hljs-keyword">final</span> arguments;<br>	<br>  <span class="hljs-comment">//可选参数 arguments</span><br>  SearchPage(&#123;<span class="hljs-keyword">this</span>.arguments&#125;);<br><br>  <span class="hljs-meta">@override</span><br>  Widget build(BuildContext context) &#123;<br>    <span class="hljs-keyword">return</span> Scaffold(<br>        appBar: AppBar(<br>            title: <span class="hljs-keyword">const</span> Text(<span class="hljs-string">&#x27;SearchPage&#x27;</span>)<br>        ),<br>        body: Center(<br>          child: Text(<span class="hljs-string">&quot;搜索页面内容区域：<span class="hljs-subst">$arguments</span>&quot;</span>),<br>        )<br>    );<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>上述代码很简单，现在我们想从 HomePage 跳转到 SearchPage，需要以下两步：</p>
+<p>1、在 HomePage.dart 中引入 SearchPage.dart </p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-comment">//1、绝对路径</span><br><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:flutterapplication/pages/SearchPage.dart&#x27;</span>;<br><span class="hljs-comment">//2、相对路径</span><br><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;../SearchPage.dart&#x27;</span>;<br></code></pre></td></tr></table></figure>
+
+<p><strong>Tips</strong>：日常开发中建议统一使用绝对路径</p>
+<p>2、在 HomePage 的点击事件中通过如下方法跳转</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-comment">//方式一</span><br>Navigator.push(context, MaterialPageRoute(builder: (context)&#123;<br>  <span class="hljs-keyword">return</span> SearchPage();<br>&#125;));<br><br><span class="hljs-comment">//方式二</span><br>Navigator.of(context).push(<br>  MaterialPageRoute(builder: (context)&#123;<br>    <span class="hljs-keyword">return</span> SearchPage();<br>  &#125;)<br>);<br><br><span class="hljs-comment">//上述两种方式是等价的，实际上方式一是对方式二的封装</span><br></code></pre></td></tr></table></figure>
+
+<p>经过上面两步我们就可以跳转到 SearchPage 页面了</p>
+<p>此时还只是简单的跳转，如果我想向 SearchPage 传值呢？</p>
+<h4 id="1-1-2、基本路由传值"><a href="#1-1-2、基本路由传值" class="headerlink" title="1.1.2、基本路由传值"></a>1.1.2、基本路由传值</h4><p>实则就是在 SearchPage 的构造方法中增加实参</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs dart">Navigator.of(context).push(<br>  MaterialPageRoute(builder: (context)&#123;<br>    <span class="hljs-keyword">return</span> SearchPage(arguments: <span class="hljs-string">&quot;erdai666&quot;</span>);<br>  &#125;)<br>);<br></code></pre></td></tr></table></figure>
+
+<p>这种基本路由的使用有一个缺点：<strong>不能进行路由的统一管理</strong>。如果我们想把路由统一管理，就需要使用到命名路由</p>
+<h3 id="1-2、命名路由"><a href="#1-2、命名路由" class="headerlink" title="1.2、命名路由"></a>1.2、命名路由</h3><h4 id="1-2-1、命名路由使用"><a href="#1-2-1、命名路由使用" class="headerlink" title="1.2.1、命名路由使用"></a>1.2.1、命名路由使用</h4><p>命名路由就是给每个页面设置一个字符串别名，通常是以 &#x2F; 开头，如：”&#x2F;searchPage”。还是以 1.1.1 的例子进行举例：</p>
+<p>1、此时我们可以新建一个 .dart 文件进行路由的统一管理，我这里叫 Routes.dart ：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-built_in">String</span> homePage = <span class="hljs-string">&quot;/&quot;</span>;<br><span class="hljs-built_in">String</span> searchPage = <span class="hljs-string">&quot;/searchPage&quot;</span>;<br><br><span class="hljs-keyword">final</span> routes = &#123;<br>  homePage: (context) =&gt; HomePage(),<br>  searchPage: (context) =&gt; SearchPage()<br>&#125;;<br><br><span class="hljs-comment">//下面这段代码是将一个匿名方法赋值给一个变量</span><br><span class="hljs-comment">//匿名方法做的事情：处理路由传参，生成 MaterialPageRoute 路由对象</span><br><span class="hljs-keyword">var</span> onGenerateRoute = (settings) &#123;<br>  <span class="hljs-built_in">Function?</span> pageContentBuilder = routes[settings.name];<br>  <span class="hljs-keyword">if</span> (pageContentBuilder != <span class="hljs-keyword">null</span>) &#123;<br>    <span class="hljs-keyword">if</span> (settings.arguments != <span class="hljs-keyword">null</span>) &#123;<br>      <span class="hljs-keyword">var</span> route = MaterialPageRoute(<br>          builder: (context) =&gt;<br>              pageContentBuilder(context, arguments: settings.arguments));<br>      <span class="hljs-keyword">return</span> route;<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>      <span class="hljs-keyword">var</span> route =<br>      MaterialPageRoute(builder: (context) =&gt; pageContentBuilder(context));<br>      <span class="hljs-keyword">return</span> route;<br>    &#125;<br>  &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p><strong>Tips</strong>：通常我们会以 ‘&#x2F;‘ 表示 App 启动页的路由</p>
+<p>2、在 HomePage.dart 中新增如下配置：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-comment">//导包</span><br><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:flutterapplication/route/Routes.dart&#x27;</span>;<br><br><span class="hljs-keyword">void</span> main() &#123;<br>  runApp(MaterialApp(<br>      <span class="hljs-comment">//app 启动路由页面</span><br>      initialRoute: homePage,<br>      <span class="hljs-comment">//路由生成</span><br>      onGenerateRoute: onGenerateRoute,<br>      <span class="hljs-comment">//...</span><br>  ));<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>3、在 HomePage 的点击事件中通过如下方法跳转</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-comment">//方式一</span><br>Navigator.pushNamed(context, searchPage);<br><br><span class="hljs-comment">//方式二</span><br>Navigator.of(context).pushNamed(searchPage);<br><br><span class="hljs-comment">//上述两种方式是等价的，实际上方式一是对方式二的封装</span><br></code></pre></td></tr></table></figure>
+
+<p>这里我们可以发现一个规律：<strong>Navigator 提供了两种 Api 调用方式：<code>Navigator.api...</code> 和 <code>Navigator.of(context).api...</code>，前者是后者的一个封装</strong>，后面我们都以前者举例</p>
+<h4 id="1-2-2、命名路由传值"><a href="#1-2-2、命名路由传值" class="headerlink" title="1.2.2、命名路由传值"></a>1.2.2、命名路由传值</h4><p>实则就是给 SearchPage 的构造方法传入实参：</p>
+<p>1、修改  Routes.dart 中的路由跳抓</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-comment">//...</span><br><span class="hljs-keyword">final</span> routes = &#123;<br>  <span class="hljs-comment">//改动点：新增 arguments 命名参数传给 SearchPage</span><br>  searchPage: (context,&#123;arguments&#125;) =&gt; SearchPage(arguments: arguments)<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>2、修改 HomePage 的点击事件跳转方法</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dart">Navigator.pushNamed(context, searchPage,arguments: <span class="hljs-string">&quot;erdai666&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<p>效果展示：</p>
+<img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5b1faa83a0564f1484c55168cdd74ae6~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="ezgif.com-gif-maker.gif" width="30%" />
+
+<h3 id="1-3、返回上一级"><a href="#1-3、返回上一级" class="headerlink" title="1.3、返回上一级"></a>1.3、返回上一级</h3><p>上述效果图中，SearchPage 左上角白色的返回按钮是系统给我们实现的，如果我们需要自己实现返回上一级的效果，使用如下 Api 即可：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dart">Navigator.pop(context);<br></code></pre></td></tr></table></figure>
+
+<p>下面我们给 SearchPage 中间的内容区域添加点击事件，让它返回上一级，代码如下：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:flutter/material.dart&#x27;</span>;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SearchPage</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">StatelessWidget</span></span>&#123;<br><br>  <span class="hljs-keyword">final</span> arguments;<br><br>  SearchPage(&#123;<span class="hljs-keyword">this</span>.arguments&#125;);<br><br>  <span class="hljs-meta">@override</span><br>  Widget build(BuildContext context) &#123;<br>    <span class="hljs-keyword">return</span> Scaffold(<br>        appBar: AppBar(<br>            title: <span class="hljs-keyword">const</span> Text(<span class="hljs-string">&#x27;SearchPage&#x27;</span>)<br>        ),<br>        body: Center(<br>          <span class="hljs-comment">//新增部分的代码</span><br>          child: InkWell(<br>            child: Text(<span class="hljs-string">&quot;搜索页面内容区域：<span class="hljs-subst">$arguments</span>&quot;</span>),<br>            onTap: ()&#123;<br>              Navigator.pop(context);<br>            &#125;,<br>          ),<br>        )<br>    );<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>上述代码我们使用到了 InkWell Widget，它的作用是给没有点击事件的 Widget 添加点击事件，看效果：</p>
+<img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e7b86175f8c846238ea6a1b18c0b8d3b~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="ezgif.com-gif-maker (1).gif" width="30%" />
+
+<h3 id="1-4、替换路由"><a href="#1-4、替换路由" class="headerlink" title="1.4、替换路由"></a>1.4、替换路由</h3><p>1）、和 Android 中先启动一个 Activity 然后 finish 上个 Activity 类似。替换路由就是启动一个新页面，然后将新页面替换上一个页面</p>
+<p>2）、我们可以使用 <code>Navigator.pushReplacementNamed</code> 进行路由的替换</p>
+<p>接下来我们编写一个 LoginPage.dart 的登陆页，然后使用 LoginPage 替换 SearchPage，步骤如下：</p>
+<p>1、LoginPage 编写</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:flutter/material.dart&#x27;</span>;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LoginPage</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">StatelessWidget</span></span>&#123;<br><br>  <span class="hljs-meta">@override</span><br>  Widget build(BuildContext context) &#123;<br>    <span class="hljs-keyword">return</span> Scaffold(<br>        appBar: AppBar(<br>            title: <span class="hljs-keyword">const</span> Text(<span class="hljs-string">&#x27;LoginPage&#x27;</span>)<br>        ),<br>        body: <span class="hljs-keyword">const</span> Center(<br>          child: Text(<span class="hljs-string">&quot;去注册&quot;</span>),<br>        )<br>    );<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>2、在 Routes.dart 中新增路由信息</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:flutterapplication/pages/LoginPage.dart&#x27;</span>;<br><br><span class="hljs-comment">//...</span><br><span class="hljs-built_in">String</span> loginPage = <span class="hljs-string">&quot;/loginPage&quot;</span>;<br><br><span class="hljs-keyword">final</span> routes = &#123;<br>  <span class="hljs-comment">//...</span><br>  loginPage: (context) =&gt; LoginPage()<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>3、修改 SearchPage 的点击事件跳转方法</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-comment">//...</span><br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SearchPage</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">StatelessWidget</span></span>&#123;<br><br>  <span class="hljs-keyword">final</span> arguments;<br><br>  SearchPage(&#123;<span class="hljs-keyword">this</span>.arguments&#125;);<br><br>  <span class="hljs-meta">@override</span><br>  Widget build(BuildContext context) &#123;<br>    <span class="hljs-keyword">return</span> Scaffold(<br>        appBar: AppBar(<br>            title: <span class="hljs-keyword">const</span> Text(<span class="hljs-string">&#x27;SearchPage&#x27;</span>)<br>        ),<br>        body: Center(<br>          child: InkWell(<br>            child: Text(<span class="hljs-string">&quot;搜索页面内容区域：<span class="hljs-subst">$arguments</span>&quot;</span>),<br>            onTap: ()&#123;<br>              <span class="hljs-comment">//路由替换</span><br>              Navigator.pushReplacementNamed(context,loginPage);<br>            &#125;,<br>          ),<br>        )<br>    );<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>4、效果展示</p>
+<img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/da99b98353d949b08570cb1c0b3443ea~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="ezgif.com-gif-maker (2).gif" width="30%" />
+
+<p>效果图中我们点击 LoginPage 的返回按钮返回到了 HomePage ，证明 SearchPage 被替换</p>
+<h3 id="1-5、返回到根路由"><a href="#1-5、返回到根路由" class="headerlink" title="1.5、返回到根路由"></a>1.5、返回到根路由</h3><p>1）、和 Android 中启动一个 Activity，然后将这个 Activity 之上的所有 Activity 弹出栈类似。返回根路由就是将当前页面之上的页面全部移除掉</p>
+<p>2）、我们可以使用 <code>Navigator.pushAndRemoveUtil</code> 返回根路由</p>
+<p>接下来我们编写一个 RegisterPage.dart 的注册页，然后 Hompage -&gt; SearchPage -&gt; LoginPage -&gt; RegisterPage 都使用 <code>Navigator.pushNamed</code> 方式跳转，RegisterPage -&gt; Hompage 使用 <code>Navigator.pushAndRemoveUtil</code> 方式跳转，步骤如下：</p>
+<p>1、LoginPage 编写</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:flutter/material.dart&#x27;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:flutterapplication/HomePage.dart&#x27;</span>;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Registerpage</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">StatelessWidget</span></span>&#123;<br><br>  <span class="hljs-meta">@override</span><br>  Widget build(BuildContext context) &#123;<br>    <span class="hljs-keyword">return</span> Scaffold(<br>        appBar: AppBar(<br>            title: <span class="hljs-keyword">const</span> Text(<span class="hljs-string">&#x27;RegisterPage&#x27;</span>)<br>        ),<br>        body:  Center(<br>          child: InkWell(<br>            child: <span class="hljs-keyword">const</span> Text(<span class="hljs-string">&quot;注册成功，去 HomePage&quot;</span>),<br>            onTap: ()&#123;<br>              <span class="hljs-comment">//通过返回根路由跳转到 HomePage </span><br>              Navigator.pushAndRemoveUntil(<br>                  context,<br>                  MaterialPageRoute(builder: (context)&#123;<br>                    <span class="hljs-keyword">return</span> HomePage();<br>                  &#125;),<br>                  (route) =&gt; <span class="hljs-keyword">false</span>);<br>            &#125;,<br>          ),<br>        )<br>    );<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>2、在 Routes.dart 中新增路由信息</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:flutterapplication/pages/RegisterPage.dart&#x27;</span>;<br><br><span class="hljs-comment">//...</span><br><span class="hljs-built_in">String</span> registerPage = <span class="hljs-string">&quot;/registerPage&quot;</span>;<br><br><span class="hljs-keyword">final</span> routes = &#123;<br>  <span class="hljs-comment">//...</span><br>  registerPage: (context) =&gt; RegisterPage()<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>3、修改 Hompage，SearchPage，LoginPage 的跳转方式为 <code>Navigator.pushNamed</code></p>
+<p>4、效果展示</p>
+<img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e2c6bf6ff3eb4510bbd21d66cd4af71f~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="ezgif.com-gif-maker (3).gif" width="30%" />
+
+<p>可以看到，当我们从 RegisterPage 到 HomePage，然后在返回，直接退到了桌面，证明其它页面都被移除了</p>
+<h2 id="二、HTTPS-请求实战"><a href="#二、HTTPS-请求实战" class="headerlink" title="二、HTTPS 请求实战"></a>二、HTTPS 请求实战</h2><p>Flutter 中发起网络请求还是比较简单的，我们引入一个第三方库：</p>
+<blockquote>
+<p> http </p>
+<p> 链接：<a target="_blank" rel="noopener" href="https://pub.dev/packages/http">https://pub.dev/packages/http</a></p>
+</blockquote>
+<p>这里需要大家掌握 Dart 异步编程基础，还不明白的看我<a target="_blank" rel="noopener" href="https://juejin.cn/post/7130647339294785549#heading-80">Flutter 系列（二）：Dart 语法筑基</a>这篇文章</p>
+<p>在项目的 pubspec.yaml 配置文件添加如下依赖：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs dart">dependencies:<br>  http: ^<span class="hljs-number">0.13</span><span class="hljs-number">.5</span><br></code></pre></td></tr></table></figure>
+
+<p>接下来就可以使用了，简单的介绍下 get，post 请求，这里特别感谢 <a target="_blank" rel="noopener" href="https://www.wanandroid.com/">WanAndroid</a> 提供的 Api</p>
+<h3 id="2-1、get-请求"><a href="#2-1、get-请求" class="headerlink" title="2.1、get 请求"></a>2.1、get 请求</h3><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-comment">//导入 http 并设置别名</span><br><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:http/http.dart&#x27;</span> <span class="hljs-keyword">as</span> http;<br><br><span class="hljs-comment">//使用 async 标记为异步</span><br><span class="hljs-keyword">void</span> _getData() <span class="hljs-keyword">async</span>&#123;<br>  <span class="hljs-comment">//构建请求 uri</span><br>  <span class="hljs-keyword">var</span> uri = <span class="hljs-built_in">Uri</span>.https(<span class="hljs-string">&quot;www.wanandroid.com&quot;</span>, <span class="hljs-string">&quot;/friend/json&quot;</span>);<br>  <span class="hljs-comment">//使用 http 发起 get 请求，等待返回结果进行后续代码执行</span><br>  <span class="hljs-keyword">var</span> result = <span class="hljs-keyword">await</span> http.<span class="hljs-keyword">get</span>(uri);<br>  <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;====&gt; <span class="hljs-subst">$&#123;result.statusCode&#125;</span>&quot;</span>);<br>&#125;<br><br><span class="hljs-keyword">void</span> main()&#123;<br>  _getData();<br>&#125;<br><br><span class="hljs-comment">//打印结果</span><br>====&gt; <span class="hljs-number">200</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="2-2、post-请求"><a href="#2-2、post-请求" class="headerlink" title="2.2、post 请求"></a>2.2、post 请求</h3><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-comment">//json 转换</span><br><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;dart:convert&#x27;</span>;<br><span class="hljs-comment">//导入 http 并设置别名</span><br><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:http/http.dart&#x27;</span> <span class="hljs-keyword">as</span> http;<br><br><br><span class="hljs-comment">//使用 async 标记为异步</span><br><span class="hljs-keyword">void</span> _postData() <span class="hljs-keyword">async</span>&#123;<br>  <span class="hljs-comment">//构建请求 uri</span><br>  <span class="hljs-keyword">var</span> uri = <span class="hljs-built_in">Uri</span>.https(<span class="hljs-string">&quot;www.wanandroid.com&quot;</span>, <span class="hljs-string">&quot;/user/login&quot;</span>);<br>  <span class="hljs-comment">//使用 http 发起 post 请求，等待返回结果进行后续代码执行</span><br>  <span class="hljs-keyword">var</span> result = <span class="hljs-keyword">await</span> http.post(uri,body: &#123;<span class="hljs-string">&quot;username&quot;</span>:<span class="hljs-string">&quot;账号&quot;</span>,<span class="hljs-string">&quot;password&quot;</span>:<span class="hljs-string">&quot;密码&quot;</span>&#125;);<br>  <span class="hljs-keyword">if</span> (result.statusCode == <span class="hljs-number">200</span>) &#123;<br>    <span class="hljs-comment">//将 json 解析成 map</span><br>    <span class="hljs-keyword">var</span> resultMap = json.decode(result.body) <span class="hljs-keyword">as</span> <span class="hljs-built_in">Map</span>&lt;<span class="hljs-built_in">String</span>,<span class="hljs-built_in">dynamic</span>&gt;;<br>    <span class="hljs-comment">//打印 map 里面的属性</span><br>    <span class="hljs-built_in">print</span>(resultMap[<span class="hljs-string">&quot;data&quot;</span>][<span class="hljs-string">&quot;nickname&quot;</span>]);<br>  &#125;<br>&#125;<br><br><br><span class="hljs-keyword">void</span> main()&#123;<br>  _postData();<br>&#125;<br><br><span class="hljs-comment">//打印结果</span><br>sweetying<br></code></pre></td></tr></table></figure>
+
+<h3 id="2-3、请求案例实战"><a href="#2-3、请求案例实战" class="headerlink" title="2.3、请求案例实战"></a>2.3、请求案例实战</h3><p>首先看一眼我们要实现的效果：</p>
+<img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/45f74a89d3914ba7bfb01a74833891ec~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="ezgif.com-gif-maker (4).gif" width="30%" />
+
+<p>实际上就是将我们请求的网络数据使用 ListView 展示出来，比较简单，大家主要掌握思路，直接上代码：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-comment">//导包</span><br><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;dart:convert&#x27;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:flutter/material.dart&#x27;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:http/http.dart&#x27;</span> <span class="hljs-keyword">as</span> http;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HttpPracticePage</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">StatefulWidget</span> </span>&#123;<br>  <span class="hljs-meta">@override</span><br>  _HttpPracticePageState createState() =&gt; _HttpPracticePageState();<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">_HttpPracticePageState</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">State</span>&lt;<span class="hljs-title">HttpPracticePage</span>&gt; </span>&#123;<br>  <span class="hljs-keyword">var</span> list = [];<br><br>  <span class="hljs-meta">@override</span><br>  <span class="hljs-keyword">void</span> initState() &#123;<br>    <span class="hljs-keyword">super</span>.initState();<br>    <span class="hljs-comment">//加载网络数据</span><br>    _getData();<br>  &#125;<br><br>  <span class="hljs-meta">@override</span><br>  Widget build(BuildContext context) &#123;<br>    <span class="hljs-keyword">return</span> MaterialApp(<br>      home: Scaffold(<br>          appBar: AppBar(<br>            title: Text(<span class="hljs-string">&#x27;Http 实践页面&#x27;</span>),<br>          ),<br>          <span class="hljs-comment">//如果 list 为空，展示为空白页面，不为空渲染 ListView</span><br>          body: list.isNotEmpty<br>              ? ListView.builder(<br>              itemCount: list.length,<br>              itemBuilder: (context, index) &#123;<br>                  <span class="hljs-keyword">return</span> ListTile(<br>                      title: Text(<span class="hljs-string">&quot;<span class="hljs-subst">$&#123;list[index][<span class="hljs-string">&quot;name&quot;</span>]&#125;</span>&quot;</span>),<br>                      subtitle: Text(<span class="hljs-string">&quot;<span class="hljs-subst">$&#123;list[index][<span class="hljs-string">&quot;link&quot;</span>]&#125;</span>&quot;</span>));<br>                &#125;)<br>              : Text(<span class="hljs-string">&quot;&quot;</span>)),<br>    );<br>  &#125;<br>	<br>  <span class="hljs-comment">//使用 async 标记为异步</span><br>  <span class="hljs-keyword">void</span> _getData() <span class="hljs-keyword">async</span> &#123;<br>    <span class="hljs-comment">//构建请求 uri</span><br>    <span class="hljs-keyword">var</span> uri = <span class="hljs-built_in">Uri</span>.https(<span class="hljs-string">&quot;www.wanandroid.com&quot;</span>, <span class="hljs-string">&quot;/friend/json&quot;</span>);<br>    <span class="hljs-comment">//使用 http 发起 get 请求，等待返回结果进行后续代码执行</span><br>    <span class="hljs-keyword">var</span> result = <span class="hljs-keyword">await</span> http.<span class="hljs-keyword">get</span>(uri);<br>    <span class="hljs-keyword">if</span> (result.statusCode == <span class="hljs-number">200</span>) &#123;<br>      <span class="hljs-comment">//将 json 解析成 map</span><br>      <span class="hljs-keyword">var</span> map = json.decode(result.body) <span class="hljs-keyword">as</span> <span class="hljs-built_in">Map</span>&lt;<span class="hljs-built_in">String</span>, <span class="hljs-built_in">dynamic</span>&gt;;<br>      <span class="hljs-comment">//通知 UI 进行刷新</span><br>      setState(() &#123;<br>        list = map[<span class="hljs-string">&quot;data&quot;</span>];<br>      &#125;);<br>    &#125;<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="三、总结"><a href="#三、总结" class="headerlink" title="三、总结"></a>三、总结</h2><p>本篇文章我们介绍了：</p>
+<p>1、Flutter 中的路由使用，大家可以根据不同的业务场景使用不同的 Api</p>
+<p>2、推荐使用路由统一管理以及导包的时候使用绝对路径</p>
+<p>3、简单的介绍了使用第三方库 http 进行 get，post 请求，最后进行了一个请求案例的实战</p>
+<p>好了，本篇文章到这里就结束了，希望能给你带来帮助 🤝</p>
+<p><strong>感谢你阅读这篇文章</strong></p>
+<h3 id="下篇预告"><a href="#下篇预告" class="headerlink" title="下篇预告"></a>下篇预告</h3><p>下篇文章我会讲 Flutter 与 Android 的通信，尽请期待吧🍺</p>
+<h3 id="参考和推荐"><a href="#参考和推荐" class="headerlink" title="参考和推荐"></a>参考和推荐</h3><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1S4411E7LY?p=19&vd_source=d0b24cb21c438ff4a9ac2e589eacb3d9">Flutter 教程</a>：通俗易懂的 Flutter 入门教程</p>
+<blockquote>
+<p><strong>你的点赞，评论，是对我巨大的鼓励！</strong></p>
+<p>欢迎关注我的<strong>公众号：</strong>  <a href="https://link.juejin.cn/?target=http://m6z.cn/6jwi7b" title="http://m6z.cn/6jwi7b"><strong>sweetying</strong></a> ，文章更新可第一时间收到</p>
+<p>如果<strong>有问题</strong>，公众号内有加我微信的入口，在技术学习、个人成长的道路上，我们一起前进！</p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Flutter/" class="category-chain-item">Flutter</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%8E%9F%E5%88%9B/">#原创</a>
+      
+        <a href="/tags/Flutter/">#Flutter</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Flutter 系列（七）：Flutter 路由和 HTTPS 请求实战</div>
+      <div>https://sweetying520.github.io/2022/10/10/Flutter 系列（七）：Flutter 路由和 HTTPS 请求实战/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>sweetying</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年10月10日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/10/10/Flutter%20%E7%B3%BB%E5%88%97%EF%BC%88%E4%BA%94%EF%BC%89%EF%BC%9AFlutter%20%E5%B8%B8%E7%94%A8%E6%8C%89%E9%92%AE%20Widget/" title="Flutter 系列（五）：Flutter 常用按钮 Widget">
+                        <span class="hidden-mobile">Flutter 系列（五）：Flutter 常用按钮 Widget</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.4.17/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"zN1E017kYhKuj6GqXHJSbGMb-gzGzoHsz","appKey":"JSwY8PjtA131Y78OHn7kKtio","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

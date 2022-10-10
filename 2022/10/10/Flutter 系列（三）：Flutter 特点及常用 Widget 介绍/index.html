@@ -1,0 +1,982 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="sweetying">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前言很高兴遇见你~ 在本系列的上一篇文章中，我们全面介绍了 Dart 语法，内容很多，文字+代码有三万多字，如果你能够耐心看完并手敲里面的示例，你一定会收获很大。还没有看过上一篇文章的朋友，建议先去阅读 Flutter 系列（二）：Dart 语法筑基。接下来我们进入 Flutter 的学习。 一、Flutter 特点介绍学习一个框架，我们首先要了解这个框架的特点，就好比你学开车一样，你要知道这个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flutter 系列（三）：Flutter 特点及常用 Widget 介绍">
+<meta property="og:url" content="https://sweetying520.github.io/2022/10/10/Flutter%20%E7%B3%BB%E5%88%97%EF%BC%88%E4%B8%89%EF%BC%89%EF%BC%9AFlutter%20%E7%89%B9%E7%82%B9%E5%8F%8A%E5%B8%B8%E7%94%A8%20Widget%20%E4%BB%8B%E7%BB%8D/index.html">
+<meta property="og:site_name" content="sweetying">
+<meta property="og:description" content="前言很高兴遇见你~ 在本系列的上一篇文章中，我们全面介绍了 Dart 语法，内容很多，文字+代码有三万多字，如果你能够耐心看完并手敲里面的示例，你一定会收获很大。还没有看过上一篇文章的朋友，建议先去阅读 Flutter 系列（二）：Dart 语法筑基。接下来我们进入 Flutter 的学习。 一、Flutter 特点介绍学习一个框架，我们首先要了解这个框架的特点，就好比你学开车一样，你要知道这个">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202210101651486.jpeg">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/963be24804034c308ba042a9fe6c6aac~tplv-k3u1fbpfcp-watermark.image">
+<meta property="article:published_time" content="2022-10-10T08:50:00.000Z">
+<meta property="article:modified_time" content="2022-10-10T08:51:44.568Z">
+<meta property="article:author" content="sweetying">
+<meta property="article:tag" content="原创">
+<meta property="article:tag" content="Flutter">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202210101651486.jpeg">
+  
+  
+  
+  <title>Flutter 系列（三）：Flutter 特点及常用 Widget 介绍 - sweetying</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sweetying520.github.io","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"zN1E017kYhKuj6GqXHJSbGMb-gzGzoHsz","app_key":"JSwY8PjtA131Y78OHn7kKtio","server_url":"https://zn1e017k.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>sweetying</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Flutter 系列（三）：Flutter 特点及常用 Widget 介绍"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        sweetying
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-10-10 16:50" pubdate>
+          2022年10月10日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          13k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          110 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Flutter 系列（三）：Flutter 特点及常用 Widget 介绍</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202210101651486.jpeg" srcset="/img/loading.gif" lazyload alt="konstantin-tretyak-JBvIUIFVzjo-unsplash"></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>很高兴遇见你~</p>
+<p>在本系列的上一篇文章中，我们全面介绍了 Dart 语法，内容很多，文字+代码有三万多字，如果你能够耐心看完并手敲里面的示例，你一定会收获很大。还没有看过上一篇文章的朋友，建议先去阅读 <a target="_blank" rel="noopener" href="https://juejin.cn/post/7130647339294785549#heading-0">Flutter 系列（二）：Dart 语法筑基</a>。接下来我们进入 Flutter 的学习。</p>
+<h2 id="一、Flutter-特点介绍"><a href="#一、Flutter-特点介绍" class="headerlink" title="一、Flutter 特点介绍"></a>一、Flutter 特点介绍</h2><p>学习一个框架，我们首先要了解这个框架的特点，就好比你学开车一样，你要知道这个车有什么特点，你才能快速的去上手它。Flutter 特点介绍：</p>
+<h3 id="1-1、在-Flutter-中，万物皆-Widget（组件）"><a href="#1-1、在-Flutter-中，万物皆-Widget（组件）" class="headerlink" title="1.1、在 Flutter 中，万物皆 Widget（组件）"></a>1.1、在 Flutter 中，万物皆 Widget（组件）</h3><p>我们在写 Flutter 时，一定要有这样的意识。这样我们才能更好地上手学习。在 Flutter 中，几乎任何东西都是 Widget，不仅是常见的 UI 组件，甚至是布局方式，样式，动画等都是 Widget</p>
+<h3 id="1-2、Widget-嵌套"><a href="#1-2、Widget-嵌套" class="headerlink" title="1.2、Widget 嵌套"></a>1.2、Widget 嵌套</h3><p>写 Android 时，我们会在 Xml 文件中编写布局及 View 嵌套，然后在 Java 或 Kotlin 文件中进行 View 逻辑编写。但写 Flutter，无论是 Widget 嵌套，还是 Widget 逻辑编写，都是在 Dart 文件中进行处理，这样就会产生一些问题：</p>
+<blockquote>
+<p>1、复杂界面出现各种深层 Widget 嵌套</p>
+<p>2、代码逻辑混乱，可读性差</p>
+</blockquote>
+<p>作为 Android 开发，我一开始真的很不习惯，但是随着你学习的深入，对项目进行合理的架构设计，包结构设计，清晰的代码注释，上面的问题在一定程度上得到了解决</p>
+<h3 id="1-3、Widget-状态"><a href="#1-3、Widget-状态" class="headerlink" title="1.3、Widget 状态"></a>1.3、Widget 状态</h3><p>在 Flutter 中，Widget 分为两种：</p>
+<blockquote>
+<p>1、无状态 Widget</p>
+<p>2、有状态 Widget</p>
+</blockquote>
+<p>无状态 Widget (继承自 StatelessWidget)：初始化后无法修改其状态和 UI，如：Text，ScrollView</p>
+<p>有状态 Widget (继承自 StatefulWidget)：其状态可能在 Widget 生命周期中发生变化。如 Image， Scrollable 等。在调用 setState 方法后，Widget 会重新绘制，创建其新的 Widget</p>
+<p>StatelessWidget 和 StatefulWidget 都继承自Widget</p>
+<p><strong>小 Tips</strong>：</p>
+<p>1、在你编写自定义 Widget 时，你首先判断它是有状态的还是无状态的，如果 Widget 需要根据用户交互或其他因素进行更改，则该 Widget 是有状态的，否则就是无状态的</p>
+<p>2、当你需要改变 Widget 状态时，必须调用 setState 方法来通知 Flutter 来更新创建新的 Widget</p>
+<p><strong>注意</strong>：上面一些特点可能一开始不能理解，接着往下看，有些问题随着你知识的积累便迎刃而解了</p>
+<h2 id="二、Flutter-常用-Widget-介绍"><a href="#二、Flutter-常用-Widget-介绍" class="headerlink" title="二、Flutter 常用 Widget 介绍"></a>二、Flutter 常用 Widget 介绍</h2><p>先看一张效果图：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/963be24804034c308ba042a9fe6c6aac~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="1661082533405.jpg"></p>
+<p>问题：上面的效果怎么实现的呢🤔️？</p>
+<p>如果你是小白，那么就跟着我的步伐继续往下学习。如果不是，你可以想一下可以使用哪些 Widget 嵌套来实现，以及实现的一些细节。</p>
+<p>待我们学习完下面的 Widget 后，在来解决这个问题</p>
+<h3 id="2-1、MaterialApp"><a href="#2-1、MaterialApp" class="headerlink" title="2.1、MaterialApp"></a>2.1、MaterialApp</h3><p>见名知义，MaterialApp 就是一个带 Material Design 设计风格的 Widget，一般作为顶层 Widget 来使用</p>
+<h4 id="2-1-1、属性"><a href="#2-1-1、属性" class="headerlink" title="2.1.1、属性"></a>2.1.1、属性</h4><p>我们如果要查看一个 Widget 有哪些属性，可以通过 IDE 直接点击这个 Widget 的源码去查看，你会发现每个 Widget 都包含许多属性，这么多属性不可能每个都去看，我的建议是：<strong>掌握基础常用的，其它用到时，看源码按需去取</strong></p>
+<p>MaterialApp 构造方法：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-keyword">const</span> MaterialApp(&#123;<br>    Key? key,<br>    <span class="hljs-keyword">this</span>.navigatorKey,<br>    <span class="hljs-keyword">this</span>.scaffoldMessengerKey,<br>    <span class="hljs-keyword">this</span>.home,<br>    <span class="hljs-built_in">Map</span>&lt;<span class="hljs-built_in">String</span>, WidgetBuilder&gt; <span class="hljs-keyword">this</span>.routes = <span class="hljs-keyword">const</span> &lt;<span class="hljs-built_in">String</span>, WidgetBuilder&gt;&#123;&#125;,<br>    <span class="hljs-keyword">this</span>.initialRoute,<br>    <span class="hljs-keyword">this</span>.onGenerateRoute,<br>    <span class="hljs-keyword">this</span>.onGenerateInitialRoutes,<br>    <span class="hljs-keyword">this</span>.onUnknownRoute,<br>    <span class="hljs-built_in">List</span>&lt;NavigatorObserver&gt; <span class="hljs-keyword">this</span>.navigatorObservers = <span class="hljs-keyword">const</span> &lt;NavigatorObserver&gt;[],<br>    <span class="hljs-keyword">this</span>.builder,<br>    <span class="hljs-keyword">this</span>.title = <span class="hljs-string">&#x27;&#x27;</span>,<br>    <span class="hljs-keyword">this</span>.onGenerateTitle,<br>    <span class="hljs-keyword">this</span>.color,<br>    <span class="hljs-keyword">this</span>.theme,<br>    <span class="hljs-keyword">this</span>.darkTheme,<br>    <span class="hljs-keyword">this</span>.highContrastTheme,<br>    <span class="hljs-keyword">this</span>.highContrastDarkTheme,<br>    <span class="hljs-keyword">this</span>.themeMode = ThemeMode.system,<br>    <span class="hljs-keyword">this</span>.locale,<br>    <span class="hljs-keyword">this</span>.localizationsDelegates,<br>    <span class="hljs-keyword">this</span>.localeListResolutionCallback,<br>    <span class="hljs-keyword">this</span>.localeResolutionCallback,<br>    <span class="hljs-keyword">this</span>.supportedLocales = <span class="hljs-keyword">const</span> &lt;Locale&gt;[Locale(<span class="hljs-string">&#x27;en&#x27;</span>, <span class="hljs-string">&#x27;US&#x27;</span>)],<br>    <span class="hljs-keyword">this</span>.debugShowMaterialGrid = <span class="hljs-keyword">false</span>,<br>    <span class="hljs-keyword">this</span>.showPerformanceOverlay = <span class="hljs-keyword">false</span>,<br>    <span class="hljs-keyword">this</span>.checkerboardRasterCacheImages = <span class="hljs-keyword">false</span>,<br>    <span class="hljs-keyword">this</span>.checkerboardOffscreenLayers = <span class="hljs-keyword">false</span>,<br>    <span class="hljs-keyword">this</span>.showSemanticsDebugger = <span class="hljs-keyword">false</span>,<br>    <span class="hljs-keyword">this</span>.debugShowCheckedModeBanner = <span class="hljs-keyword">true</span>,<br>    <span class="hljs-keyword">this</span>.shortcuts,<br>    <span class="hljs-keyword">this</span>.actions,<br>    <span class="hljs-keyword">this</span>.restorationScopeId,<br>    <span class="hljs-keyword">this</span>.scrollBehavior,<br>    <span class="hljs-keyword">this</span>.useInheritedMediaQuery = <span class="hljs-keyword">false</span>,<br>  &#125;) : <span class="hljs-keyword">assert</span>(routes != <span class="hljs-keyword">null</span>),<br>       <span class="hljs-keyword">assert</span>(navigatorObservers != <span class="hljs-keyword">null</span>),<br>       <span class="hljs-keyword">assert</span>(title != <span class="hljs-keyword">null</span>),<br>       <span class="hljs-keyword">assert</span>(debugShowMaterialGrid != <span class="hljs-keyword">null</span>),<br>       <span class="hljs-keyword">assert</span>(showPerformanceOverlay != <span class="hljs-keyword">null</span>),<br>       <span class="hljs-keyword">assert</span>(checkerboardRasterCacheImages != <span class="hljs-keyword">null</span>),<br>       <span class="hljs-keyword">assert</span>(checkerboardOffscreenLayers != <span class="hljs-keyword">null</span>),<br>       <span class="hljs-keyword">assert</span>(showSemanticsDebugger != <span class="hljs-keyword">null</span>),<br>       <span class="hljs-keyword">assert</span>(debugShowCheckedModeBanner != <span class="hljs-keyword">null</span>),<br>       routeInformationProvider = <span class="hljs-keyword">null</span>,<br>       routeInformationParser = <span class="hljs-keyword">null</span>,<br>       routerDelegate = <span class="hljs-keyword">null</span>,<br>       backButtonDispatcher = <span class="hljs-keyword">null</span>,<br>       <span class="hljs-keyword">super</span>(key: key);<br></code></pre></td></tr></table></figure>
+
+<p><strong>注意</strong>：下面介绍的属性仅是用于实现上面的效果图</p>
+<p>MaterialApp 常用属性：</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>home</td>
+<td>配置 App 主页</td>
+</tr>
+</tbody></table>
+<p>MaterialApp 更多属性介绍：<a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000040552453">https://segmentfault.com/a/1190000040552453</a></p>
+<h3 id="2-2、Scaffold"><a href="#2-2、Scaffold" class="headerlink" title="2.2、Scaffold"></a>2.2、Scaffold</h3><p>Scaffold 是一个 Material Design 设计风格的脚手架 Widget，一般嵌套在 MaterialApp 的 home 属性中</p>
+<h4 id="2-2-1、属性"><a href="#2-2-1、属性" class="headerlink" title="2.2.1、属性"></a>2.2.1、属性</h4><p>Scaffold 构造方法：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-keyword">const</span> Scaffold(&#123;<br>    Key? key,<br>    <span class="hljs-keyword">this</span>.appBar,<br>    <span class="hljs-keyword">this</span>.body,<br>    <span class="hljs-keyword">this</span>.floatingActionButton,<br>    <span class="hljs-keyword">this</span>.floatingActionButtonLocation,<br>    <span class="hljs-keyword">this</span>.floatingActionButtonAnimator,<br>    <span class="hljs-keyword">this</span>.persistentFooterButtons,<br>    <span class="hljs-keyword">this</span>.drawer,<br>    <span class="hljs-keyword">this</span>.onDrawerChanged,<br>    <span class="hljs-keyword">this</span>.endDrawer,<br>    <span class="hljs-keyword">this</span>.onEndDrawerChanged,<br>    <span class="hljs-keyword">this</span>.bottomNavigationBar,<br>    <span class="hljs-keyword">this</span>.bottomSheet,<br>    <span class="hljs-keyword">this</span>.backgroundColor,<br>    <span class="hljs-keyword">this</span>.resizeToAvoidBottomInset,<br>    <span class="hljs-keyword">this</span>.primary = <span class="hljs-keyword">true</span>,<br>    <span class="hljs-keyword">this</span>.drawerDragStartBehavior = DragStartBehavior.start,<br>    <span class="hljs-keyword">this</span>.extendBody = <span class="hljs-keyword">false</span>,<br>    <span class="hljs-keyword">this</span>.extendBodyBehindAppBar = <span class="hljs-keyword">false</span>,<br>    <span class="hljs-keyword">this</span>.drawerScrimColor,<br>    <span class="hljs-keyword">this</span>.drawerEdgeDragWidth,<br>    <span class="hljs-keyword">this</span>.drawerEnableOpenDragGesture = <span class="hljs-keyword">true</span>,<br>    <span class="hljs-keyword">this</span>.endDrawerEnableOpenDragGesture = <span class="hljs-keyword">true</span>,<br>    <span class="hljs-keyword">this</span>.restorationId,<br>  &#125;) : <span class="hljs-keyword">assert</span>(primary != <span class="hljs-keyword">null</span>),<br>       <span class="hljs-keyword">assert</span>(extendBody != <span class="hljs-keyword">null</span>),<br>       <span class="hljs-keyword">assert</span>(extendBodyBehindAppBar != <span class="hljs-keyword">null</span>),<br>       <span class="hljs-keyword">assert</span>(drawerDragStartBehavior != <span class="hljs-keyword">null</span>),<br>       <span class="hljs-keyword">super</span>(key: key);<br></code></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>appBar</td>
+<td>配置显示在界面顶部的一个 AppBar</td>
+</tr>
+<tr>
+<td>body</td>
+<td>配置当前界面所显示的主要内容 Widget</td>
+</tr>
+</tbody></table>
+<p>Scaffold 更多属性介绍：<a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000040554948">https://segmentfault.com/a/1190000040554948</a></p>
+<p>以上两个 Widget 就能搭建起页面的基本框架了，但是看到的会是一个空白的页面。回到上面那张图，我们看到顶部有一个标题栏，而且还有阴影，Flutter 给我们提供了 AppBar 来实现</p>
+<h3 id="2-3、AppBar"><a href="#2-3、AppBar" class="headerlink" title="2.3、AppBar"></a>2.3、AppBar</h3><p>AppBar 是基于 Material Design 设计风格的标题栏 Widget，一般在 Scaffold 的 appBar 属性中使用，作为顶部标题栏</p>
+<h4 id="2-3-1、属性"><a href="#2-3-1、属性" class="headerlink" title="2.3.1、属性"></a>2.3.1、属性</h4><p>AppBar 构造方法：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs dart">AppBar(&#123;<br>    Key? key,<br>    <span class="hljs-keyword">this</span>.leading,<br>    <span class="hljs-keyword">this</span>.automaticallyImplyLeading = <span class="hljs-keyword">true</span>,<br>    <span class="hljs-keyword">this</span>.title,<br>    <span class="hljs-keyword">this</span>.actions,<br>    <span class="hljs-keyword">this</span>.flexibleSpace,<br>    <span class="hljs-keyword">this</span>.bottom,<br>    <span class="hljs-keyword">this</span>.elevation,<br>    <span class="hljs-keyword">this</span>.shadowColor,<br>    <span class="hljs-keyword">this</span>.shape,<br>    <span class="hljs-keyword">this</span>.backgroundColor,<br>    <span class="hljs-keyword">this</span>.foregroundColor,<br>    <span class="hljs-meta">@Deprecated</span>(<br>      <span class="hljs-string">&#x27;This property is no longer used, please use systemOverlayStyle instead. &#x27;</span><br>      <span class="hljs-string">&#x27;This feature was deprecated after v2.4.0-0.0.pre.&#x27;</span>,<br>    )<br>    <span class="hljs-keyword">this</span>.brightness,<br>    <span class="hljs-keyword">this</span>.iconTheme,<br>    <span class="hljs-keyword">this</span>.actionsIconTheme,<br>    <span class="hljs-meta">@Deprecated</span>(<br>      <span class="hljs-string">&#x27;This property is no longer used, please use toolbarTextStyle and titleTextStyle instead. &#x27;</span><br>      <span class="hljs-string">&#x27;This feature was deprecated after v2.4.0-0.0.pre.&#x27;</span>,<br>    )<br>    <span class="hljs-keyword">this</span>.textTheme,<br>    <span class="hljs-keyword">this</span>.primary = <span class="hljs-keyword">true</span>,<br>    <span class="hljs-keyword">this</span>.centerTitle,<br>    <span class="hljs-keyword">this</span>.excludeHeaderSemantics = <span class="hljs-keyword">false</span>,<br>    <span class="hljs-keyword">this</span>.titleSpacing,<br>    <span class="hljs-keyword">this</span>.toolbarOpacity = <span class="hljs-number">1.0</span>,<br>    <span class="hljs-keyword">this</span>.bottomOpacity = <span class="hljs-number">1.0</span>,<br>    <span class="hljs-keyword">this</span>.toolbarHeight,<br>    <span class="hljs-keyword">this</span>.leadingWidth,<br>    <span class="hljs-meta">@Deprecated</span>(<br>      <span class="hljs-string">&#x27;This property is obsolete and is false by default. &#x27;</span><br>      <span class="hljs-string">&#x27;This feature was deprecated after v2.4.0-0.0.pre.&#x27;</span>,<br>    )<br>    <span class="hljs-keyword">this</span>.backwardsCompatibility,<br>    <span class="hljs-keyword">this</span>.toolbarTextStyle,<br>    <span class="hljs-keyword">this</span>.titleTextStyle,<br>    <span class="hljs-keyword">this</span>.systemOverlayStyle,<br>  &#125;) : <span class="hljs-keyword">assert</span>(automaticallyImplyLeading != <span class="hljs-keyword">null</span>),<br>       <span class="hljs-keyword">assert</span>(elevation == <span class="hljs-keyword">null</span> || elevation &gt;= <span class="hljs-number">0.0</span>),<br>       <span class="hljs-keyword">assert</span>(primary != <span class="hljs-keyword">null</span>),<br>       <span class="hljs-keyword">assert</span>(toolbarOpacity != <span class="hljs-keyword">null</span>),<br>       <span class="hljs-keyword">assert</span>(bottomOpacity != <span class="hljs-keyword">null</span>),<br>       preferredSize = _PreferredAppBarSize(toolbarHeight, bottom?.preferredSize.height),<br>       <span class="hljs-keyword">super</span>(key: key);<br></code></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>title</td>
+<td>配置标题栏的标题</td>
+</tr>
+<tr>
+<td>elevation</td>
+<td>配置标题栏下方的阴影大小</td>
+</tr>
+</tbody></table>
+<p>AppBar 更多属性介绍：<a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000040562147">https://segmentfault.com/a/1190000040562147</a></p>
+<p>标题栏实现了，接下来就是 body 主体部分，我们在来分析一下：可以看到，主体部分是一个<strong>居中</strong>显示的<strong>圆形</strong>图像，背景是蓝色，有个红色的边框。圆形图像里面有一行<strong>文本</strong>，文本的颜色是白色，字体有点倾斜，字间距偏大，只显示了一行，超出部分 … ，而且文本的中间有一个红色的虚删除线</p>
+<p>上面加粗的文字就是用于实现该效果的 Widget：Center，Container，Text</p>
+<h3 id="2-4、Center"><a href="#2-4、Center" class="headerlink" title="2.4、Center"></a>2.4、Center</h3><p>Center 就是将子 Widget 进行一个居中展示的 Widget，它继承自 Align，因为 Align 默认的对齐方式是居中的，所以它能实现居中效果，如果 Center 的尺寸没有受到限制，那么它将充满整个屏幕</p>
+<h4 id="2-4-1、属性"><a href="#2-4-1、属性" class="headerlink" title="2.4.1、属性"></a>2.4.1、属性</h4><p>Center 构造方法：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-keyword">const</span> Center(&#123; Key? key, <span class="hljs-built_in">double?</span> widthFactor, <span class="hljs-built_in">double?</span> heightFactor, Widget? child &#125;)<br>    : <span class="hljs-keyword">super</span>(key: key, widthFactor: widthFactor, heightFactor: heightFactor, child: child);<br></code></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>child</td>
+<td>配置居中显示的子 Widget</td>
+</tr>
+</tbody></table>
+<h3 id="2-5、Container"><a href="#2-5、Container" class="headerlink" title="2.5、Container"></a>2.5、Container</h3><p>Container 是 Flutter 给我们提供的一个多功能 Widget，如果子 Widget 需要一些背景样式、形状、尺寸限制等，我们就可以利用 Container 来进行包裹，上面的圆形图像就是使用 Container 来实现的</p>
+<h4 id="2-5-1、属性"><a href="#2-5-1、属性" class="headerlink" title="2.5.1、属性"></a>2.5.1、属性</h4><p>Container 构造方法：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs dart">Container(&#123;<br>    Key? key,<br>    <span class="hljs-keyword">this</span>.alignment,<br>    <span class="hljs-keyword">this</span>.padding,<br>    <span class="hljs-keyword">this</span>.color,<br>    <span class="hljs-keyword">this</span>.decoration,<br>    <span class="hljs-keyword">this</span>.foregroundDecoration,<br>    <span class="hljs-built_in">double?</span> width,<br>    <span class="hljs-built_in">double?</span> height,<br>    BoxConstraints? constraints,<br>    <span class="hljs-keyword">this</span>.margin,<br>    <span class="hljs-keyword">this</span>.transform,<br>    <span class="hljs-keyword">this</span>.transformAlignment,<br>    <span class="hljs-keyword">this</span>.child,<br>    <span class="hljs-keyword">this</span>.clipBehavior = Clip.none,<br>  &#125;) : <span class="hljs-keyword">assert</span>(margin == <span class="hljs-keyword">null</span> || margin.isNonNegative),<br>       <span class="hljs-keyword">assert</span>(padding == <span class="hljs-keyword">null</span> || padding.isNonNegative),<br>       <span class="hljs-keyword">assert</span>(decoration == <span class="hljs-keyword">null</span> || decoration.debugAssertIsValid()),<br>       <span class="hljs-keyword">assert</span>(constraints == <span class="hljs-keyword">null</span> || constraints.debugAssertIsValid()),<br>       <span class="hljs-keyword">assert</span>(clipBehavior != <span class="hljs-keyword">null</span>),<br>       <span class="hljs-keyword">assert</span>(decoration != <span class="hljs-keyword">null</span> || clipBehavior == Clip.none),<br>       <span class="hljs-keyword">assert</span>(color == <span class="hljs-keyword">null</span> || decoration == <span class="hljs-keyword">null</span>,<br>         <span class="hljs-string">&#x27;Cannot provide both a color and a decoration\n&#x27;</span><br>         <span class="hljs-string">&#x27;To provide both, use &quot;decoration: BoxDecoration(color: color)&quot;.&#x27;</span>,<br>       ),<br>       constraints =<br>        (width != <span class="hljs-keyword">null</span> || height != <span class="hljs-keyword">null</span>)<br>          ? constraints?.tighten(width: width, height: height)<br>            ?? BoxConstraints.tightFor(width: width, height: height)<br>          : constraints,<br>       <span class="hljs-keyword">super</span>(key: key);<br></code></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>child</td>
+<td>配置显示的子 Widget</td>
+</tr>
+<tr>
+<td>color</td>
+<td>配置 Container 背景颜色</td>
+</tr>
+<tr>
+<td>width</td>
+<td>配置 Container 显示的宽度</td>
+</tr>
+<tr>
+<td>height</td>
+<td>配置 Container 显示的高度</td>
+</tr>
+<tr>
+<td>alignment</td>
+<td>配置子 Widget 的对齐方式</td>
+</tr>
+<tr>
+<td>padding</td>
+<td>配置 Container 內边距</td>
+</tr>
+<tr>
+<td>decoration</td>
+<td>配置 Container 装饰</td>
+</tr>
+</tbody></table>
+<p>decoration 接收一个 Decoration 类型的参数，其实现类：BoxDecoration，BoxDecoration 的属性：</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>color</td>
+<td>配置 Container 背景颜色</td>
+</tr>
+<tr>
+<td>border</td>
+<td>配置 Container 显示的边框</td>
+</tr>
+<tr>
+<td>borderRadius</td>
+<td>配置 Container 显示的圆角</td>
+</tr>
+</tbody></table>
+<p><strong>注意</strong>：如果 BoxDecoration 设置了 color 属性，就不能设置 Container 的 color 属性，否则会报错，此时在 BoxDecoration 中设置 color 即可</p>
+<p>Container 更多属性介绍：<a target="_blank" rel="noopener" href="https://www.liujunmin.com/flutter/container.html">https://www.liujunmin.com/flutter/container.html</a></p>
+<h3 id="2-6、Text"><a href="#2-6、Text" class="headerlink" title="2.6、Text"></a>2.6、Text</h3><p>Text 是 Flutter 给我们提供的文本 Widget，最常用的 Widget 之一，我们可以使用它来实现各种文本效果</p>
+<h4 id="2-6-1、属性"><a href="#2-6-1、属性" class="headerlink" title="2.6.1、属性"></a>2.6.1、属性</h4><p>Text 构造方法：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-keyword">const</span> Text(<br>    <span class="hljs-built_in">String</span> <span class="hljs-keyword">this</span>.data, &#123;<br>    Key? key,<br>    <span class="hljs-keyword">this</span>.style,<br>    <span class="hljs-keyword">this</span>.strutStyle,<br>    <span class="hljs-keyword">this</span>.textAlign,<br>    <span class="hljs-keyword">this</span>.textDirection,<br>    <span class="hljs-keyword">this</span>.locale,<br>    <span class="hljs-keyword">this</span>.softWrap,<br>    <span class="hljs-keyword">this</span>.overflow,<br>    <span class="hljs-keyword">this</span>.textScaleFactor,<br>    <span class="hljs-keyword">this</span>.maxLines,<br>    <span class="hljs-keyword">this</span>.semanticsLabel,<br>    <span class="hljs-keyword">this</span>.textWidthBasis,<br>    <span class="hljs-keyword">this</span>.textHeightBehavior,<br>  &#125;) : <span class="hljs-keyword">assert</span>(<br>         data != <span class="hljs-keyword">null</span>,<br>         <span class="hljs-string">&#x27;A non-null String must be provided to a Text widget.&#x27;</span>,<br>       ),<br>       textSpan = <span class="hljs-keyword">null</span>,<br>       <span class="hljs-keyword">super</span>(key: key);<br></code></pre></td></tr></table></figure>
+
+<p>TextStyle 构造方法：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-keyword">const</span> TextStyle(&#123;<br>    <span class="hljs-keyword">this</span>.inherit = <span class="hljs-keyword">true</span>,<br>    <span class="hljs-keyword">this</span>.color,<br>    <span class="hljs-keyword">this</span>.backgroundColor,<br>    <span class="hljs-keyword">this</span>.fontSize,<br>    <span class="hljs-keyword">this</span>.fontWeight,<br>    <span class="hljs-keyword">this</span>.fontStyle,<br>    <span class="hljs-keyword">this</span>.letterSpacing,<br>    <span class="hljs-keyword">this</span>.wordSpacing,<br>    <span class="hljs-keyword">this</span>.textBaseline,<br>    <span class="hljs-keyword">this</span>.height,<br>    <span class="hljs-keyword">this</span>.leadingDistribution,<br>    <span class="hljs-keyword">this</span>.locale,<br>    <span class="hljs-keyword">this</span>.foreground,<br>    <span class="hljs-keyword">this</span>.background,<br>    <span class="hljs-keyword">this</span>.shadows,<br>    <span class="hljs-keyword">this</span>.fontFeatures,<br>    <span class="hljs-keyword">this</span>.decoration,<br>    <span class="hljs-keyword">this</span>.decorationColor,<br>    <span class="hljs-keyword">this</span>.decorationStyle,<br>    <span class="hljs-keyword">this</span>.decorationThickness,<br>    <span class="hljs-keyword">this</span>.debugLabel,<br>    <span class="hljs-built_in">String?</span> fontFamily,<br>    <span class="hljs-built_in">List</span>&lt;<span class="hljs-built_in">String</span>&gt;? fontFamilyFallback,<br>    <span class="hljs-built_in">String?</span> package,<br>    <span class="hljs-keyword">this</span>.overflow,<br>  &#125;) : fontFamily = package == <span class="hljs-keyword">null</span> ? fontFamily : <span class="hljs-string">&#x27;packages/<span class="hljs-subst">$package</span>/<span class="hljs-subst">$fontFamily</span>&#x27;</span>,<br>       _fontFamilyFallback = fontFamilyFallback,<br>       _package = package,<br>       <span class="hljs-keyword">assert</span>(inherit != <span class="hljs-keyword">null</span>),<br>       <span class="hljs-keyword">assert</span>(color == <span class="hljs-keyword">null</span> || foreground == <span class="hljs-keyword">null</span>, _kColorForegroundWarning),<br>       <span class="hljs-keyword">assert</span>(backgroundColor == <span class="hljs-keyword">null</span> || background == <span class="hljs-keyword">null</span>, _kColorBackgroundWarning);<br></code></pre></td></tr></table></figure>
+
+
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>data</td>
+<td>配置 Text 要显示的字符串，必须配置</td>
+</tr>
+<tr>
+<td>maxLines</td>
+<td>配置 Text 能显示的最大行数</td>
+</tr>
+<tr>
+<td>overflow</td>
+<td>配置 Text 文字超出屏幕后的处理方式（clip：裁剪，fade：渐隐，ellipsis：…省略）</td>
+</tr>
+<tr>
+<td>style</td>
+<td>配置 Text 显示的样式</td>
+</tr>
+</tbody></table>
+<p>style 接收一个 TextStyle 类型的参数，它的属性：</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>fontSize</td>
+<td>配置 Text 显示的字体大小</td>
+</tr>
+<tr>
+<td>fontWeight</td>
+<td>配置 Text 显示的字体粗细（bold：粗体，normal：正常体）</td>
+</tr>
+<tr>
+<td>color</td>
+<td>配置 Text 显示的文字颜色</td>
+</tr>
+<tr>
+<td>decoration</td>
+<td>配置 text 显示的装饰线（none：没有线，lineThrough：删除线，overline：上划线，underline：下划线）</td>
+</tr>
+<tr>
+<td>decorationColor</td>
+<td>配置 Text 显示的装饰线颜色</td>
+</tr>
+<tr>
+<td>decorationStyle</td>
+<td>配置 Text 显示的装饰线风格（dashed：长虚线，dotted：点虚线，double：两根线，solid：一根实线，wavy：波浪线）</td>
+</tr>
+<tr>
+<td>wordSpacing</td>
+<td>配置 Text 显示的单词间隙</td>
+</tr>
+<tr>
+<td>letterSpacing</td>
+<td>配置 Text 显示的字母间隙</td>
+</tr>
+<tr>
+<td>fontStyle</td>
+<td>配置 Text 显示的文字样式（italic：斜体，normal：正常体）</td>
+</tr>
+</tbody></table>
+<p>Text 更多属性介绍：<a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903724846972942">https://juejin.cn/post/6844903724846972942</a></p>
+<p>上面介绍的 Widget 就可以实现效果图了，接下来我们来实现一下它吧</p>
+<h2 id="三、效果图实现"><a href="#三、效果图实现" class="headerlink" title="三、效果图实现"></a>三、效果图实现</h2><p>一个清晰的思路很重要，我们先捋一捋：</p>
+<p>1、使用 MaterialApp 和 Scaffold 搭建页面的基本框架</p>
+<p>2、使用 AppBar 实现带阴影的顶部标题栏</p>
+<p>3、使用 Center 嵌套一个 Container 居中显示，然后通过 Container 属性配置将 Container 设置为带红色边框的圆形图像，Container 嵌套一个 Text ，在对 Text 进行属性配置即可</p>
+<p>代码实现如下：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:flutter/material.dart&#x27;</span>;<br><br><span class="hljs-keyword">void</span> main() &#123;<br>  runApp(MaterialApp(<br>    home: Scaffold(<br>      appBar: AppBar(<br>        title: Text(<span class="hljs-string">&quot;Flutter Widget Learning&quot;</span>),<span class="hljs-comment">//设置标题栏标题</span><br>        elevation: <span class="hljs-number">30</span>,<span class="hljs-comment">//设置标题栏阴影</span><br>      ),<br>      body: Center(<br>        child: Container( <span class="hljs-comment">// Center 嵌套一个 Container</span><br>          width: <span class="hljs-number">300</span>, <span class="hljs-comment">//设置 Container 宽度为 300</span><br>          height: <span class="hljs-number">300</span>, <span class="hljs-comment">//设置 Container 高度为 300</span><br>          alignment: Alignment.center, <span class="hljs-comment">//设置子 Widget 居中</span><br>          padding: EdgeInsets.all(<span class="hljs-number">20</span>), <span class="hljs-comment">//设置 Container 內边距为 20</span><br>          decoration: BoxDecoration( <span class="hljs-comment">//设置 Container 装饰</span><br>            color: Colors.blue, <span class="hljs-comment">//设置 Container 背景颜色为蓝色</span><br>            border: Border.all(<br>              color: Colors.red, <span class="hljs-comment">//设置 Container 边框颜色为红色</span><br>              width: <span class="hljs-number">2</span> <span class="hljs-comment">//设置 Container 边框的宽度为 2</span><br>            ),<br>            borderRadius: BorderRadius.all(Radius.circular(<span class="hljs-number">200</span>)), <span class="hljs-comment">//设置 Container 的形状为一个圆形</span><br>          ),<br>          child: Text( <span class="hljs-comment">//Container 嵌套一个 Text</span><br>            <span class="hljs-string">&quot;Hello erdai str&quot;</span>, <span class="hljs-comment">// 设置 Text 要显示的字符串</span><br>            maxLines: <span class="hljs-number">1</span>, <span class="hljs-comment">//设置 Text 最大显示一行</span><br>            overflow: TextOverflow.ellipsis, <span class="hljs-comment">//设置 Text 文本超过一行 ... 显示</span><br>            style: TextStyle( <span class="hljs-comment">//配置 Text 样式</span><br>                fontSize: <span class="hljs-number">28</span>, <span class="hljs-comment">//设置 Text 的字体大小为 28</span><br>                fontWeight: FontWeight.bold, <span class="hljs-comment">//设置 Text 显示为粗体</span><br>                color: Colors.white, <span class="hljs-comment">//设置 Text 文字颜色为白色</span><br>                decoration: TextDecoration.lineThrough, <span class="hljs-comment">//设置 Text 删除线</span><br>                decorationColor: Colors.red, <span class="hljs-comment">//设置 Text 删除线颜色为红色</span><br>                decorationStyle: TextDecorationStyle.dashed, <span class="hljs-comment">//设置 Text 删除线为虚线</span><br>                wordSpacing: <span class="hljs-number">20</span>, <span class="hljs-comment">//设置 Text 单词之间间距为 20</span><br>                letterSpacing: <span class="hljs-number">6</span>, <span class="hljs-comment">//设置 Text 字母间距为 6</span><br>                fontStyle: FontStyle.italic <span class="hljs-comment">//设置 Text 字体样式为斜体</span><br>            ),<br>          ),<br>        ),<br>      ),<br>    ),<br>  ));<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>上述代码就实现了我们想要的效果，但是有一点点瑕疵，那就是代码都写在 main 方法中，导致 main 方法比较臃肿，那是否有办法对 main 方法中的逻辑进行抽离呢？</p>
+<p>答：有的，自定义 Widget 对 main 方法逻辑进行抽离优化</p>
+<h2 id="四、自定义-Widget"><a href="#四、自定义-Widget" class="headerlink" title="四、自定义 Widget"></a>四、自定义 Widget</h2><p>上面讲过，自定义 Widget 先要对 Widget 的状态进行判断，我们这里无需用户交互以及其他因素进行更改，因此是无状态的，继承 StatelessWidget 即可</p>
+<p>接下来我们对 body 部分的逻辑进行抽离，封装为一个自定义 Widget，如下：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyBodyPage</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">StatelessWidget</span></span>&#123;<br>  <span class="hljs-meta">@override</span><br>  Widget build(BuildContext context) &#123;<br>    <span class="hljs-keyword">return</span> Center(<br>      child: Container( <span class="hljs-comment">// Center 嵌套一个 Container</span><br>        width: <span class="hljs-number">300</span>, <span class="hljs-comment">//设置 Container 宽度为 300</span><br>        height: <span class="hljs-number">300</span>, <span class="hljs-comment">//设置 Container 高度为 300</span><br>        alignment: Alignment.center, <span class="hljs-comment">//设置子 Widget 居中</span><br>        padding: EdgeInsets.all(<span class="hljs-number">20</span>), <span class="hljs-comment">//设置 Container 內边距为 20</span><br>        decoration: BoxDecoration( <span class="hljs-comment">//设置 Container 装饰</span><br>          color: Colors.blue, <span class="hljs-comment">//设置 Container 背景颜色为蓝色</span><br>          border: Border.all(<br>              color: Colors.red, <span class="hljs-comment">//设置 Container 边框颜色为红色</span><br>              width: <span class="hljs-number">2</span> <span class="hljs-comment">//设置 Container 边框的宽度为 2</span><br>          ),<br>          borderRadius: BorderRadius.all(Radius.circular(<span class="hljs-number">200</span>)), <span class="hljs-comment">//设置 Container 的形状为一个圆形</span><br>        ),<br>        child: Text( <span class="hljs-comment">//Container 嵌套一个 Text</span><br>          <span class="hljs-string">&quot;Hello erdai str&quot;</span>, <span class="hljs-comment">// 设置 Text 要显示的字符串</span><br>          maxLines: <span class="hljs-number">1</span>, <span class="hljs-comment">//设置 Text 最大显示一行</span><br>          overflow: TextOverflow.ellipsis, <span class="hljs-comment">//设置 Text 文本超过一行 ... 显示</span><br>          style: TextStyle( <span class="hljs-comment">//配置 Text 样式</span><br>              fontSize: <span class="hljs-number">28</span>, <span class="hljs-comment">//设置 Text 的字体大小为 28</span><br>              fontWeight: FontWeight.bold, <span class="hljs-comment">//设置 Text 显示为粗体</span><br>              color: Colors.white, <span class="hljs-comment">//设置 Text 文字颜色为白色</span><br>              decoration: TextDecoration.lineThrough, <span class="hljs-comment">//设置 Text 删除线</span><br>              decorationColor: Colors.red, <span class="hljs-comment">//设置 Text 删除线颜色为红色</span><br>              decorationStyle: TextDecorationStyle.dashed, <span class="hljs-comment">//设置 Text 删除线为虚线</span><br>              wordSpacing: <span class="hljs-number">20</span>, <span class="hljs-comment">//设置 Text 单词之间间距为 20</span><br>              letterSpacing: <span class="hljs-number">6</span>, <span class="hljs-comment">//设置 Text 字母间距为 6</span><br>              fontStyle: FontStyle.italic <span class="hljs-comment">//设置 Text 字体样式为斜体</span><br>          ),<br>        ),<br>      ),<br>    );<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>实则就是将 body 部分的代码移过来😂，掌握自定义 Widget 的思路即可，那么 main 方法的代码就简化了很多，如下：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:flutter/material.dart&#x27;</span>;<br><br><span class="hljs-keyword">void</span> main() &#123;<br>  runApp(MaterialApp(<br>    home: Scaffold(<br>      appBar: AppBar(<br>        title: Text(<span class="hljs-string">&quot;Flutter Widget Learning&quot;</span>),<span class="hljs-comment">//设置标题栏标题</span><br>        elevation: <span class="hljs-number">30</span>,<span class="hljs-comment">//设置标题栏阴影</span><br>      ),<br>      body: MyBodyPage() <span class="hljs-comment">//自定义 Widget</span><br>    ),<br>  ));<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="五、总结"><a href="#五、总结" class="headerlink" title="五、总结"></a>五、总结</h2><p>本文重点内容：</p>
+<p>1、Flutter 的特点，了解它，能帮助我们更好的学习 Flutter</p>
+<p>2、介绍了实现效果图用到的 Widget：MaterialApp，Scaffold，AppBar，Center，Container，Text</p>
+<p>3、学习 Widget 实则就是要重点掌握它有哪些属性，我的建议是：掌握常用的，其它的用到时查看源码即<br>可。另外一个问题：当你不知道属性怎么赋值，也可以通过查看源码了解属性的类型，然后进行相应的赋值</p>
+<p>4、介绍了自定义属性，根据状态判断是继承 StatelessWidget 还是 StatefulWidget</p>
+<p>好了，本篇文章到这里就结束了，希望能给你带来帮助 🤝</p>
+<p><strong>感谢你阅读这篇文章</strong></p>
+<h3 id="下篇预告"><a href="#下篇预告" class="headerlink" title="下篇预告"></a>下篇预告</h3><p>Flutter Widget 有很多，今天我们只是学习了简单的几个，接下来我还会继续对 Flutter Widget 进行介绍</p>
+<h3 id="参考和推荐"><a href="#参考和推荐" class="headerlink" title="参考和推荐"></a>参考和推荐</h3><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1S4411E7LY?p=19&vd_source=d0b24cb21c438ff4a9ac2e589eacb3d9">Flutter 教程</a>：通俗易懂的 Flutter 入门教程</p>
+<blockquote>
+<p><strong>你的点赞，评论，是对我巨大的鼓励！</strong></p>
+<p>欢迎关注我的<strong>公众号：</strong>  <a href="https://link.juejin.cn/?target=http://m6z.cn/6jwi7b" title="http://m6z.cn/6jwi7b"><strong>sweetying</strong></a> ，文章更新可第一时间收到</p>
+<p>如果<strong>有问题</strong>，公众号内有加我微信的入口，在技术学习、个人成长的道路上，我们一起前进！</p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Flutter/" class="category-chain-item">Flutter</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%8E%9F%E5%88%9B/">#原创</a>
+      
+        <a href="/tags/Flutter/">#Flutter</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Flutter 系列（三）：Flutter 特点及常用 Widget 介绍</div>
+      <div>https://sweetying520.github.io/2022/10/10/Flutter 系列（三）：Flutter 特点及常用 Widget 介绍/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>sweetying</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年10月10日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/10/10/Flutter%20%E7%B3%BB%E5%88%97%EF%BC%88%E5%9B%9B%EF%BC%89%EF%BC%9AFlutter%20%E5%B8%B8%E7%94%A8%20Widget%20%E4%BA%8C/" title="Flutter 系列（四）：Flutter 常用 Widget 二">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Flutter 系列（四）：Flutter 常用 Widget 二</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/10/10/Flutter%20%E7%B3%BB%E5%88%97%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9ADart%20%E8%AF%AD%E6%B3%95%E7%AD%91%E5%9F%BA/" title="Flutter 系列（二）：Dart 语法筑基">
+                        <span class="hidden-mobile">Flutter 系列（二）：Dart 语法筑基</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.4.17/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"zN1E017kYhKuj6GqXHJSbGMb-gzGzoHsz","appKey":"JSwY8PjtA131Y78OHn7kKtio","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
