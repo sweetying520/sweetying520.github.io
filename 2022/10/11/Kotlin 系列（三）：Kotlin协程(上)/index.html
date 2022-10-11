@@ -1,0 +1,960 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="sweetying">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前言很高兴遇见你~ 在本系列的上一篇中，我们学习了 Kotlin 泛型，使用泛型能使我们的代码具有可复用性，避免类型转换异常，还没有看过上一篇文章的朋友，建议先去阅读 “Kotlin”系列: 二、Kotlin泛型。接下来我们就进入 Kotlin 协程的学习，在我看来， Kotlin 协程也是属于那种比较难理解的知识点，我会尽量用比较通俗易懂的语言去进行讲解，希望通过我的文章能带领大家攻克 Kot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kotlin 系列（三）：Kotlin协程(上)">
+<meta property="og:url" content="https://sweetying520.github.io/2022/10/11/Kotlin%20%E7%B3%BB%E5%88%97%EF%BC%88%E4%B8%89%EF%BC%89%EF%BC%9AKotlin%E5%8D%8F%E7%A8%8B(%E4%B8%8A)/index.html">
+<meta property="og:site_name" content="sweetying">
+<meta property="og:description" content="前言很高兴遇见你~ 在本系列的上一篇中，我们学习了 Kotlin 泛型，使用泛型能使我们的代码具有可复用性，避免类型转换异常，还没有看过上一篇文章的朋友，建议先去阅读 “Kotlin”系列: 二、Kotlin泛型。接下来我们就进入 Kotlin 协程的学习，在我看来， Kotlin 协程也是属于那种比较难理解的知识点，我会尽量用比较通俗易懂的语言去进行讲解，希望通过我的文章能带领大家攻克 Kot">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/kevin-wolf-zSOyfjBo1tk-unsplash.jpeg">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/fe3aab023ec74ca0a90d06f6f37bdebe~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="article:published_time" content="2022-10-11T02:50:27.000Z">
+<meta property="article:modified_time" content="2022-10-11T03:08:28.197Z">
+<meta property="article:author" content="sweetying">
+<meta property="article:tag" content="原创">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="Kotlin">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/kevin-wolf-zSOyfjBo1tk-unsplash.jpeg">
+  
+  
+  
+  <title>Kotlin 系列（三）：Kotlin协程(上) - sweetying</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sweetying520.github.io","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"zN1E017kYhKuj6GqXHJSbGMb-gzGzoHsz","app_key":"JSwY8PjtA131Y78OHn7kKtio","server_url":"https://zn1e017k.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>sweetying</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Kotlin 系列（三）：Kotlin协程(上)"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        sweetying
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-10-11 10:50" pubdate>
+          2022年10月11日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          15k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          128 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Kotlin 系列（三）：Kotlin协程(上)</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/kevin-wolf-zSOyfjBo1tk-unsplash.jpeg" srcset="/img/loading.gif" lazyload alt="kevin-wolf-zSOyfjBo1tk-unsplash"></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>很高兴遇见你~</p>
+<p>在本系列的上一篇中，我们学习了 Kotlin 泛型，使用泛型能使我们的代码具有可复用性，避免类型转换异常，还没有看过上一篇文章的朋友，建议先去阅读 <a target="_blank" rel="noopener" href="https://juejin.cn/post/6950042154496425992">“Kotlin”系列: 二、Kotlin泛型</a>。接下来我们就进入 Kotlin 协程的学习，在我看来， Kotlin 协程也是属于那种比较难理解的知识点，我会尽量用比较通俗易懂的语言去进行讲解，希望通过我的文章能带领大家攻克 Kotlin 协程</p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>首先还是先抛出一系列的问题，大家搞清楚这些问题后学习 Kotlin 协程可能会轻松一点：</p>
+<p>1、什么是并发？什么是并行？</p>
+<p>2、什么是多任务？什么是协作式多任务？什么是抢占式多任务？</p>
+<p>3、什么是同步？什么是异步？</p>
+<p>4、什么是非阻塞式？什么是阻塞式？</p>
+<p>5、什么是挂起？</p>
+<p>6、什么是非阻塞式挂起？</p>
+<p>7、什么是协程？</p>
+<p>8、什么是 Kotlin 协程？</p>
+<p>9、Kotlin 协程有什么用？</p>
+<h3 id="1、什么是并发？什么是并行？"><a href="#1、什么是并发？什么是并行？" class="headerlink" title="1、什么是并发？什么是并行？"></a>1、什么是并发？什么是并行？</h3><p>1）、并发就是同一时刻只有一条指令在执行，但是因为 CPU 时间片非常的小，多个指令间能够快速的切换，使得我们看起来拥有同时执行的效果，存在于单核或多核 CPU 系统中</p>
+<p>2）、并行就是同一时刻有多条指令同时在执行，存在于多核 CPU 系统中</p>
+<p>举个生活中人吃馒头的例子：一个人买了 3 个馒头，那么他同一时刻只能在吃一个馒头，这是并发。而 3 个人每人买了一个馒头，那么同一时刻他们能同时吃馒头，这是并行。并发和并行的区别在于同一时刻是否在同时进行</p>
+<h3 id="2、什么是多任务？什么是协作式多任务？什么是抢占式多任务？"><a href="#2、什么是多任务？什么是协作式多任务？什么是抢占式多任务？" class="headerlink" title="2、什么是多任务？什么是协作式多任务？什么是抢占式多任务？"></a>2、什么是多任务？什么是协作式多任务？什么是抢占式多任务？</h3><p>1）、多任务就是操作系统能够同时处理多个任务，例如我可以使用笔记本电脑打开 AndroidStudio 和网易云音乐，一边撸码一边听歌</p>
+<p>2）、协作式多任务就是一个任务得到了 CPU 时间，除非它自己放弃使用 CPU ，否则将完全霸占 CPU ，所以任务之间需要协作，使用一段时间的 CPU 后，放弃使用，其它的任务也如此，才能保证系统的正常运行。一般出现在早期的操作系统中，如 Windows 3.1</p>
+<p>3）、抢占式多任务就是由操作系统来分配每个任务的 CPU 使用时间，在一个任务使用一段时间 CPU 后，操作系统会剥夺当前任务的 CPU 使用权，把它排在询问队列的最后，再去询问下一个任务。一般出现在现在使用的操作系统，如 Window 95及之后的 Windows 版本</p>
+<p>协作式多任务和抢占式多任务区别：在协作式多任务中，如果一个任务死锁，则系统也会死锁。而抢占式多任务中，如果一个任务死锁，系统仍能正常运行</p>
+<h3 id="3、什么是同步？什么是异步？"><a href="#3、什么是同步？什么是异步？" class="headerlink" title="3、什么是同步？什么是异步？"></a>3、什么是同步？什么是异步？</h3><p>计算机领域中的同步和异步和我们平时生活中的同步和异步是不一样的，这就让很多人难以理解</p>
+<p>1）、计算机领域中的同步就是当调用者发送一个调用指令，需等待该指令执行完，在继续往下执行，是一种串行的处理方式</p>
+<p>2）、计算机领域中的异步就是当调用者发送一个调用指令，无需等待该指令执行完，继续往下执行，是一种并行的处理方式</p>
+<h3 id="4、什么是阻塞？什么是非阻塞？"><a href="#4、什么是阻塞？什么是非阻塞？" class="headerlink" title="4、什么是阻塞？什么是非阻塞？"></a>4、什么是阻塞？什么是非阻塞？</h3><p>阻塞很简单，就是字面意思，在 Android 中的体现，其实就是阻塞了主线程的运行，那么非阻塞就是没有卡住主线程的运行</p>
+<h3 id="5、什么是挂起？"><a href="#5、什么是挂起？" class="headerlink" title="5、什么是挂起？"></a>5、什么是挂起？</h3><p>挂起就是保存当前状态，等待恢复执行，在 Android 中的体现，挂起就是不影响主线程的工作，更贴切的说法可以理解为切换到了一个指定的线程，</p>
+<h3 id="6、什么是非阻塞式挂起？"><a href="#6、什么是非阻塞式挂起？" class="headerlink" title="6、什么是非阻塞式挂起？"></a>6、什么是非阻塞式挂起？</h3><p>通过上面概念的解释，非阻塞式挂起就是不会卡住主线程且将程序切换到另外一个指定的线程去执行</p>
+<h3 id="7、什么是协程？"><a href="#7、什么是协程？" class="headerlink" title="7、什么是协程？"></a>7、什么是协程？</h3><p>协程，英文名 Coroutine，源自 Simula 和 Modula-2 语言，它是一种协作式多任务实现，是一种编程思想，并不局限于特定的语言。协程设计的初衷是为了解决并发问题，让协作式多任务实现起来更加方便</p>
+<h3 id="8、什么是-Kotlin-协程？"><a href="#8、什么是-Kotlin-协程？" class="headerlink" title="8、什么是 Kotlin 协程？"></a>8、什么是 Kotlin 协程？</h3><p>Kotlin 协程简单来说是一套线程操作框架，详细点说它就是一套基于线程而实现的一套更上层的工具 API，类似于 Java 的线程池，你可以理解 Kotlin 新造了一些概念用来帮助你更好地使用这些 API，仅此而已</p>
+<h3 id="9、Kotlin-协程有什么用？"><a href="#9、Kotlin-协程有什么用？" class="headerlink" title="9、Kotlin 协程有什么用？"></a>9、Kotlin 协程有什么用？</h3><p>1）、Kotlin 协程可以用看起来同步的方式写出异步的代码，帮你优雅的处理回调地狱</p>
+<p>清楚了上面这些问题后，我们接着往下看</p>
+<h2 id="一、Kotlin-协程生态和依赖库"><a href="#一、Kotlin-协程生态和依赖库" class="headerlink" title="一、Kotlin 协程生态和依赖库"></a>一、Kotlin 协程生态和依赖库</h2><p>Kotlin 并没有把协程纳入标准库中，而是以依赖库的形式提供的，这是一张 Kotlin 协程的生态图：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/fe3aab023ec74ca0a90d06f6f37bdebe~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210414204413591"></p>
+<p>从上图我们可以很清晰的看到，Kotlin 标准库和协程依赖库所提供的东西，在我们创建一个 Kotlin 项目的时候，默认会导入标准库的依赖，因此这里添加如下协程依赖库就可以了，最新协程依赖库版本可以点击<a target="_blank" rel="noopener" href="https://github.com/Kotlin/kotlinx.coroutines">传送门</a>查看：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-comment">//协程核心库</span><br>implementation <span class="hljs-string">&#x27;org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.3&#x27;</span><br><span class="hljs-comment">//这个库在 Android 项目中才会用到</span><br>implementation <span class="hljs-string">&#x27;org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.3&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="二、使用-GlobalScope-launch-函数创建你的第一个协程"><a href="#二、使用-GlobalScope-launch-函数创建你的第一个协程" class="headerlink" title="二、使用 GlobalScope.launch 函数创建你的第一个协程"></a>二、使用 GlobalScope.launch 函数创建你的第一个协程</h2><ul>
+<li>GlobalScope.launch 函数可以创建一个协程作用域，这样传递给 launch 函数的代码块就是在协程中运行了</li>
+<li>GlobalScope.launch 函数创建的是一个顶级协程，当应用程序运行结束时也会跟着一起结束</li>
+<li>GlobalScope.launch 函数创建的协程和线程有点像，因为线程没有顶级这一说，所以永远都是顶级的</li>
+</ul>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>    GlobalScope.launch &#123;<br>        println(<span class="hljs-string">&quot;codes run in coroutine scope&quot;</span>)<br>    &#125;  <br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>上面这段简短的代码就是开启了一个协程，很简单吧，一行代码就实现了，协程也不过如此啊😂。实际下面这段代码背后包含着成吨的知识点：</p>
+<p>1、协程作用域</p>
+<p>2、协程作用域的扩展函数</p>
+<p>3、协程上下文</p>
+<p>4、协程启动模式</p>
+<p>可能大家会有点疑惑，区区一行代码，怎么可能会涉及这么多东西？不信我们在点击 launch 函数看下它的源码：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-comment">// launch 函数源码</span><br><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> CoroutineScope.<span class="hljs-title">launch</span><span class="hljs-params">(</span></span><br><span class="hljs-params"><span class="hljs-function">    context: <span class="hljs-type">CoroutineContext</span> = EmptyCoroutineContext,</span></span><br><span class="hljs-params"><span class="hljs-function">    start: <span class="hljs-type">CoroutineStart</span> = CoroutineStart.DEFAULT,</span></span><br><span class="hljs-params"><span class="hljs-function">    block: <span class="hljs-type">suspend</span> <span class="hljs-type">CoroutineScope</span>.() -&gt; <span class="hljs-type">Unit</span></span></span><br><span class="hljs-params"><span class="hljs-function">)</span></span>: Job &#123;<br>  	<span class="hljs-comment">//...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>可以看到，launch 函数是 CoroutineScope 即协程作用域的一个扩展函数，它里面有三个参数：第一个参数： CoroutineContext 即协程上下文，有默认值。第二个参数： CoroutineStart 即协程启动模式，有默认值。第三个参数：函数类型参数，无默认值。因此 launch 函数在实际调用的时候，只需要传入一个 Lambda 表达式就可以了，当然你也可以传参去覆盖默认值</p>
+<p>好了，知道它里面涉及到这么多知识点，现在我们来进行各个击破，下面我会讲解协程作用域，其他的在这篇文章分析可能有点枯燥，我们放到下篇文章在来分析</p>
+<h2 id="三、协程作用域"><a href="#三、协程作用域" class="headerlink" title="三、协程作用域"></a>三、协程作用域</h2><p>回到最开始那段代码，首先我们看到 GlobalScope 这个东东，点进去看一眼它的源码：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">public</span> <span class="hljs-keyword">object</span> GlobalScope : CoroutineScope &#123;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * Returns [EmptyCoroutineContext].</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">override</span> <span class="hljs-keyword">val</span> coroutineContext: CoroutineContext<br>        <span class="hljs-keyword">get</span>() = EmptyCoroutineContext<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>上述代码我们可以知道：GlobalScope 是一个单例类，实现了 CoroutineScope 这个东东，并重写了 coroutineContext 这个属性</p>
+<h3 id="1、CoroutineScope"><a href="#1、CoroutineScope" class="headerlink" title="1、CoroutineScope"></a>1、CoroutineScope</h3><p>接着点进去 CoroutineScope 这个东东看一下：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">CoroutineScope</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">val</span> coroutineContext: CoroutineContext<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>1）、源码里面有一段对它的注释，翻译过来大致就是：CoroutineScope 能够定义一个协程作用域，每个协程构建器像 launch, async 都是它的一个扩展。</p>
+<p>2）、它是一个接口，里面持有一个 CoroutineContext 即协程上下文，我们可以让类实现它，让该类成为一个协程作用域</p>
+<h3 id="2、GlobalScope"><a href="#2、GlobalScope" class="headerlink" title="2、GlobalScope"></a>2、GlobalScope</h3><p>现在回到 GlobalScope 这个东东，我们应该可以把它解释清楚了：因为 GlobalScope 是一个单例类，且实现了CoroutineScope，所有它拥有了全局的协程作用域，且在整个 JVM 虚拟机中只有一份对象实例。因为它的生命周期贯穿整个 JVM，所以我们在使用它的时候需要警惕内存泄漏。上面代码中调用的 GlobalScope.launch，实质上是调用了 CoroutineScope 的 launch 扩展函数</p>
+<h3 id="3、协程作用域作用"><a href="#3、协程作用域作用" class="headerlink" title="3、协程作用域作用"></a>3、协程作用域作用</h3><p>那么这里你心里是否会有个疑问：拥有协程作用域有啥用呢？作用可大了</p>
+<blockquote>
+<p><strong>协程必须在协程作用域中才能启动，协程作用域中定义了一些父子协程的规则，Kotlin 协程通过协程作用域来管控域中的所有协程</strong></p>
+</blockquote>
+<p>协程作用域间可并列或包含，组成一个树状结构，这就是 Kotlin 协程中的<strong>结构化并发</strong>，规则如下：</p>
+<h3 id="4、作用域细分"><a href="#4、作用域细分" class="headerlink" title="4、作用域细分"></a>4、作用域细分</h3><p>有下述三种：</p>
+<p>1）、<strong>顶级作用域</strong>：没有父协程的协程所在的作用域</p>
+<p>2）、<strong>协同作用域</strong>：协程中启动新协程(即子协程)，此时子协程所在的作用域默认为协同作用域，子协程抛出的未捕获异常都将传递给父协程处理，父协程同时也会被取消；</p>
+<p>3）、<strong>主从作用域</strong>：与协同作用域父子关系一致，区别在于子协程出现未捕获异常时不会向上传递给父协程</p>
+<h3 id="5、父子协程间的规则"><a href="#5、父子协程间的规则" class="headerlink" title="5、父子协程间的规则"></a>5、父子协程间的规则</h3><p>1）、父协程如果取消或结束了，那么它下面的所有子协程均被取消或结束</p>
+<p>2）、父协程需等待子协程执行完毕后才会最终进入完成状态，而不管父协程本身的代码块是否已执行完</p>
+<p>3）、子协程会继承父协程上下文中的元素，如果自身有相同 Key 的成员，则覆盖对应 Key，覆盖效果仅在自身范围内有效</p>
+<p>好了，到了这里关于协程作用域你是否理解了呢？如果不明白，接着往下看，或许随着学习的深入，你的问题就引刃而解了</p>
+<h2 id="四、使用-Delay-函数延迟协程执行"><a href="#四、使用-Delay-函数延迟协程执行" class="headerlink" title="四、使用 Delay 函数延迟协程执行"></a>四、使用 Delay 函数延迟协程执行</h2><ul>
+<li><p>delay 函数是一个非阻塞式挂起函数，它可以让当前协程延迟到指定的时间执行，且只能在协程的作用域或者其他挂起函数中调用</p>
+</li>
+<li><p>对比 Thread.sleep() 函数，delay 函数只会挂起当前协程，并不会影响其他协程的运行，而 Thread.sleep() 函数会阻塞当前线程，那么该线程下的所有协程都会被阻塞</p>
+</li>
+</ul>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>    GlobalScope.launch &#123;<br>        println(<span class="hljs-string">&quot;codes run in coroutine scope&quot;</span>)<br>    &#125;  <br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>上述代码你运行一下会发现日志打印不出来，小朋友，你是否有很多问号？😂</p>
+<p>这是因为代码块中的代码还没来得及执行，应用程序就结束了，要解决这个问题，我们可以让程序延迟一段时间在结束，如下：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>    GlobalScope.launch &#123;<br>        println(<span class="hljs-string">&quot;codes run in coroutine scope&quot;</span>)<br>    &#125;  <br>    Thread.sleep(<span class="hljs-number">1000</span>)<br>&#125;<br><span class="hljs-comment">//打印结果</span><br>codes run <span class="hljs-keyword">in</span> coroutine scope<br></code></pre></td></tr></table></figure>
+
+<p>上述代码我们让主线程阻塞了 1 秒钟在执行，因此代码块中的代码得到了执行。其实这种写法还是存在一点问题，如果我让代码块中的代码在 1 秒钟内不能运行结束，那么就会被强制中断：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>    GlobalScope.launch &#123;<br>        println(<span class="hljs-string">&quot;codes run in coroutine scope&quot;</span>)<br>      	delay(<span class="hljs-number">1500</span>)<br>        println(<span class="hljs-string">&quot;codes run in coroutine scope finished&quot;</span>)<br>    &#125;  <br>    Thread.sleep(<span class="hljs-number">1000</span>)<br>&#125;<br><span class="hljs-comment">//打印结果</span><br>codes run <span class="hljs-keyword">in</span> coroutine scope<br></code></pre></td></tr></table></figure>
+
+<p>上述代码我们在代码块中加入了一个 delay 函数，并在其之后又打印了一行日志。那么当前协程会挂起 1.5 秒，而主线程却只阻塞了 1 秒，那么重新运行一下程序，新增的这条日志并没有打印出来，因为它还没来得及运行，程序就结束了。</p>
+<p>那有办法让协程中所有的代码都执行完了之后在结束吗？🤔️</p>
+<p>答：有的，使用 runBlocking 函数</p>
+<h2 id="五、使用-runBlocking-函数创建一个能阻塞当前线程的协程作用域"><a href="#五、使用-runBlocking-函数创建一个能阻塞当前线程的协程作用域" class="headerlink" title="五、使用 runBlocking 函数创建一个能阻塞当前线程的协程作用域"></a>五、使用 runBlocking 函数创建一个能阻塞当前线程的协程作用域</h2><ul>
+<li>runBlocking 函数可以保证在协程作用域内的所有代码和子协程没有全部执行完之前一直阻塞当前线程</li>
+</ul>
+<p><strong>注意</strong>：runBlocking 函数通常只能在测试环境中使用，在正式环境中使用会容易产生一些性能上的问题</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>    runBlocking &#123;<br>       println(<span class="hljs-string">&quot;codes run in coroutine scope&quot;</span>)<br>       delay(<span class="hljs-number">1500</span>)<br>       println(<span class="hljs-string">&quot;codes run in coroutine scope finished&quot;</span>)<br>    &#125;<br>&#125;<br><span class="hljs-comment">//打印结果</span><br>codes run <span class="hljs-keyword">in</span> coroutine scope<br>codes run <span class="hljs-keyword">in</span> coroutine scope finished<br></code></pre></td></tr></table></figure>
+
+<p> 上述代码我们使用了 runBlocking 函数，可以看到两条日志都能够正常打印出来了。到了这里我心里会有一个疑问：上面的代码都是跑在同一个协程中，我能不能创建多个协程同时跑呢？</p>
+<p>答：可以的，使用 launch 函数</p>
+<h2 id="六、使用-launch-函数在当前的协程作用域下创建子协程"><a href="#六、使用-launch-函数在当前的协程作用域下创建子协程" class="headerlink" title="六、使用 launch 函数在当前的协程作用域下创建子协程"></a>六、使用 launch 函数在当前的协程作用域下创建子协程</h2><p>上面我们讲到过，launch 函数是 CoroutineScope 的一个扩展函数，因此只要拥有协程作用域，就可以调用 launch 函数</p>
+<ul>
+<li>单独使用 launch 函数和我们刚才使用的 GlobalScope.launch 函数不同， GlobalScope.launch 创建的是一个顶级协程，而 launch 函数创建的是子协程</li>
+</ul>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>    runBlocking &#123;<br>        launch &#123;<br>            println(<span class="hljs-string">&quot;launch1&quot;</span>)<br>            delay(<span class="hljs-number">1000</span>)<br>            println(<span class="hljs-string">&quot;launch1 finished&quot;</span>)<br>        &#125;<br><br>        launch &#123;<br>            println(<span class="hljs-string">&quot;launch2&quot;</span>)<br>            delay(<span class="hljs-number">1000</span>)<br>            println(<span class="hljs-string">&quot;launch2 finished&quot;</span>)<br>        &#125;<br>    &#125;<br>&#125;<br><span class="hljs-comment">//打印结果</span><br>launch1<br>launch2<br>launch1 finished<br>launch2 finished<br></code></pre></td></tr></table></figure>
+
+<p>上述代码我们调用了两次 launch 函数，也就是创建了两个子协程，运行之后我们可以看到两个子协程的日志是交替打印的，这一现象表明他们像是多线程那样并发运行的。然而这两个子协程实际上是运行在同一个线程中，只是由编程语言来决定如何在多个协程之间进行调度，让谁运行，让谁挂起。调度的过程完全不需要操作系统参与，这也就使得协程的并发效率出奇的高</p>
+<p>目前 launch 函数中的逻辑是比较简单的，那么随着逻辑越来越多，我们可能需要将部分代码提取到一个单独的函数中，如下：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">performLogistics</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-comment">//处理成吨的逻辑代码</span><br>    <span class="hljs-comment">//...</span><br>    <span class="hljs-comment">//这句代码编译器会报错，因为 delay 函数只能在协程作用域或者其他挂起函数中调用</span><br>    delay(<span class="hljs-number">1500</span>)<br>    <span class="hljs-comment">//...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>上面这段代码报错了，因为提取到一个单独的函数中就没有协程作用域了，那么 delay 函数就调用不了了，蛋疼，有没有其他办法呢？</p>
+<p>仔细分析一下，我们知道 delay 函数只能在协程作用域或者其他挂起函数中调用，现在提取出来的单独函数没有协程作用域了，那么是否可以把它声明成一个挂起函数呢？</p>
+<p>答：可以的，使用 suspend 关键字将一个函数声明成挂起函数，挂起函数之间是可以相互调用的</p>
+<h2 id="七、使用-suspend-关键字将一个函数声明成挂起函数"><a href="#七、使用-suspend-关键字将一个函数声明成挂起函数" class="headerlink" title="七、使用 suspend 关键字将一个函数声明成挂起函数"></a>七、使用 suspend 关键字将一个函数声明成挂起函数</h2><ul>
+<li>suspend 关键字能将一个函数声明成挂起函数</li>
+<li>挂起函数必须在协程或者另一个挂起函数里被调用</li>
+</ul>
+<p>那么上面代码我们加个关键字修饰一下就 ok 了，如下：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">suspend</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">performLogistics</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-comment">//处理成吨的逻辑代码</span><br>    <span class="hljs-comment">//...</span><br>    delay(<span class="hljs-number">1500</span>)<br>    <span class="hljs-comment">//...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>现在问题又来了，如果我想在这个挂起函数中调用 launch 函数可以么？如下：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">suspend</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">performLogistics</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-comment">//处理成吨的逻辑代码</span><br>    <span class="hljs-comment">//...</span><br>    delay(<span class="hljs-number">1500</span>)<br>    <span class="hljs-comment">//...</span><br>    <span class="hljs-comment">//这句代码编译器会报错，因为没有协程作用域</span><br>    launch&#123;<br>      <br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>上面这段代码又报错了，因为没有协程作用域，那么如果我想这样调用，能实现么？</p>
+<p>答：可以的，借助 coroutineScope 函数来解决</p>
+<h2 id="八、使用-coroutineScope-函数创建一个协程作用域"><a href="#八、使用-coroutineScope-函数创建一个协程作用域" class="headerlink" title="八、使用 coroutineScope 函数创建一个协程作用域"></a>八、使用 coroutineScope 函数创建一个协程作用域</h2><ul>
+<li>coroutineScope 函数会继承外部的协程作用域并创建一个子作用域</li>
+<li>coroutineScope 函数也是一个挂起函数，因此我们可以在任何其他挂起函数中调用</li>
+</ul>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">suspend</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">printDot</span><span class="hljs-params">()</span></span> = coroutineScope &#123;<br>    println(<span class="hljs-string">&quot;.&quot;</span>)<br>    delay(<span class="hljs-number">1000</span>)<br>    launch &#123;<br><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p> 上述代码调用 launch 函数就不会报错了。</p>
+<p>另外， coroutineScope 函数和 runBlocking 函数有点类似，它可以保证其作用域内的所有代码和子协程在全部执行完之前，一直阻塞当前协程。而 runBlocking 是一直阻塞当前线程，我们来做个验证：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>    runBlocking &#123;<br>        coroutineScope &#123;<br>            launch &#123;<br>                <span class="hljs-keyword">for</span> (i <span class="hljs-keyword">in</span> <span class="hljs-number">1.</span><span class="hljs-number">.5</span>) &#123;<br>                    println(i)<br>                &#125;<br>            &#125;<br>        &#125;<br>        println(<span class="hljs-string">&quot;coroutineScope finished&quot;</span>)<br>    &#125;<br>    println(<span class="hljs-string">&quot;runBlocking finished&quot;</span>)<br>&#125;<br><br><span class="hljs-comment">//打印结果</span><br><span class="hljs-number">1</span><br><span class="hljs-number">2</span><br><span class="hljs-number">3</span><br><span class="hljs-number">4</span><br><span class="hljs-number">5</span><br>coroutineScope finished<br>runBlocking finished<br></code></pre></td></tr></table></figure>
+
+<p>从打印结果，我们就可以验证上面这一结论</p>
+<h2 id="九、使用-async-函数创建一个子协程并获取执行结果"><a href="#九、使用-async-函数创建一个子协程并获取执行结果" class="headerlink" title="九、使用 async 函数创建一个子协程并获取执行结果"></a>九、使用 async 函数创建一个子协程并获取执行结果</h2><p>从上面的学习我们可以知道 launch 函数可以创建一个子协程，但是 launch 函数只能用于执行一段逻辑，却不能获取执行的结果，因为它的返回值永远是一个 Job 对象，那么如果我们想创建一个子协程并获取它的执行结果，我们可以使用 async 函数</p>
+<ul>
+<li>async 函数必须在协程作用域下才能调用</li>
+<li>async 函数会创建一个子协程并返回一个 Deferred 对象，如果需要获取 async 函数代码块中的执行结果，只需要调用 Deferred 对象的 await() 方法即可</li>
+<li>async 函数在调用后会立刻执行，当调用 await() 方法时，如果代码块中的代码还没执行完，那么 await() 方法会将当前协程阻塞住，直到可以获取 async 函数中的执行结果</li>
+</ul>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>    runBlocking &#123;<br>        <span class="hljs-keyword">val</span> start = System.currentTimeMillis()<br>        <span class="hljs-keyword">val</span> result1 = async &#123;<br>            delay(<span class="hljs-number">1000</span>)<br>            <span class="hljs-number">5</span> + <span class="hljs-number">5</span><br>        &#125;.await()<br><br><br>        <span class="hljs-keyword">val</span> result2 = async &#123;<br>            delay(<span class="hljs-number">1000</span>)<br>            <span class="hljs-number">4</span> + <span class="hljs-number">6</span><br>        &#125;.await()<br>        println(<span class="hljs-string">&quot;result is <span class="hljs-subst">$&#123;result1 + result2&#125;</span>&quot;</span>)<br>        <span class="hljs-keyword">val</span> end = System.currentTimeMillis()<br>        println(<span class="hljs-string">&quot;cost: <span class="hljs-subst">$&#123;end - start&#125;</span> ms.&quot;</span>)<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//打印结果</span><br>result <span class="hljs-keyword">is</span> <span class="hljs-number">20</span><br>cost: <span class="hljs-number">2017</span> ms.<br></code></pre></td></tr></table></figure>
+
+<p>上述代码连续使用了两个 async 函数来执行任务，并在代码块中进行 1 秒的延迟，按照刚才上面说的，await() 方法在 async 函数代码块中的代码执行完之前会一直将当前协程阻塞住。整段代码的执行耗时是 2017 ms，说明这里的两个 async 函数确实是一种串行的关系，前一个执行完了下一个才能执行。很明显这种写法是比较低效的，因为两个 async 完全可以异步去执行，而现在却被整成了同步，我们改造一下上面的写法：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>    runBlocking &#123;<br>        <span class="hljs-keyword">val</span> start = System.currentTimeMillis()<br>        <span class="hljs-keyword">val</span> deferred1 = async &#123;<br>            delay(<span class="hljs-number">1000</span>)<br>            <span class="hljs-number">5</span> + <span class="hljs-number">5</span><br>        &#125;<br><br><br>        <span class="hljs-keyword">val</span> deferred2 = async &#123;<br>            delay(<span class="hljs-number">1000</span>)<br>            <span class="hljs-number">4</span> + <span class="hljs-number">6</span><br>        &#125;<br>        println(<span class="hljs-string">&quot;result is <span class="hljs-subst">$&#123;deferred1.await() + deferred2.await()&#125;</span>&quot;</span>)<br>        <span class="hljs-keyword">val</span> end = System.currentTimeMillis()<br>        println(<span class="hljs-string">&quot;cost: <span class="hljs-subst">$&#123;end - start&#125;</span> ms.&quot;</span>)<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//打印结果</span><br>result <span class="hljs-keyword">is</span> <span class="hljs-number">20</span><br>cost: <span class="hljs-number">1020</span> ms.<br></code></pre></td></tr></table></figure>
+
+<p>上面的写法我们没有在每次调用 async 函数之后就立刻使用 await() 方法获取结果了，而是仅在需要用到 async 函数的执行结果时才调用 await() 方法进行获取，这样 async 函数就变成了一种异步关系了，可以看到打印结果也验证了这一点</p>
+<p>我是个喜欢偷懒的人， async 函数每次都要调用 await() 方法才能获取结果，比较繁琐，那我就会想：有没有类似 async 函数并且不需要每次都去调用 await() 方法获取结果的函数呢？</p>
+<p>答：有的，使用 withContext 函数</p>
+<h2 id="10、使用-withContext-函数构建一个简化版的-async-函数"><a href="#10、使用-withContext-函数构建一个简化版的-async-函数" class="headerlink" title="10、使用 withContext 函数构建一个简化版的  async 函数"></a>10、使用 withContext 函数构建一个简化版的  async 函数</h2><ul>
+<li>withContext 函数是一个挂起函数，并且强制要求我们指定一个协程上下文参数，这个调度器其实就是指定协程具体的运行线程</li>
+<li>withContext 函数在调用后会立刻执行，它可以保证其作用域内的所有代码和子协程在全部执行完之前，一直阻塞当前协程</li>
+<li>withContext 函数会创建一个子协程并将最后一行的执行结果作为返回值</li>
+</ul>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>    runBlocking &#123;<br>        <span class="hljs-keyword">val</span> result = withContext(Dispatchers.Default) &#123;<br>            <span class="hljs-number">5</span> + <span class="hljs-number">5</span><br>        &#125;<br>        println(result)<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//打印结果</span><br><span class="hljs-number">10</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="11、使用-suspendCoroutine-函数简化回调的写法"><a href="#11、使用-suspendCoroutine-函数简化回调的写法" class="headerlink" title="11、使用 suspendCoroutine 函数简化回调的写法"></a>11、使用 suspendCoroutine 函数简化回调的写法</h2><p>在日常工作中，我们通常会通过异步回调机制去获取网络响应数据，不知你有没有发现，这种回调机制基本上是依靠匿名内部类来实现的，比如如下代码：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs kotlin">sendHttpRequest(<span class="hljs-keyword">object</span> : OnHttpCallBackListener&#123;<br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onSuccess</span><span class="hljs-params">(response: <span class="hljs-type">String</span>)</span></span> &#123;<br>            <br>    &#125;<br><br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onError</span><span class="hljs-params">(exception: <span class="hljs-type">Exception</span>)</span></span> &#123;<br>            <br>    &#125;<br> &#125;)<br></code></pre></td></tr></table></figure>
+
+<p>那么在多少地方发起网络请求，就需要编写多少次这样的匿名内部类去实现，这样会显得特别繁琐。在我们学习 Kotin 协程之前，可能确实是没有啥更简单的写法了，不过现在，我们就可以借助 Kotlin 协程里面的 suspendCoroutine 函数来简化回调的写法：</p>
+<ul>
+<li>suspendCoroutine 函数必须在协程作用域或者挂起函数中调用，它接收一个 Lambda 表达式，主要作用是将当前协程立即挂起，然后在一个普通线程中去执行 Lambda 表达式中的代码</li>
+<li>suspendCoroutine 函数的 Lambda 表达式参数列表会传入一个 Contination 参数，调用它的 resume() 或 resumeWithException() 方法可以让协程恢复执行</li>
+</ul>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-comment">//定义成功和失败的接口</span><br><span class="hljs-keyword">interface</span> <span class="hljs-title class_">OnHttpCallBackListener</span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onSuccess</span><span class="hljs-params">(response: <span class="hljs-type">String</span>)</span></span><br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onError</span><span class="hljs-params">(exception: <span class="hljs-type">Exception</span>)</span></span><br>&#125;<br><br><span class="hljs-comment">//模拟发送一个网络请求</span><br><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">sendHttpRequest</span><span class="hljs-params">(url: <span class="hljs-type">String</span>, httpCallBack: <span class="hljs-type">OnHttpCallBackListener</span>)</span></span>&#123;<br><br>&#125;<br><br><span class="hljs-comment">//对发送的网络请求回调使用 suspendCoroutine 函数进行封装</span><br><span class="hljs-keyword">suspend</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">request</span><span class="hljs-params">(url: <span class="hljs-type">String</span>)</span></span>: String&#123;<br>    <span class="hljs-keyword">return</span> suspendCoroutine &#123; continuation -&gt;<br>        sendHttpRequest(url,<span class="hljs-keyword">object</span> : OnHttpCallBackListener&#123;<br>            <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onSuccess</span><span class="hljs-params">(response: <span class="hljs-type">String</span>)</span></span> &#123;<br>                continuation.resume(response)<br>            &#125;<br><br>            <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onError</span><span class="hljs-params">(exception: <span class="hljs-type">Exception</span>)</span></span> &#123;<br>                continuation.resumeWithException(exception)<br>            &#125;<br><br>        &#125;)<br><br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//具体使用</span><br><span class="hljs-keyword">suspend</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">getBaiduResponse</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-keyword">try</span> &#123;<br>        <span class="hljs-keyword">val</span> request = request(<span class="hljs-string">&quot;https://www.baidu.com/&quot;</span>)<br>    &#125; <span class="hljs-keyword">catch</span> (e: Exception) &#123;<br>        <span class="hljs-comment">//对异常情况进行处理</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>上述代码中：</p>
+<p>1、我们在 request 函数内部使用了刚刚介绍的 suspendCoroutine 函数，这样当前协程会立刻被挂起，而 Lambda 表达式中的代码则会在普通线程中执行。接着我们在 Lambda 表达式中调用了 sendHttpRequest() 方法发起网络请求，并通过传统回调的方式监听请求结果</p>
+<p>2、如果请求成功就调用 Continuation 的 resume() 方法恢复被挂起的协程，并传入服务器响应的数据，该值会成为 suspendCoroutine 函数的返回值</p>
+<p>3、如果请求失败，就调用 Continuation 的 resumeWithException() 方法恢复被挂起的协程，并传入具体的异常原因</p>
+<p>4、最后在 getBaiduResponse() 中进行了具体使用，有没有觉得这里的代码清爽了很多？由于  getBaiduResponse() 是一个挂起函数，当 getBaiduResponse() 调用了 request() 函数时，当前协程会立刻挂起，然后等待网络请求成功或者失败后，当前协程才能恢复运行</p>
+<p>5、如果请求成功，我们就能获得异步网络请求的响应数据，如果请求失败，则会直接进入 catch 语句中</p>
+<p>到这里其实又会产生一个问题：getBaiduResponse() 函数被声明成了一个挂起函数，因此它只能在协程作用域或其他挂起函数中调用了，使用起来是不是非常有局限性？</p>
+<p>答：确实如此，因为 suspendCoroutine 函数本身就是要结合协程一起使用的，这个时候我们就需要通过合理的项目架构设计去解决这个问题</p>
+<p>经过上面的步骤，我们使用 suspendCoroutine 函数实现了<strong>看似同步的方式写出异步的代码</strong>，事实上 suspendCoroutine 函数几乎可以用于简化任何回调的写法，例如我们在实际项目中使用 Retrofit 就可以使用 suspendCoroutine 函数来简化回调</p>
+<p>到了这里，相信你对协程有了一定的了解了，接下来，我们分析一点深入的东西</p>
+<h2 id="十二、Kotlin-中的挂起操作"><a href="#十二、Kotlin-中的挂起操作" class="headerlink" title="十二、Kotlin 中的挂起操作"></a>十二、Kotlin 中的挂起操作</h2><p>挂起算是 Kotlin 协程中的一个黑魔法了，上面我们简单了介绍了下使用 suspend 定义一个挂起函数，下面我们来详细的去剖析一下 Kotlin 中的挂起操作</p>
+<h3 id="1、挂起的本质"><a href="#1、挂起的本质" class="headerlink" title="1、挂起的本质"></a>1、挂起的本质</h3><p>如下代码：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">class</span> <span class="hljs-title class_">MainActivity</span> : <span class="hljs-type">AppCompatActivity</span>() &#123;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">val</span> TAG: String = <span class="hljs-string">&quot;MainActivity&quot;</span><br>  <br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onCreate</span><span class="hljs-params">(savedInstanceState: <span class="hljs-type">Bundle</span>?)</span></span> &#123;<br>        <span class="hljs-keyword">super</span>.onCreate(savedInstanceState)<br>        setContentView(R.layout.activity_main)<br><br>        Log.d(TAG, <span class="hljs-string">&quot;start... &quot;</span>);<br>        GlobalScope.launch(Dispatchers.Main) &#123;<br>            mockTimeConsume()<br>            Log.d(TAG, <span class="hljs-string">&quot;我等挂起函数执行完了在执行&quot;</span>);<br>        &#125;<br>        Log.d(TAG, <span class="hljs-string">&quot;我在主线程执行了成吨的代码&quot;</span>);<br>    &#125;<br><br><br>    <span class="hljs-comment">//模拟挂起函数耗时任务</span><br>    <span class="hljs-keyword">suspend</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">mockTimeConsume</span><span class="hljs-params">()</span></span> = withContext(Dispatchers.IO)&#123;<br>        Log.d(TAG, <span class="hljs-string">&quot;紧张的执行耗时任务中... &quot;</span> +  + Thread.currentThread().name);<br>        Thread.sleep(<span class="hljs-number">3000</span>)<br>    &#125;<br>&#125;<br><span class="hljs-comment">//打印结果如下</span><br>start...<br>我在主线程执行了成吨的代码<br>紧张的执行耗时任务中...DefaultDispatcher-worker-<span class="hljs-number">2</span><br>我等挂起函数执行完了在执行<br></code></pre></td></tr></table></figure>
+
+<p>上述代码步骤：</p>
+<p>1、在主线程中创建了一个顶级协程，并指定该协程在主线程中运行</p>
+<p>2、在协程中执行 mockTimeConsume 这个方法并打印了一句 Log</p>
+<p>现在我们从线程和协程两个角度去分析它：</p>
+<p>前面我在回答问题的时候讲到过，挂起就是切换到另外一个指定的线程去执行</p>
+<p><strong>线程</strong></p>
+<p>线程：那么当执行到协程中的 mockTimeConsume() 这句代码的时候，因为遇到了挂起函数，协程被挂起了，主线程将会跳出这个协程，如果下面还有代码，则继续执行下面的代码，如果没有，则执行它界面刷新的任务</p>
+<p><strong>协程</strong></p>
+<p>协程：当执行到协程中的 mockTimeConsume() 这句代码的时候，因为遇到了挂起函数，当前协程会被挂起，<strong>注意是整个协程被挂起了，意味着 mockTimeConsume() 这句代码下面的代码都不会执行了，需等待我这句代码执行完之后在接着往后执行</strong>，接下来会在指定的线程执行挂起函数里面的内容。谁指定的？是当前挂起函数指定的，比如我们这个例子中，函数内部的 withContext 传入的 Dispatchers.IO 所指定的 IO 线程</p>
+<p>Dispatchers 调度器，它可以将协程限制在一个特定的线程执行，或者将它分派到一个线程池，或者让它不受限制地运行</p>
+<p>常用的 Dispatchers ，有以下三种：</p>
+<ul>
+<li>Dispatchers.Main：Android 中的主线程</li>
+<li>Dispatchers.IO：针对磁盘和网络 IO 进行了优化，适合 IO 密集型的任务，比如：读写文件，操作数据库以及网络请求</li>
+<li>Dispatchers.Default：适合 CPU 密集型的任务，比如计算</li>
+</ul>
+<p>当挂起函数执行完之后，协程为我们做的最爽的事就来了：<strong>恢复当前协程，把线程从其他线程，切回到了当前的线程</strong>。那么接着就会执行协程中 Log.d(TAG, “我等挂起函数执行完了在执行”) 这句代码，整个流程就结束了</p>
+<p>通过上面对线程和协程两个角度都分析，我们可以得出一些结论：</p>
+<p><strong>1、被 suspend 修饰的挂起函数比普通函数多两个操作：</strong></p>
+<p>1）、挂起：暂停当前协程的执行，保存所有的局部变量 </p>
+<p>2）、恢复：从协程被暂停的地方继续执行协程</p>
+<p><strong>2、协程在执行到有 suspend 标记的挂起函数时，会被挂起，而所谓的被挂起，就是切换线程</strong></p>
+<p><strong>3、协程被挂起之后需要恢复，而恢复这个操作是协程框架给我们做的</strong></p>
+<p>通过结论 3 ，我们引申一下：如果你不在协程里面调用挂起函数，恢复这个功能没法实现，所以也就回答了问题：为什么挂起函数必须在协程或者另一个挂起函数里被调用</p>
+<p>再细想下这个逻辑：一个挂起函数要么在协程里被调用，要么在另一个挂起函数里被调用，那么它其实直接或者间接地，总是会在一个协程里被调用的</p>
+<p>所以，要求 suspend 函数只能在协程里或者另一个 suspend 函数里被调用，还是为了要让协程能够在挂起函数切换线程之后再切回来</p>
+<h3 id="2、是怎么被挂起的？"><a href="#2、是怎么被挂起的？" class="headerlink" title="2、是怎么被挂起的？"></a>2、是怎么被挂起的？</h3><p>到这里你心里是否会有另外一个疑问：协程是怎么被挂起的？如果上面那个挂起函数这么写：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">suspend</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">mockTimeConsume</span><span class="hljs-params">()</span></span>&#123;<br>   Log.d(TAG, <span class="hljs-string">&quot;紧张的执行耗时任务中...&quot;</span> + Thread.currentThread().name);<br>   Thread.sleep(<span class="hljs-number">3000</span>)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>运行后你会发现打印的线程是主线程，那为什么没有切换线程呢？因为它不知道往哪切，需要我们告诉它，之前我们是这么写的：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">suspend</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">mockTimeConsume</span><span class="hljs-params">()</span></span> = withContext(Dispatchers.IO)&#123;<br>   Log.d(TAG, <span class="hljs-string">&quot;紧张的执行耗时任务中... &quot;</span> +  + Thread.currentThread().name);<br>   Thread.sleep(<span class="hljs-number">3000</span>)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>我们可以发现不同之处其实在于 withContext 函数。</p>
+<p>其实通过 withContext 源码可以知道，它本身就是一个挂起函数，它接收一个 Dispatcher 参数，依赖这个 Dispatcher 参数的指示，你的协程就被挂起了，然后切到别的线程</p>
+<p>所以<strong>使用 suspend 定义的挂起函数，还不是真正的挂起函数，真正的挂起函数内部需要调用到 Kotlin 协程框架自带的挂起函数</strong></p>
+<p>因此我们想要自己写一个挂起函数，仅仅只加上 suspend 关键字是不行的，还需要函数内部直接或间接地调用到 Kotlin 协程框架自带的 挂起函数才行</p>
+<h3 id="3、使用-suspend-的意义"><a href="#3、使用-suspend-的意义" class="headerlink" title="3、使用 suspend 的意义"></a>3、使用 suspend 的意义</h3><p>通过上面的分析我们知道，使用 suspend 关键字修饰的函数可能还不是一个真正的挂起函数，那它的作用是啥呢？</p>
+<p><strong>起到一个提醒的作用</strong>，提醒调用者我是一个耗时函数，需要在挂起函数或者协程中调用我</p>
+<p>为什么 suspend 关键字并没有实际去操作挂起，但 Kotlin 却把它提供出来？</p>
+<p>因为它本来就不是用来操作挂起的。</p>
+<p>挂起的操作 —— 也就是切线程，依赖的是挂起函数里面的实际代码，而不是这个关键字</p>
+<p>所以这个关键字，<strong>只是一个提醒</strong>。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">suspend</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">mockTimeConsume</span><span class="hljs-params">()</span></span>&#123;<br>   Log.d(TAG, <span class="hljs-string">&quot;紧张的执行耗时任务中...&quot;</span> + Thread.currentThread().name);<br>   Thread.sleep(<span class="hljs-number">3000</span>)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>上述这段代码这样做是没有意义的，而且会影响到程序的性能，AndroidStudio 也会提示你 suspend 修饰符是多余的。</p>
+<h3 id="4、如何自定义一个挂起函数？"><a href="#4、如何自定义一个挂起函数？" class="headerlink" title="4、如何自定义一个挂起函数？"></a>4、如何自定义一个挂起函数？</h3><p>第一步：分析在什么情况下去使用挂起函数？</p>
+<p>如果你的某个函数比较耗时，涉及到多线程操作，如：网络请求，I&#x2F;O 操作，CPU 计算工作等需要等待的操作，那就把它写成 suspend 挂起函数，这是原则</p>
+<p>第二步：使用 suspend 关键字修饰你的函数，并在函数内部调用 Kotin 协程框架提供的挂起函数，如下：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">suspend</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">mockTimeConsume</span><span class="hljs-params">()</span></span> = withContext(Dispatchers.IO)&#123;<br>   Log.d(TAG, <span class="hljs-string">&quot;紧张的执行耗时任务中... &quot;</span> +  + Thread.currentThread().name);<br>   Thread.sleep(<span class="hljs-number">3000</span>)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="十三、总结"><a href="#十三、总结" class="headerlink" title="十三、总结"></a>十三、总结</h2><p>这篇文章讲到了：</p>
+<p>1、Kotlin 协程中涉及到的一些基础概念的理解</p>
+<p>2、Kotlin 协程的基础使用，以及一些协程作用域构建器</p>
+<p>3、Kotlin 协程中关于挂起的一个详细介绍</p>
+<p>协程的内容真的挺多的，后续我还会写两篇关于协程的文章，希望能给你带来帮助 🤝</p>
+<p><strong>感谢你阅读这篇文章</strong></p>
+<h3 id="参考和推荐"><a href="#参考和推荐" class="headerlink" title="参考和推荐"></a>参考和推荐</h3><p>[第一行代码 Android 第3版]</p>
+<p><a target="_blank" rel="noopener" href="https://rengwuxian.com/kotlin-coroutines-2/">扔物线 - Kotlin 协程的挂起好神奇好难懂？今天我把它的皮给扒了</a></p>
+<blockquote>
+<p>全文到此，原创不易，欢迎点赞，收藏，评论和转发，你的认可是我创作的动力</p>
+</blockquote>
+<blockquote>
+<p>欢迎关注我的 <strong>公 众 号</strong>，微信搜索 <strong>sweetying</strong> ，文章更新可第一时间收到</p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Android/" class="category-chain-item">Android</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Android/Kotlin/" class="category-chain-item">Kotlin</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%8E%9F%E5%88%9B/">#原创</a>
+      
+        <a href="/tags/Android/">#Android</a>
+      
+        <a href="/tags/Kotlin/">#Kotlin</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Kotlin 系列（三）：Kotlin协程(上)</div>
+      <div>https://sweetying520.github.io/2022/10/11/Kotlin 系列（三）：Kotlin协程(上)/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>sweetying</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年10月11日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/10/11/%E4%B8%80%E7%AF%87%E5%B0%B1%E5%A4%9F%E7%B3%BB%E5%88%97%EF%BC%9A%E5%8F%91%E5%B8%83%E5%BC%80%E6%BA%90%E5%BA%93%E5%88%B0JitPack%EF%BC%8CJCenter%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B/" title="一篇就够系列：发布开源库到JitPack，JCenter详细教程">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">一篇就够系列：发布开源库到JitPack，JCenter详细教程</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/10/11/Kotlin%20%E7%B3%BB%E5%88%97%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9AKotlin%E6%B3%9B%E5%9E%8B/" title="Kotlin 系列（二）：Kotlin泛型">
+                        <span class="hidden-mobile">Kotlin 系列（二）：Kotlin泛型</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.4.17/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"zN1E017kYhKuj6GqXHJSbGMb-gzGzoHsz","appKey":"JSwY8PjtA131Y78OHn7kKtio","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

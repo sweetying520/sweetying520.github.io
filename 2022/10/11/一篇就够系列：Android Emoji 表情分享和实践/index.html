@@ -1,0 +1,897 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="sweetying">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前言很高兴遇见你~ 最近开发了一个 LiveChat 客服聊天的模块，里面涉及到 Emoji 表情，遇到了一些问题，分享下自己的一个解决过程以及关于 Android Emoji 的相关知识点 一、Emoji 表情介绍下面大概介绍一下关于 Emoji 表情： 1、Emoji 是可以被插入文字中的图形符号，它是一个日本语，e 表示”绘”，moji 表示 “文字” ，连在一起就是 “绘文字”，它最早是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一篇就够系列：Android Emoji 表情分享和实践">
+<meta property="og:url" content="https://sweetying520.github.io/2022/10/11/%E4%B8%80%E7%AF%87%E5%B0%B1%E5%A4%9F%E7%B3%BB%E5%88%97%EF%BC%9AAndroid%20Emoji%20%E8%A1%A8%E6%83%85%E5%88%86%E4%BA%AB%E5%92%8C%E5%AE%9E%E8%B7%B5/index.html">
+<meta property="og:site_name" content="sweetying">
+<meta property="og:description" content="前言很高兴遇见你~ 最近开发了一个 LiveChat 客服聊天的模块，里面涉及到 Emoji 表情，遇到了一些问题，分享下自己的一个解决过程以及关于 Android Emoji 的相关知识点 一、Emoji 表情介绍下面大概介绍一下关于 Emoji 表情： 1、Emoji 是可以被插入文字中的图形符号，它是一个日本语，e 表示”绘”，moji 表示 “文字” ，连在一起就是 “绘文字”，它最早是">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202210111120644.jpeg">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/880be0265dfc4da18cd2e30d6566aa66~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b3a456040f8a4825854a804bdbdc73b4~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/269e10afe7234f38bec1d40cb4c86be1~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/451cf961936f4522a18c3b8e29d1feb5~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4fb9455f949940dd8b2354fb3d1f7a53~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="article:published_time" content="2022-10-11T02:50:54.000Z">
+<meta property="article:modified_time" content="2022-10-11T03:21:20.097Z">
+<meta property="article:author" content="sweetying">
+<meta property="article:tag" content="原创">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="一篇就够">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202210111120644.jpeg">
+  
+  
+  
+  <title>一篇就够系列：Android Emoji 表情分享和实践 - sweetying</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sweetying520.github.io","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"zN1E017kYhKuj6GqXHJSbGMb-gzGzoHsz","app_key":"JSwY8PjtA131Y78OHn7kKtio","server_url":"https://zn1e017k.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>sweetying</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="一篇就够系列：Android Emoji 表情分享和实践"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        sweetying
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-10-11 10:50" pubdate>
+          2022年10月11日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          16k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          136 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">一篇就够系列：Android Emoji 表情分享和实践</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202210111120644.jpeg" srcset="/img/loading.gif" lazyload alt="sunset-3325080_1920"></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>很高兴遇见你~</p>
+<p>最近开发了一个 LiveChat 客服聊天的模块，里面涉及到 Emoji 表情，遇到了一些问题，分享下自己的一个解决过程以及关于 Android Emoji 的相关知识点</p>
+<h2 id="一、Emoji-表情介绍"><a href="#一、Emoji-表情介绍" class="headerlink" title="一、Emoji 表情介绍"></a>一、Emoji 表情介绍</h2><p>下面大概介绍一下关于 Emoji 表情：</p>
+<p>1、Emoji 是可以被插入文字中的图形符号，它是一个日本语，e 表示”绘”，moji 表示 “文字” ，连在一起就是 “绘文字”，它最早是用于我们发短信来增强用户的一个体验，2007 年，Apple 在 iPhone 中支持了 Emoji，才让它在全球范围内流行起来。</p>
+<p>2、在 2010 年以前，Emoji 的实现是将一些特殊的符号组合替换成图片表情，例如 <code>:)</code> 替换成 😊 ，这样的解决方案导致 Emoji 表情很难标准化，而且表达范围有限</p>
+<p>3、从 2010 年开始，Unicode 开始为 Emoji 分配固定的码点，也就是说，在这之后，每一个 Unicode 字符对应一个字体，它会被渲染为图片显示</p>
+<p>4、Emoji 表情由于其表达情绪的特点，被广受欢迎。Emoji 表情的国际标准在 2015 年出台，到目前为止已经是 V13.1 版本的标准了，具体关于 Unicode 字符和 Emoji 表情的一个映射关系以及其他的一些细节，可以从这个网站中去查询：<a target="_blank" rel="noopener" href="http://www.unicode.org/emoji/charts/full-emoji-list.html">http://www.unicode.org/emoji/charts/full-emoji-list.html</a> </p>
+<h2 id="二、需求"><a href="#二、需求" class="headerlink" title="二、需求"></a>二、需求</h2><p>对 Emoji 表情有了一个大概的了解之后，下面讲下产品给我提的一个需求，大概就是：<strong>从 <a target="_blank" rel="noopener" href="http://www.unicode.org/emoji/charts/full-emoji-list.html">http://www.unicode.org/emoji/charts/full-emoji-list.html</a> 这个网站中，筛选一些常用的 Emoji 表情，然后根据 UI 设计稿，实现表情包功能即可</strong></p>
+<p>了解了需求之后，我们就要去思考如何去实现这个功能🤔？</p>
+<p>首先打开这个网站看看，如下图：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/880be0265dfc4da18cd2e30d6566aa66~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210521105455542"></p>
+<p>从上图我们可以看到：</p>
+<p>1、每个表情的 Unicode 字符</p>
+<p>这里解释一下 Unicode：Unicode 就是统一的字符编码标准，当需要表示一个 Unicode 字符时，通常会用 U+ 然后紧接着一个十六进制的数字来表示，如上图所列举的这些</p>
+<p>2、每个 Unicode 字符对应的 Emoji 表情在各个平台展示的样式都不太一样，因为 Unicode 只是规定了 Emoji 的码点和含义，并没有规定它的样式，每个平台都有自己的 Emoji 实现</p>
+<h2 id="三、Unicode-使用"><a href="#三、Unicode-使用" class="headerlink" title="三、Unicode 使用"></a>三、Unicode 使用</h2><p>到这里我心里会有个疑问：我如何将这些 Unicode 字符如 U+1F600 在 Android 中使用呢？</p>
+<p>Unicode 允许我们使用 Code、UTF-8、Surrogates 等这些形式来表示一个字符，那其实这就是一个突破口</p>
+<p>以 code 形式举例：例如说我的一个 Emoji 表情的 code 形式是 1F600，那么我就可以经过一系列 Api 的转换，让他能够使用 Android 控件去加载</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//将当前 code 转换为 16 进制数</span><br><span class="hljs-type">int</span> <span class="hljs-variable">hex</span> <span class="hljs-operator">=</span> Integer.parseInt(<span class="hljs-string">&quot;1F600&quot;</span>, <span class="hljs-number">16</span>);<br><span class="hljs-comment">//将当前 16 进制数转换成字符数组</span><br><span class="hljs-type">char</span>[] chars = Character.toChars(hex);<br><span class="hljs-comment">//将当前字符数组转换成 TextView 可加载的 String 字符串</span><br><span class="hljs-type">String</span> <span class="hljs-variable">mEmojiString</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>(chars);<br></code></pre></td></tr></table></figure>
+
+<p>经过上述转换，将生成的 String 对象，传递给 TextView，如果是当前设备支持的 Emoji，就可以正常显示了</p>
+<h2 id="四、Emoji-表情实践"><a href="#四、Emoji-表情实践" class="headerlink" title="四、Emoji 表情实践"></a>四、Emoji 表情实践</h2><p>有了思路，就开始撸起柚子干，把筛选出的表情 code 放到一个集合中，然后通过 ViewPager + Fragment + RecyclerView 等一系列控件的配合，实现了 UI 需要的效果，如下图：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b3a456040f8a4825854a804bdbdc73b4~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210510130326366"></p>
+<p>从上图可以发现一个问题：<strong>有些 Emoji 表情显示出来像一个信封</strong></p>
+<p>原因是当前设备不支持，上面我讲到每一个 Unicode 字符对应一个字体，它会被渲染为图片显示，但是如果当前系统不支持这种字体，那么就会显示出一个信封，而且随着 Android 版本越来越低，这种情况越来越多，这种效果肯定是不行的</p>
+<p>知道了出现的问题和原因，我们就要去想解决方法，这个时候 EmojiCompat 就来了</p>
+<h2 id="五、EmojiCompat-介绍"><a href="#五、EmojiCompat-介绍" class="headerlink" title="五、EmojiCompat 介绍"></a>五、EmojiCompat 介绍</h2><h3 id="1、什么是-EmojiCompat-？"><a href="#1、什么是-EmojiCompat-？" class="headerlink" title="1、什么是 EmojiCompat ？"></a>1、什么是 EmojiCompat ？</h3><p>EmojiCompat 是 Google 官方给我们提供的一个 Emoji 表情兼容库，最低支持到 Android 4.4(Api Level 19) 的系统设备，它可以防止应用中，出现以信封的形式来显示 Emoji，虽然它仅仅只是因为你当前的设备没有这个字体而已。通过 EmojiCompat ，你的设备无需等待 Android 系统更新，就可以获得最新的 Emoji 表情显示效果。</p>
+<p>EmojiCompat 的运行原理如下图所示：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/269e10afe7234f38bec1d40cb4c86be1~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210510142708101"></p>
+<p>从上图我们可以知道：EmojiCompat 会判断当前设备是否支持这个 Emoji，如果支持则还是使用系统内置的字体加载，如果不支持，则使用 EmojiSpan 来进行替换，从而达到替换渲染的效果</p>
+<h3 id="2、如何使用-EmojiCompat-？"><a href="#2、如何使用-EmojiCompat-？" class="headerlink" title="2、如何使用 EmojiCompat ？"></a>2、如何使用 EmojiCompat ？</h3><p>要使用 EmojiCompat ，我们需要先对其进行初始化，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java">EmojiCompat.init(config);<br><span class="hljs-comment">//EmojiCompat 的 init 方法</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> EmojiCompat <span class="hljs-title function_">init</span><span class="hljs-params">(<span class="hljs-meta">@NonNull</span> <span class="hljs-keyword">final</span> Config config)</span> &#123;<br>    <span class="hljs-keyword">if</span> (sInstance == <span class="hljs-literal">null</span>) &#123;<br>        <span class="hljs-keyword">synchronized</span> (sInstanceLock) &#123;<br>            <span class="hljs-keyword">if</span> (sInstance == <span class="hljs-literal">null</span>) &#123;<br>                sInstance = <span class="hljs-keyword">new</span> <span class="hljs-title class_">EmojiCompat</span>(config);<br>            &#125;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">return</span> sInstance;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>上述代码可以看到， EmojiCompat 是一个单例对象，初始化方法就是传入了一个 config 即配置，因此构建配置是 EmojiCompat 初始化能否成功的重点所在，Google 给我们提供了两种配置 ，他们分别是：</p>
+<p>1、可下载的字体配置</p>
+<p>2、本地捆绑的字体配置</p>
+<p>根据 Google 官方介绍：</p>
+<h5 id="1）、可下载的字体配置"><a href="#1）、可下载的字体配置" class="headerlink" title="1）、可下载的字体配置"></a>1）、可下载的字体配置</h5><p>原理：可下载的字体的方式会在首次启动 app 的时候检查本地是否有该字体，没有的话会从网上下载最新的 Emoji 字体，然后遇到不支持的 Emoji，就会从这个字体文件中，加载资源并且渲染</p>
+<p>缺点：可下载字体的方式，完全依赖 GMS 服务，在没有 GMS 服务的手机上并不可用</p>
+<h5 id="2）、本地捆绑的字体配置"><a href="#2）、本地捆绑的字体配置" class="headerlink" title="2）、本地捆绑的字体配置"></a>2）、本地捆绑的字体配置</h5><p>原理：本地捆绑的方式会在 App 打包的过程中，植入一个最新的 Emoji 字体文件，然后遇到不支持的 Emoji，就会从这个字体文件中，加载资源并且渲染</p>
+<p>缺点：本地捆绑的方式会嵌入一个约 9M+ 的字体文件，无形中增大了 Apk 安装包的体积</p>
+<p>目前官方使用的是 NotoColorEmojiCompat.ttf 字体文件，文件大小约 9M+</p>
+<p>下面先讲下如何使用这两种方式去进行初始化</p>
+<h4 id="1、可下载的字体配置"><a href="#1、可下载的字体配置" class="headerlink" title="1、可下载的字体配置"></a>1、可下载的字体配置</h4><p>1）、添加 Gradle 依赖</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">implementation <span class="hljs-string">&#x27;androidx.emoji:emoji:1.1.0&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p>2）、构建可下载字体配置初始化 EmojiCompat ，构建相关信息参照 <strong><a target="_blank" rel="noopener" href="https://github.com/googlearchive/android-EmojiCompat">android-EmojiCompat</a></strong> 这个项目</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">FontRequest</span> <span class="hljs-variable">fontRequest</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FontRequest</span>(<br>                <span class="hljs-string">&quot;com.google.android.gms.fonts&quot;</span>,<br>                <span class="hljs-string">&quot;com.google.android.gms&quot;</span>,<br>                <span class="hljs-string">&quot;Noto Color Emoji Compat&quot;</span>,<br>                R.array.chat_com_google_android_gms_fonts_certs);<br>EmojiCompat.<span class="hljs-type">Config</span> <span class="hljs-variable">config</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FontRequestEmojiCompatConfig</span>(mContext, fontRequest);<br>config.setReplaceAll(<span class="hljs-literal">true</span>);<br>config.registerInitCallback(<span class="hljs-keyword">new</span> <span class="hljs-title class_">EmojiCompat</span>.InitCallback() &#123;<br>     <span class="hljs-meta">@Override</span><br>     <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">onInitialized</span><span class="hljs-params">()</span> &#123;<br>     	 <span class="hljs-comment">//初始化成功回调  </span><br>     &#125;<br><br>     <span class="hljs-meta">@Override</span><br>     <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">onFailed</span><span class="hljs-params">(<span class="hljs-meta">@Nullable</span> Throwable throwable)</span> &#123;<br> 	 <span class="hljs-comment">//初始化失败回调</span><br>     &#125;<br>&#125;);<br>EmojiCompat.init(config);<br></code></pre></td></tr></table></figure>
+
+<h4 id="2、本地捆绑的字体配置"><a href="#2、本地捆绑的字体配置" class="headerlink" title="2、本地捆绑的字体配置"></a>2、本地捆绑的字体配置</h4><p>1）、添加 Gradle 依赖</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">implementation <span class="hljs-string">&#x27;androidx.emoji:emoji-bundled:1.1.0&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p>2）、构建本地捆绑字体配置初始化 EmojiCompat</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java">EmojiCompat.<span class="hljs-type">Config</span> <span class="hljs-variable">config</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BundledEmojiCompatConfig</span>(mContext, fontRequest);<br>config.setReplaceAll(<span class="hljs-literal">true</span>);<br>config.registerInitCallback(<span class="hljs-keyword">new</span> <span class="hljs-title class_">EmojiCompat</span>.InitCallback() &#123;<br>     <span class="hljs-meta">@Override</span><br>     <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">onInitialized</span><span class="hljs-params">()</span> &#123;<br>         <span class="hljs-comment">//初始化成功回调      </span><br>     &#125;<br><br>     <span class="hljs-meta">@Override</span><br>     <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">onFailed</span><span class="hljs-params">(<span class="hljs-meta">@Nullable</span> Throwable throwable)</span> &#123;<br> 	 <span class="hljs-comment">//初始化失败回调</span><br>     &#125;<br>&#125;);<br>EmojiCompat.init(config);<br></code></pre></td></tr></table></figure>
+
+<p>到这里，EmojiCompat 的初始化工作就完成了，我们可以发现这两种方式其实都是去构建一个字体配置即 config 去初始化</p>
+<p>那我会想：是否可以构建一个自定义的字体配置去完成 EmojiCompat 的初始化呢？</p>
+<p>这个问题我们先留着，继续往下看</p>
+<h4 id="3、EmojiCompat-实践"><a href="#3、EmojiCompat-实践" class="headerlink" title="3、EmojiCompat 实践"></a>3、EmojiCompat 实践</h4><p>现在我们清楚了：</p>
+<p>1、构建字体配置</p>
+<p>2、两种字体配置的原理和缺点</p>
+<p>3、初始化 EmojiCompat</p>
+<p>因为本地捆绑字体配置的方式会使我们的 app 包体积增大 9M+，这是完全不能接受的，而且我们的 app 主要是面向国外的用户，国外用户手机一般都有 GMS 服务，因此我选用了<strong>可下载字体配置</strong>来完成 EmojiCompat 的初始化</p>
+<p>初始化成功后，我们就可以使用 EmojiCompat 提供的功能了，之前我们是通过如下方式进行表情包加载的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//将当前 code 转换为 16 进制数</span><br><span class="hljs-type">int</span> <span class="hljs-variable">hex</span> <span class="hljs-operator">=</span> Integer.parseInt(<span class="hljs-string">&quot;1F600&quot;</span>, <span class="hljs-number">16</span>);<br><span class="hljs-comment">//将当前 16 进制数转换成字符数组</span><br><span class="hljs-type">char</span>[] chars = Character.toChars(hex);<br><span class="hljs-comment">//将当前字符数组转换成 TextView 可加载的 String 字符串</span><br><span class="hljs-type">String</span> <span class="hljs-variable">mEmojiString</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>(chars);<br></code></pre></td></tr></table></figure>
+
+<p>现在只需要对当前 mEmojiString 通过 EmojiCompat 处理一下即可，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//判断当前 EmojiCompat 是否初始化成功</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">isEmojiCompatInit</span><span class="hljs-params">()</span>&#123;<br>    <span class="hljs-keyword">return</span> EmojiCompat.get().getLoadState() == EmojiCompat.LOAD_STATE_SUCCEEDED;<br>&#125;<br><br><span class="hljs-comment">//获取可兼容的 emoji 字符串</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> CharSequence <span class="hljs-title function_">getCompatEmojiString</span><span class="hljs-params">(String code)</span> &#123;<br>    <span class="hljs-comment">//将当前 code 转换为 16 进制数</span><br>    <span class="hljs-type">int</span> <span class="hljs-variable">hex</span> <span class="hljs-operator">=</span> Integer.parseInt(code, <span class="hljs-number">16</span>);<br>    <span class="hljs-comment">//将当前 16 进制数转换成字符数组</span><br>    <span class="hljs-type">char</span>[] chars = Character.toChars(hex);<br>    <span class="hljs-comment">//将当前字符数组转换成 TextView 可加载的 String 字符串</span><br>    <span class="hljs-type">String</span> <span class="hljs-variable">mEmojiString</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>(chars);<br>    <span class="hljs-comment">//判断当前系统是否大于等于 19，并且 EmojiCompat 初始化成功</span><br>    <span class="hljs-keyword">if</span>(Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.KITKAT &amp;&amp; isEmojiCompatInit())&#123;<br>        <span class="hljs-keyword">return</span> EmojiCompat.get().process(mEmojiString);<br>    &#125;<br>    <span class="hljs-keyword">return</span> mEmojiString;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>上述代码我们使用 EmojiCompat 的 process 方法对之前的  emoji 字符串做了兼容处理，现在显示出来的表情就不会有啥问题了，这个库使用起来还是很简单的</p>
+<h4 id="4、-EmojiCompat-提供的控件"><a href="#4、-EmojiCompat-提供的控件" class="headerlink" title="4、 EmojiCompat 提供的控件"></a>4、 EmojiCompat 提供的控件</h4><p>这里我们在延伸一下，假设之前的代码我都不想动，也就是说 getCompatEmojiString 这个方法我都不想写，还是使用之前的方式去实现表情包的兼容，可以做到么？</p>
+<p>答：可以的，使用 EmojiCompat 提供的控件</p>
+<p>EmojiCompat 里面提供了如：EmojiTextView，EmojiButton，EmojiEditText等控件：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java">&lt;androidx.emoji.widget.EmojiTextView<br>    android:layout_width=<span class="hljs-string">&quot;wrap_content&quot;</span><br>    android:layout_height=<span class="hljs-string">&quot;wrap_content&quot;</span> /&gt;<br>      <br>&lt;androidx.emoji.widget.EmojiButton<br>    android:layout_width=<span class="hljs-string">&quot;wrap_content&quot;</span><br>    android:layout_height=<span class="hljs-string">&quot;wrap_content&quot;</span> /&gt;<br><br>&lt;androidx.emoji.widget.EmojiEditText<br>    android:layout_width=<span class="hljs-string">&quot;wrap_content&quot;</span><br>    android:layout_height=<span class="hljs-string">&quot;wrap_content&quot;</span> /&gt;<br></code></pre></td></tr></table></figure>
+
+<p>实际上这些控件的源码里面最终还是会调用 EmojiCompat 的 process 方法对之前的 emoji 字符串做兼容处理，如果 EmojiCompat 初始化失败，这些 EmojiCompat 提供的控件和它继承的控件功能是一样的，仅此而已</p>
+<p>最终我的实现方案就是：<strong>使用可下载字体配置初始化 EmojiCompat，在使用 EmojiCompat 提供的控件替换之前的控件实现了表情包的兼容</strong>，效果如下：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/451cf961936f4522a18c3b8e29d1feb5~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210526145027221"></p>
+<p>可能你会发现这张效果图和之前那张一些能显示出来的 Emoji 表情效果不一样，这是啥情况呢？</p>
+<p>之前我讲过：EmojiCompat 会判断当前设备是否支持这个 Emoji，如果支持则还是使用系统内置的字体加载，如果不支持，则使用 EmojiSpan 来进行替换，从而达到替换渲染的效果。这是在你没设置 config.setReplaceAll(true) 的情况下，而如果你设置了  config.setReplaceAll(true) ，那么所有的 Emoji 表情都会使用 EmojiSpan 替换并渲染</p>
+<h2 id="六、新的问题"><a href="#六、新的问题" class="headerlink" title="六、新的问题"></a>六、新的问题</h2><p>好了，到了这里似乎就要结束了，我也觉得要结束了，然而测试那边发现还是会有显示问题，原因其实我也猜到了，那就是当前设备没有 GMS 服务</p>
+<p>我讲过国外的手机一般都会有 GMS 服务，但是近些年中美贸易战，很多华为手机没有 GMS 服务了，而我们的用户存在很大一部分用户用的就是华为手机，因此担心出现一些问题，所以必须得去解决这个问题</p>
+<p>捋一捋现在的问题：可下载的字体配置完全依赖 GMS 服务，如果没有  GMS 服务，则会导致字体下载失败，相应的 EmojiCompat 就会初始化失败，EmojiCompat 初始化失败，则看当前系统是否支持该 emoji，如果不支持，那就会显示成信封状。之前本地捆绑字体配置的方式因为会使我们的 app 包体积增大，直接被 pass 掉了</p>
+<p>如果还要继续使用 EmojiCompat，问题到了这里似乎无解了，别着急，办法总比困难多，当时我心里有两个想法：</p>
+<p>1、推到目前的实现方案进行重构</p>
+<p>2、继续研究 EmojiCompat ，看是否有新的解决思路</p>
+<p>我这个人比较喜欢偷懒，1 因为感觉需要花费很多时间和精力被我 pass 掉了，2 如果能研究解决，那改动就非常的小了</p>
+<p>抱着试一试的心态，我选择了 2，继续研究 EmojiCompat</p>
+<h2 id="七、EmojiCompat-源码分析"><a href="#七、EmojiCompat-源码分析" class="headerlink" title="七、EmojiCompat 源码分析"></a>七、EmojiCompat 源码分析</h2><p>建议你配合源码跟着我的思路往下走</p>
+<p>我们从 EmojiCompat 初始化开始分析，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> EmojiCompat <span class="hljs-title function_">init</span><span class="hljs-params">(<span class="hljs-meta">@NonNull</span> <span class="hljs-keyword">final</span> Config config)</span> &#123;<br>    <span class="hljs-keyword">if</span> (sInstance == <span class="hljs-literal">null</span>) &#123;<br>        <span class="hljs-keyword">synchronized</span> (sInstanceLock) &#123;<br>            <span class="hljs-keyword">if</span> (sInstance == <span class="hljs-literal">null</span>) &#123;<br>                sInstance = <span class="hljs-keyword">new</span> <span class="hljs-title class_">EmojiCompat</span>(config);<br>            &#125;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">return</span> sInstance;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>可以看到，上面就是把 config 传进来，通过双重校验的方式创建了一个单例对象，接着看 EmojiCompat 的这个构造方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-title function_">EmojiCompat</span><span class="hljs-params">(<span class="hljs-meta">@NonNull</span> <span class="hljs-keyword">final</span> Config config)</span> &#123;<br>    <span class="hljs-comment">//...</span><br>    mHelper = Build.VERSION.SDK_INT &lt; <span class="hljs-number">19</span> ? <span class="hljs-keyword">new</span> <span class="hljs-title class_">CompatInternal</span>(<span class="hljs-built_in">this</span>) : <span class="hljs-keyword">new</span> <span class="hljs-title class_">CompatInternal19</span>(<span class="hljs-built_in">this</span>);<br>    loadMetadata();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>上述代码实际上就是做了一些属性初始化的工作，mHelper 在系统版本小于 19 和 系统版本大于等于 19 创建的实例有所不同，我们看下这两个类，因为代码太长就不贴代码了：</p>
+<p>CompatInternal 类：里面都是一些默认实现</p>
+<p>CompatInternal19 类：继承 CompatInternal，并重父类的方法从而达到实现功能的效果</p>
+<p>我们主要跟进最后一行代码 loadMetadata 方法，见名知意，loadMetadata 就是加载元数据即拉取字体文件：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">loadMetadata</span><span class="hljs-params">()</span> &#123;<br>    mInitLock.writeLock().lock();<br>    <span class="hljs-keyword">try</span> &#123;<br>        <span class="hljs-keyword">if</span> (mMetadataLoadStrategy == LOAD_STRATEGY_DEFAULT) &#123;<br>            mLoadState = LOAD_STATE_LOADING;<br>        &#125;<br>    &#125; <span class="hljs-keyword">finally</span> &#123;<br>        mInitLock.writeLock().unlock();<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> (getLoadState() == LOAD_STATE_LOADING) &#123;<br>        mHelper.loadMetadata();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>上述代码步骤：</p>
+<p>1、将 mLoadState 置为 LOAD_STATE_LOADING 进行上锁操作，防止多线程并发，导致重复初始化</p>
+<p>2、如果当前状态为 LOAD_STATE_LOADING , 则调用 mHelper.loadMetadata()</p>
+<p>接着分析 mHelper.loadMetadata()</p>
+<p>当系统版本小于 19 的时候，会走如下代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">void</span> <span class="hljs-title function_">loadMetadata</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-comment">// Moves into LOAD_STATE_SUCCESS state immediately.</span><br>    mEmojiCompat.onMetadataLoadSuccess();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>跟进 mEmojiCompat.onMetadataLoadSuccess 方法看下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">void</span> <span class="hljs-title function_">onMetadataLoadSuccess</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-comment">//...</span><br>    mInitLock.writeLock().lock();<br>    <span class="hljs-keyword">try</span> &#123;<br>        mLoadState = LOAD_STATE_SUCCEEDED;<br>    &#125; <span class="hljs-keyword">finally</span> &#123;<br>        mInitLock.writeLock().unlock();<br>    &#125;<br><br>    mMainHandler.post(<span class="hljs-keyword">new</span> <span class="hljs-title class_">ListenerDispatcher</span>(initCallbacks, mLoadState));<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>上述代码步骤：</p>
+<p>1、将 mLoadState 置为LOAD_STATE_SUCCEEDED （即初始化成功）进行上锁操作，防止多线程并发</p>
+<p>2、通过主线程 mMainHandler 将消息发送到主线程处理</p>
+<p>3、通过 ListenerDispatcher 进行监听的分发，最终会回调到我们之前初始化配置的监听</p>
+<p>可以看到，当系统版本小于 19  就直接回调成功了，并没有任何拉取字体的操作，实际当系统版本小于 19 的时候都是一些默认实现，感兴趣的可以看看源码。因此当系统版本小于 19 的时候，EmojiCompat 支持库并不会起作用</p>
+<p>接着看当系统版本大于等于 19 的时候：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Override</span><br><span class="hljs-keyword">void</span> <span class="hljs-title function_">loadMetadata</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-keyword">try</span> &#123;<br>        <span class="hljs-keyword">final</span> <span class="hljs-type">MetadataRepoLoaderCallback</span> <span class="hljs-variable">callback</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">MetadataRepoLoaderCallback</span>() &#123;<br>            <span class="hljs-meta">@Override</span><br>            <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">onLoaded</span><span class="hljs-params">(<span class="hljs-meta">@NonNull</span> MetadataRepo metadataRepo)</span> &#123;<br>                onMetadataLoadSuccess(metadataRepo);<br>            &#125;<br><br>            <span class="hljs-meta">@Override</span><br>            <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">onFailed</span><span class="hljs-params">(<span class="hljs-meta">@Nullable</span> Throwable throwable)</span> &#123;<br>                mEmojiCompat.onMetadataLoadFailed(throwable);<br>            &#125;<br>        &#125;;<br>        mEmojiCompat.mMetadataLoader.load(callback);<br>    &#125; <span class="hljs-keyword">catch</span> (Throwable t) &#123;<br>        mEmojiCompat.onMetadataLoadFailed(t);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>上述代码步骤：</p>
+<p>1、创建了一个 MetadataRepoLoaderCallback 的 callback</p>
+<p>2、如果 callback 回调 onLoaded 方法，则会调 onMetadataLoadSuccess ，那么就直接初始化成功了</p>
+<p>3、如果 callback 回调 onFailed 方法，则会调 mEmojiCompat.onMetadataLoadFailed(throwable)，那么就会初始化失败</p>
+<p>4、最终会通过 mEmojiCompat.mMetadataLoader 的 load 方法去加载这个 callback</p>
+<p>到这里我们还是没有看到拉取字体的操作，而是把这个 callback 传入到了 load 方法中</p>
+<p>接下来我们继续分析 load 方法，load 方法是 mMetadataLoader 的，mMetadataLoader 是 EmojiCompat 的一个属性，而且在 EmojiCompat 的构造方法里做了赋值操作：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-title function_">EmojiCompat</span><span class="hljs-params">(<span class="hljs-meta">@NonNull</span> <span class="hljs-keyword">final</span> Config config)</span> &#123;<br>    <span class="hljs-comment">//...</span><br>    mMetadataLoader = config.mMetadataLoader;<br>    <span class="hljs-comment">//...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>可以看到，EmojiCompat 的 mMetadataLoader 是从我们传进来的 config 中拿的，现在问题就转变到了我们配置的 config 中，我们看一眼可下载字体配置的 config，看主要流程的一些代码，其他的给省略了：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">FontRequestEmojiCompatConfig</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">EmojiCompat</span>.Config &#123;<br>    <span class="hljs-comment">//...</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">FontRequestMetadataLoader</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">EmojiCompat</span>.MetadataRepoLoader &#123;<br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-meta">@RequiresApi(19)</span><br>        <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">load</span><span class="hljs-params">(<span class="hljs-meta">@NonNull</span> <span class="hljs-keyword">final</span> EmojiCompat.MetadataRepoLoaderCallback loaderCallback)</span> &#123;<br>            Preconditions.checkNotNull(loaderCallback, <span class="hljs-string">&quot;LoaderCallback cannot be null&quot;</span>);<br>            <span class="hljs-keyword">synchronized</span> (mLock) &#123;<br>                <span class="hljs-keyword">if</span> (mHandler == <span class="hljs-literal">null</span>) &#123;<br>                    mThread = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HandlerThread</span>(<span class="hljs-string">&quot;emojiCompat&quot;</span>, Process.THREAD_PRIORITY_BACKGROUND);<br>                    mThread.start();<br>                    mHandler = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Handler</span>(mThread.getLooper());<br>                &#125;<br>                mHandler.post(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Runnable</span>() &#123;<br>                    <span class="hljs-meta">@Override</span><br>                    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">run</span><span class="hljs-params">()</span> &#123;<br>                        mCallback = loaderCallback;<br>                        createMetadata();<br>                    &#125;<br>                &#125;);<br>            &#125;<br>        &#125;<br><br>        <span class="hljs-meta">@RequiresApi(19)</span><br>        <span class="hljs-keyword">void</span> <span class="hljs-title function_">createMetadata</span><span class="hljs-params">()</span> &#123;<br>            <span class="hljs-keyword">try</span> &#123;<br>              	<span class="hljs-comment">//...</span><br>              	<span class="hljs-keyword">final</span> FontsContractCompat.<span class="hljs-type">FontInfo</span> <span class="hljs-variable">font</span> <span class="hljs-operator">=</span> retrieveFontInfo();<br>                <span class="hljs-keyword">final</span> <span class="hljs-type">Typeface</span> <span class="hljs-variable">typeface</span> <span class="hljs-operator">=</span> mFontProviderHelper.buildTypeface(mContext, font);<br>                <span class="hljs-keyword">final</span> <span class="hljs-type">ByteBuffer</span> <span class="hljs-variable">buffer</span> <span class="hljs-operator">=</span> TypefaceCompatUtil.mmap(mContext, <span class="hljs-literal">null</span>, font.getUri());<br>                <span class="hljs-keyword">if</span> (buffer == <span class="hljs-literal">null</span>) &#123;<br>                    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">RuntimeException</span>(<span class="hljs-string">&quot;Unable to open file.&quot;</span>);<br>                &#125;<br>                mCallback.onLoaded(MetadataRepo.create(typeface, buffer));<br>                cleanUp();<br>            &#125; <span class="hljs-keyword">catch</span> (Throwable t) &#123;<br>                mCallback.onFailed(t);<br>                cleanUp();<br>            &#125;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>1、FontRequestMetadataLoader 实现了 EmojiCompat.MetadataRepoLoader 接口，它是 FontRequestEmojiCompatConfig 的一个静态内部类，并重写了 load 方法</p>
+<p>2、load 方法主要做的事情是：通过 HandlerThread 配合 Handler 把线程切换到子线程，将传进来的 loaderCallback(也就是我们前面分析的那个 callback) 赋值给了 mCallBack，并执行  createMetadata 方法</p>
+<p>接着看 createMetadata 方法，它里面做的主要事情就是：</p>
+<p>1、通过 GMS 服务拉取字体信息，终于看到了这个操作</p>
+<p>2、通过拉取的字体信息构建一个 Typeface 对象</p>
+<p>3、通过拉取的字体信息构建一个 ByteBuffer 流对象</p>
+<p>4、通过 typeface 和 buffer 构建一个 MetadataRepo 对象并最终回调 onLoaded 方法，初始化成功</p>
+<p>MetadataRepo 解释：实际上 MetadataRepo 就是 EmojiCompat 处理和绘制表情的一个数据仓库，我们可以使用三种方式去构建它：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4fb9455f949940dd8b2354fb3d1f7a53~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210526191217511"></p>
+<p>从截图中我们可以看到它有三个重载方法：</p>
+<p>1、方式一：传入一个 Typeface 对象和一个 InputStream 流对象</p>
+<p>2、方式二：传入一个  Typeface 对象和一个 ByteBuffer 流对象</p>
+<p>3、方式三：传入一个 AssetManager 对象和一个 assetPath 路径</p>
+<p>实际上，可下载字体配置用的就是方式二，本地捆绑字体配置用的是方式三，<strong>我们还有方式一可以用，这也是后续解决问题的一个突破口</strong></p>
+<p>4、如果流程有任何异常，走到 catch 里面，最终回调 onFailed 方法，初始化失败</p>
+<p>通过上面流程的一个分析我们可以知道：EmojiCompat 会通过传入的 config 中的 MetadataRepoLoader 的 load 方法切换到子线程去拉取字体文件，如果拉取成功并成功构建 MetadataRepo 对象，则能初始化成功，如果拉取失败，则会初始化失败</p>
+<p>源码分析到了这里，你心里是否有了新的思路了呢？还记得上面我预留的一个问题吗？</p>
+<p>我们是否可以构建一个自定义的字体配置去完成 EmojiCompat 的初始化呢？</p>
+<p>当时只是猜想，我们现在理性分析一波：</p>
+<p>1、上面我们使用的可下载的字体配置是通过 GMS 服务拉取的字体文件，然后通过上述方式二去构建 MetadataRepo，最终初始化成功</p>
+<p>2、本地捆绑字体配置是通过从本地 assets 文件夹下拉取字体文件，然后通过方式三去构建 MetadataRepo，最终初始化成功</p>
+<p>那么依葫芦画瓢：我是否可以构建一个自定义的字体配置，把字体存到我们自己的服务器，在从服务器上去拉取字体，拉取成功后，通过方式一去构建 MetadataRepo，那么这样是否也能初始化成功呢？</p>
+<p>嗯，感觉方案可行，干就完了</p>
+<h2 id="八、新方案实践"><a href="#八、新方案实践" class="headerlink" title="八、新方案实践"></a>八、新方案实践</h2><p>通过上面的分析，我们有了新的思路，下面是我实践的一个过程，因代码太多，贴出部分关键代码，主要关注解决问题的思路：</p>
+<p>1、将 Google 官方提供的 NotoColorEmojiCompat.ttf 字体文件，上传到我们自己的服务器</p>
+<p>2、针对没有 GMS 的手机，EmojiCompat 会初始化失败，那么在 EmojiCompat 首次初始化失败后，在它失败的回调里面启动一个下载任务去下载 NotoColorEmojiCompat.ttf 这个字体</p>
+<p>3、若下载成功，则构造一个自定义的字体配置重新初始化 EmojiCompat</p>
+<p>下面是一些关键的代码，仅供参考：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//初始化 EmojiCompat</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">initEmotionCompat</span><span class="hljs-params">(Context mContext)</span> &#123;<br>    <span class="hljs-type">FontRequest</span> <span class="hljs-variable">fontRequest</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FontRequest</span>(<br>            <span class="hljs-string">&quot;com.google.android.gms.fonts&quot;</span>,<br>            <span class="hljs-string">&quot;com.google.android.gms&quot;</span>,<br>            <span class="hljs-string">&quot;Noto Color Emoji Compat&quot;</span>,<br>            R.array.chat_com_google_android_gms_fonts_certs);<br>    EmojiCompat.<span class="hljs-type">Config</span> <span class="hljs-variable">config</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FontRequestEmojiCompatConfig</span>(mContext, fontRequest);<br>    config.setReplaceAll(<span class="hljs-literal">true</span>);<br>    config.registerInitCallback(<span class="hljs-keyword">new</span> <span class="hljs-title class_">EmojiCompat</span>.InitCallback() &#123;<br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">onInitialized</span><span class="hljs-params">()</span> &#123;<br>            Log.e(TAG, <span class="hljs-string">&quot;loadEmojiFontFromNetwork()-&gt;onInitialized()&quot;</span>);<br>        &#125;<br><br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">onFailed</span><span class="hljs-params">(<span class="hljs-meta">@Nullable</span> Throwable throwable)</span> &#123;<br>            Log.e(TAG, <span class="hljs-string">&quot;loadEmojiFontFromNetwork()-&gt;onFailed():&quot;</span> + throwable.getMessage());<br>            <span class="hljs-comment">//若初始化失败则执行下载字体操作</span><br>            downloadFont(mContext,<span class="hljs-string">&quot;你的字体下载 url &quot;</span>);<br>        &#125;<br>    &#125;);<br>    EmojiCompat.init(config);<br>&#125;<br><br><span class="hljs-comment">//下载字体</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">downloadFont</span><span class="hljs-params">(Context mContext,String fontUrl)</span>&#123;<br>    EmojiFontDownloadUtils.downloadFont(fontUrl,<span class="hljs-keyword">new</span> <span class="hljs-title class_">EmojiFontPreloadUtils</span>.OnEmojiFontDownloadListener() &#123;<br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">onSuccess</span><span class="hljs-params">(File file)</span> &#123;<br>            <span class="hljs-comment">//下载成功，重新初始化 EmojiCompat</span><br>            resetConfig(mContext);<br>        &#125;<br><br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">onFailed</span><span class="hljs-params">(Throwable throwable)</span> &#123;<br>            Log.e(TAG, <span class="hljs-string">&quot;onFailed: &quot;</span> + throwable.getMessage());<br>        &#125;<br>    &#125;);<br>&#125;<br><br><span class="hljs-comment">//重新初始化</span><br><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">resetConfig</span><span class="hljs-params">(Context mContext)</span> &#123;<br>    <span class="hljs-comment">//构建自定义字体配置</span><br>    <span class="hljs-keyword">final</span> EmojiCompat.<span class="hljs-type">Config</span> <span class="hljs-variable">config</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">LocalEmojiCompatConfig</span>(mContext);<br>    config.registerInitCallback(<span class="hljs-keyword">new</span> <span class="hljs-title class_">EmojiCompat</span>.InitCallback() &#123;<br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">onInitialized</span><span class="hljs-params">()</span> &#123;<br>            Log.e(TAG, <span class="hljs-string">&quot;reInit success...&quot;</span>);<br>        &#125;<br><br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">onFailed</span><span class="hljs-params">(<span class="hljs-meta">@Nullable</span> Throwable throwable)</span> &#123;<br>            Log.e(TAG, <span class="hljs-string">&quot;reInit failed:&quot;</span> + throwable.getMessage());<br>        &#125;<br>    &#125;);<br>    <span class="hljs-comment">//重置初始化配置进行重新初始化</span><br>    EmojiCompat.reset(config);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p> 可能大家想看看我构建的自定义字体配置长啥样？安排😄：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">LocalEmojiCompatConfig</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">EmojiCompat</span>.Config &#123;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">LocalEmojiCompatConfig</span><span class="hljs-params">(<span class="hljs-meta">@NonNull</span> Context context)</span> &#123;<br>        <span class="hljs-built_in">super</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">LocalEmojiCompatConfig</span>.LocalMetadataLoader(context));<br>    &#125;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">LocalMetadataLoader</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">EmojiCompat</span>.MetadataRepoLoader &#123;<br>        <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> Context mContext;<br><br>        LocalMetadataLoader(<span class="hljs-meta">@NonNull</span> Context context) &#123;<br>            mContext = context.getApplicationContext();<br>        &#125;<br><br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-meta">@RequiresApi(19)</span><br>        <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">load</span><span class="hljs-params">(<span class="hljs-meta">@NonNull</span> EmojiCompat.MetadataRepoLoaderCallback loaderCallback)</span> &#123;<br>            Preconditions.checkNotNull(loaderCallback, <span class="hljs-string">&quot;loaderCallback cannot be null&quot;</span>);<br>            <span class="hljs-comment">//开启子线程执行任务</span><br>            <span class="hljs-keyword">final</span> LocalEmojiCompatConfig.<span class="hljs-type">InitRunnable</span> <span class="hljs-variable">runnable</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">LocalEmojiCompatConfig</span>.InitRunnable(mContext, loaderCallback);<br>            <span class="hljs-keyword">final</span> <span class="hljs-type">Thread</span> <span class="hljs-variable">thread</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Thread</span>(runnable);<br>            thread.setDaemon(<span class="hljs-literal">false</span>);<br>            thread.start();<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-meta">@RequiresApi(19)</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">InitRunnable</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Runnable</span> &#123;<br>        <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> EmojiCompat.MetadataRepoLoaderCallback mLoaderCallback;<br>        <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> Context mContext;<br><br>        InitRunnable(Context context, EmojiCompat.MetadataRepoLoaderCallback loaderCallback) &#123;<br>            mContext = context;<br>            mLoaderCallback = loaderCallback;<br>        &#125;<br><br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">run</span><span class="hljs-params">()</span> &#123;<br>            <span class="hljs-keyword">try</span> &#123;<br>              	<span class="hljs-comment">//构建 MetadataRepo </span><br>                <span class="hljs-keyword">final</span> <span class="hljs-type">Typeface</span> <span class="hljs-variable">typeface</span> <span class="hljs-operator">=</span> Typeface.createFromFile(EmojiFontPreloadUtils.getFile());<br>                <span class="hljs-keyword">final</span> <span class="hljs-type">InputStream</span> <span class="hljs-variable">inputStream</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FileInputStream</span>(EmojiFontPreloadUtils.getFile());<br>                <span class="hljs-keyword">final</span> <span class="hljs-type">MetadataRepo</span> <span class="hljs-variable">metadataRepo</span> <span class="hljs-operator">=</span> MetadataRepo.create(typeface, inputStream);<br>                mLoaderCallback.onLoaded(metadataRepo);<br>            &#125; <span class="hljs-keyword">catch</span> (Throwable t) &#123;<br>                mLoaderCallback.onFailed(t);<br>            &#125;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>其实这个自定义的字体配置很简单，就是仿照之前我们分析的那个源码流程，结合可下载字体配置的思路写出来的，上述自定义的字体配置主要做的事情：</p>
+<p>1、在 load 方法里面开启一个子线程执行任务</p>
+<p>2、在可执行的任务里面通过方式一构建 MetadataRepo 最终完成初始化操作</p>
+<p>最终经过实践，发现这种方案能够初始化成功，问题解决</p>
+<h2 id="九、总结"><a href="#九、总结" class="headerlink" title="九、总结"></a>九、总结</h2><p>梳理一下这篇文章我们所讲的一些东西：</p>
+<p>首先介绍了 Emoji 表情，讲了下我接到的需求，然后对 Emoji 表情方案进行了实践，发现有显示问题，于是引入  EmojiCompat 支持库解决了显示问题，但是发现在没有 GMS 服务的手机上显示仍然会出现一些显示问题，于是我们通过将字体文件上传到自己的服务器，并拉取构建自定义的字体文件配置初始化 EmojiCompat 解决了该问题</p>
+<p>好了，如果你看到这里，相信你一定收获满满，如果有啥问题，欢迎评论区一起交流🤝</p>
+<p><strong>感谢你阅读这篇文章</strong></p>
+<blockquote>
+<p>全文到此，原创不易，欢迎点赞，收藏，评论和转发，你的认可是我创作的动力</p>
+</blockquote>
+<blockquote>
+<p>欢迎关注我的 <strong>公 众 号</strong>，微信搜索 <strong>sweetying</strong> ，文章更新可第一时间收到</p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Android/" class="category-chain-item">Android</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Android/%E4%B8%80%E7%AF%87%E5%B0%B1%E5%A4%9F/" class="category-chain-item">一篇就够</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%8E%9F%E5%88%9B/">#原创</a>
+      
+        <a href="/tags/Android/">#Android</a>
+      
+        <a href="/tags/%E4%B8%80%E7%AF%87%E5%B0%B1%E5%A4%9F/">#一篇就够</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>一篇就够系列：Android Emoji 表情分享和实践</div>
+      <div>https://sweetying520.github.io/2022/10/11/一篇就够系列：Android Emoji 表情分享和实践/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>sweetying</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年10月11日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/10/11/%E4%B8%80%E7%AF%87%E5%B0%B1%E5%A4%9F%E7%B3%BB%E5%88%97%EF%BC%9AAndroid%20%E4%B8%AD%E4%BD%BF%E7%94%A8%20Protobuf/" title="一篇就够系列：Android 中使用 Protobuf">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">一篇就够系列：Android 中使用 Protobuf</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/10/11/%E4%B8%80%E7%AF%87%E5%B0%B1%E5%A4%9F%E7%B3%BB%E5%88%97%EF%BC%9AHandler%E6%89%A9%E5%B1%95%E7%AF%87/" title="一篇就够系列：Handler扩展篇">
+                        <span class="hidden-mobile">一篇就够系列：Handler扩展篇</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.4.17/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"zN1E017kYhKuj6GqXHJSbGMb-gzGzoHsz","appKey":"JSwY8PjtA131Y78OHn7kKtio","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

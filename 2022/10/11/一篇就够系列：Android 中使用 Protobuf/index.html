@@ -1,0 +1,1045 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="sweetying">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前言很高兴遇见你~ 最近我负责的 LiveChat 客服聊天系统到了自研阶段，类似做一个腾讯 IM 通信 SDK。和后台讨论后，确定数据传输方式使用 Protobuf，简单的介绍下自己的一个使用心得 一、Protobuf 介绍Protobuf 全称：Protocol Buffers，是 Google 推出的一种与平台无关、语言无关、可扩展的轻便高效的序列化数据存储格式，类似于我们常用的 xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一篇就够系列：Android 中使用 Protobuf">
+<meta property="og:url" content="https://sweetying520.github.io/2022/10/11/%E4%B8%80%E7%AF%87%E5%B0%B1%E5%A4%9F%E7%B3%BB%E5%88%97%EF%BC%9AAndroid%20%E4%B8%AD%E4%BD%BF%E7%94%A8%20Protobuf/index.html">
+<meta property="og:site_name" content="sweetying">
+<meta property="og:description" content="前言很高兴遇见你~ 最近我负责的 LiveChat 客服聊天系统到了自研阶段，类似做一个腾讯 IM 通信 SDK。和后台讨论后，确定数据传输方式使用 Protobuf，简单的介绍下自己的一个使用心得 一、Protobuf 介绍Protobuf 全称：Protocol Buffers，是 Google 推出的一种与平台无关、语言无关、可扩展的轻便高效的序列化数据存储格式，类似于我们常用的 xml">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202210111120168.jpeg">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8e6590e6d53f442b96f578cd6b78d726~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7e9e549beafa401cad0ea26b1dcda3b5~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4e0b7da1f5d0489884a6e361977c1888~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b8b17c40fb4545c4ad25fb481a7be618~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/700811520b5347c994017a72637f2f3b~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3a54b01c63be42c1bcd1ad2038c4495b~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/345fc00ef64c48638750c2de5a2d7b0f~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202208241633803.png">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9d84f8aace4f4fa2a3bc04b6465d5e9c~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/33a15c47616b447191f4f468e4e6d284~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="article:published_time" content="2022-10-11T02:50:57.000Z">
+<meta property="article:modified_time" content="2022-10-11T03:21:42.819Z">
+<meta property="article:author" content="sweetying">
+<meta property="article:tag" content="原创">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="一篇就够">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202210111120168.jpeg">
+  
+  
+  
+  <title>一篇就够系列：Android 中使用 Protobuf - sweetying</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sweetying520.github.io","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"zN1E017kYhKuj6GqXHJSbGMb-gzGzoHsz","app_key":"JSwY8PjtA131Y78OHn7kKtio","server_url":"https://zn1e017k.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>sweetying</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="一篇就够系列：Android 中使用 Protobuf"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        sweetying
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-10-11 10:50" pubdate>
+          2022年10月11日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          10k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          87 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">一篇就够系列：Android 中使用 Protobuf</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202210111120168.jpeg" srcset="/img/loading.gif" lazyload alt="aleksey-nemiro-cbtc29sd-m4-unsplash"></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>很高兴遇见你~</p>
+<p>最近我负责的 LiveChat 客服聊天系统到了自研阶段，类似做一个腾讯 IM 通信 SDK。和后台讨论后，确定数据传输方式使用 Protobuf，简单的介绍下自己的一个使用心得</p>
+<h2 id="一、Protobuf-介绍"><a href="#一、Protobuf-介绍" class="headerlink" title="一、Protobuf 介绍"></a>一、Protobuf 介绍</h2><p>Protobuf 全称：Protocol Buffers，是 Google 推出的一种与平台无关、语言无关、可扩展的轻便高效的序列化数据存储格式，类似于我们常用的 xml 和 json。</p>
+<p><strong>问题</strong>：既然有了 xml 和 json，Google 为啥还要推出 Protobuf 呢？</p>
+<p>存在是有原因的，Protobuf 用两个字总结：小，快。用 Protobuf 序列化后的大小是 json 的十分之一，是 xml 格式的二十分之一，而且性能是他们的 5～100 倍。</p>
+<p>通常情况下，我们使用 xml 或者 json 进行数据通信是没什么问题的，但是在高性能和大数据通信的情况下，如果有办法压缩数据量，提高传输效率，显然会给用户带来更快更流畅的体验，因此做 LiveChat 自研，Protobuf 成为我们进行数据传输的第一选择。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>xml</th>
+<th>json</th>
+<th>protobuf</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>数据保存方式</td>
+<td>文本</td>
+<td>文本</td>
+<td>二进制</td>
+</tr>
+<tr>
+<td>数据保存大小</td>
+<td>大</td>
+<td>一般</td>
+<td>小</td>
+</tr>
+<tr>
+<td>解析效率</td>
+<td>慢</td>
+<td>一般</td>
+<td>快</td>
+</tr>
+</tbody></table>
+<h2 id="二、Protobuf-环境配置"><a href="#二、Protobuf-环境配置" class="headerlink" title="二、Protobuf 环境配置"></a>二、Protobuf 环境配置</h2><p>介绍两种安装 Protobuf 的方式：</p>
+<p>1、Github 下载 Protobuf 并安装</p>
+<p>2、brew 安装</p>
+<h3 id="2-1、方式一：Github-下载-Protobuf-并安装"><a href="#2-1、方式一：Github-下载-Protobuf-并安装" class="headerlink" title="2.1、方式一：Github 下载 Protobuf 并安装"></a>2.1、方式一：Github 下载 Protobuf 并安装</h3><p><strong>注意</strong>：Protobuf 版本尽量保持前后台一致，这里是后台和我约定的一个版本</p>
+<p>Protobuf Github 下载地址：<a target="_blank" rel="noopener" href="https://github.com/protocolbuffers/protobuf/releases/tag/v3.19.2">https://github.com/protocolbuffers/protobuf/releases/tag/v3.19.2</a></p>
+<p>1、根据自己的系统选择相应的 zip 包：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8e6590e6d53f442b96f578cd6b78d726~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20220823172254077"></p>
+<p>2、解压并配置环境变量</p>
+<p>以我下载的为例，解压后结构如下：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7e9e549beafa401cad0ea26b1dcda3b5~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20220823172812299"></p>
+<p>可以看到 bin 目录下有个 protoc 的可执行文件，我们给它配置一下环境变量就可以使用了，以我的为例：</p>
+<figure class="highlight protobuf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs protobuf"># protobuf 环境变量<br>export PROTOBUF_HOME=/Users/zhouying/Downloads/protoc-<span class="hljs-number">3.19</span>.<span class="hljs-number">2</span>-osx-x86_64<br>export PATH=$&#123;PATH&#125;:$&#123;PROTOBUF_HOME&#125;/bin<br></code></pre></td></tr></table></figure>
+
+<p>3、配置好后，使用 protoc –version 验证</p>
+<p>打开终端键入 protoc –version 命令：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4e0b7da1f5d0489884a6e361977c1888~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20220823174015288"></p>
+<p>可以看到打印出了版本，证明我们安装成功了</p>
+<h3 id="2-2、方式二：brew-安装"><a href="#2-2、方式二：brew-安装" class="headerlink" title="2.2、方式二：brew 安装"></a>2.2、方式二：brew 安装</h3><p>直接使用以下命令就可以一键安装或卸载：</p>
+<figure class="highlight protobuf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs protobuf"><span class="hljs-comment">//一键安装 protobuf</span><br>brew install protobuf<br><br><span class="hljs-comment">//一键卸载 protobuf</span><br>brew uninstall protobuf<br></code></pre></td></tr></table></figure>
+
+<p><strong>注意</strong>：这种方式只适用于 Mac 系统，而且安装的 protobuf 为最新版本，因此如果想要使用指定的版本，建议使用方式一</p>
+<h2 id="三、使用-IDE-创建-Protobuf-文件"><a href="#三、使用-IDE-创建-Protobuf-文件" class="headerlink" title="三、使用 IDE 创建 Protobuf 文件"></a>三、使用 IDE 创建 Protobuf 文件</h2><p><strong>注意</strong>：这里我使用的 IDE 是 AndroidStudio</p>
+<p>1、创建一个以 .proto 为后缀的文件，如下图：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b8b17c40fb4545c4ad25fb481a7be618~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20220823192237038"></p>
+<p>可以看到这个文件前面的 icon 是个文本类型的，而且你在编写代码时，没有任何提示，关键字也没高亮显示，此时我们需要集成一个插件来支持 Protobuf 的编写</p>
+<p>2、集成 Protocol Buffers 插件</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/700811520b5347c994017a72637f2f3b~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20220823192414258"></p>
+<p>当我们集成这个插件后，可以看到文件 icon 和代码高亮的变化，而且还会有语法提示</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3a54b01c63be42c1bcd1ad2038c4495b~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20220823192636386"></p>
+<p>ok，接下来我们就可以愉快的编写 Protobuf 了，但是要怎么写呢😂 ？你是不是还不会 Protobuf 的语法，接着往下看</p>
+<h2 id="四、Protobuf-语法基础"><a href="#四、Protobuf-语法基础" class="headerlink" title="四、Protobuf 语法基础"></a>四、Protobuf 语法基础</h2><p>关于 Protobuf 的语法有很多，我们讲一些常用的</p>
+<h3 id="4-1、Protobuf-常用关键字介绍"><a href="#4-1、Protobuf-常用关键字介绍" class="headerlink" title="4.1、Protobuf 常用关键字介绍"></a>4.1、Protobuf 常用关键字介绍</h3><table>
+<thead>
+<tr>
+<th>关键字</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>syntax</td>
+<td>指定 Protobuf 的版本，Protobuf 目前有 proto2 和 proto3 两个常用版本，如果没有声明，则默认是proto2</td>
+</tr>
+<tr>
+<td>package</td>
+<td>指定文件包名</td>
+</tr>
+<tr>
+<td>import</td>
+<td>导包，和 Java 的 import 类似</td>
+</tr>
+<tr>
+<td>message</td>
+<td>定义消息类，和 Java 的 class 关键字类似，消息类之间可以嵌套</td>
+</tr>
+<tr>
+<td>repeated</td>
+<td>定义一个集合，和 Java 的集合类似</td>
+</tr>
+<tr>
+<td>reserved</td>
+<td>保留字段，如果使用了这个关键字修饰，用户就不能使用这个字段编号或字段名</td>
+</tr>
+<tr>
+<td>option</td>
+<td>option 可以用在 Protobuf 的 scope 中，或者 message、enum、service 的定义中，Protobuf 定义的 option 有 java_package，java_outer_classname，java_multiple_files 等等</td>
+</tr>
+<tr>
+<td>optional</td>
+<td>表示该字段是可选的</td>
+</tr>
+<tr>
+<td>java_package</td>
+<td>指定生成类所在的包名，需配合</td>
+</tr>
+<tr>
+<td>java_outer_classname</td>
+<td>定义当前文件的类名，如果没有定义，则默认为文件的首字母大写名称</td>
+</tr>
+<tr>
+<td>java_multiple_files</td>
+<td>指定编译过后 Java 的文件个数，如果是 true，那么将会一个 Java 对象一个类，如果是 false，那么定义的Java 对象将会被包含在同一个文件中</td>
+</tr>
+</tbody></table>
+<p><strong>注意</strong>：在 Proto3 中不支持 required (必须)字段</p>
+<h3 id="4-2、Protobuf-基本数据类型"><a href="#4-2、Protobuf-基本数据类型" class="headerlink" title="4.2、Protobuf 基本数据类型"></a>4.2、Protobuf 基本数据类型</h3><table>
+<thead>
+<tr>
+<th align="left">Protobuf Type</th>
+<th>说明</th>
+<th align="left">对应 Java&#x2F;Kotlin Type</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">double</td>
+<td>固定 8 字节长度</td>
+<td align="left">double</td>
+</tr>
+<tr>
+<td align="left">float</td>
+<td>固定 4 字节长度</td>
+<td align="left">float</td>
+</tr>
+<tr>
+<td align="left">int32</td>
+<td>可变长度编码，对负数编码低效，如果字段可能为负数，用 sint32 代替</td>
+<td align="left">int</td>
+</tr>
+<tr>
+<td align="left">int64</td>
+<td>可变长度编码，对负数编码低效，如果字段可能为负数，用 sint64 代替</td>
+<td align="left">long</td>
+</tr>
+<tr>
+<td align="left">uint32</td>
+<td>可变长度编码，无符号整数</td>
+<td align="left">int</td>
+</tr>
+<tr>
+<td align="left">uint64</td>
+<td>可变长度编码，无符号整数</td>
+<td align="left">long</td>
+</tr>
+<tr>
+<td align="left">sint32</td>
+<td>可变长度编码，有符号整数</td>
+<td align="left">int</td>
+</tr>
+<tr>
+<td align="left">sint64</td>
+<td>可变长度编码，有符号整数</td>
+<td align="left">long</td>
+</tr>
+<tr>
+<td align="left">fixed32</td>
+<td>固定 4 字节长度，无符号整数</td>
+<td align="left">int</td>
+</tr>
+<tr>
+<td align="left">fixed64</td>
+<td>固定 8 字节长度，无符号整数</td>
+<td align="left">long</td>
+</tr>
+<tr>
+<td align="left">sfixed32</td>
+<td>固定 4 字节长度，有符号整数</td>
+<td align="left">int</td>
+</tr>
+<tr>
+<td align="left">sfixed64</td>
+<td>固定 8 字节长度，有符号整数</td>
+<td align="left">long</td>
+</tr>
+<tr>
+<td align="left">bool</td>
+<td>布尔类型，值为 true 或 false</td>
+<td align="left">boolean</td>
+</tr>
+<tr>
+<td align="left">string</td>
+<td>字符串类型</td>
+<td align="left">String</td>
+</tr>
+</tbody></table>
+<p>可变长度编码和固定长度编码区别：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//例如说我在 Java 里面进行如下定义：</span><br><span class="hljs-type">int</span> <span class="hljs-variable">a</span> <span class="hljs-operator">=</span> <span class="hljs-number">1</span>;<br><span class="hljs-comment">//因为 int 类型占 4 个字节，1个字节占 8 位，我们把 1 的字节占位给列出来：</span><br><span class="hljs-number">00000000</span> <span class="hljs-number">00000000</span> <span class="hljs-number">00000000</span> <span class="hljs-number">00000001</span><br><span class="hljs-comment">//可以看到 1 的前面 3 个字节占位都是 0，在 Protobuf 里面是可以去掉的，于是就变成了：</span><br><span class="hljs-number">00000001</span><br><span class="hljs-comment">//因此 1 在 Protobuf 里面就只占用了一个字节，节省了空间</span><br></code></pre></td></tr></table></figure>
+
+<p>上面这种就是可变长度编码。而固定长度编码就是即使前面的字节占位是 0，也不能去掉，我就是要占这么多字节</p>
+<h4 id="4-2-1、基本数据类型默认值"><a href="#4-2-1、基本数据类型默认值" class="headerlink" title="4.2.1、基本数据类型默认值"></a>4.2.1、基本数据类型默认值</h4><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>数值类型</td>
+<td>0</td>
+</tr>
+<tr>
+<td>bool</td>
+<td>false</td>
+</tr>
+<tr>
+<td>string</td>
+<td>空字符串</td>
+</tr>
+<tr>
+<td>enum</td>
+<td>默认为第一个元素</td>
+</tr>
+</tbody></table>
+<h3 id="4-3、消息类型定义"><a href="#4-3、消息类型定义" class="headerlink" title="4.3、消息类型定义"></a>4.3、消息类型定义</h3><p>在上面创建的 Protobuf 文件中，定义一个学生，学生有姓名，年龄，邮箱和课程，我们来实现一下它：</p>
+<figure class="highlight protobuf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs protobuf"><span class="hljs-comment">//指定 Protobuf 版本</span><br>syntax = <span class="hljs-string">&quot;proto3&quot;</span>;<br><br><span class="hljs-comment">//指定包名</span><br><span class="hljs-keyword">package</span> erdai;<br><br><span class="hljs-comment">//定义一个学生的消息类</span><br><span class="hljs-keyword">message </span><span class="hljs-title class_">Student</span>&#123;<br>  <span class="hljs-comment">//姓名</span><br>  <span class="hljs-type">string</span> name = <span class="hljs-number">1</span>;<br>  <span class="hljs-comment">//年龄</span><br>  <span class="hljs-type">int32</span> age = <span class="hljs-number">2</span>;<br>  <span class="hljs-comment">//邮箱</span><br>  <span class="hljs-type">string</span> email = <span class="hljs-number">3</span>;<br>  <span class="hljs-comment">//课程</span><br>  <span class="hljs-keyword">repeated</span> <span class="hljs-type">string</span> course = <span class="hljs-number">4</span>; <span class="hljs-comment">//相当于 Java 的 List&lt;String&gt;</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>注意</strong>：</p>
+<p>1、一个 Protobuf 文件里面可以添加多个消息类，也可以进行嵌套</p>
+<p>2、上面的 1，2，3，4 并不是给字段赋值，而是给每个字段定义一个唯一的编号。这些编号用于二进制格式中标识你的字段，并且在使用你的消息类型后不应更改</p>
+<p>3、1-15 的字段编号只占一个字节进行编码，16-2047 的字段编号占两个字节，包括字段编号和字段类型，因此建议更多的使用 1-15 的字段编号</p>
+<p>4、可以指定最小字段编号为 1，最大字段编号为 2^29 - 1 或 536870911。另外不能使用 19000-19999 的标识号，因为 protobuf 协议实现对这些进行了预留，同样，也不能使用任何以前保留（reserved） 的字段编号</p>
+<h3 id="4-4、Protobuf-枚举类型"><a href="#4-4、Protobuf-枚举类型" class="headerlink" title="4.4、Protobuf 枚举类型"></a>4.4、Protobuf 枚举类型</h3><figure class="highlight protobuf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs protobuf"><span class="hljs-keyword">message </span><span class="hljs-title class_">Weather</span>&#123;<br>  <span class="hljs-type">int32</span> query = <span class="hljs-number">1</span>;<br><br>  <span class="hljs-comment">//季节</span><br>  <span class="hljs-keyword">enum </span><span class="hljs-title class_">Season</span>&#123;<br>    <span class="hljs-comment">//允许对枚举常量设置别名</span><br>    <span class="hljs-keyword">option</span> allow_alias = <span class="hljs-literal">true</span>;<br>    <span class="hljs-comment">//枚举里面的 = 操作是对常量进行赋值操作</span><br>    <span class="hljs-comment">//春</span><br>    SPRING = <span class="hljs-number">0</span>;<br>    <span class="hljs-comment">//夏</span><br>    SUMMER = <span class="hljs-number">1</span>;<br>    <span class="hljs-comment">//秋 如果不设置别名，不允许存在两个相同的值</span><br>    FALL = <span class="hljs-number">2</span>;<br>    AUTUMN = <span class="hljs-number">2</span>;<br>    <span class="hljs-comment">//冬</span><br>    WINTER = <span class="hljs-number">3</span>;<br>  &#125;<br><br>  <span class="hljs-comment">//对 season 进行编号</span><br>  Season season = <span class="hljs-number">2</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>1、定义枚举类型使用 enum 关键字</p>
+<p>2、枚举类型第一个字段的值为必须 0，否则编译会报错</p>
+<p>3、枚举常量值必须在 32 位整型值的范围内。因为 enum 值是使用可变编码方式的，对负数不够高效，因此不推荐在 enum 中使用负数</p>
+<p>4、枚举里面的 &#x3D; 操作是对常量进行赋值操作，而枚举外面的 &#x3D; 则是对当前字段进行编号</p>
+<h3 id="4-5、Protobuf-集合"><a href="#4-5、Protobuf-集合" class="headerlink" title="4.5、Protobuf 集合"></a>4.5、Protobuf 集合</h3><figure class="highlight protobuf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs protobuf"><span class="hljs-keyword">repeated</span> <span class="hljs-type">string</span> list = <span class="hljs-number">1</span>; <span class="hljs-comment">//类似 Java 的 List&lt;String&gt;</span><br><br>map&lt;<span class="hljs-type">string</span>,<span class="hljs-type">string</span>&gt; = <span class="hljs-number">2</span>; <span class="hljs-comment">//类似 Java 的 Map&lt;String,String&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>1、Protobuf 中定义集合，就是在你定义好的属性前面加 repeated 关键字</p>
+<p>2、Protobuf 中定义 map 和 Java 类似，只不过 map 是小写的</p>
+<h3 id="4-6、reserved-保留字段"><a href="#4-6、reserved-保留字段" class="headerlink" title="4.6、reserved 保留字段"></a>4.6、reserved 保留字段</h3><p>当我们使用 reserved 关键字指定一个字段编号或字段名为保留字段后，我们就不能去使用它，否则编译器会报错，如下：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/345fc00ef64c48638750c2de5a2d7b0f~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20220824165406735"></p>
+<p>ok，简单的介绍了 Protobuf 语法后，接下来我们使用 AndroidStudio 将 Protobuf 文件转换为对应的 Java 文件来进行开发</p>
+<h2 id="五、Protobuf-转-Java-文件"><a href="#五、Protobuf-转-Java-文件" class="headerlink" title="五、Protobuf 转 Java 文件"></a>五、Protobuf 转 Java 文件</h2><p>首先我们要明白一点：Protobuf 是一种与平台，语言无关的数据存储格式，因此我们要在其它语言如：Java，Kotlin，Dart 等语言中使用它，则必须将 Protobuf 文件转换为对应平台的语言文件去使用，这里我们以转 Java 文件为例，介绍两种转换的方式：</p>
+<p>1、集成 Protobuf 插件转换</p>
+<p>2、使用 protoc 命令行转换</p>
+<p>在使用这两种方式转换前，我们需要先集成 protobuf-java 这个第三方库，因为我们转换的 Java 文件中会使用这个库里面的功能</p>
+<figure class="highlight protobuf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs protobuf">implementation &#x27;com.google.protobuf:protobuf-java:<span class="hljs-number">3.19</span>.<span class="hljs-number">2</span>&#x27;<br></code></pre></td></tr></table></figure>
+
+<p>最新版本可查看此链接：<a target="_blank" rel="noopener" href="https://github.com/protocolbuffers/protobuf/tree/main/java">https://github.com/protocolbuffers/protobuf/tree/main/java</a></p>
+<h3 id="5-1、集成-Protobuf-插件转换"><a href="#5-1、集成-Protobuf-插件转换" class="headerlink" title="5.1、集成 Protobuf 插件转换"></a>5.1、集成 Protobuf 插件转换</h3><p>插件链接：<a target="_blank" rel="noopener" href="https://github.com/google/protobuf-gradle-plugin">https://github.com/google/protobuf-gradle-plugin</a></p>
+<p>1、在项目的根 build.gradle 文件中，添加如下依赖：</p>
+<figure class="highlight protobuf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs protobuf">buildscript &#123;<br>    repositories &#123;<br>        gradlePluginPortal()<br>    &#125;<br>    dependencies &#123;<br>        classpath &#x27;com.google.protobuf:protobuf-gradle-plugin:<span class="hljs-number">0.8</span>.<span class="hljs-number">19</span>&#x27;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>2、在 app 的 build.gradle 文件中应用插件</p>
+<figure class="highlight protobuf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs protobuf"><span class="hljs-comment">//1、如果使用的是 apply 方式，Android 插件必须在 Protobuf 插件之前，如下：</span><br>apply plugin: &#x27;com.android.application&#x27;<br>apply plugin: &#x27;com.google.protobuf&#x27;<br><br><span class="hljs-comment">//2、如果使用的是 Gradle DSL 方式，则与顺序无关</span><br>plugins &#123;<br>    id &#x27;com.google.protobuf&#x27;<br>    id &#x27;com.android.application&#x27;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>3、在 app 的 build.gradle 文件中配置 protobuf 编译任务</p>
+<figure class="highlight protobuf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs protobuf">android &#123;<br>    <span class="hljs-comment">//...</span><br>&#125;<br><br>protobuf &#123;<br>    <span class="hljs-comment">//配置 protoc 编译器</span><br>    protoc &#123;<br>        artifact = &#x27;com.google.protobuf:protoc:<span class="hljs-number">3.19</span>.<span class="hljs-number">2</span>&#x27;<br>    &#125;<br>    <span class="hljs-comment">//配置生成目录，编译后会在 build 的目录下生成对应的java文件</span><br>    generateProtoTasks &#123;<br>        all().each &#123; task -&gt;<br>            task.builtins &#123;<br>                remove java<br>            &#125;<br>            task.builtins &#123;<br>                java &#123;&#125;<br>            &#125;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>4、指定 protobuf 文件所在路径</p>
+<figure class="highlight protobuf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs protobuf">android &#123;<br>    <span class="hljs-comment">//...</span><br><br>    sourceSets &#123;<br>        main &#123;<br>            <span class="hljs-comment">//实际测试指不指定无所谓，不影响 Java 文件生成</span><br>            proto &#123;<br>                srcDir &#x27;src/main/proto&#x27;<br>            &#125;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>经过上面 4 步，我们的插件就算配置完成了，接下来我们测试一下</p>
+<p>5、重新编译项目</p>
+<p>以我们上面那个 student.proto 为例，里面的内容如下：</p>
+<figure class="highlight protobuf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs protobuf"><span class="hljs-comment">//指定 Protobuf 版本</span><br>syntax = <span class="hljs-string">&quot;proto3&quot;</span>;<br><br><span class="hljs-comment">//指定包名</span><br><span class="hljs-keyword">package</span> erdai;<br><br><span class="hljs-comment">//定义一个学生的消息类</span><br><span class="hljs-keyword">message </span><span class="hljs-title class_">Student</span>&#123;<br>  <span class="hljs-comment">//姓名</span><br>  <span class="hljs-type">string</span> name = <span class="hljs-number">1</span>;<br>  <span class="hljs-comment">//年龄</span><br>  <span class="hljs-type">int32</span> age = <span class="hljs-number">2</span>;<br>  <span class="hljs-comment">//邮箱</span><br>  <span class="hljs-type">string</span> email = <span class="hljs-number">3</span>;<br>  <span class="hljs-comment">//课程</span><br>  <span class="hljs-keyword">repeated</span> <span class="hljs-type">string</span> course = <span class="hljs-number">4</span>;<br><br>&#125;<br><br><span class="hljs-comment">//定义一个天气的消息类</span><br><span class="hljs-keyword">message </span><span class="hljs-title class_">Weather</span>&#123;<br>  <span class="hljs-type">int32</span> query = <span class="hljs-number">1</span>;<br><br>  <span class="hljs-comment">//季节</span><br>  <span class="hljs-keyword">enum </span><span class="hljs-title class_">Season</span>&#123;<br>    <span class="hljs-keyword">option</span> allow_alias = <span class="hljs-literal">true</span>;<br>    <span class="hljs-comment">//春</span><br>    SPRING = <span class="hljs-number">0</span>;<br>    <span class="hljs-comment">//夏</span><br>    SUMMER = <span class="hljs-number">1</span>;<br>    <span class="hljs-comment">//秋</span><br>    FALL = <span class="hljs-number">2</span>;<br>    AUTUMN = <span class="hljs-number">2</span>;<br>    <span class="hljs-comment">//冬</span><br>    WINTER = <span class="hljs-number">3</span>;<br>  &#125;<br><br>  Season season = <span class="hljs-number">2</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>编译后，会在 app&#x2F;build&#x2F;generated&#x2F;source&#x2F;proto&#x2F; 目录下生成如下文件：</p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202208241633803.png" srcset="/img/loading.gif" lazyload alt="image-20220824110842489"></p>
+<p>这种方式会自动给我们生成对应的 Java 类，就是集成的时候麻烦一点</p>
+<h3 id="5-2、使用-protoc-命令行转换"><a href="#5-2、使用-protoc-命令行转换" class="headerlink" title="5.2、使用 protoc 命令行转换"></a>5.2、使用 protoc 命令行转换</h3><p>执行如下命令：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java">protoc --java_out=$&#123;<span class="hljs-string">&quot;你要生成的 Java 文件目录&quot;</span>&#125; $&#123;<span class="hljs-string">&quot;Protobuf 文件位置&quot;</span>&#125;<br><br><span class="hljs-comment">//以我的为例：</span><br>protoc --java_out=./app/src/main/java ./app/src/main/proto/student.proto<br></code></pre></td></tr></table></figure>
+
+<p>生成的文件：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9d84f8aace4f4fa2a3bc04b6465d5e9c~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20220824112730091"></p>
+<p>这种方式的优点是使用非常简单，但是每一次创建新的 Protobuf 文件都需要执行一下命令</p>
+<h3 id="5-3、生成的-Java-文件介绍"><a href="#5-3、生成的-Java-文件介绍" class="headerlink" title="5.3、生成的 Java 文件介绍"></a>5.3、生成的 Java 文件介绍</h3><p>关于这个类的内容简单介绍下，大家也可以生成后自行看源码，如下图：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/33a15c47616b447191f4f468e4e6d284~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20220824143229899"></p>
+<p>1、生成的类 StudentOuterClass 有 4 个子类：</p>
+<blockquote>
+<p>Student （实现了 StudentOrBuilder 接口）</p>
+<p>Weather （实现了 WeatherOrBuilder 接口）</p>
+<p>StudentOrBuilder （接口）</p>
+<p>WeatherOrBuilder （接口）</p>
+</blockquote>
+<p>2、Student 是 StudentOuterClass 的静态内部类，构造方法私有化，需通过 Builder 模式创建对象。另外 Student 提供了属性的 get 方法，无 set 方法，Builder 作为 Student 的静态内部类提供了属性的 get，set，clear方法，clear 就是清空某个属性回到初始值</p>
+<p>3、Weather 同 2</p>
+<h2 id="六、Protobuf-使用"><a href="#六、Protobuf-使用" class="headerlink" title="六、Protobuf 使用"></a>六、Protobuf 使用</h2><p>接下来我们对刚才生成的 Java 类进行使用</p>
+<h3 id="6-1、基本调用"><a href="#6-1、基本调用" class="headerlink" title="6.1、基本调用"></a>6.1、基本调用</h3><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-comment">//构建 Protobuf 对象</span><br>    <span class="hljs-keyword">val</span> student = StudentOuterClass.Student.newBuilder()<br>        .setName(<span class="hljs-string">&quot;erdai&quot;</span>)<br>        .setAge(<span class="hljs-number">18</span>)<br>        .setEmail(<span class="hljs-string">&quot;erdai666@qq.com&quot;</span>)<br>        .addAllCourse(mutableListOf(<span class="hljs-string">&quot;Math&quot;</span>, <span class="hljs-string">&quot;English&quot;</span>, <span class="hljs-string">&quot;Computer&quot;</span>))<br>        .build()<br>    println(student)<br>    println()<br>    println(StudentOuterClass.Weather.Season.SPRING.number)<br>    println(StudentOuterClass.Weather.Season.SUMMER.number)<br>    println(StudentOuterClass.Weather.Season.AUTUMN.number)<br>    println(StudentOuterClass.Weather.Season.WINTER.number)<br>&#125;<br><br><span class="hljs-comment">//打印结果</span><br>name: <span class="hljs-string">&quot;erdai&quot;</span><br>age: <span class="hljs-number">18</span><br>email: <span class="hljs-string">&quot;erdai666@qq.com&quot;</span><br>course: <span class="hljs-string">&quot;Math&quot;</span><br>course: <span class="hljs-string">&quot;English&quot;</span><br>course: <span class="hljs-string">&quot;Computer&quot;</span><br><br><br><span class="hljs-number">0</span><br><span class="hljs-number">1</span><br><span class="hljs-number">2</span><br><span class="hljs-number">3</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="6-2、序列化和反序列化"><a href="#6-2、序列化和反序列化" class="headerlink" title="6.2、序列化和反序列化"></a>6.2、序列化和反序列化</h3><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-comment">//1、构建 Protobuf 对象</span><br>    <span class="hljs-keyword">val</span> student = StudentOuterClass.Student.newBuilder()<br>        .setName(<span class="hljs-string">&quot;erdai&quot;</span>)<br>        .setAge(<span class="hljs-number">18</span>)<br>        .setEmail(<span class="hljs-string">&quot;erdai666@qq.com&quot;</span>)<br>        .addAllCourse(mutableListOf(<span class="hljs-string">&quot;Math&quot;</span>, <span class="hljs-string">&quot;English&quot;</span>, <span class="hljs-string">&quot;Computer&quot;</span>))<br>        .build()<br>    <span class="hljs-comment">//2、序列化并返回一个包含其原始字节的字节数组</span><br>    <span class="hljs-keyword">val</span> byteArray: ByteArray = student.toByteArray()<br>    <span class="hljs-comment">//3、反序列化从字节数组中解析消息</span><br>    <span class="hljs-keyword">val</span> parseStudent: StudentOuterClass.Student = StudentOuterClass.Student.parseFrom(byteArray)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="七、Protobuf-和-Json-相互转换"><a href="#七、Protobuf-和-Json-相互转换" class="headerlink" title="七、Protobuf 和 Json 相互转换"></a>七、Protobuf 和 Json 相互转换</h2><p>首先我们需要添加一个第三方依赖：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs kotlin">implementation <span class="hljs-string">&#x27;com.google.protobuf:protobuf-java-util:3.19.2&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="7-1、Protobuf-转-Json"><a href="#7-1、Protobuf-转-Json" class="headerlink" title="7.1、Protobuf 转 Json"></a>7.1、Protobuf 转 Json</h3><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-comment">//1、构建 Protobuf 对象</span><br>    <span class="hljs-keyword">val</span> student = StudentOuterClass.Student.newBuilder()<br>        .setName(<span class="hljs-string">&quot;erdai&quot;</span>)<br>        .setAge(<span class="hljs-number">18</span>)<br>        .setEmail(<span class="hljs-string">&quot;erdai666@qq.com&quot;</span>)<br>        .addAllCourse(mutableListOf(<span class="hljs-string">&quot;Math&quot;</span>, <span class="hljs-string">&quot;English&quot;</span>, <span class="hljs-string">&quot;Computer&quot;</span>))<br>        .build()<br>    <span class="hljs-comment">//2、Protobuf 转 Json</span><br>    <span class="hljs-keyword">val</span> json = JsonFormat.printer().print(student)<br>    <span class="hljs-comment">//3、打印 json</span><br>    println(json)<br>&#125;<br><br><span class="hljs-comment">//打印结果</span><br>&#123;<br>  <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;erdai&quot;</span>,<br>  <span class="hljs-string">&quot;age&quot;</span>: <span class="hljs-number">18</span>,<br>  <span class="hljs-string">&quot;email&quot;</span>: <span class="hljs-string">&quot;erdai666@qq.com&quot;</span>,<br>  <span class="hljs-string">&quot;course&quot;</span>: [<span class="hljs-string">&quot;Math&quot;</span>, <span class="hljs-string">&quot;English&quot;</span>, <span class="hljs-string">&quot;Computer&quot;</span>]<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="7-2、Json-转-Protobuf"><a href="#7-2、Json-转-Protobuf" class="headerlink" title="7.2、Json 转 Protobuf"></a>7.2、Json 转 Protobuf</h3><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-comment">//1、构建 Protobuf 对象</span><br>    <span class="hljs-keyword">val</span> student = StudentOuterClass.Student.newBuilder()<br>        .setName(<span class="hljs-string">&quot;erdai&quot;</span>)<br>        .setAge(<span class="hljs-number">18</span>)<br>        .setEmail(<span class="hljs-string">&quot;erdai666@qq.com&quot;</span>)<br>        .addAllCourse(mutableListOf(<span class="hljs-string">&quot;Math&quot;</span>, <span class="hljs-string">&quot;English&quot;</span>, <span class="hljs-string">&quot;Computer&quot;</span>))<br>        .build()<br>    <span class="hljs-comment">//2、Protobuf 对象转 Json</span><br>    <span class="hljs-keyword">val</span> json = JsonFormat.printer().print(student)<br>    <span class="hljs-comment">//3、Json 转 Protobuf 对象</span><br>    <span class="hljs-keyword">val</span> builder = StudentOuterClass.Student.newBuilder()<br>    JsonFormat.parser().ignoringUnknownFields().merge(json,builder)<br>    <span class="hljs-comment">//4、打印 Protobuf 对象</span><br>    println(builder.build())<br>&#125;<br><br><span class="hljs-comment">//打印结果</span><br>name: <span class="hljs-string">&quot;erdai&quot;</span><br>age: <span class="hljs-number">18</span><br>email: <span class="hljs-string">&quot;erdai666@qq.com&quot;</span><br>course: <span class="hljs-string">&quot;Math&quot;</span><br>course: <span class="hljs-string">&quot;English&quot;</span><br>course: <span class="hljs-string">&quot;Computer&quot;</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="八、Protobuf-和-Java-对象相互转换"><a href="#八、Protobuf-和-Java-对象相互转换" class="headerlink" title="八、Protobuf 和 Java 对象相互转换"></a>八、Protobuf 和 Java 对象相互转换</h2><p>这个实则是在七的基础上，当我们将 Protobuf 转换为 Json 后，在把 Json 转换为对应的 Java 对象，这里我们先引入 Gson ：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs kotlin">implementation <span class="hljs-string">&#x27;com.google.code.gson:gson:2.8.9&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p>定义一个接收当前 Json 的数据模型：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">data</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyStudent</span>(<br>    <span class="hljs-keyword">var</span> name: String? = <span class="hljs-string">&quot;&quot;</span>,<br>    <span class="hljs-keyword">var</span> age: <span class="hljs-built_in">Int</span> = <span class="hljs-number">0</span>,<br>    <span class="hljs-keyword">var</span> email: String? = <span class="hljs-string">&quot;&quot;</span>,<br>    <span class="hljs-keyword">var</span> course: MutableList&lt;String&gt;? = <span class="hljs-literal">null</span><br>)<br></code></pre></td></tr></table></figure>
+
+<p>最后进行转换：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-comment">//1、构建 Protobuf 对象</span><br>    <span class="hljs-keyword">val</span> student = StudentOuterClass.Student.newBuilder()<br>        .setName(<span class="hljs-string">&quot;erdai&quot;</span>)<br>        .setAge(<span class="hljs-number">18</span>)<br>        .setEmail(<span class="hljs-string">&quot;erdai666@qq.com&quot;</span>)<br>        .addAllCourse(mutableListOf(<span class="hljs-string">&quot;Math&quot;</span>, <span class="hljs-string">&quot;English&quot;</span>, <span class="hljs-string">&quot;Computer&quot;</span>))<br>        .build()<br>    <span class="hljs-comment">//2、将 Protobuf 转换为 Json</span><br>    <span class="hljs-keyword">val</span> json = JsonFormat.printer().print(student)<br><br>    <span class="hljs-comment">//3、将 Json 转换为 Java Bean 对象</span><br>    <span class="hljs-keyword">val</span> myStudent = Gson().fromJson(json,MyStudent::<span class="hljs-keyword">class</span>.java)<br>    println(myStudent)<br>&#125;<br><br><span class="hljs-comment">//打印结果</span><br>MyStudent(name=erdai, age=<span class="hljs-number">18</span>, email=<span class="hljs-symbol">erdai666@</span>qq.com, course=[Math, English, Computer])<br></code></pre></td></tr></table></figure>
+
+<h2 id="九、总结"><a href="#九、总结" class="headerlink" title="九、总结"></a>九、总结</h2><p>关于 Protobuf 的开发流程：一般都是后台定义好 Protobuf ，然后给到我们客户端，客户端在根据 Protobuf 生成对应平台的代码进行使用即可。因此上面我讲的这些内容你掌握了，基本上能满足日常的开发</p>
+<p>好了，本篇文章到这里就结束了，如果有啥问题，欢迎评论区一起交流</p>
+<p><strong>感谢你阅读这篇文章</strong></p>
+<h3 id="参考和推荐"><a href="#参考和推荐" class="headerlink" title="参考和推荐"></a>参考和推荐</h3><p><a target="_blank" rel="noopener" href="https://developers.google.com/protocol-buffers/docs/proto3">Protocol Buffers 官方文档</a></p>
+<blockquote>
+<p><strong>你的点赞，评论，是对我巨大的鼓励！</strong></p>
+<p>欢迎关注我的<strong>公众号：</strong>  <a href="https://link.juejin.cn/?target=http://m6z.cn/6jwi7b" title="http://m6z.cn/6jwi7b"><strong>sweetying</strong></a> ，文章更新可第一时间收到</p>
+<p>如果<strong>有问题</strong>，公众号内有加我微信的入口，在技术学习、个人成长的道路上，我们一起前进！</p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Android/" class="category-chain-item">Android</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Android/%E4%B8%80%E7%AF%87%E5%B0%B1%E5%A4%9F/" class="category-chain-item">一篇就够</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%8E%9F%E5%88%9B/">#原创</a>
+      
+        <a href="/tags/Android/">#Android</a>
+      
+        <a href="/tags/%E4%B8%80%E7%AF%87%E5%B0%B1%E5%A4%9F/">#一篇就够</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>一篇就够系列：Android 中使用 Protobuf</div>
+      <div>https://sweetying520.github.io/2022/10/11/一篇就够系列：Android 中使用 Protobuf/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>sweetying</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年10月11日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/10/11/%E4%B8%80%E7%AF%87%E5%B0%B1%E5%A4%9F%E7%B3%BB%E5%88%97%EF%BC%9ARxJava%20%E6%A0%B8%E5%BF%83%E8%A7%A3%E5%AF%86/" title="一篇就够系列：RxJava 核心解密">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">一篇就够系列：RxJava 核心解密</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/10/11/%E4%B8%80%E7%AF%87%E5%B0%B1%E5%A4%9F%E7%B3%BB%E5%88%97%EF%BC%9AAndroid%20Emoji%20%E8%A1%A8%E6%83%85%E5%88%86%E4%BA%AB%E5%92%8C%E5%AE%9E%E8%B7%B5/" title="一篇就够系列：Android Emoji 表情分享和实践">
+                        <span class="hidden-mobile">一篇就够系列：Android Emoji 表情分享和实践</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.4.17/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"zN1E017kYhKuj6GqXHJSbGMb-gzGzoHsz","appKey":"JSwY8PjtA131Y78OHn7kKtio","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -242,6 +242,654 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2022/10/11/Android%E5%AD%97%E4%BD%93%E7%B3%BB%E5%88%97%20%EF%BC%88%E4%B8%89%EF%BC%89%EF%BC%9AXml%E4%B8%AD%E7%9A%84%E5%AD%97%E4%BD%93/" target="_self">
+          Android字体系列 （三）：Xml中的字体
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2022/10/11/Android%E5%AD%97%E4%BD%93%E7%B3%BB%E5%88%97%20%EF%BC%88%E4%B8%89%EF%BC%89%EF%BC%9AXml%E4%B8%AD%E7%9A%84%E5%AD%97%E4%BD%93/" target="_self">
+        <div>
+          前言很高兴遇见你~ 在本系列的上一篇文章中，我们对 Typeface 进行了深入的解析，还没有看过上一篇文章的朋友，建议先去阅读 Android字体系列 （二）：Typeface完全解析。接下来我们看下 Google 推出的 Xml 中使用字体 一、Xml 中字体介绍Google 在 Android Support Library 26 引入了 Xml 中设置字体这项新功能，它可以让你将字体当成
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-10-11 10:30" pubdate>
+              2022-10-11
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Android/" class="category-chain-item">Android</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Android/Font/" class="category-chain-item">Font</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%8E%9F%E5%88%9B/">#原创</a>
+            
+              <a href="/tags/Android/">#Android</a>
+            
+              <a href="/tags/Android-Font/">#Android Font</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/10/11/Android%E5%AD%97%E4%BD%93%E7%B3%BB%E5%88%97%20%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9ATypeface%E5%AE%8C%E5%85%A8%E8%A7%A3%E6%9E%90/" target="_self">
+          Android字体系列 （二）：Typeface完全解析
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2022/10/11/Android%E5%AD%97%E4%BD%93%E7%B3%BB%E5%88%97%20%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9ATypeface%E5%AE%8C%E5%85%A8%E8%A7%A3%E6%9E%90/" target="_self">
+        <div>
+          前言很高兴遇见你~ 在本系列的上一篇文章中，我们介绍了关于 Android 字体的一些基础知识，还没有看过上一篇文章的朋友，建议先去阅读 Android字体系列 （一）：Android字体基础，你会发现，我们设置的那三个属性最终都会去构建一个 Typeface 对象，今天我们就好好的来讲讲它 注意：本文所展示的系统源码都是基于Android-30 ，并提取核心部分进行分析 一、Typeface
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-10-11 10:30" pubdate>
+              2022-10-11
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Android/" class="category-chain-item">Android</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Android/Font/" class="category-chain-item">Font</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%8E%9F%E5%88%9B/">#原创</a>
+            
+              <a href="/tags/Android/">#Android</a>
+            
+              <a href="/tags/Android-Font/">#Android Font</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/10/11/Android%E5%AD%97%E4%BD%93%E7%B3%BB%E5%88%97%20%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9AAndroid%E5%AD%97%E4%BD%93%E5%9F%BA%E7%A1%80/" target="_self">
+          Android字体系列 （一）：Android字体基础
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2022/10/11/Android%E5%AD%97%E4%BD%93%E7%B3%BB%E5%88%97%20%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9AAndroid%E5%AD%97%E4%BD%93%E5%9F%BA%E7%A1%80/" target="_self">
+        <div>
+          前言很高兴遇见你~ 最近接到一个需求，大致内容是：全局替换当前项目中的默认字体，并引入 UI 设计师提供的一些新字体。于是对字体做了些研究，把自己的一些心得分享给大家。 注意：本文所展示的系统源码都是基于Android-30 ，并提取核心部分进行分析 一、Android 默认字体介绍1、Android 系统默认使用的是一款叫做 Roboto 的字体，这也是 Google 推荐使用的一款字体 传送
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-10-11 10:30" pubdate>
+              2022-10-11
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Android/" class="category-chain-item">Android</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Android/Font/" class="category-chain-item">Font</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%8E%9F%E5%88%9B/">#原创</a>
+            
+              <a href="/tags/Android/">#Android</a>
+            
+              <a href="/tags/Android-Font/">#Android Font</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/10/11/Gradle%20%E7%B3%BB%E5%88%97%20%EF%BC%88%E5%9B%9B%EF%BC%89%E3%80%81Gradle%20%E6%8F%92%E4%BB%B6%E5%AE%9E%E6%88%98%E5%BA%94%E7%94%A8/" target="_self">
+          Gradle 系列 （四）、Gradle 插件实战应用
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2022/10/11/Gradle%20%E7%B3%BB%E5%88%97%20%EF%BC%88%E5%9B%9B%EF%BC%89%E3%80%81Gradle%20%E6%8F%92%E4%BB%B6%E5%AE%9E%E6%88%98%E5%BA%94%E7%94%A8/" target="_self">
+        <div>
+          前言很高兴遇见你~ 关于 Gradle 学习，我所理解的流程如下图：  在本系列的上一篇文章中，我们讲了自定义 Gradle 插件相关的内容，完成了第三个环节。还没有看过上一篇文章的朋友，建议先去阅读 Gradle 系列 （三）、Gradle 插件开发。 今天我们介绍的还是环节三：Gradle 插件实战应用 Github Demo 地址 , 大家可以结合 demo 一起看，效果杠杠滴🍺 一、回
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-10-11 10:17" pubdate>
+              2022-10-11
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Android/" class="category-chain-item">Android</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Android/Gradle/" class="category-chain-item">Gradle</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%8E%9F%E5%88%9B/">#原创</a>
+            
+              <a href="/tags/Android/">#Android</a>
+            
+              <a href="/tags/Gradle/">#Gradle</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/10/11/Gradle%20%E7%B3%BB%E5%88%97%20%EF%BC%88%E4%B8%89%EF%BC%89%E3%80%81Gradle%20%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91/" target="_self">
+          Gradle 系列 （三）、Gradle 插件开发
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2022/10/11/Gradle%20%E7%B3%BB%E5%88%97%20%EF%BC%88%E4%B8%89%EF%BC%89%E3%80%81Gradle%20%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91/" target="_self">
+        <div>
+          前言很高兴遇见你~ 关于 Gradle 学习，我所理解的流程如下图：  在本系列的上一篇文章中，我们讲了 Gradle 的生命周期及一些常用 API，了解了 Settings，Project，Task 等等，完成了第二个环节。还没有看过上一篇文章的朋友，建议先去阅读 Gradle 系列 （二）、Gradle 技术探索。 今天我们主要介绍环节三：熟悉自定义 Gradle 插件 Gradle 给我们
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-10-11 10:17" pubdate>
+              2022-10-11
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Android/" class="category-chain-item">Android</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Android/Gradle/" class="category-chain-item">Gradle</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%8E%9F%E5%88%9B/">#原创</a>
+            
+              <a href="/tags/Android/">#Android</a>
+            
+              <a href="/tags/Gradle/">#Gradle</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/10/11/Gradle%20%E7%B3%BB%E5%88%97%20%EF%BC%88%E4%BA%8C%EF%BC%89%E3%80%81Gradle%20%E6%8A%80%E6%9C%AF%E6%8E%A2%E7%B4%A2/" target="_self">
+          Gradle 系列 （二）、Gradle 技术探索
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2022/10/11/Gradle%20%E7%B3%BB%E5%88%97%20%EF%BC%88%E4%BA%8C%EF%BC%89%E3%80%81Gradle%20%E6%8A%80%E6%9C%AF%E6%8E%A2%E7%B4%A2/" target="_self">
+        <div>
+          前言很高兴遇见你~ 这又是一个新的系列，关于 Gradle 学习，我所理解的流程如下图：  在本系列的上一篇文章中，我们对 Gradle 的一些基础概念及 Groovy 语法进行了讲解，完成了第一个环节。还没有看过上一篇文章的朋友，建议先去阅读 Gradle 系列 （一）、Gradle相关概念理解，Groovy基础。 今天我们主要介绍环节二：熟悉 Gradle 常用 API，了解 Setting
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-10-11 10:17" pubdate>
+              2022-10-11
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Android/" class="category-chain-item">Android</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Android/Gradle/" class="category-chain-item">Gradle</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%8E%9F%E5%88%9B/">#原创</a>
+            
+              <a href="/tags/Android/">#Android</a>
+            
+              <a href="/tags/Gradle/">#Gradle</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/10/11/Gradle%20%E7%B3%BB%E5%88%97%20%EF%BC%88%E4%B8%80%EF%BC%89%E3%80%81Gradle%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5%E7%90%86%E8%A7%A3%EF%BC%8CGroovy%E5%9F%BA%E7%A1%80/" target="_self">
+          Gradle 系列 （一）、Gradle相关概念理解，Groovy基础
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2022/10/11/Gradle%20%E7%B3%BB%E5%88%97%20%EF%BC%88%E4%B8%80%EF%BC%89%E3%80%81Gradle%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5%E7%90%86%E8%A7%A3%EF%BC%8CGroovy%E5%9F%BA%E7%A1%80/" target="_self">
+        <div>
+          前言引用 Gradle 官方一段对Gradle的介绍：Gradle is an open-source build automation tool focused on flexibility and performance. Gradle build scripts are written using a Groovy or Kotlin DSL.翻译过来就是：Gradle 是一个开源的自动化
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-10-11 10:17" pubdate>
+              2022-10-11
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Android/" class="category-chain-item">Android</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Android/Gradle/" class="category-chain-item">Gradle</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%8E%9F%E5%88%9B/">#原创</a>
+            
+              <a href="/tags/Android/">#Android</a>
+            
+              <a href="/tags/Gradle/">#Gradle</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/10/10/Android%20APT%20%E7%B3%BB%E5%88%97%20%EF%BC%88%E5%9B%9B%EF%BC%89%EF%BC%9AAPT%20%E5%AE%9E%E6%88%98%E5%BA%94%E7%94%A8/" target="_self">
+          Android APT 系列 （四）：APT 实战应用
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2022/10/10/Android%20APT%20%E7%B3%BB%E5%88%97%20%EF%BC%88%E5%9B%9B%EF%BC%89%EF%BC%9AAPT%20%E5%AE%9E%E6%88%98%E5%BA%94%E7%94%A8/" target="_self">
+        <div>
+          前言很高兴遇见你~ 在本系列的上一篇文章中，我们对 APT 技术进行了讲解，还没有看过上一篇文章的朋友，建议先去阅读 Android APT 系列 （三）：APT 技术探究。接下来，我们就使用 APT 技术来进行实战应用。 Github Demo 地址 , 大家可以看 Demo 跟随我的思路一起分析 回顾在本系列的开篇，我讲了在项目实践过程中做的一个布局优化，Android 中少量的系统控件是通
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-10-10 17:54" pubdate>
+              2022-10-10
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Android/" class="category-chain-item">Android</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Android/APT/" class="category-chain-item">APT</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%8E%9F%E5%88%9B/">#原创</a>
+            
+              <a href="/tags/Android/">#Android</a>
+            
+              <a href="/tags/Android-APT/">#Android APT</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/10/10/Android%20APT%20%E7%B3%BB%E5%88%97%20%EF%BC%88%E4%B8%89%EF%BC%89%EF%BC%9AAPT%20%E6%8A%80%E6%9C%AF%E6%8E%A2%E7%A9%B6/" target="_self">
+          Android APT 系列 （三）：APT 技术探究
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2022/10/10/Android%20APT%20%E7%B3%BB%E5%88%97%20%EF%BC%88%E4%B8%89%EF%BC%89%EF%BC%9AAPT%20%E6%8A%80%E6%9C%AF%E6%8E%A2%E7%A9%B6/" target="_self">
+        <div>
+          前言很高兴遇见你~ 在本系列的上一篇文章中，我们对注解进行了讲解，还没有看过上一篇文章的朋友，建议先去阅读 Android APT 系列 （二）：APT 筑基之注解。至此，关于 Apt 基础部分我们都讲完了，接下来就正式进入 APT 技术的学习 Github Demo 地址 , 大家可以看 Demo 跟随我的思路一起分析 一、APT 介绍1）、什么是 APT ?APT 全称 Annotation
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-10-10 17:54" pubdate>
+              2022-10-10
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Android/" class="category-chain-item">Android</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Android/APT/" class="category-chain-item">APT</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%8E%9F%E5%88%9B/">#原创</a>
+            
+              <a href="/tags/Android/">#Android</a>
+            
+              <a href="/tags/Android-APT/">#Android APT</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2022/10/10/Android%20APT%20%E7%B3%BB%E5%88%97%20%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9AAPT%20%E7%AD%91%E5%9F%BA%E4%B9%8B%E6%B3%A8%E8%A7%A3/" target="_self">
           Android APT 系列 （二）：APT 筑基之注解
         </a>
@@ -308,587 +956,11 @@
     </article>
   </div>
 
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/10/10/Android%20APT%20%E7%B3%BB%E5%88%97%20%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9AAPT%20%E7%AD%91%E5%9F%BA%E4%B9%8B%E5%8F%8D%E5%B0%84/" target="_self">
-          Android APT 系列 （一）：APT 筑基之反射
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2022/10/10/Android%20APT%20%E7%B3%BB%E5%88%97%20%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9AAPT%20%E7%AD%91%E5%9F%BA%E4%B9%8B%E5%8F%8D%E5%B0%84/" target="_self">
-        <div>
-          前言很高兴遇见你~ 这又是一个新的系列，灵感来源于最近做的一次布局优化，我们知道：Android 中少量的系统控件是通过 new 的方式创建出来的，而大部分控件如 androidx.appcompat.widget 下的控件，自定义控件，第三方控件等等，都是通过反射创建的。大量的反射创建多多少少会带来一些性能问题，因此我们需要去解决反射创建的问题，我的解决思路是：  1、通过编写 Android
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-10-10 17:54" pubdate>
-              2022-10-10
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/Android/" class="category-chain-item">Android</a>
-  
-  
-    <span>></span>
-    
-  <a href="/categories/Android/APT/" class="category-chain-item">APT</a>
-  
-  
-
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%8E%9F%E5%88%9B/">#原创</a>
-            
-              <a href="/tags/Android/">#Android</a>
-            
-              <a href="/tags/Android-APT/">#Android APT</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/10/10/Flutter%20%E7%B3%BB%E5%88%97%EF%BC%88%E5%85%AB%EF%BC%89%EF%BC%9AFlutter%20%E4%B8%8E%20Android%20%E7%9A%84%E4%BD%A0%E6%9D%A5%E6%88%91%E5%BE%80/" target="_self">
-          Flutter 系列（八）：Flutter 与 Android 的你来我往
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2022/10/10/Flutter%20%E7%B3%BB%E5%88%97%EF%BC%88%E5%85%AB%EF%BC%89%EF%BC%9AFlutter%20%E4%B8%8E%20Android%20%E7%9A%84%E4%BD%A0%E6%9D%A5%E6%88%91%E5%BE%80/" target="_self">
-        <div>
-          前言很高兴遇见你~ 在本系列的上一篇文章中，我们介绍了 Flutter 中的路由：  1、基本路由 2、命名路由 3、返回上一级 4、替换路由 5、返回到根路由  以及集成 http 库进行 https 请求实战。 还没有看过上一篇文章的朋友，建议先去阅读 Flutter 系列（七）：Flutter 路由和 HTTPS 请求实战。接下来我们对 Flutter 与 Android 原生的交互与通信
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-10-10 16:54" pubdate>
-              2022-10-10
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/Flutter/" class="category-chain-item">Flutter</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%8E%9F%E5%88%9B/">#原创</a>
-            
-              <a href="/tags/Flutter/">#Flutter</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/10/10/Flutter%20%E7%B3%BB%E5%88%97%EF%BC%88%E4%B8%83%EF%BC%89%EF%BC%9AFlutter%20%E8%B7%AF%E7%94%B1%E5%92%8C%20HTTPS%20%E8%AF%B7%E6%B1%82%E5%AE%9E%E6%88%98/" target="_self">
-          Flutter 系列（七）：Flutter 路由和 HTTPS 请求实战
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2022/10/10/Flutter%20%E7%B3%BB%E5%88%97%EF%BC%88%E4%B8%83%EF%BC%89%EF%BC%9AFlutter%20%E8%B7%AF%E7%94%B1%E5%92%8C%20HTTPS%20%E8%AF%B7%E6%B1%82%E5%AE%9E%E6%88%98/" target="_self">
-        <div>
-          前言很高兴遇见你~ 在本系列的上一篇文章中，我们介绍了 Flutter 中常用的表单 Widget：TextField，CheckBox，Radio，Switch，CheckboxListTile，RadioListTile，SwitchListTile，Slider，最后通过这些 Widget 实现了一个综合案例。还没有看过上一篇文章的朋友，建议先去阅读 Flutter 系列（六）：Flutt
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-10-10 16:54" pubdate>
-              2022-10-10
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/Flutter/" class="category-chain-item">Flutter</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%8E%9F%E5%88%9B/">#原创</a>
-            
-              <a href="/tags/Flutter/">#Flutter</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/10/10/Flutter%20%E7%B3%BB%E5%88%97%EF%BC%88%E5%85%AD%EF%BC%89%EF%BC%9AFlutter%20%E5%B8%B8%E7%94%A8%E8%A1%A8%E5%8D%95%20Widget/" target="_self">
-          Flutter 系列（六）：Flutter 常用表单 Widget
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2022/10/10/Flutter%20%E7%B3%BB%E5%88%97%EF%BC%88%E5%85%AD%EF%BC%89%EF%BC%9AFlutter%20%E5%B8%B8%E7%94%A8%E8%A1%A8%E5%8D%95%20Widget/" target="_self">
-        <div>
-          前言很高兴遇见你~ 在本系列的上一篇文章中，我们介绍了 Flutter 中常用的按钮 Widget，Flutter 1.x 和 Flutter 2.x 按钮的变化，最后通过 Flutter 1.x 相关 Button + BottomNavigationBar + FloatingActionButton 实现了一个综合案例。还没有看过上一篇文章的朋友，建议先去阅读 Flutter 系列（五）：
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-10-10 16:54" pubdate>
-              2022-10-10
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/Flutter/" class="category-chain-item">Flutter</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%8E%9F%E5%88%9B/">#原创</a>
-            
-              <a href="/tags/Flutter/">#Flutter</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/10/10/Flutter%20%E7%B3%BB%E5%88%97%EF%BC%88%E4%BA%94%EF%BC%89%EF%BC%9AFlutter%20%E5%B8%B8%E7%94%A8%E6%8C%89%E9%92%AE%20Widget/" target="_self">
-          Flutter 系列（五）：Flutter 常用按钮 Widget
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2022/10/10/Flutter%20%E7%B3%BB%E5%88%97%EF%BC%88%E4%BA%94%EF%BC%89%EF%BC%9AFlutter%20%E5%B8%B8%E7%94%A8%E6%8C%89%E9%92%AE%20Widget/" target="_self">
-        <div>
-          前言很高兴遇见你~ 在本系列的上一篇文章中，我们通过：效果展示 -&gt; Widget 介绍 -&gt; 代码实现的方式对 Image，ListView，GridView，Stack 进行了介绍，并穿插讲解了一些其它 Widget ，最后通过一个综合案例对学习的 Widget 进行了组合使用。还没有看过上一篇文章的朋友，建议先去阅读 Flutter 系列（四）：Flutter 常用 Widge
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-10-10 16:54" pubdate>
-              2022-10-10
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/Flutter/" class="category-chain-item">Flutter</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%8E%9F%E5%88%9B/">#原创</a>
-            
-              <a href="/tags/Flutter/">#Flutter</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/10/10/Flutter%20%E7%B3%BB%E5%88%97%EF%BC%88%E5%9B%9B%EF%BC%89%EF%BC%9AFlutter%20%E5%B8%B8%E7%94%A8%20Widget%20%E4%BA%8C/" target="_self">
-          Flutter 系列（四）：Flutter 常用 Widget 二
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2022/10/10/Flutter%20%E7%B3%BB%E5%88%97%EF%BC%88%E5%9B%9B%EF%BC%89%EF%BC%9AFlutter%20%E5%B8%B8%E7%94%A8%20Widget%20%E4%BA%8C/" target="_self">
-        <div>
-          前言很高兴遇见你~ 在本系列的上一篇文章中，我们介绍了 Flutter 特点以及一些常用的 Widget：MaterialApp，Scaffold，AppBar，Center，Container，Text。还没有看过上一篇文章的朋友，建议先去阅读 Flutter 系列（三）：Flutter 特点及常用 Widget 介绍。接下来我们继续对 Flutter Widget 进行学习 下面我会通过：效
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-10-10 16:54" pubdate>
-              2022-10-10
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/Flutter/" class="category-chain-item">Flutter</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%8E%9F%E5%88%9B/">#原创</a>
-            
-              <a href="/tags/Flutter/">#Flutter</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/10/10/Flutter%20%E7%B3%BB%E5%88%97%EF%BC%88%E4%B8%89%EF%BC%89%EF%BC%9AFlutter%20%E7%89%B9%E7%82%B9%E5%8F%8A%E5%B8%B8%E7%94%A8%20Widget%20%E4%BB%8B%E7%BB%8D/" target="_self">
-          Flutter 系列（三）：Flutter 特点及常用 Widget 介绍
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2022/10/10/Flutter%20%E7%B3%BB%E5%88%97%EF%BC%88%E4%B8%89%EF%BC%89%EF%BC%9AFlutter%20%E7%89%B9%E7%82%B9%E5%8F%8A%E5%B8%B8%E7%94%A8%20Widget%20%E4%BB%8B%E7%BB%8D/" target="_self">
-        <div>
-          前言很高兴遇见你~ 在本系列的上一篇文章中，我们全面介绍了 Dart 语法，内容很多，文字+代码有三万多字，如果你能够耐心看完并手敲里面的示例，你一定会收获很大。还没有看过上一篇文章的朋友，建议先去阅读 Flutter 系列（二）：Dart 语法筑基。接下来我们进入 Flutter 的学习。 一、Flutter 特点介绍学习一个框架，我们首先要了解这个框架的特点，就好比你学开车一样，你要知道这个
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-10-10 16:50" pubdate>
-              2022-10-10
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/Flutter/" class="category-chain-item">Flutter</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%8E%9F%E5%88%9B/">#原创</a>
-            
-              <a href="/tags/Flutter/">#Flutter</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/10/10/Flutter%20%E7%B3%BB%E5%88%97%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9ADart%20%E8%AF%AD%E6%B3%95%E7%AD%91%E5%9F%BA/" target="_self">
-          Flutter 系列（二）：Dart 语法筑基
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2022/10/10/Flutter%20%E7%B3%BB%E5%88%97%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9ADart%20%E8%AF%AD%E6%B3%95%E7%AD%91%E5%9F%BA/" target="_self">
-        <div>
-          前言很高兴遇见你~ 在本系列的上一篇文章中，我们介绍了 Flutter 开发环境搭建，以及使用 AndroidStudio 运行你的第一个 Flutter 项目，体验了热重载。还没有看过上一篇文章的朋友，建议先去阅读Flutter 系列（一）：运行你的第一个 Flutter 应用，在我看来，Dart 在设计时应该是借鉴了百家语言之所长😄：Java，Kotlin等： 1、在静态语法方面，如：类型
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-10-10 16:20" pubdate>
-              2022-10-10
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/Flutter/" class="category-chain-item">Flutter</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%8E%9F%E5%88%9B/">#原创</a>
-            
-              <a href="/tags/Flutter/">#Flutter</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/09/05/Flutter%E7%B3%BB%E5%88%97%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9A%E8%BF%90%E8%A1%8C%E4%BD%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AAFlutter%E5%BA%94%E7%94%A8/" target="_self">
-          Flutter系列（一）：运行你的第一个Flutter应用
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2022/09/05/Flutter%E7%B3%BB%E5%88%97%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9A%E8%BF%90%E8%A1%8C%E4%BD%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AAFlutter%E5%BA%94%E7%94%A8/" target="_self">
-        <div>
-          前言Flutter 是 Google 推出并开源的移动端开发框架，主打跨平台、高保真、高性能。开发者可以通过 Dart 语言开发 App，一套代码可以同时运行在 iOS 和 Android平台。 2018 年 12 月，Google 发布 Flutter 1.0。从那时候开始，Flutter 以迅雷不及掩耳之势，迅速崛起，并稳固了其在市场上的地位。 如今，Flutter 相关资源和社区都已渐渐成
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-09-05 14:21" pubdate>
-              2022-09-05
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/Flutter/" class="category-chain-item">Flutter</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%8E%9F%E5%88%9B/">#原创</a>
-            
-              <a href="/tags/Flutter/">#Flutter</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
 
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+      <a class="extend prev" rel="prev" href="/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/#board">3</a><a class="extend next" rel="next" href="/page/3/#board"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
 
