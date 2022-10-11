@@ -1,0 +1,814 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="sweetying">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前言很高兴遇见你~ 在本系列的上一篇文章中，我们了解了 Xml 中的字体，还没有看过上一篇文章的朋友，建议先去阅读 Android字体系列 （三）：Xml中的字体，有了前面的基础，接下来我们就看下 Android 中全局替换字体的几种方式 注意：本文所展示的系统源码都是基于Android-30 ，并提取核心部分进行分析  Github Demo 地址 , 大家可以看 Demo 跟随我的思路一起分">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android字体系列 （四）：全局替换字体方式">
+<meta property="og:url" content="https://sweetying520.github.io/2022/10/11/Android%E5%AD%97%E4%BD%93%E7%B3%BB%E5%88%97%20%EF%BC%88%E5%9B%9B%EF%BC%89%EF%BC%9A%E5%85%A8%E5%B1%80%E6%9B%BF%E6%8D%A2%E5%AD%97%E4%BD%93%E6%96%B9%E5%BC%8F/index.html">
+<meta property="og:site_name" content="sweetying">
+<meta property="og:description" content="前言很高兴遇见你~ 在本系列的上一篇文章中，我们了解了 Xml 中的字体，还没有看过上一篇文章的朋友，建议先去阅读 Android字体系列 （三）：Xml中的字体，有了前面的基础，接下来我们就看下 Android 中全局替换字体的几种方式 注意：本文所展示的系统源码都是基于Android-30 ，并提取核心部分进行分析  Github Demo 地址 , 大家可以看 Demo 跟随我的思路一起分">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202210111040025.jpeg">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/92b45198f4a6491f9be4eeb275ac4461~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7879ac4a76214c1bad6841f20cd0bf04~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d11def9507f94b05bfd95556137142ee~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0f36137458d145c3a1847624f1db2c4b~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ae1c4453f9f94bc08754628b525bd687~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="article:published_time" content="2022-10-11T02:30:59.000Z">
+<meta property="article:modified_time" content="2022-10-11T02:40:36.472Z">
+<meta property="article:author" content="sweetying">
+<meta property="article:tag" content="原创">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="Android Font">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202210111040025.jpeg">
+  
+  
+  
+  <title>Android字体系列 （四）：全局替换字体方式 - sweetying</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sweetying520.github.io","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"zN1E017kYhKuj6GqXHJSbGMb-gzGzoHsz","app_key":"JSwY8PjtA131Y78OHn7kKtio","server_url":"https://zn1e017k.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>sweetying</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Android字体系列 （四）：全局替换字体方式"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        sweetying
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-10-11 10:30" pubdate>
+          2022年10月11日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          10k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          88 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Android字体系列 （四）：全局替换字体方式</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202210111040025.jpeg" srcset="/img/loading.gif" lazyload alt="noaa-ZdYX57yQdOQ-unsplash"></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>很高兴遇见你~</p>
+<p>在本系列的上一篇文章中，我们了解了 Xml 中的字体，还没有看过上一篇文章的朋友，建议先去阅读 <a target="_blank" rel="noopener" href="https://juejin.cn/post/6974388756275019812">Android字体系列 （三）：Xml中的字体</a>，有了前面的基础，接下来我们就看下 Android 中全局替换字体的几种方式</p>
+<p><strong>注意：本文所展示的系统源码都是基于Android-30 ，并提取核心部分进行分析</strong></p>
+<p> <a target="_blank" rel="noopener" href="https://github.com/sweetying520/ChangeDefaultFontDemo">Github Demo 地址</a> , 大家可以看 Demo 跟随我的思路一起分析</p>
+<h2 id="一、方式一：通过遍历-ViewTree，全局替换字体"><a href="#一、方式一：通过遍历-ViewTree，全局替换字体" class="headerlink" title="一、方式一：通过遍历 ViewTree，全局替换字体"></a>一、方式一：通过遍历 ViewTree，全局替换字体</h2><p>之前我讲过：在 Android 中，我们一般会直接或间接的通过 TextView 控件去承载字体的显示，因为关于 Android 提供的承载字体显示的控件都会直接或间接继承 TextView。 </p>
+<p>那么这就是一个突破口：<strong>我们可以在 Activity 或 Fragment 的基类里面获取当前布局的 ViewTree，遍历 ViewTree ，获取 TextView 及其子类，批量修改它们的字体，从而达到全局替换字体的效果。</strong></p>
+<p>代码如下：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-comment">//全局替换字体工具类</span><br><span class="hljs-keyword">object</span> ChangeDefaultFontUtils &#123;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">val</span> NOTO_SANS_BOLD = R.font.noto_sans_bold<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 方式一: 遍历布局的 ViewTree, 找到 TextView 及其子类进行批量替换</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> mContext 上下文</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> rootView 根View</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">changeDefaultFont</span><span class="hljs-params">(mContext: <span class="hljs-type">Context</span>?, rootView: <span class="hljs-type">View</span>?)</span></span>&#123;<br>        <span class="hljs-keyword">when</span>(rootView)&#123;<br>            <span class="hljs-keyword">is</span> ViewGroup -&gt; &#123;<br>                rootView.forEach &#123;<br>                    changeDefaultFont(mContext,it)<br>                &#125;<br>            &#125;<br>            <span class="hljs-keyword">is</span> TextView -&gt; &#123;<br>                <span class="hljs-keyword">try</span> &#123;<br>                    <span class="hljs-keyword">val</span> typeface = ResourcesCompat.getFont(mContext!!, NOTO_SANS_BOLD)<br>                    <span class="hljs-keyword">val</span> fontStyle = rootView.typeface?.style ?: Typeface.NORMAL<br>                    rootView.setTypeface(typeface,fontStyle)<br>                &#125; <span class="hljs-keyword">catch</span> (e: Exception) &#123;<br>                    e.printStackTrace()<br>                &#125;<br>            &#125;<br>        &#125;<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//Activity 基类</span><br><span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">BaseActivity</span>: <span class="hljs-type">AppCompatActivity</span>()&#123;<br><br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onCreate</span><span class="hljs-params">(savedInstanceState: <span class="hljs-type">Bundle</span>?)</span></span> &#123;<br>        <span class="hljs-keyword">super</span>.onCreate(savedInstanceState)<br>        <span class="hljs-keyword">val</span> mRootView = LayoutInflater.from(<span class="hljs-keyword">this</span>).inflate(getLayoutId(), <span class="hljs-literal">null</span>)<br>        setContentView(mRootView)<br>        ChangeDefaultFontUtils.changeDefaultFont(<span class="hljs-keyword">this</span>,mRootView)<br>        initView()<br>    &#125;<br><br>    <span class="hljs-comment">/**获取布局Id*/</span><br>    <span class="hljs-keyword">abstract</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">getLayoutId</span><span class="hljs-params">()</span></span>: <span class="hljs-built_in">Int</span><br><br>    <span class="hljs-comment">/**初始化*/</span><br>    <span class="hljs-keyword">abstract</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">initView</span><span class="hljs-params">()</span></span><br>&#125;<br><br><span class="hljs-comment">//MainActivity</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">MainActivity</span> : <span class="hljs-type">BaseActivity</span>() &#123;<br><br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">getLayoutId</span><span class="hljs-params">()</span></span>: <span class="hljs-built_in">Int</span> &#123;<br>        <span class="hljs-keyword">return</span> R.layout.activity_main<br>    &#125;<br><br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">initView</span><span class="hljs-params">()</span></span> &#123;<br><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>上述代码：</p>
+<p>1、创建了一个全局替换字体的工具类，主要逻辑：</p>
+<p>判断当前 rootView 是否是一个 ViewGroup，如果是，遍历取出其所有的子 View，然后递归调用 changeDefaultFont 方法。再判断是否是 TextView 或其子类，如果是就替换字体</p>
+<p>2、创建了一个 Activity 基类，并在其中写入字体替换的逻辑</p>
+<p>3、最后让上层 Activity 继承基类 Activity</p>
+<p>逻辑很简单，在看下我们编写的 Xml 的一个效果：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/92b45198f4a6491f9be4eeb275ac4461~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210616144417422"></p>
+<p>接下来我们运行看下实际替换后的一个效果：</p>
+<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7879ac4a76214c1bad6841f20cd0bf04~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210616144927196" style="zoom:50%;" />
+
+<p>可以看到，字体被替换了。</p>
+<p>现在我们来讨论一下这种方式的优缺点：</p>
+<p><strong>优点</strong>：我们不需要修改 Xml 布局，不需要重写多个控件，只需要在 <strong>inflate View</strong> 之后调一下就可以了</p>
+<p><strong>缺点</strong>：不难发现这种方式会遍历 Xml 文件中的所有 View 和 ViewGroup，但是如果出现 RecyclerView , ListView，或者其他 ViewGroup 里面动态添加 View，那么我们还是需要去手动添加替换的逻辑，否则字体不会生效。而且它每次递归遍历 ViewTree，性能上多少会有点影响</p>
+<p>接下来我们看第二种方式</p>
+<h2 id="二、方式二：通过-LayoutInflater，全局替换字体"><a href="#二、方式二：通过-LayoutInflater，全局替换字体" class="headerlink" title="二、方式二：通过 LayoutInflater，全局替换字体"></a>二、方式二：通过 LayoutInflater，全局替换字体</h2><p>讲这种方式前，我们首先要对 LayoutInflater 的 inflate 过程有一定的了解，以 AppCompatActivity 的 setContentView 为例大致说下流程：</p>
+<p><strong>我们在 Activity 的 setContentView 中传入一个布局 Xml，Activity 会通过代理类 AppCompatDelegateImpl 把它交由 LayoutInflater 进行解析，解析出来后，会交由自己的 3 个工厂去创建 View，优先级分别是mFactory2、mFactory、mPrivateFactory</strong></p>
+<p>流程大概就说到这里，具体过程我后续会写一篇文章专门去讲。</p>
+<p>mFactory2、mFactory ，系统提供了开放的 Api 给我们去设置，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//以下两个方法在 LayoutInflaterCompat.java 文件中</span><br><span class="hljs-meta">@Deprecated</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setFactory</span><span class="hljs-params">(<span class="hljs-meta">@NonNull</span> LayoutInflater inflater, <span class="hljs-meta">@NonNull</span> LayoutInflaterFactory factory)</span> &#123;<br>    <span class="hljs-keyword">if</span> (Build.VERSION.SDK_INT &gt;= <span class="hljs-number">21</span>) &#123;<br>        inflater.setFactory2(factory != <span class="hljs-literal">null</span> ? <span class="hljs-keyword">new</span> <span class="hljs-title class_">Factory2Wrapper</span>(factory) : <span class="hljs-literal">null</span>);<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-keyword">final</span> LayoutInflater.<span class="hljs-type">Factory2</span> <span class="hljs-variable">factory2</span> <span class="hljs-operator">=</span> factory != <span class="hljs-literal">null</span><br>                ? <span class="hljs-keyword">new</span> <span class="hljs-title class_">Factory2Wrapper</span>(factory) : <span class="hljs-literal">null</span>;<br>        inflater.setFactory2(factory2);<br><br>        <span class="hljs-keyword">final</span> LayoutInflater.<span class="hljs-type">Factory</span> <span class="hljs-variable">f</span> <span class="hljs-operator">=</span> inflater.getFactory();<br>        <span class="hljs-keyword">if</span> (f <span class="hljs-keyword">instanceof</span> LayoutInflater.Factory2) &#123;<br>            forceSetFactory2(inflater, (LayoutInflater.Factory2) f);<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            forceSetFactory2(inflater, factory2);<br>        &#125;<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setFactory2</span><span class="hljs-params">(<span class="hljs-meta">@NonNull</span> LayoutInflater inflater, <span class="hljs-meta">@NonNull</span> LayoutInflater.Factory2 factory)</span> &#123;<br>    inflater.setFactory2(factory);<br>  <br>    <span class="hljs-keyword">if</span> (Build.VERSION.SDK_INT &lt; <span class="hljs-number">21</span>) &#123;<br>        <span class="hljs-keyword">final</span> LayoutInflater.<span class="hljs-type">Factory</span> <span class="hljs-variable">f</span> <span class="hljs-operator">=</span> inflater.getFactory();<br>        <span class="hljs-keyword">if</span> (f <span class="hljs-keyword">instanceof</span> LayoutInflater.Factory2) &#123;<br>            forceSetFactory2(inflater, (LayoutInflater.Factory2) f);<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            forceSetFactory2(inflater, factory);<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这两个方法在 LayoutInflaterCompat 这个类中，LayoutInflaterCompat 是 LayoutInflater 一个辅助类，可以看到：</p>
+<p>1、setFactory 方法使用了 @Deprecated 注解表示这个 Api 被弃用</p>
+<p>2、setFactory2 是 Android 3.0 引入的，它和 setFactory 功能是一致的，区别就在于传入的接口参数不一样，setFactory2 的接口参数要多实现一个方法</p>
+<p>利用 setFactory 系列方法，我们可以：</p>
+<p><strong>1）、拿到 LayoutInflater inflate 过程中 Xml 控件对应的名称和属性</strong></p>
+<p><strong>2）、我们可以对控件进行替换或者做相关的逻辑处理</strong></p>
+<p>看个实际例子：还是方式一的代码，我们在 BaseActivity 中增加如下代码：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-comment">//Activity 基类</span><br><span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">BaseActivity</span>: <span class="hljs-type">AppCompatActivity</span>()&#123;<br>		<br>   <span class="hljs-comment">//新增部分</span><br>   <span class="hljs-keyword">private</span> <span class="hljs-keyword">val</span> TAG: String? = javaClass.simpleName<br>  <br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onCreate</span><span class="hljs-params">(savedInstanceState: <span class="hljs-type">Bundle</span>?)</span></span> &#123;<br>      	<span class="hljs-comment">//...</span><br>      	<span class="hljs-comment">//新增部分，其余代码省略</span><br>      	LayoutInflaterCompat.setFactory2(layoutInflater,<span class="hljs-keyword">object</span> : LayoutInflater.Factory2&#123;<br>            <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onCreateView</span><span class="hljs-params">(parent: <span class="hljs-type">View</span>?, name: <span class="hljs-type">String</span>, context: <span class="hljs-type">Context</span>, attrs: <span class="hljs-type">AttributeSet</span></span></span><br><span class="hljs-params"><span class="hljs-function">            )</span></span>: View? &#123;<br>                Log.d(TAG, <span class="hljs-string">&quot;name: <span class="hljs-variable">$name</span>&quot;</span> )<br>                <span class="hljs-keyword">for</span> (i <span class="hljs-keyword">in</span> <span class="hljs-number">0</span> until attrs.attributeCount)&#123;<br>                    Log.d(TAG, <span class="hljs-string">&quot;attr: <span class="hljs-subst">$&#123;attrs.getAttributeName(i)&#125;</span> <span class="hljs-subst">$&#123;attrs.getAttributeValue(i)&#125;</span>&quot;</span>)<br>                &#125;<br>              	<span class="hljs-keyword">return</span> <span class="hljs-literal">null</span><br>            &#125;<br><br>            <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onCreateView</span><span class="hljs-params">(name: <span class="hljs-type">String</span>, context: <span class="hljs-type">Context</span>, attrs: <span class="hljs-type">AttributeSet</span>)</span></span>: View? &#123;<br>                <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span><br>            &#125;<br><br>        &#125;)<br>        <span class="hljs-keyword">super</span>.onCreate(savedInstanceState)<br>       	<span class="hljs-comment">//...</span><br>    &#125;<br><br>    <span class="hljs-comment">//...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>注意</strong>：上面 LayoutInflaterCompat.setFactory2 方法必须放在 super.onCreate(savedInstanceState) 的前面，不然会报错，因为系统会在 AppCompatActivity 的 oncreate 方法给 LayoutInflater 设置一个 Factory，而如果在已经设置的情况下再去设置，LayoutInflater 的 setFactory 系列方法就会抛异常，源码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//AppCompatActivity 的 oncreate</span><br><span class="hljs-meta">@Override</span><br><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">onCreate</span><span class="hljs-params">(<span class="hljs-meta">@Nullable</span> Bundle savedInstanceState)</span> &#123;<br>    <span class="hljs-keyword">final</span> <span class="hljs-type">AppCompatDelegate</span> <span class="hljs-variable">delegate</span> <span class="hljs-operator">=</span> getDelegate();<br>    <span class="hljs-comment">//调用 AppCompatDelegateImpl 的 installViewFactory 设置 Factory</span><br>    delegate.installViewFactory();<br>    <span class="hljs-comment">//...</span><br>&#125;<br><br><span class="hljs-comment">//AppCompatDelegateImpl 的 installViewFactory</span><br><span class="hljs-meta">@Override</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">installViewFactory</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-type">LayoutInflater</span> <span class="hljs-variable">layoutInflater</span> <span class="hljs-operator">=</span> LayoutInflater.from(mContext);<br>    <span class="hljs-keyword">if</span> (layoutInflater.getFactory() == <span class="hljs-literal">null</span>) &#123;<br>      	<span class="hljs-comment">//如果当前 LayoutInflater 的 Factory 为空，则进行设置</span><br>        LayoutInflaterCompat.setFactory2(layoutInflater, <span class="hljs-built_in">this</span>);<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>      	<span class="hljs-comment">//如果不为空，则进行 Log 日志打印</span><br>        <span class="hljs-keyword">if</span> (!(layoutInflater.getFactory2() <span class="hljs-keyword">instanceof</span> AppCompatDelegateImpl)) &#123;<br>            Log.i(TAG, <span class="hljs-string">&quot;The Activity&#x27;s LayoutInflater already has a Factory installed&quot;</span><br>                    + <span class="hljs-string">&quot; so we can not install AppCompat&#x27;s&quot;</span>);<br>        &#125;<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//LayoutInflater 的 setFactory2</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setFactory2</span><span class="hljs-params">(Factory2 factory)</span> &#123;<br>    <span class="hljs-comment">//如果已经设置，则抛异常</span><br>    <span class="hljs-keyword">if</span> (mFactorySet) &#123;<br>        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">IllegalStateException</span>(<span class="hljs-string">&quot;A factory has already been set on this LayoutInflater&quot;</span>);<br>    &#125;<br>    <span class="hljs-keyword">if</span> (factory == <span class="hljs-literal">null</span>) &#123;<br>        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">NullPointerException</span>(<span class="hljs-string">&quot;Given factory can not be null&quot;</span>);<br>    &#125;<br>    mFactorySet = <span class="hljs-literal">true</span>;<br>    <span class="hljs-comment">//...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>注意</strong>：上面 AppCompatActivity 中设置 Factory 是 android.appcompat  1.1.0 版本，而如果是更高的版本，如 1.3.0，可能设置的地方会有点变化，但是不影响我们设置位置的变化，感兴趣的可以去看下源码，这里你只要知道我们必须在 Activity 的 super.onCreate(savedInstanceState) 之前设置 Factory 就可以了</p>
+<p>运行应用程序，看下几个主要控件的截图打印信息：</p>
+<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d11def9507f94b05bfd95556137142ee~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210616150016885" style="zoom:50%;" />
+
+<p>从 Log 输出可以看出，你所有的 Xml 控件，都会经过 LayoutInflaterFactory.onCreateView 方法走一遍去实现初始化的过程，在其中可以有效的分辨出是什么控件，以及它有什么属性。并且 onCreateView 方法的返回值就是一个 View，因此我们在此处可以对控件进行替换或者做相关的逻辑处理</p>
+<p>到这里，你是否有了全体替换字体的思路了呢？</p>
+<p>答案已经很明了：<strong>利用自定义的 Factory 进行字体的替换</strong></p>
+<p>这种方式我们只需要在 BaseActivity 里面操作就可以了，而且有效的解决了方式一带来的问题，提高了效率，如下：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">BaseActivity</span>: <span class="hljs-type">AppCompatActivity</span>()&#123;<br><br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onCreate</span><span class="hljs-params">(savedInstanceState: <span class="hljs-type">Bundle</span>?)</span></span> &#123;<br>        LayoutInflaterCompat.setFactory2(layoutInflater,<span class="hljs-keyword">object</span> : LayoutInflater.Factory2&#123;<br>            <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onCreateView</span><span class="hljs-params">(parent: <span class="hljs-type">View</span>?, name: <span class="hljs-type">String</span>, context: <span class="hljs-type">Context</span>, attrs: <span class="hljs-type">AttributeSet</span></span></span><br><span class="hljs-params"><span class="hljs-function">            )</span></span>: View? &#123;<br>                <span class="hljs-keyword">var</span> view: View? = <span class="hljs-literal">null</span><br>                <span class="hljs-keyword">if</span>(<span class="hljs-number">1</span> == name.indexOf(<span class="hljs-string">&quot;.&quot;</span>))&#123;<br>                    <span class="hljs-comment">//表示自定义 View</span><br>                    <span class="hljs-comment">//通过反射创建</span><br>                    view = layoutInflater.createView(name,<span class="hljs-literal">null</span>,attrs)<br>                &#125;<br><br>                <span class="hljs-keyword">if</span>(view == <span class="hljs-literal">null</span>)&#123;<br>                    <span class="hljs-comment">//通过系统创建一系列 appcompat 的 View</span><br>                    view = delegate.createView(parent, name, context, attrs)<br>                &#125;<br><br>                <span class="hljs-keyword">if</span>(view <span class="hljs-keyword">is</span> TextView)&#123;<br>                    <span class="hljs-comment">//如果是 TextView 或其子类，则进行字体的替换</span><br>                    ChangeDefaultFontUtils.changeDefaultFont(<span class="hljs-keyword">this</span><span class="hljs-symbol">@BaseActivity</span>,view)<br>                &#125;<br><br>                <span class="hljs-keyword">return</span> view<br>            &#125;<br><br>            <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onCreateView</span><span class="hljs-params">(name: <span class="hljs-type">String</span>, context: <span class="hljs-type">Context</span>, attrs: <span class="hljs-type">AttributeSet</span>)</span></span>: View? &#123;<br>                <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span><br>            &#125;<br><br>        &#125;)<br>        <span class="hljs-keyword">super</span>.onCreate(savedInstanceState)<br>        setContentView(getLayoutId())<br>        initView()<br>    &#125;<br><br>    <span class="hljs-comment">/**获取布局Id*/</span><br>    <span class="hljs-keyword">abstract</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">getLayoutId</span><span class="hljs-params">()</span></span>: <span class="hljs-built_in">Int</span><br><br>    <span class="hljs-comment">/**初始化*/</span><br>    <span class="hljs-keyword">abstract</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">initView</span><span class="hljs-params">()</span></span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>上述代码我们做了：</p>
+<p>1、判断是自定义 View ，通过反射创建</p>
+<p>2、判断是系统提供的一些控件，使用 appcompat 系列 View 进行替换</p>
+<p>3、判断是 TextView 或其子类，进行字体的替换</p>
+<p>运行应用程序，最终实现了和方式一一样的效果：</p>
+<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0f36137458d145c3a1847624f1db2c4b~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210616144927196" style="zoom:50%;" />
+
+<h2 id="三、方式三：通过配置应用主题，全局替换默认字体"><a href="#三、方式三：通过配置应用主题，全局替换默认字体" class="headerlink" title="三、方式三：通过配置应用主题，全局替换默认字体"></a>三、方式三：通过配置应用主题，全局替换默认字体</h2><p>这种方式挺简单的，在 application 中，通过 android:theme 来配置一个 App 的主题。一般新创建的项目，都是会有一个默认基础主题。在其中追加关于字体的属性，就可以完成全局默认字体的替换，在主题中我们可以对以下三个属性进行配置：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">item</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;android:typeface&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">item</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">item</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;android:fontFamily&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">item</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">item</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;android:textStyle&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">item</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>这三者的设置和关系我们在本系列的第一篇文章中已经讲过，还不清楚的可以去看下 <a target="_blank" rel="noopener" href="https://juejin.cn/post/6973064546420260878#heading-5">传送门</a></p>
+<p>关于 Xml 中使用字体的功能，我们上篇文章也已经讲过，还不清楚的可以去看下 <a target="_blank" rel="noopener" href="https://juejin.cn/post/6974388756275019812">传送门</a></p>
+<p>因为我们只需要配置默认字体，所以新增一行如下配置，就可以实现全局替换默认字体的效果了：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">style</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;Theme.ChangeDefaultFontDemo&quot;</span> <span class="hljs-attr">parent</span>=<span class="hljs-string">&quot;Theme.MaterialComponents.DayNight.DarkActionBar.Bridge&quot;</span>&gt;</span><span class="language-xml"></span><br><span class="language-xml">	//...</span><br><span class="language-xml">  	<span class="hljs-tag">&lt;<span class="hljs-name">item</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;android:fontFamily&quot;</span>&gt;</span>@font/noto_sans_bold<span class="hljs-tag">&lt;/<span class="hljs-name">item</span>&gt;</span></span><br><span class="language-xml">  	//...</span><br><span class="language-xml"></span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>那么凡事都有意外，假如你的 Activity 引用了自定义主题，且自定义主题没有继承基础主题，那么你就需要补上这一行配置，不然配置的默认字体不会生效</p>
+<h2 id="四、方式四：通过反射，全局替换默认字体"><a href="#四、方式四：通过反射，全局替换默认字体" class="headerlink" title="四、方式四：通过反射，全局替换默认字体"></a>四、方式四：通过反射，全局替换默认字体</h2><p>通过反射修改，其实和方式三有点类似。因为在  Android Support Library 26 之前，我们不能直接在 Xml 中设置第三方字体，而只能设置系统提供的一些默认字体，所以通过反射这种方式，可以把系统默认的字体替换为第三方的字体。而现在我们使用的版本基本上都会大于等于 26，因此通过配置应用主题的方式就可以实现全局替换默认字体的效果。但是这里并不妨碍我们讲反射修改默认字体。</p>
+<h3 id="1、步骤一：在-App-的主题配置默认字体"><a href="#1、步骤一：在-App-的主题配置默认字体" class="headerlink" title="1、步骤一：在  App 的主题配置默认字体"></a>1、步骤一：在  App 的主题配置默认字体</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">style</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;Theme.ChangeDefaultFontDemo&quot;</span> <span class="hljs-attr">parent</span>=<span class="hljs-string">&quot;Theme.MaterialComponents.DayNight.DarkActionBar.Bridge&quot;</span>&gt;</span><span class="language-xml"></span><br><span class="language-xml">	//...</span><br><span class="language-xml">  	<span class="hljs-tag">&lt;<span class="hljs-name">item</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;android:typeface&quot;</span>&gt;</span>serif<span class="hljs-tag">&lt;/<span class="hljs-name">item</span>&gt;</span></span><br><span class="language-xml">  	//...</span><br><span class="language-xml"></span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>这里随便选一个默认字体，后续我们反射的时候需要拿到你这个选的默认字体，然后进行一个替换</p>
+<p><strong>注意</strong>: 这里必须配置 <strong>android:typeface</strong> ，其他两个不行，在本系列的第一篇中，关于 typeface，textStyle 和 fontFamily 属性三者的关系我们分析过，还不清楚的可以去看看 <a target="_blank" rel="noopener" href="https://juejin.cn/post/6973064546420260878#heading-5">传送门</a>：</p>
+<p>setTypefaceFromAttrs 方法是 TextView 最终设置字体的方法，<strong>当 typeface 和 familyName 都为空，则会根据 typefaceIndex 的值取相应的系统默认字体</strong>。当我们设置  <strong>android:typeface</strong>  属性时，会将对应的属性值赋给 typefaceIndex ，并把 familyName 置为 null，而 typeface 默认为 null，因此满足条件</p>
+<h3 id="2、通过反射修改-Typeface-默认字体"><a href="#2、通过反射修改-Typeface-默认字体" class="headerlink" title="2、通过反射修改 Typeface 默认字体"></a>2、通过反射修改 Typeface 默认字体</h3><p><strong>注意</strong>：Google 在 Android 9.0 及之后对反射做了限制，被使用 <code>@hide</code> 标记的属性和方法通过反射拿不到</p>
+<p>在 Typeface 中，自带的一些默认字体被标记的是 <strong>public static final</strong>，因此这里无需担心反射的限制</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ae1c4453f9f94bc08754628b525bd687~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210618174439624"></p>
+<p>因为在上一步配置的主题中，我们设置的是 serif ，所以这里替换它就好了，完整的方法就是通过反射拿到 Typeface 的默认字体 SERIF，然后使用反射将它修改成我们需要的字体即可：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">object</span> ChangeDefaultFontUtils &#123;<br>    <span class="hljs-keyword">const</span> <span class="hljs-keyword">val</span> NOTO_SANS_BOLD = R.font.noto_sans_bold<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">changeDefaultFont</span><span class="hljs-params">(mContext: <span class="hljs-type">Context</span>)</span></span> &#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-keyword">val</span> typeface = ResourcesCompat.getFont(mContext, NOTO_SANS_BOLD)<br>            <span class="hljs-keyword">val</span> defaultField = Typeface::<span class="hljs-keyword">class</span>.java.getDeclaredField(<span class="hljs-string">&quot;SERIF&quot;</span>)<br>            defaultField.isAccessible = <span class="hljs-literal">true</span><br>            defaultField[<span class="hljs-literal">null</span>] = typeface<br>        &#125; <span class="hljs-keyword">catch</span> (e: Exception) &#123;<br>            e.printStackTrace()<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="3、在-Application-里面，调用替换的方法"><a href="#3、在-Application-里面，调用替换的方法" class="headerlink" title="3、在 Application 里面，调用替换的方法"></a>3、在 Application 里面，调用替换的方法</h3><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">class</span> <span class="hljs-title class_">MyApplication</span> : <span class="hljs-type">Application</span>() &#123;<br>    <br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onCreate</span><span class="hljs-params">()</span></span> &#123;<br>        <span class="hljs-keyword">super</span>.onCreate()<br>        ChangeDefaultFontUtils.changeDefaultFont(<span class="hljs-keyword">this</span>)<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>那么经过上面的三个步骤，我们同样可以实现全局替换默认字体的效果</p>
+<h2 id="五、项目实践"><a href="#五、项目实践" class="headerlink" title="五、项目实践"></a>五、项目实践</h2><p>回到我们剩下的需求：<strong>全局替换默认字体</strong></p>
+<p>1、方式一和方式二都是全局替换字体，会将我们之前已经设置好的字体给覆盖，因此并不适合</p>
+<p>2、方式三和方式四都是全局替换默认字体，我们之前已经设置好的字体不会被覆盖，满足我们的要求，但是方式四通过反射，是因为之前我们不能直接在 Xml 里面设置第三方字体。从 Android Support Library 26 及之后支持在 Xml 里面设置默认字体了，因此我在项目实践中，最终选择了方式三实现了全局替换默认字体的效果，需求完结 🎉</p>
+<h2 id="六、总结"><a href="#六、总结" class="headerlink" title="六、总结"></a>六、总结</h2><p>最后回顾一下我们讲的重点知识：</p>
+<p>1、通过遍历 ViewTree，全局替换字体，这种方式每次都需要递归遍历，有性能问题</p>
+<p>2、通过 LayoutInflater 设置自定义 Factory 全局替换字体，效率高</p>
+<p>3、通过配置应用主题全局替换默认字体，简单高效</p>
+<p>4、通过反射全局替换默认字体，相对于 3，性能会差点，使用步骤也相对复杂</p>
+<p>5、我在项目实践过程中的一个选择</p>
+<p>好了，本系列文章到这里就结束了，希望能给你带来帮助 🤝 </p>
+<p><strong>感谢你阅读这篇文章</strong></p>
+<h3 id="参考和推荐"><a href="#参考和推荐" class="headerlink" title="参考和推荐"></a>参考和推荐</h3><p><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000011401796">全局修改默认字体，通过反射也能做到</a></p>
+<blockquote>
+<p>全文到此，原创不易，欢迎点赞，收藏，评论和转发，你的认可是我创作的动力</p>
+</blockquote>
+<blockquote>
+<p>欢迎关注我的 <strong>公 众 号</strong>，微信搜索 <strong>sweetying</strong> ，文章更新可第一时间收到</p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Android/" class="category-chain-item">Android</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Android/Font/" class="category-chain-item">Font</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%8E%9F%E5%88%9B/">#原创</a>
+      
+        <a href="/tags/Android/">#Android</a>
+      
+        <a href="/tags/Android-Font/">#Android Font</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Android字体系列 （四）：全局替换字体方式</div>
+      <div>https://sweetying520.github.io/2022/10/11/Android字体系列 （四）：全局替换字体方式/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>sweetying</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年10月11日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/10/11/Android%E5%AD%97%E4%BD%93%E7%B3%BB%E5%88%97%20%EF%BC%88%E4%B8%89%EF%BC%89%EF%BC%9AXml%E4%B8%AD%E7%9A%84%E5%AD%97%E4%BD%93/" title="Android字体系列 （三）：Xml中的字体">
+                        <span class="hidden-mobile">Android字体系列 （三）：Xml中的字体</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.4.17/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"zN1E017kYhKuj6GqXHJSbGMb-gzGzoHsz","appKey":"JSwY8PjtA131Y78OHn7kKtio","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
