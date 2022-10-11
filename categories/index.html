@@ -98,7 +98,20 @@
 
 
 <body>
-  
+  <div>
+	<div class='real_mask' style="
+		background-color: rgba(0,0,0,0.3);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -777;
+	"></div>
+	<div id="banner_video_insert">
+	</div>
+	<div id='vvd_banner_img'>
+	</div>
+</div>
+<div id="banner"></div>
 
   <header>
     
@@ -214,7 +227,7 @@
   
 
 <div id="banner" class="banner" parallax=true
-     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+     style="background: url('https://101.43.39.125/HexoFiles/new/bg-trans.png') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
       <div class="banner-text text-center fade-in-up">
@@ -234,6 +247,71 @@
 
 </div>
 
+	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
+
+	<div class="banner" id='banner' >
+
+		<div class="full-bg-img" >
+
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
+
+					function set_video_attr(id){
+
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
+
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
+					}
+
+					$.getJSON('/vvd_js/video_url.json', function(data){
+						if (true){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
+
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
+
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
+							set_video_attr('banner_img_item')
+
+							if (!isMobile) {
+								video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+								document.getElementById("banner_video_insert").innerHTML = video_html_res;
+								set_video_attr('video_item')
+							}
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+			</div>
+		</div>
+    </div>
   </header>
 
   <main>
@@ -378,75 +456,6 @@
     
     <div class="category-sub row nomargin-x">
       <a class="category-subitem collapsed
-          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="Font"
-        id="heading-194f5394ae2e9c74dc3c441b92862d1d" role="tab" data-toggle="collapse" href="#collapse-194f5394ae2e9c74dc3c441b92862d1d"
-        aria-expanded="false"
-      >
-        Font
-        <span class="list-group-count"></span>
-        <i class="iconfont icon-arrowright"></i>
-      </a>
-      
-        <a href="/categories/Android/Font/" class="category-count col-2 col-md-1 col-xm-1">
-          <i class="iconfont icon-articles"></i>
-          <span>4</span>
-        </a>
-      
-      <div class="category-collapse collapse " id="collapse-194f5394ae2e9c74dc3c441b92862d1d"
-           role="tabpanel" aria-labelledby="heading-194f5394ae2e9c74dc3c441b92862d1d">
-        
-        
-          
-  <div class="category-post-list">
-    
-    
-      
-      
-        <a href="/2022/10/11/Android%E5%AD%97%E4%BD%93%E7%B3%BB%E5%88%97%20%EF%BC%88%E5%9B%9B%EF%BC%89%EF%BC%9A%E5%85%A8%E5%B1%80%E6%9B%BF%E6%8D%A2%E5%AD%97%E4%BD%93%E6%96%B9%E5%BC%8F/" title="Android字体系列 （四）：全局替换字体方式"
-           class="list-group-item list-group-item-action
-           ">
-          <span class="category-post">Android字体系列 （四）：全局替换字体方式</span>
-        </a>
-      
-    
-      
-      
-        <a href="/2022/10/11/Android%E5%AD%97%E4%BD%93%E7%B3%BB%E5%88%97%20%EF%BC%88%E4%B8%89%EF%BC%89%EF%BC%9AXml%E4%B8%AD%E7%9A%84%E5%AD%97%E4%BD%93/" title="Android字体系列 （三）：Xml中的字体"
-           class="list-group-item list-group-item-action
-           ">
-          <span class="category-post">Android字体系列 （三）：Xml中的字体</span>
-        </a>
-      
-    
-      
-      
-        <a href="/2022/10/11/Android%E5%AD%97%E4%BD%93%E7%B3%BB%E5%88%97%20%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9ATypeface%E5%AE%8C%E5%85%A8%E8%A7%A3%E6%9E%90/" title="Android字体系列 （二）：Typeface完全解析"
-           class="list-group-item list-group-item-action
-           ">
-          <span class="category-post">Android字体系列 （二）：Typeface完全解析</span>
-        </a>
-      
-    
-      
-      
-        <a href="/2022/10/11/Android%E5%AD%97%E4%BD%93%E7%B3%BB%E5%88%97%20%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9AAndroid%E5%AD%97%E4%BD%93%E5%9F%BA%E7%A1%80/" title="Android字体系列 （一）：Android字体基础"
-           class="list-group-item list-group-item-action
-           ">
-          <span class="category-post">Android字体系列 （一）：Android字体基础</span>
-        </a>
-      
-    
-  </div>
-
-        
-      </div>
-    </div>
-  
-    
-    
-    
-    <div class="category-sub row nomargin-x">
-      <a class="category-subitem collapsed
           list-group-item category-item-action col-10 col-md-11 col-xm-11" title="APT"
         id="heading-bf103b791b390baa469b42479f7f7f37" role="tab" data-toggle="collapse" href="#collapse-bf103b791b390baa469b42479f7f7f37"
         aria-expanded="false"
@@ -502,6 +511,75 @@
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">Android APT 系列 （一）：APT 筑基之反射</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="Font"
+        id="heading-194f5394ae2e9c74dc3c441b92862d1d" role="tab" data-toggle="collapse" href="#collapse-194f5394ae2e9c74dc3c441b92862d1d"
+        aria-expanded="false"
+      >
+        Font
+        <span class="list-group-count"></span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+        <a href="/categories/Android/Font/" class="category-count col-2 col-md-1 col-xm-1">
+          <i class="iconfont icon-articles"></i>
+          <span>4</span>
+        </a>
+      
+      <div class="category-collapse collapse " id="collapse-194f5394ae2e9c74dc3c441b92862d1d"
+           role="tabpanel" aria-labelledby="heading-194f5394ae2e9c74dc3c441b92862d1d">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2022/10/11/Android%E5%AD%97%E4%BD%93%E7%B3%BB%E5%88%97%20%EF%BC%88%E5%9B%9B%EF%BC%89%EF%BC%9A%E5%85%A8%E5%B1%80%E6%9B%BF%E6%8D%A2%E5%AD%97%E4%BD%93%E6%96%B9%E5%BC%8F/" title="Android字体系列 （四）：全局替换字体方式"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Android字体系列 （四）：全局替换字体方式</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2022/10/11/Android%E5%AD%97%E4%BD%93%E7%B3%BB%E5%88%97%20%EF%BC%88%E4%B8%89%EF%BC%89%EF%BC%9AXml%E4%B8%AD%E7%9A%84%E5%AD%97%E4%BD%93/" title="Android字体系列 （三）：Xml中的字体"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Android字体系列 （三）：Xml中的字体</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2022/10/11/Android%E5%AD%97%E4%BD%93%E7%B3%BB%E5%88%97%20%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9ATypeface%E5%AE%8C%E5%85%A8%E8%A7%A3%E6%9E%90/" title="Android字体系列 （二）：Typeface完全解析"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Android字体系列 （二）：Typeface完全解析</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2022/10/11/Android%E5%AD%97%E4%BD%93%E7%B3%BB%E5%88%97%20%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9AAndroid%E5%AD%97%E4%BD%93%E5%9F%BA%E7%A1%80/" title="Android字体系列 （一）：Android字体基础"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">Android字体系列 （一）：Android字体基础</span>
         </a>
       
     
