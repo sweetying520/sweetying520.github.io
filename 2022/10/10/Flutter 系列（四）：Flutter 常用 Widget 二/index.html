@@ -1,0 +1,1190 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar.png">
+  <link rel="icon" href="/img/avatar.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="sweetying">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前言很高兴遇见你~ 在本系列的上一篇文章中，我们介绍了 Flutter 特点以及一些常用的 Widget：MaterialApp，Scaffold，AppBar，Center，Container，Text。还没有看过上一篇文章的朋友，建议先去阅读 Flutter 系列（三）：Flutter 特点及常用 Widget 介绍。接下来我们继续对 Flutter Widget 进行学习 下面我会通过：效">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flutter 系列（四）：Flutter 常用 Widget 二">
+<meta property="og:url" content="https://sweetying520.github.io/2022/10/10/Flutter%20%E7%B3%BB%E5%88%97%EF%BC%88%E5%9B%9B%EF%BC%89%EF%BC%9AFlutter%20%E5%B8%B8%E7%94%A8%20Widget%20%E4%BA%8C/index.html">
+<meta property="og:site_name" content="sweetying">
+<meta property="og:description" content="前言很高兴遇见你~ 在本系列的上一篇文章中，我们介绍了 Flutter 特点以及一些常用的 Widget：MaterialApp，Scaffold，AppBar，Center，Container，Text。还没有看过上一篇文章的朋友，建议先去阅读 Flutter 系列（三）：Flutter 特点及常用 Widget 介绍。接下来我们继续对 Flutter Widget 进行学习 下面我会通过：效">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202210101659599.jpeg">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f9c9d4e9e7b94ef0bb5299fd62faa8ae~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b4f8ebf9c4034f23b4a52a59984b046d~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3315fbd5066448f7b8c87109f2e3db22~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2466b29935204ef0960cb4fa29be8cb2~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f2105bb0b41846a88d69143a14eb4cda~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/71e5730aaec645d9b0652dc6e8c77b9c~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c02d016436184879a7d8871bdfb2e904~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8ed5babf3a7642069893a05e1afe3240~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/65d60dd3b5ee487e89e6abc3f3265e13~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c8b90e40d5ce42aa95c1a6be5bf0a1c1~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0a63bcb7778c42c6bcfef99a9bb3c81e~tplv-k3u1fbpfcp-watermark.image">
+<meta property="article:published_time" content="2022-10-10T08:54:15.000Z">
+<meta property="article:modified_time" content="2022-10-11T03:38:11.291Z">
+<meta property="article:author" content="sweetying">
+<meta property="article:tag" content="原创">
+<meta property="article:tag" content="Flutter">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202210101659599.jpeg">
+  
+  
+  
+  <title>Flutter 系列（四）：Flutter 常用 Widget 二 - sweetying</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/iconfont_juejin/iconfont.css">
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sweetying520.github.io","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"zN1E017kYhKuj6GqXHJSbGMb-gzGzoHsz","app_key":"JSwY8PjtA131Y78OHn7kKtio","server_url":"https://zn1e017k.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  <div>
+	<div class='real_mask' style="
+		background-color: rgba(0,0,0,0.3);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -777;
+	"></div>
+	<div id="banner_video_insert">
+	</div>
+	<div id='vvd_banner_img'>
+	</div>
+</div>
+<div id="banner"></div>
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>sweetying</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" target="_blank" rel="noopener" href="https://www.foreverblog.cn/go.html">
+                <i class="iconfont icon-link-fill"></i>
+                虫洞
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://101.43.39.125/HexoFiles/new/bg-trans.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Flutter 系列（四）：Flutter 常用 Widget 二"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        sweetying
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-10-10 16:54" pubdate>
+          2022年10月10日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          18k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          148 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
+
+	<div class="banner" id='banner' >
+
+		<div class="full-bg-img" >
+
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
+
+					function set_video_attr(id){
+
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
+
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
+					}
+
+					$.getJSON('/vvd_js/video_url.json', function(data){
+						if (true){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
+
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
+
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
+							set_video_attr('banner_img_item')
+
+							if (!isMobile) {
+								video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+								document.getElementById("banner_video_insert").innerHTML = video_html_res;
+								set_video_attr('video_item')
+							}
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+			</div>
+		</div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Flutter 系列（四）：Flutter 常用 Widget 二</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202210101659599.jpeg" srcset="/img/loading.gif" lazyload alt="sea-gfd0f885c2_1920"></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>很高兴遇见你~</p>
+<p>在本系列的上一篇文章中，我们介绍了 Flutter 特点以及一些常用的 Widget：MaterialApp，Scaffold，AppBar，Center，Container，Text。还没有看过上一篇文章的朋友，建议先去阅读 <a target="_blank" rel="noopener" href="https://juejin.cn/post/7134343543975313445">Flutter 系列（三）：Flutter 特点及常用 Widget 介绍</a>。接下来我们继续对 Flutter Widget 进行学习</p>
+<p>下面我会通过：效果展示 -&gt; Widget 讲解 -&gt; 代码实现的方式对 Widget 进行介绍，最后在通过 Widget 组合编写一个综合的案例</p>
+<h2 id="一、Flutter-Widget-之-Image"><a href="#一、Flutter-Widget-之-Image" class="headerlink" title="一、Flutter Widget 之 Image"></a>一、Flutter Widget 之 Image</h2><p>Image 是 Flutter 给我们提供显示图片的 Widget</p>
+<p>先看一眼使用 Image 实现的效果</p>
+<h3 id="1-1、Image-效果展示"><a href="#1-1、Image-效果展示" class="headerlink" title="1.1、Image 效果展示"></a>1.1、Image 效果展示</h3><p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f9c9d4e9e7b94ef0bb5299fd62faa8ae~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="flutter_01 (2).png"></p>
+<p>刘亦菲的圆形图片😄，美爆了。言归正传，大家可以先想一下怎么去实现？</p>
+<h3 id="1-2、Image-介绍"><a href="#1-2、Image-介绍" class="headerlink" title="1.2、Image 介绍"></a>1.2、Image 介绍</h3><p>Image 组件有很多构造方法，这里给大家讲两个常用的：</p>
+<p>1、Image.network ：加载远程图片</p>
+<p>2、Image.asset ：加载本地图片</p>
+<p>上面这两个属于 Image 的命名构造方法，对命名构造方法还不熟悉的赶紧先去看一下我的另一篇文章<a target="_blank" rel="noopener" href="https://juejin.cn/post/7130647339294785549#heading-0">传送门</a></p>
+<h4 id="1-2-1、Image-network-加载远程图片"><a href="#1-2-1、Image-network-加载远程图片" class="headerlink" title="1.2.1、Image.network 加载远程图片"></a>1.2.1、Image.network 加载远程图片</h4><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:flutter/material.dart&#x27;</span>;<br><br><span class="hljs-keyword">void</span> main() &#123;<br>  runApp(MaterialApp(<br>    home: Scaffold(<br>      appBar: AppBar(<br>        title: Text(<span class="hljs-string">&quot;Flutter Image Widget&quot;</span>),<span class="hljs-comment">//设置标题栏标题</span><br>        elevation: <span class="hljs-number">30</span>,<span class="hljs-comment">//设置标题栏阴影</span><br>      ),<br>      body: MyBodyPage() <span class="hljs-comment">//自定义 Widget</span><br>    ),<br>  ));<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyBodyPage</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">StatelessWidget</span></span>&#123;<br>  <span class="hljs-meta">@override</span><br>  Widget build(BuildContext context) &#123;<br>    <span class="hljs-keyword">return</span> Image.network(<span class="hljs-string">&quot;https://img.lianzhixiu.com/uploads/210106/37-21010609363aS.jpg&quot;</span>);<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>上述代码很简单，就是使用 Image.network 传入一张图片 url ，这样就可以将这张网络图片显示出来了：</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b4f8ebf9c4034f23b4a52a59984b046d~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="flutter_02.png"></p>
+<h4 id="1-2-2、Image-asset-加载本地图片"><a href="#1-2-2、Image-asset-加载本地图片" class="headerlink" title="1.2.2、Image.asset 加载本地图片"></a>1.2.2、Image.asset 加载本地图片</h4><p>加载本地图片稍微复杂一些</p>
+<p>1、新建图片目录，引入图片资源</p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3315fbd5066448f7b8c87109f2e3db22~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="flutter_03 (2).png"></p>
+<p>我们新建了 images 文件夹，并在 images 下放入了图片资源，又新建了 2.0x 和 3.0x 文件夹分别对应 2 倍图和 3 倍图，这样就能保证不同手机分辨率的手机加载对应文件夹下的图片资源</p>
+<p>2、打开 pubspec.yaml 配置文件声明一下我们添加的图片</p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2466b29935204ef0960cb4fa29be8cb2~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="flutter_04 (1).png"></p>
+<p>3、最后在代码中使用就可以了</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:flutter/material.dart&#x27;</span>;<br><br><span class="hljs-keyword">void</span> main() &#123;<br>  runApp(MaterialApp(<br>    home: Scaffold(<br>      appBar: AppBar(<br>        title: Text(<span class="hljs-string">&quot;Flutter Image Widget&quot;</span>),<span class="hljs-comment">//设置标题栏标题</span><br>        elevation: <span class="hljs-number">30</span>,<span class="hljs-comment">//设置标题栏阴影</span><br>      ),<br>      body: MyBodyPage() <span class="hljs-comment">//自定义 Widget</span><br>    ),<br>  ));<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyBodyPage</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">StatelessWidget</span></span>&#123;<br>  <span class="hljs-meta">@override</span><br>  Widget build(BuildContext context) &#123;<br>    <span class="hljs-keyword">return</span> Image.asset(<span class="hljs-string">&quot;images/ic_launcher_round.png&quot;</span>);<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>效果如下：</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f2105bb0b41846a88d69143a14eb4cda~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="flutter_05.png"></p>
+<h4 id="1-2-3、Image-常用属性"><a href="#1-2-3、Image-常用属性" class="headerlink" title="1.2.3、Image 常用属性"></a>1.2.3、Image 常用属性</h4><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>alignment</td>
+<td>Alignment</td>
+<td>图片的对齐方式</td>
+</tr>
+<tr>
+<td>color 和 colorBlendMode</td>
+<td></td>
+<td>设置图片的背景颜色，通常和 colorBlendMode 配合一起使用，这样可以使图片颜色和背景色混合</td>
+</tr>
+<tr>
+<td>fit</td>
+<td>BoxFit</td>
+<td>fit 属性用来控制图片的拉伸和挤压，这都是根据父容器来的：<br/>BoxFit.fill：全图显示，图片会被拉伸，并充满父容器<br/>BoxFit.contain：全图显示，显示原比例，可能会有空隙<br/>BoxFit.cover：显示可能拉伸，可能裁切，充满（图片要充满整个容器，还不变形）<br/>BoxFit.fitWidth：宽度充满(横向充满)，显示可能拉伸， 可能裁切<br/>BoxFit.fitHeight：高度充满(竖向充满),显示可能拉 伸，可能裁切<br/>BoxFit.scaleDown：效果和 contain 差不多，但是此属性不允许显示超过原图片大小，可小不可大</td>
+</tr>
+<tr>
+<td>width</td>
+<td></td>
+<td>宽度，一般结合 ClipOval Widget 才能看到效果</td>
+</tr>
+<tr>
+<td>height</td>
+<td></td>
+<td>高度，一般结合 ClipOval Widget 才能看到效果</td>
+</tr>
+</tbody></table>
+<p>更多属性参考：<a target="_blank" rel="noopener" href="https://api.flutter.dev/flutter/widgets/Image-class.html">https://api.flutter.dev/flutter/widgets/Image-class.html</a></p>
+<p><strong>PS</strong>：ClipOval 是一个裁剪子 Widget 为椭圆的 Widget，常用于圆形，圆角图片等</p>
+<h3 id="1-3、效果实现"><a href="#1-3、效果实现" class="headerlink" title="1.3、效果实现"></a>1.3、效果实现</h3><p>回顾 1.1 的效果：其实就是一个居中展示的圆形图片</p>
+<p>这里我们可以使用 Center 进行居中，然后使用 Image + ClipOval 配合相关属性实现圆形图片：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:flutter/material.dart&#x27;</span>;<br><br><span class="hljs-keyword">void</span> main() &#123;<br>  runApp(MaterialApp(<br>    home: Scaffold(<br>      appBar: AppBar(<br>        title: Text(<span class="hljs-string">&quot;Flutter Image Widget&quot;</span>),<span class="hljs-comment">//设置标题栏标题</span><br>        elevation: <span class="hljs-number">30</span>,<span class="hljs-comment">//设置标题栏阴影</span><br>      ),<br>      body: MyBodyPage() <span class="hljs-comment">//自定义 Widget</span><br>    ),<br>  ));<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyBodyPage</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">StatelessWidget</span></span>&#123;<br>  <span class="hljs-meta">@override</span><br>  Widget build(BuildContext context) &#123;<br>    <span class="hljs-keyword">return</span> Center(<br>      child: ClipOval(<br>        child: Image.network(<br>          <span class="hljs-string">&quot;https://img.lianzhixiu.com/uploads/210106/37-21010609363aS.jpg&quot;</span>,<br>          width: <span class="hljs-number">300</span>, <span class="hljs-comment">//设置图片的宽度为 300</span><br>          height: <span class="hljs-number">300</span>, <span class="hljs-comment">//设置图片的高度为 300</span><br>          fit: BoxFit.cover, <span class="hljs-comment">//设置图片等比放大，充满父容器</span><br>        ),<br>      ),<br>    );<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>上述代码就实现了我们想要的效果</p>
+<h2 id="二、Flutter-Widget-之-ListView"><a href="#二、Flutter-Widget-之-ListView" class="headerlink" title="二、Flutter Widget 之 ListView"></a>二、Flutter Widget 之 ListView</h2><p>列表是我们项目开发中最常用的一种布局方式，Flutter 给我们提供了 ListView 来定义列表，它支持垂直和水平方向展示，通过一个属性就可以控制列表的显示方向</p>
+<h3 id="2-1、效果展示"><a href="#2-1、效果展示" class="headerlink" title="2.1、效果展示"></a>2.1、效果展示</h3><p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/71e5730aaec645d9b0652dc6e8c77b9c~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="flutter_06.png"></p>
+<h3 id="2-2、ListView-介绍"><a href="#2-2、ListView-介绍" class="headerlink" title="2.2、ListView 介绍"></a>2.2、ListView 介绍</h3><h4 id="2-2-1、常用属性介绍"><a href="#2-2-1、常用属性介绍" class="headerlink" title="2.2.1、常用属性介绍"></a>2.2.1、常用属性介绍</h4><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>scrollDirection</td>
+<td>Axis</td>
+<td>Axis.horizontal 水平列表 <br/>Axis.vertical 垂直列表</td>
+</tr>
+<tr>
+<td>padding</td>
+<td>EdgeInsetsGeometry</td>
+<td>內边距</td>
+</tr>
+<tr>
+<td>resolve</td>
+<td>bool</td>
+<td>组件反向排序</td>
+</tr>
+<tr>
+<td>children</td>
+<td>List<Widget></td>
+<td>列表元素</td>
+</tr>
+</tbody></table>
+<p>更多属性参考：<a target="_blank" rel="noopener" href="https://api.flutter.dev/flutter/widgets/ListView-class.html">https://api.flutter.dev/flutter/widgets/ListView-class.html</a></p>
+<p>ListView 的 children 能嵌套各种 Widget 去实现列表 UI 效果</p>
+<h4 id="2-2-2、ListTile-介绍"><a href="#2-2-2、ListTile-介绍" class="headerlink" title="2.2.2、ListTile 介绍"></a>2.2.2、ListTile 介绍</h4><p>ListTile 是一个列表 item Widget ，通常用于各种列表中，其常用的属性有：</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>leading</td>
+<td>Widget</td>
+<td>左侧组件</td>
+</tr>
+<tr>
+<td>title</td>
+<td>Widget</td>
+<td>标题</td>
+</tr>
+<tr>
+<td>subtitle</td>
+<td>Widget</td>
+<td>副标题</td>
+</tr>
+<tr>
+<td>trailing</td>
+<td>Widget</td>
+<td>右侧组件</td>
+</tr>
+<tr>
+<td>onTap</td>
+<td></td>
+<td>点击事件回调</td>
+</tr>
+<tr>
+<td>onLongPress</td>
+<td></td>
+<td>长按事件回调</td>
+</tr>
+</tbody></table>
+<p>更多属性参考：<a target="_blank" rel="noopener" href="https://api.flutter.dev/flutter/material/ListTile-class.html">https://api.flutter.dev/flutter/material/ListTile-class.html</a></p>
+<p>下面我们使用 ListView + ListTile 实现一个效果：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:flutter/material.dart&#x27;</span>;<br><br><span class="hljs-keyword">void</span> main() &#123;<br><br>  runApp(MaterialApp(<br>    home: Scaffold(<br>      appBar: AppBar(<br>        title: Text(<span class="hljs-string">&quot;Flutter ListView Widget&quot;</span>),<span class="hljs-comment">//设置标题栏标题</span><br>        elevation: <span class="hljs-number">30</span>,<span class="hljs-comment">//设置标题栏阴影</span><br>      ),<br>      body: MyBodyPage() <span class="hljs-comment">//自定义 Widget</span><br>    ),<br>  ));<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyBodyPage</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">StatelessWidget</span></span>&#123;<br><br>  <span class="hljs-meta">@override</span><br>  Widget build(BuildContext context) &#123;<br>    <span class="hljs-keyword">return</span> ListView(<br>      children: [<br>        ListTile(<br>          leading: Icon(Icons.search),<br>          title: Text(<span class="hljs-string">&quot;标题1&quot;</span>),<br>          subtitle: Text(<span class="hljs-string">&quot;描述1&quot;</span>),<br>          trailing: Icon(Icons.home),<br>        ),<br>        ListTile(<br>          leading: Icon(Icons.search),<br>          title: Text(<span class="hljs-string">&quot;标题2&quot;</span>),<br>          subtitle: Text(<span class="hljs-string">&quot;描述2&quot;</span>),<br>          trailing: Icon(Icons.home)<br>        ),<br>        ListTile(<br>          leading: Icon(Icons.search),<br>          title: Text(<span class="hljs-string">&quot;标题3&quot;</span>),<br>          subtitle: Text(<span class="hljs-string">&quot;描述3&quot;</span>),<br>          trailing: Icon(Icons.home)<br>        )<br>      ],<br>    );<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>效果图：</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c02d016436184879a7d8871bdfb2e904~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="flutter_07.png"></p>
+<h3 id="2-3、效果实现"><a href="#2-3、效果实现" class="headerlink" title="2.3、效果实现"></a>2.3、效果实现</h3><p>上面 2.1 展示的效果就是：ListTile + 横线作为一个 item 进行排列，如何将这两个 Widget 包装为一个整体，我们就要学习下 Column </p>
+<p>1、Column 介绍</p>
+<p>Column 是 Flutter 给我们提供的垂直布局 Widget，其常用属性有：</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>mainAxisAlignment</td>
+<td>MainAxisAlignment</td>
+<td>主轴的排序方式</td>
+</tr>
+<tr>
+<td>crossAxisAlignment</td>
+<td>CrossAxisAlignment</td>
+<td>次轴的排序方式</td>
+</tr>
+<tr>
+<td>children</td>
+<td>List<Widget></td>
+<td>组件子元素</td>
+</tr>
+</tbody></table>
+<p>更多属性参考：<a target="_blank" rel="noopener" href="https://api.flutter.dev/flutter/widgets/Column-class.html">https://api.flutter.dev/flutter/widgets/Column-class.html</a></p>
+<p>同样 Flutter 给我们提供了水平布局 Widget Row，常用属性和 Column 一样</p>
+<p>2、横线我们直接使用 Divider</p>
+<p>ok，现在就可以去实现效果图了，上面 2.2 的例子 ListView 里面的数据都是写死的，不灵活，接下来我们使用 ListView 的命名构造方法 ListView.Builder 来实现动态加载：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:flutter/material.dart&#x27;</span>;<br><br><span class="hljs-keyword">void</span> main() &#123;<br><br>  runApp(MaterialApp(<br>    home: Scaffold(<br>      appBar: AppBar(<br>        title: Text(<span class="hljs-string">&quot;Flutter ListView Widget&quot;</span>),<span class="hljs-comment">//设置标题栏标题</span><br>        elevation: <span class="hljs-number">30</span>,<span class="hljs-comment">//设置标题栏阴影</span><br>      ),<br>      body: MyBodyPage() <span class="hljs-comment">//自定义 Widget</span><br>    ),<br>  ));<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyBodyPage</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">StatelessWidget</span></span>&#123;<br><br>  <span class="hljs-comment">//mock 数据：相当于 List&lt;Map&gt;</span><br>  <span class="hljs-keyword">var</span> mDataList = [<br>    &#123;<br>      <span class="hljs-string">&quot;title&quot;</span>:<span class="hljs-string">&quot;标题1&quot;</span>,<br>      <span class="hljs-string">&quot;desc&quot;</span>:<span class="hljs-string">&quot;描述1&quot;</span>,<br>      <span class="hljs-string">&quot;image&quot;</span>:<span class="hljs-string">&quot;https://img.lianzhixiu.com/uploads/210106/37-21010609363aS.jpg&quot;</span><br>    &#125;,<br>    &#123;<br>      <span class="hljs-string">&quot;title&quot;</span>:<span class="hljs-string">&quot;标题2&quot;</span>,<br>      <span class="hljs-string">&quot;desc&quot;</span>:<span class="hljs-string">&quot;描述2&quot;</span>,<br>      <span class="hljs-string">&quot;image&quot;</span>:<span class="hljs-string">&quot;https://img.lianzhixiu.com/uploads/210106/37-21010609363aS.jpg&quot;</span><br>    &#125;,<br>    &#123;<br>      <span class="hljs-string">&quot;title&quot;</span>:<span class="hljs-string">&quot;标题3&quot;</span>,<br>      <span class="hljs-string">&quot;desc&quot;</span>:<span class="hljs-string">&quot;描述3&quot;</span>,<br>      <span class="hljs-string">&quot;image&quot;</span>:<span class="hljs-string">&quot;https://img.lianzhixiu.com/uploads/210106/37-21010609363aS.jpg&quot;</span><br>    &#125;,<br>    &#123;<br>      <span class="hljs-string">&quot;title&quot;</span>:<span class="hljs-string">&quot;标题4&quot;</span>,<br>      <span class="hljs-string">&quot;desc&quot;</span>:<span class="hljs-string">&quot;描述4&quot;</span>,<br>      <span class="hljs-string">&quot;image&quot;</span>:<span class="hljs-string">&quot;https://img.lianzhixiu.com/uploads/210106/37-21010609363aS.jpg&quot;</span><br>    &#125;,<br>    &#123;<br>      <span class="hljs-string">&quot;title&quot;</span>:<span class="hljs-string">&quot;标题5&quot;</span>,<br>      <span class="hljs-string">&quot;desc&quot;</span>:<span class="hljs-string">&quot;描述6&quot;</span>,<br>      <span class="hljs-string">&quot;image&quot;</span>:<span class="hljs-string">&quot;https://img.lianzhixiu.com/uploads/210106/37-21010609363aS.jpg&quot;</span><br>    &#125;,<br>  ];<br><br>  <span class="hljs-meta">@override</span><br>  Widget build(BuildContext context) &#123;<br>    <span class="hljs-keyword">return</span> ListView.builder(<span class="hljs-comment">//通过 ListView.builder 实现数据的动态加载</span><br>        itemCount: mDataList.length, <span class="hljs-comment">//item 的个数</span><br>        itemBuilder: (context, index) &#123; <span class="hljs-comment">//通过 itemBuilder 构建 Widget</span><br>          <span class="hljs-keyword">return</span> Column(<br>            children: [ <span class="hljs-comment">//Column 里面包装了 ListTile + Divider</span><br>              ListTile(<br>                leading: ClipOval( <span class="hljs-comment">//圆形图片</span><br>                  child: Image.network(<br>                    mDataList[index][<span class="hljs-string">&quot;image&quot;</span>] ?? <span class="hljs-string">&quot;&quot;</span>,<br>                    width: <span class="hljs-number">50</span>,<br>                    height: <span class="hljs-number">50</span>,<br>                    fit: BoxFit.cover,<br>                  ),<br>                ),<br>                title: Text(mDataList[index][<span class="hljs-string">&quot;title&quot;</span>] ?? <span class="hljs-string">&quot;&quot;</span>), <span class="hljs-comment">//标题</span><br>                subtitle: Text(mDataList[index][<span class="hljs-string">&quot;desc&quot;</span>] ?? <span class="hljs-string">&quot;&quot;</span>), <span class="hljs-comment">//副标题</span><br>              ),<br>              Divider() <span class="hljs-comment">//横线</span><br>            ],<br>          );<br>        &#125;);<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>上述代码就实现了我们想要的效果</p>
+<h2 id="三、Flutter-Widget-之-GridView"><a href="#三、Flutter-Widget-之-GridView" class="headerlink" title="三、Flutter Widget 之 GridView"></a>三、Flutter Widget 之 GridView</h2><p>GridView 是 Flutter 给我们提供的网格布局 Widget，我们快速过一下，然后实现一些效果：</p>
+<p>GridView 创建网格列表有多种方式，主要介绍两种：</p>
+<p>1、通过 GridView.count 实现网格布局</p>
+<p>2、通过 GridView.builder 实现网格布局</p>
+<p><strong>常用属性</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>scrollDirection</td>
+<td>Axis</td>
+<td>Axis.horizontal 水平列表 <br/>Axis.vertical 垂直列表</td>
+</tr>
+<tr>
+<td>padding</td>
+<td>EdgeInsetsGeometry</td>
+<td>內边距</td>
+</tr>
+<tr>
+<td>resolve</td>
+<td>bool</td>
+<td>组件反向排序</td>
+</tr>
+<tr>
+<td>children</td>
+<td>List<Widget></td>
+<td>列表元素</td>
+</tr>
+<tr>
+<td>crossAxisSpacing</td>
+<td>double</td>
+<td>水平子 Widget 之间间距</td>
+</tr>
+<tr>
+<td>mainAxisSpacing</td>
+<td>double</td>
+<td>垂直子 Widget 之间间距</td>
+</tr>
+<tr>
+<td>crossAxisCount</td>
+<td>int</td>
+<td>一行的 Widget 数量</td>
+</tr>
+<tr>
+<td>childAspectRatio</td>
+<td>double</td>
+<td>子 Widget 宽高比例</td>
+</tr>
+<tr>
+<td>gridDelegate</td>
+<td>SliverGridDelegate</td>
+<td>控制布局主要用在 GridView.builder 里面</td>
+</tr>
+</tbody></table>
+<h3 id="3-1、Flutter-GridView-count-实现网格布局"><a href="#3-1、Flutter-GridView-count-实现网格布局" class="headerlink" title="3.1、Flutter GridView.count 实现网格布局"></a>3.1、Flutter GridView.count 实现网格布局</h3><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:flutter/material.dart&#x27;</span>;<br><br><span class="hljs-keyword">void</span> main() &#123;<br><br>  runApp(MaterialApp(<br>    home: Scaffold(<br>      appBar: AppBar(<br>        title: Text(<span class="hljs-string">&quot;Flutter ListView Widget&quot;</span>),<span class="hljs-comment">//设置标题栏标题</span><br>        elevation: <span class="hljs-number">30</span>,<span class="hljs-comment">//设置标题栏阴影</span><br>      ),<br>      body: MyBodyPage() <span class="hljs-comment">//自定义 Widget</span><br>    ),<br>  ));<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyBodyPage</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">StatelessWidget</span></span>&#123;<br><br>  <span class="hljs-comment">//mock 数据</span><br>  <span class="hljs-keyword">var</span> mDataList = [<br>    &#123;<br>      <span class="hljs-string">&quot;title&quot;</span>:<span class="hljs-string">&quot;标题1&quot;</span>,<br>      <span class="hljs-string">&quot;image&quot;</span>:<span class="hljs-string">&quot;https://img.lianzhixiu.com/uploads/210106/37-21010609363aS.jpg&quot;</span><br>    &#125;,<br>    &#123;<br>      <span class="hljs-string">&quot;title&quot;</span>:<span class="hljs-string">&quot;标题2&quot;</span>,<br>      <span class="hljs-string">&quot;image&quot;</span>:<span class="hljs-string">&quot;https://img.lianzhixiu.com/uploads/210106/37-21010609363aS.jpg&quot;</span><br>    &#125;,<br>    &#123;<br>      <span class="hljs-string">&quot;title&quot;</span>:<span class="hljs-string">&quot;标题3&quot;</span>,<br>      <span class="hljs-string">&quot;image&quot;</span>:<span class="hljs-string">&quot;https://img.lianzhixiu.com/uploads/210106/37-21010609363aS.jpg&quot;</span><br>    &#125;,<br>    &#123;<br>      <span class="hljs-string">&quot;title&quot;</span>:<span class="hljs-string">&quot;标题4&quot;</span>,<br>      <span class="hljs-string">&quot;image&quot;</span>:<span class="hljs-string">&quot;https://img.lianzhixiu.com/uploads/210106/37-21010609363aS.jpg&quot;</span><br>    &#125;,<br>    &#123;<br>      <span class="hljs-string">&quot;title&quot;</span>:<span class="hljs-string">&quot;标题5&quot;</span>,<br>      <span class="hljs-string">&quot;image&quot;</span>:<span class="hljs-string">&quot;https://img.lianzhixiu.com/uploads/210106/37-21010609363aS.jpg&quot;</span><br>    &#125;,<br>  ];<br><br>  <span class="hljs-built_in">List</span>&lt;Widget&gt; _getListWidget() &#123;<br>    <span class="hljs-keyword">var</span> listWidget = mDataList.map((value) &#123;<br>      <span class="hljs-keyword">return</span> Container(<br>        decoration: <span class="hljs-comment">//设置一个宽度为 1 绿色的边框</span><br>          BoxDecoration(border: Border.all(color: Colors.green, width: <span class="hljs-number">1.0</span>)),<br>        child: Column( <span class="hljs-comment">//垂直布局里面嵌套：Expanded + SizedBox + Text + SizedBox</span><br>          children: [<br>            Expanded( <span class="hljs-comment">//展开 Widget，类似 Android 里面 Linearlayout 设置权重，用在这是让图片自适应展开</span><br>              child: Image.network(<span class="hljs-comment">// 图片</span><br>                value[<span class="hljs-string">&quot;image&quot;</span>] ?? <span class="hljs-string">&quot;&quot;</span>,<br>                fit: BoxFit.cover,<br>                width: <span class="hljs-built_in">double</span>.infinity, <span class="hljs-comment">//设置图片的宽度为屏幕的宽度</span><br>              ),<br>            ),<br>            SizedBox(height: <span class="hljs-number">12</span>),<span class="hljs-comment">//设置一个高度为 12 的空白间距</span><br>            Text( <span class="hljs-comment">// 设置文本</span><br>                value[<span class="hljs-string">&quot;title&quot;</span>] ?? <span class="hljs-string">&quot;&quot;</span>,<br>                textAlign: TextAlign.center,<br>                style: TextStyle(<br>                    fontSize: <span class="hljs-number">20</span><br>                )<br>            ),<br>            SizedBox(height: <span class="hljs-number">12</span>),<span class="hljs-comment">//设置一个高度为 12 的空白间距</span><br>          ],<br>        ),<br>      );<br>    &#125;);<br>    <span class="hljs-keyword">return</span> listWidget.toList();<br>  &#125;<br><br>  <span class="hljs-meta">@override</span><br>  Widget build(BuildContext context) &#123;<br>    <span class="hljs-keyword">return</span> GridView.count(<br>      crossAxisCount: <span class="hljs-number">2</span>,<span class="hljs-comment">// 设置一行显示 Widget 数量为 2</span><br>      padding: EdgeInsets.all(<span class="hljs-number">20</span>), <span class="hljs-comment">//设置 GridView 內边距为 20</span><br>      crossAxisSpacing: <span class="hljs-number">20</span>, <span class="hljs-comment">//设置水平子 Widget 之间的间距为 20</span><br>      mainAxisSpacing: <span class="hljs-number">20</span>,  <span class="hljs-comment">//设置垂直子 Widget 之间的间距为 20</span><br>      children: _getListWidget() <span class="hljs-comment">//设置子 Widget</span><br>    );<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>上述代码中我们使用了两个新 Widget：Expanded，SizeBox</p>
+<p>1、Expanded 是用于展开子 Widget 的 Widget，常用于 Row，Column 中，其 flex 属性就是用来设置权重的，类似于 Android 的 LinearLayout 设置权重</p>
+<p>2、SizeBox 主要是用来指定一段间距的，其有两个属性，width，height。如果设置 width 就是指定宽度，如果设置 height 就是指定高度</p>
+<p>实现效果：</p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8ed5babf3a7642069893a05e1afe3240~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="flutter_08.png"></p>
+<h3 id="3-2、Flutter-GridView-builder-实现网格布局"><a href="#3-2、Flutter-GridView-builder-实现网格布局" class="headerlink" title="3.2、Flutter GridView.builder 实现网格布局"></a>3.2、Flutter GridView.builder 实现网格布局</h3><p>同样的效果，我们使用 GridView.builder 来实现</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:flutter/material.dart&#x27;</span>;<br><br><span class="hljs-keyword">void</span> main() &#123;<br>  runApp(MaterialApp(<br>    home: Scaffold(<br>        appBar: AppBar(<br>          title: Text(<span class="hljs-string">&quot;Flutter GridView Widget&quot;</span>), <span class="hljs-comment">//设置标题栏标题</span><br>          elevation: <span class="hljs-number">30</span>, <span class="hljs-comment">//设置标题栏阴影</span><br>        ),<br>        body: MyBodyPage() <span class="hljs-comment">//自定义 Widget</span><br>        ),<br>  ));<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyBodyPage</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">StatelessWidget</span> </span>&#123;<br>  <span class="hljs-comment">//mock 数据</span><br>  <span class="hljs-keyword">var</span> mDataList = [<br>    &#123;<br>      <span class="hljs-string">&quot;title&quot;</span>: <span class="hljs-string">&quot;标题1&quot;</span>,<br>      <span class="hljs-string">&quot;image&quot;</span>: <span class="hljs-string">&quot;https://img.lianzhixiu.com/uploads/210106/37-21010609363aS.jpg&quot;</span><br>    &#125;,<br>    &#123;<br>      <span class="hljs-string">&quot;title&quot;</span>: <span class="hljs-string">&quot;标题2&quot;</span>,<br>      <span class="hljs-string">&quot;image&quot;</span>: <span class="hljs-string">&quot;https://img.lianzhixiu.com/uploads/210106/37-21010609363aS.jpg&quot;</span><br>    &#125;,<br>    &#123;<br>      <span class="hljs-string">&quot;title&quot;</span>: <span class="hljs-string">&quot;标题3&quot;</span>,<br>      <span class="hljs-string">&quot;image&quot;</span>: <span class="hljs-string">&quot;https://img.lianzhixiu.com/uploads/210106/37-21010609363aS.jpg&quot;</span><br>    &#125;,<br>    &#123;<br>      <span class="hljs-string">&quot;title&quot;</span>: <span class="hljs-string">&quot;标题4&quot;</span>,<br>      <span class="hljs-string">&quot;image&quot;</span>: <span class="hljs-string">&quot;https://img.lianzhixiu.com/uploads/210106/37-21010609363aS.jpg&quot;</span><br>    &#125;,<br>    &#123;<br>      <span class="hljs-string">&quot;title&quot;</span>: <span class="hljs-string">&quot;标题5&quot;</span>,<br>      <span class="hljs-string">&quot;image&quot;</span>: <span class="hljs-string">&quot;https://img.lianzhixiu.com/uploads/210106/37-21010609363aS.jpg&quot;</span><br>    &#125;,<br>  ];<br><br>  Widget _getListWidget(context, index) &#123;<br>    <span class="hljs-keyword">return</span> Container(<br>      decoration: <span class="hljs-comment">//设置一个宽度为 1 绿色的边框</span><br>          BoxDecoration(border: Border.all(color: Colors.green, width: <span class="hljs-number">1.0</span>)),<br>      child: Column(<br>        <span class="hljs-comment">//垂直布局里面嵌套：Expanded + SizedBox + Text + SizedBox</span><br>        children: [<br>          Expanded(<br>            <span class="hljs-comment">//扩展 Widget，类似 Android 里面 Linearlayout 设置权重，用在这是让图片自适应</span><br>            child: Image.network(<br>              <span class="hljs-comment">// 图片</span><br>              mDataList[index][<span class="hljs-string">&quot;image&quot;</span>] ?? <span class="hljs-string">&quot;&quot;</span>,<br>              fit: BoxFit.cover,<br>              width: <span class="hljs-built_in">double</span>.infinity, <span class="hljs-comment">//设置图片的宽度为屏幕的宽度</span><br>            ),<br>          ),<br>          SizedBox(height: <span class="hljs-number">12</span>), <span class="hljs-comment">//设置一个高度为 12 的空白间距</span><br>          Text(<br>              <span class="hljs-comment">// 设置文本</span><br>              mDataList[index][<span class="hljs-string">&quot;title&quot;</span>] ?? <span class="hljs-string">&quot;&quot;</span>,<br>              textAlign: TextAlign.center,<br>              style: TextStyle(fontSize: <span class="hljs-number">20</span>)),<br>          SizedBox(height: <span class="hljs-number">12</span>), <span class="hljs-comment">//设置一个高度为 12 的空白间距</span><br>        ],<br>      ),<br>    );<br>  &#125;<br><br>  <span class="hljs-meta">@override</span><br>  Widget build(BuildContext context) &#123;<br>    <span class="hljs-keyword">return</span> GridView.builder(<br>        itemCount: mDataList.length,<br>        padding: EdgeInsets.all(<span class="hljs-number">20</span>),<br>        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(<br>          crossAxisCount: <span class="hljs-number">2</span>, <span class="hljs-comment">//设置一行有两个 Widget</span><br>          crossAxisSpacing: <span class="hljs-number">20</span>, <span class="hljs-comment">//设置水平子 Widget 之间的间距为 20</span><br>          mainAxisSpacing: <span class="hljs-number">20</span>, <span class="hljs-comment">//设置垂直子 Widget 之间的间距为 20</span><br>          childAspectRatio: <span class="hljs-number">1</span>, <span class="hljs-comment">//设置子组件宽高比例为 1</span><br>        ),<br>        itemBuilder: _getListWidget <span class="hljs-comment">//将方法作为一个参数传入</span><br>        );<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="四、Flutter-Widget-之-Stack"><a href="#四、Flutter-Widget-之-Stack" class="headerlink" title="四、Flutter Widget 之 Stack"></a>四、Flutter Widget 之 Stack</h2><p>Stack 是 Fluter 提供的叠层 Widget ，类似 Android 的 FrameLayout</p>
+<p><strong>常用属性</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>alignment</td>
+<td>AlignmentGeometry</td>
+<td>配置所有子元素的显示位置</td>
+</tr>
+<tr>
+<td>children</td>
+<td>List<Widget></td>
+<td>子组件</td>
+</tr>
+</tbody></table>
+<p>通常它会配合 Align 或 Positioned 实现定位布局</p>
+<p><strong>Align 常用属性</strong></p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>alignment</td>
+<td>AlignmentGeometry</td>
+<td>配置子元素的显示位置</td>
+</tr>
+<tr>
+<td>child</td>
+<td>Widget</td>
+<td>子组件</td>
+</tr>
+</tbody></table>
+<p><strong>Positioned 常用属性</strong></p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>top</td>
+<td>double</td>
+<td>子元素距离顶部的距离</td>
+</tr>
+<tr>
+<td>bottom</td>
+<td>double</td>
+<td>子元素距离底部的距离</td>
+</tr>
+<tr>
+<td>left</td>
+<td>double</td>
+<td>子元素距离左侧距离</td>
+</tr>
+<tr>
+<td>right</td>
+<td>double</td>
+<td>子元素距离右侧距离</td>
+</tr>
+<tr>
+<td>child</td>
+<td>Widget</td>
+<td>子组件</td>
+</tr>
+</tbody></table>
+<p>下面我们实现如下效果：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/65d60dd3b5ee487e89e6abc3f3265e13~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="flutter_09.png"></p>
+<h3 id="4-1、Stack-Align-实现定位布局"><a href="#4-1、Stack-Align-实现定位布局" class="headerlink" title="4.1、Stack + Align 实现定位布局"></a>4.1、Stack + Align 实现定位布局</h3><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:flutter/material.dart&#x27;</span>;<br><br><span class="hljs-keyword">void</span> main() &#123;<br>  runApp(MaterialApp(<br>    home: Scaffold(<br>        appBar: AppBar(<br>          title: Text(<span class="hljs-string">&quot;Flutter Stack Widget&quot;</span>), <span class="hljs-comment">//设置标题栏标题</span><br>          elevation: <span class="hljs-number">30</span>, <span class="hljs-comment">//设置标题栏阴影</span><br>        ),<br>        body: MyBodyPage() <span class="hljs-comment">//自定义 Widget</span><br>        ),<br>  ));<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyBodyPage</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">StatelessWidget</span> </span>&#123;<br>  <span class="hljs-meta">@override</span><br>  Widget build(BuildContext context) &#123;<br>    <span class="hljs-keyword">return</span> Stack(<br>      children: [<br>        Align(<br>          alignment: Alignment.topLeft,<span class="hljs-comment">//左上</span><br>          child: Container(<br>            width: <span class="hljs-number">100</span>,<br>            height: <span class="hljs-number">100</span>,<br>            color: Colors.red,<br>          ),<br>        ),<br>        Align(<br>          alignment: Alignment.topRight,<span class="hljs-comment">//右上</span><br>          child: Container(<br>            width: <span class="hljs-number">100</span>,<br>            height: <span class="hljs-number">100</span>,<br>            color: Colors.orange,<br>          ),<br>        ),<br>        Align(<br>          alignment: Alignment.center,<span class="hljs-comment">//中间</span><br>          child: Container(<br>            width: <span class="hljs-number">100</span>,<br>            height: <span class="hljs-number">100</span>,<br>            color: Colors.yellow,<br>          ),<br>        ),<br>        Align(<br>          alignment: Alignment.bottomLeft,<span class="hljs-comment">//左下</span><br>          child: Container(<br>            width: <span class="hljs-number">100</span>,<br>            height: <span class="hljs-number">100</span>,<br>            color: Colors.green,<br>          ),<br>        ),<br>        Align(<br>          alignment: Alignment.bottomRight,<span class="hljs-comment">//右下</span><br>          child: Container(<br>            width: <span class="hljs-number">100</span>,<br>            height: <span class="hljs-number">100</span>,<br>            color: Colors.blue,<br>          ),<br>        )<br>      ],<br>    );<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="4-2、Stack-Positioned-实现定位布局"><a href="#4-2、Stack-Positioned-实现定位布局" class="headerlink" title="4.2、Stack + Positioned 实现定位布局"></a>4.2、Stack + Positioned 实现定位布局</h3><p>这种方式必须指定精确的宽高，在不同分辨率的手机，可能显示会有点问题，优先还是使用 Stack + Align 实现定位布局，如果对 UI 的小偏差能忽略不计，用这个也可以</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:flutter/material.dart&#x27;</span>;<br><br><span class="hljs-keyword">void</span> main() &#123;<br>  runApp(MaterialApp(<br>    home: Scaffold(<br>        appBar: AppBar(<br>          title: Text(<span class="hljs-string">&quot;Flutter Stack Widget&quot;</span>), <span class="hljs-comment">//设置标题栏标题</span><br>          elevation: <span class="hljs-number">30</span>, <span class="hljs-comment">//设置标题栏阴影</span><br>        ),<br>        body: MyBodyPage() <span class="hljs-comment">//自定义 Widget</span><br>        ),<br>  ));<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyBodyPage</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">StatelessWidget</span> </span>&#123;<br>  <span class="hljs-meta">@override</span><br>  Widget build(BuildContext context) &#123;<br>    <span class="hljs-keyword">final</span> size = MediaQuery.of(context).size;<br>    <span class="hljs-keyword">final</span> screenWidth = size.width; <span class="hljs-comment">//获取屏幕宽度</span><br>    <span class="hljs-keyword">final</span> screenHeight = size.height; <span class="hljs-comment">//获取屏幕高度</span><br>    <span class="hljs-keyword">return</span> Container(<br>      width: <span class="hljs-built_in">double</span>.infinity,<br>      height: <span class="hljs-built_in">double</span>.infinity,<br>      child: Stack(<br>        children: [<br>          Positioned(<span class="hljs-comment">//左上</span><br>            child: Container(<br>              width: <span class="hljs-number">100</span>,<br>              height: <span class="hljs-number">100</span>,<br>              color: Colors.red,<br>            ),<br>          ),<br>          Positioned(<span class="hljs-comment">//右上</span><br>            left: screenWidth - <span class="hljs-number">100</span>,<br>            child: Container(<br>              width: <span class="hljs-number">100</span>,<br>              height: <span class="hljs-number">100</span>,<br>              color: Colors.orange,<br>            ),<br>          ),<br>          Positioned(<span class="hljs-comment">//中间</span><br>            left: screenWidth / <span class="hljs-number">2</span> - <span class="hljs-number">50</span>,<br>            top: screenHeight / <span class="hljs-number">2</span> - <span class="hljs-number">90</span>,<br>            child: Container(<br>              width: <span class="hljs-number">100</span>,<br>              height: <span class="hljs-number">100</span>,<br>              color: Colors.yellow,<br>            ),<br>          ),<br>          Positioned(<span class="hljs-comment">//左下</span><br>            top: screenHeight - <span class="hljs-number">180</span>,<br>            child: Container(<br>              width: <span class="hljs-number">100</span>,<br>              height: <span class="hljs-number">100</span>,<br>              color: Colors.green,<br>            ),<br>          ),<br>          Positioned(<span class="hljs-comment">//右下</span><br>            left: screenWidth - <span class="hljs-number">100</span>,<br>            top: screenHeight - <span class="hljs-number">180</span>,<br>            child: Container(<br>              width: <span class="hljs-number">100</span>,<br>              height: <span class="hljs-number">100</span>,<br>              color: Colors.blue,<br>            ),<br>          )<br>        ],<br>      ),<br>    );<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="五、Widget-组合之综合案例"><a href="#五、Widget-组合之综合案例" class="headerlink" title="五、Widget 组合之综合案例"></a>五、Widget 组合之综合案例</h2><p>讲综合案例之前我们介绍下 Padding：</p>
+<p>Padding 是 Flutter 给我们提供展示内间距的 Widget，为啥要提供这个 Widget 呢？因为很多 Widget 都没有 padding 属性，这个时候我们可以用 Padding 处理与子 Widget 的內间距，其常用的属性如下：</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>padding</td>
+<td>EdgeInsetsGeometry</td>
+<td>padding 值, EdgeInsets 设置填充的值</td>
+</tr>
+<tr>
+<td>child</td>
+<td>Widget</td>
+<td>子组件</td>
+</tr>
+</tbody></table>
+<p>ok，接下来看下综合案例要实现的效果：</p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c8b90e40d5ce42aa95c1a6be5bf0a1c1~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="flutter_10.png"></p>
+<p>先捋一捋实现的思路：首页我们看到这个页面整体有一个内间距（Padding），元素划分为 4 块，从上到下垂直排列，可以使用 Column，在看具体的每一块：</p>
+<p>第一块：一个黑色的长方形，可以使用 Container 实现</p>
+<p>第二块：左边一张长图，右边先整体也看成一张图片，左右比例 2 : 1，因此我们可以使用 Row + Expanded 实现，在看右边这块整体又分上下两张图片，为了让这两张图片自适应宽度，这里我们可以使用 ListView 嵌套两个 Image</p>
+<p>第三块：左中右三张图片，我们可以使用 Stack + Align 定位布局实现</p>
+<p>第四块：直接使用 ListTile 实现，ListTile 的 leading 为一个圆形图片</p>
+<p>另外还有一些小小的细节，如每一块之间的间距，横线，每一块内部的间距，这些我们使用 SizedBox，Divider 实现</p>
+<p>通过上面的分析，我整理出了一张结构图：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0a63bcb7778c42c6bcfef99a9bb3c81e~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="flutter_11 (2).png"></p>
+<p>接下来，我们就用代码实现一下：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:flutter/material.dart&#x27;</span>;<br><br><span class="hljs-keyword">void</span> main() &#123;<br>  runApp(MyApp());<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyApp</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">StatelessWidget</span> </span>&#123;<br>  <span class="hljs-meta">@override</span><br>  Widget build(BuildContext context) &#123;<br>    <span class="hljs-keyword">return</span> MaterialApp(<br>      home: Scaffold(<br>        appBar: AppBar(<br>          title: Text(<span class="hljs-string">&quot;Flutter Widget Combine Pricetice&quot;</span>),<br>          elevation: <span class="hljs-number">30</span>, <span class="hljs-comment">//设置标题阴影</span><br>        ),<br>        body: MyHome(),<br>      ),<br>    );<br>  &#125;<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyHome</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">StatelessWidget</span> </span>&#123;<br>  <span class="hljs-meta">@override</span><br>  Widget build(BuildContext context) &#123;<br>    <span class="hljs-keyword">return</span> Padding( <span class="hljs-comment">//Padding 实现页面內间距</span><br>      padding: EdgeInsets.all(<span class="hljs-number">10</span>),<br>      child: Column( <span class="hljs-comment">//Column 实现布局垂直排列</span><br>        children: [<br>          Container( <span class="hljs-comment">//Container 实现黑色长方形</span><br>              color: Colors.black,<br>              height: <span class="hljs-number">180</span><br>          ),<br>          SizedBox(height: <span class="hljs-number">10</span>), <span class="hljs-comment">//高度为 10 的间距</span><br>          Row( <span class="hljs-comment">// Row + Expanded 实现横向布局的等比分配</span><br>            children: [<br>              Expanded(<br>                  flex: <span class="hljs-number">2</span>,<br>                  child: Container( <span class="hljs-comment">//Container 嵌套 Image 实现左边长图</span><br>                    child: Image.network(<br>                        <span class="hljs-string">&quot;https://img.lianzhixiu.com/uploads/210106/37-21010609363aS.jpg&quot;</span>,<br>                        fit: BoxFit.cover,<br>                        height: <span class="hljs-number">100</span>),<br>                  )),<br>              SizedBox(width: <span class="hljs-number">10</span>), <span class="hljs-comment">//高度为 10 的间距</span><br>              Expanded(<br>                flex: <span class="hljs-number">1</span>,<br>                child: Container( <span class="hljs-comment">//Container 嵌套 ListView 实现右边上下两张自适应图</span><br>                  height: <span class="hljs-number">100</span>,<br>                  child: ListView(<br>                    children: [<br>                      Image.network(<br>                          <span class="hljs-string">&quot;https://img.lianzhixiu.com/uploads/210106/37-21010609363aS.jpg&quot;</span>,<br>                          fit: BoxFit.cover,<br>                          height: <span class="hljs-number">45</span>),<br>                      SizedBox(height: <span class="hljs-number">10</span>), <span class="hljs-comment">//高度为 10 的间距</span><br>                      Image.network(<br>                          <span class="hljs-string">&quot;https://img.lianzhixiu.com/uploads/210106/37-21010609363aS.jpg&quot;</span>,<br>                          fit: BoxFit.cover,<br>                          height: <span class="hljs-number">45</span>),<br>                    ],<br>                  ),<br>                ),<br>              )<br>            ],<br>          ),<br>          Divider(), <span class="hljs-comment">//横线</span><br>          Stack( <span class="hljs-comment">// Stack + Align 实现定位布局</span><br>            children: [<br>              Align(<br>                  alignment: Alignment.topLeft,<br>                  child: Image.network(<span class="hljs-string">&quot;https://img.lianzhixiu.com/uploads/210106/37-21010609363aS.jpg&quot;</span>,<br>                      width: <span class="hljs-number">70</span>,<br>                      height: <span class="hljs-number">70</span>,<br>                      fit: BoxFit.cover)<br>              ),<br>              Align(<br>                  alignment: Alignment.topCenter,<br>                  child: Image.network(<span class="hljs-string">&quot;https://img.lianzhixiu.com/uploads/210106/37-21010609363aS.jpg&quot;</span>,<br>                      width: <span class="hljs-number">70</span>,<br>                      height: <span class="hljs-number">70</span>,<br>                      fit: BoxFit.cover)<br>              ),<br>              Align(<br>                  alignment: Alignment.topRight,<br>                  child: Image.network(<span class="hljs-string">&quot;https://img.lianzhixiu.com/uploads/210106/37-21010609363aS.jpg&quot;</span>,<br>                      width: <span class="hljs-number">70</span>,<br>                      height: <span class="hljs-number">70</span>,<br>                      fit: BoxFit.cover)<br>              )<br>            ],<br>          ),<br>          Divider(), <span class="hljs-comment">//横线</span><br>          ListTile( <span class="hljs-comment">// ListTile 实现 item</span><br>            leading: ClipOval( <span class="hljs-comment">//圆形图片</span><br>              child: Image.network(<br>                <span class="hljs-string">&quot;https://img.lianzhixiu.com/uploads/210106/37-21010609363aS.jpg&quot;</span>,<br>                width: <span class="hljs-number">50</span>,<br>                height: <span class="hljs-number">50</span>,<br>                fit: BoxFit.cover,<br>              ),<br>            ),<br>            title: Text(<br>              <span class="hljs-string">&quot;你好，我是刘亦菲&quot;</span>,<span class="hljs-comment">//标题</span><br>              style: TextStyle(<br>                  color: Colors.green,<br>                  fontWeight: FontWeight.bold<br>              )<br>            ),<br>            subtitle: Text(<br>                <span class="hljs-string">&quot;很高兴认识你&quot;</span>,<span class="hljs-comment">//副标题</span><br>                style: TextStyle(<br>                  color: Colors.orange,<br>                )<br>            ),<br>          )<br>        ],<br>      ),<br>    );<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="六、总结"><a href="#六、总结" class="headerlink" title="六、总结"></a>六、总结</h2><p>本文重点内容：</p>
+<p>1、采用 效果 -&gt; Widget 介绍 -&gt; 代码实现的方式对 Image，ListView，GridView，Stack 进行了介绍</p>
+<p>2、在介绍上面 Widget 的过程中，我们又穿插了其它一些 Widget 的讲解：ClipOval，ListTile，Expanded，SizedBox，Divider，Align，Positioned，Padding</p>
+<p>3、最后通过一个综合案例对介绍的 Widget 进行组合使用</p>
+<p>好了，本篇文章到这里就结束了，希望能给你带来帮助 🤝</p>
+<p><strong>感谢你阅读这篇文章</strong></p>
+<h3 id="下篇预告"><a href="#下篇预告" class="headerlink" title="下篇预告"></a>下篇预告</h3><p>下篇文章我会介绍 Flutter Button 相关 Widget，以及 Flutter 2.x Button 的变化</p>
+<h3 id="参考和推荐"><a href="#参考和推荐" class="headerlink" title="参考和推荐"></a>参考和推荐</h3><p><a target="_blank" rel="noopener" href="https://api.flutter.dev/flutter/dart-ui/dart-ui-library.html">Flutter 官方 API 文档</a></p>
+<blockquote>
+<p><strong>你的点赞，评论，是对我巨大的鼓励！</strong></p>
+<p>欢迎关注我的<strong>公众号：</strong>  <a target="_blank" rel="noopener" href="http://m6z.cn/6jwi7b"><strong>sweetying</strong></a> ，文章更新可第一时间收到</p>
+<p>如果<strong>有问题</strong>，公众号内有加我微信的入口，在技术学习、个人成长的道路上，我们一起前进！</p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Flutter/" class="category-chain-item">Flutter</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%8E%9F%E5%88%9B/">#原创</a>
+      
+        <a href="/tags/Flutter/">#Flutter</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Flutter 系列（四）：Flutter 常用 Widget 二</div>
+      <div>https://sweetying520.github.io/2022/10/10/Flutter 系列（四）：Flutter 常用 Widget 二/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>sweetying</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年10月10日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/10/10/Flutter%20%E7%B3%BB%E5%88%97%EF%BC%88%E4%BA%94%EF%BC%89%EF%BC%9AFlutter%20%E5%B8%B8%E7%94%A8%E6%8C%89%E9%92%AE%20Widget/" title="Flutter 系列（五）：Flutter 常用按钮 Widget">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Flutter 系列（五）：Flutter 常用按钮 Widget</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/10/10/Flutter%20%E7%B3%BB%E5%88%97%EF%BC%88%E4%B8%89%EF%BC%89%EF%BC%9AFlutter%20%E7%89%B9%E7%82%B9%E5%8F%8A%E5%B8%B8%E7%94%A8%20Widget%20%E4%BB%8B%E7%BB%8D/" title="Flutter 系列（三）：Flutter 特点及常用 Widget 介绍">
+                        <span class="hidden-mobile">Flutter 系列（三）：Flutter 特点及常用 Widget 介绍</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.4.17/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"zN1E017kYhKuj6GqXHJSbGMb-gzGzoHsz","appKey":"JSwY8PjtA131Y78OHn7kKtio","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

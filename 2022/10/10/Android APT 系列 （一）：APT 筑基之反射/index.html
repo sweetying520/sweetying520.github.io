@@ -1,0 +1,918 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar.png">
+  <link rel="icon" href="/img/avatar.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="sweetying">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前言很高兴遇见你~ 这又是一个新的系列，灵感来源于最近做的一次布局优化，我们知道：Android 中少量的系统控件是通过 new 的方式创建出来的，而大部分控件如 androidx.appcompat.widget 下的控件，自定义控件，第三方控件等等，都是通过反射创建的。大量的反射创建多多少少会带来一些性能问题，因此我们需要去解决反射创建的问题，我的解决思路是：  1、通过编写 Android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android APT 系列 （一）：APT 筑基之反射">
+<meta property="og:url" content="https://sweetying520.github.io/2022/10/10/Android%20APT%20%E7%B3%BB%E5%88%97%20%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9AAPT%20%E7%AD%91%E5%9F%BA%E4%B9%8B%E5%8F%8D%E5%B0%84/index.html">
+<meta property="og:site_name" content="sweetying">
+<meta property="og:description" content="前言很高兴遇见你~ 这又是一个新的系列，灵感来源于最近做的一次布局优化，我们知道：Android 中少量的系统控件是通过 new 的方式创建出来的，而大部分控件如 androidx.appcompat.widget 下的控件，自定义控件，第三方控件等等，都是通过反射创建的。大量的反射创建多多少少会带来一些性能问题，因此我们需要去解决反射创建的问题，我的解决思路是：  1、通过编写 Android">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202210101947233.jpeg">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4de69825228a40dbb491fc9b3f456922~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="article:published_time" content="2022-10-10T09:54:38.000Z">
+<meta property="article:modified_time" content="2022-10-11T03:40:33.586Z">
+<meta property="article:author" content="sweetying">
+<meta property="article:tag" content="原创">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="Android APT">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202210101947233.jpeg">
+  
+  
+  
+  <title>Android APT 系列 （一）：APT 筑基之反射 - sweetying</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/iconfont_juejin/iconfont.css">
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sweetying520.github.io","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"zN1E017kYhKuj6GqXHJSbGMb-gzGzoHsz","app_key":"JSwY8PjtA131Y78OHn7kKtio","server_url":"https://zn1e017k.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  <div>
+	<div class='real_mask' style="
+		background-color: rgba(0,0,0,0.3);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -777;
+	"></div>
+	<div id="banner_video_insert">
+	</div>
+	<div id='vvd_banner_img'>
+	</div>
+</div>
+<div id="banner"></div>
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>sweetying</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" target="_blank" rel="noopener" href="https://www.foreverblog.cn/go.html">
+                <i class="iconfont icon-link-fill"></i>
+                虫洞
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://101.43.39.125/HexoFiles/new/bg-trans.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Android APT 系列 （一）：APT 筑基之反射"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        sweetying
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-10-10 17:54" pubdate>
+          2022年10月10日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          10k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          86 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
+
+	<div class="banner" id='banner' >
+
+		<div class="full-bg-img" >
+
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
+
+					function set_video_attr(id){
+
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
+
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
+					}
+
+					$.getJSON('/vvd_js/video_url.json', function(data){
+						if (true){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
+
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
+
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
+							set_video_attr('banner_img_item')
+
+							if (!isMobile) {
+								video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+								document.getElementById("banner_video_insert").innerHTML = video_html_res;
+								set_video_attr('video_item')
+							}
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+			</div>
+		</div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Android APT 系列 （一）：APT 筑基之反射</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202210101947233.jpeg" srcset="/img/loading.gif" lazyload alt="amanda-phung-1w2xsyc2wwI-unsplash"></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>很高兴遇见你~</p>
+<p>这又是一个新的系列，灵感来源于最近做的一次布局优化，我们知道：Android 中少量的系统控件是通过 <code>new</code> 的方式创建出来的，而大部分控件如 <code>androidx.appcompat.widget</code> 下的控件，自定义控件，第三方控件等等，都是通过反射创建的。大量的反射创建多多少少会带来一些性能问题，因此我们需要去解决反射创建的问题，我的解决思路是：</p>
+<blockquote>
+<p>1、通过编写 Android 插件获取 Xml 布局中的所有控件 </p>
+<p>2、拿到控件后，通过 APT 生成用 <code>new</code> 的方式创建 View 的类 </p>
+<p>3、最后通过反射获取当前类并在基类里面完成替换</p>
+</blockquote>
+<p>一个小小的布局优化，涉及的东西还挺多的，Android 插件我们后续在讲，话说 Gradle 系列目前只更了一篇😂，别急，后面都会有的。我们这个系列主要是讲 APT，而讲 APT ，我们必须先了解两个重点知识：<strong>注解和反射</strong></p>
+<p>今天就重点来介绍下反射</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/sweetying520/AptDemo">Github Demo 地址</a> , 大家可以看 Demo 跟随我的思路一起分析</p>
+<h2 id="一、什么是反射？"><a href="#一、什么是反射？" class="headerlink" title="一、什么是反射？"></a>一、什么是反射？</h2><p>简单来讲，反射就是：<strong>已知一个类，可以获取这个类的所有信息</strong></p>
+<p>一般情况下，根据面向对象封装原则，Java 实体类的属性都是私有的，我们不能获取类中的属性。但我们可以根据反射，获取私有变量、方法、构造方法，注解，泛型等等，非常的强大</p>
+<p><strong>注意</strong>：Google 在 Android 9.0 及之后对反射做了限制，被使用 <code>@hide</code> 标记的属性和方法通过反射拿不到</p>
+<h2 id="二、反射使用"><a href="#二、反射使用" class="headerlink" title="二、反射使用"></a>二、反射使用</h2><p>下面给出一段已知的代码，我们通过实践来对反射进行讲解：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//包路径</span><br><span class="hljs-keyword">package</span> com.dream.aptdemo;<br><br><span class="hljs-comment">//自定义注解1</span><br><span class="hljs-meta">@Target(ElementType.TYPE)</span><br><span class="hljs-meta">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="hljs-meta">@interface</span> CustomAnnotation1&#123;<br>  <br>&#125;<br><br><span class="hljs-comment">//自定义注解2</span><br><span class="hljs-meta">@Target(ElementType.TYPE)</span><br><span class="hljs-meta">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="hljs-meta">@interface</span> CustomAnnotation2&#123;<br>  <br>&#125;<br><br><span class="hljs-comment">//自定义注解3</span><br><span class="hljs-meta">@Target(ElementType.TYPE)</span><br><span class="hljs-meta">@Inherited</span><br><span class="hljs-meta">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="hljs-meta">@interface</span> CustomAnnotation3&#123;<br><br>&#125;<br><br><span class="hljs-comment">//接口</span><br><span class="hljs-keyword">interface</span> <span class="hljs-title class_">ICar</span> &#123;<br>    <span class="hljs-keyword">void</span> <span class="hljs-title function_">combine</span><span class="hljs-params">()</span>;<br>&#125;<br><br><span class="hljs-comment">//车</span><br><span class="hljs-meta">@CustomAnnotation3</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Car</span>&lt;K,V&gt; &#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-type">String</span> <span class="hljs-variable">carDesign</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;设计稿&quot;</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">String</span> <span class="hljs-variable">engine</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;发动机&quot;</span>;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">run</span><span class="hljs-params">(<span class="hljs-type">long</span> kilometer)</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;Car run &quot;</span> + kilometer + <span class="hljs-string">&quot; km&quot;</span>);<br>    &#125;<br>&#125;<br><span class="hljs-comment">//==============================上面这些都是为下面这台奔驰服务的😂===========================</span><br><span class="hljs-comment">//奔驰</span><br><span class="hljs-meta">@CustomAnnotation1</span><br><span class="hljs-meta">@CustomAnnotation2</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Benz</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Car</span>&lt;String,Integer&gt; <span class="hljs-keyword">implements</span> <span class="hljs-title class_">ICar</span> &#123;<br>  <br>    <span class="hljs-keyword">private</span> <span class="hljs-type">String</span> <span class="hljs-variable">carName</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;奔驰&quot;</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">String</span> <span class="hljs-variable">carColor</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;白色&quot;</span>;<br>  <br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">Benz</span><span class="hljs-params">()</span> &#123;<br>    &#125;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-title function_">Benz</span><span class="hljs-params">(String carName)</span> &#123;<br>        <span class="hljs-built_in">this</span>.carName = carName;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">Benz</span><span class="hljs-params">(String carName, String carColor)</span> &#123;<br>        <span class="hljs-built_in">this</span>.carName = carName;<br>        <span class="hljs-built_in">this</span>.carColor = carColor;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">combine</span><span class="hljs-params">()</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;组装一台奔驰&quot;</span>);<br>    &#125;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">privateMethod</span><span class="hljs-params">(String params)</span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;我是私有方法: &quot;</span> + params);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>下面所讲到的都是关于反射一些常用的 Api</p>
+<h2 id="三、类"><a href="#三、类" class="headerlink" title="三、类"></a>三、类</h2><p>我们可以通过 3 种方式去获取类对象：</p>
+<h3 id="1）、Benz-class-：类获取"><a href="#1）、Benz-class-：类获取" class="headerlink" title="1）、Benz.class ：类获取"></a>1）、<code>Benz.class</code> ：类获取</h3><h3 id="2）、benz-getClass-：对象获取"><a href="#2）、benz-getClass-：对象获取" class="headerlink" title="2）、benz.getClass ：对象获取"></a>2）、<code>benz.getClass</code> ：对象获取</h3><h3 id="3）、Class-forName-：静态获取"><a href="#3）、Class-forName-：静态获取" class="headerlink" title="3）、Class.forName ：静态获取"></a>3）、<code>Class.forName</code> ：静态获取</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">Benz</span> <span class="hljs-variable">benz</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Benz</span>();<br><span class="hljs-type">Class</span> <span class="hljs-variable">benzClass</span> <span class="hljs-operator">=</span> Benz.class;<br><span class="hljs-type">Class</span> <span class="hljs-variable">benzClass1</span> <span class="hljs-operator">=</span> benz.getClass();<br><span class="hljs-type">Class</span> <span class="hljs-variable">benzClass2</span> <span class="hljs-operator">=</span> Class.forName(<span class="hljs-string">&quot;com.dream.aptdemo.Benz&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<p><strong>注意</strong>：</p>
+<p>1、在一个 JVM 中，一种类，只会有一个类对象存在。所以以上三种方式取出来的类对象，都是一样的。</p>
+<p>2、无论哪种途径获取类对象，都会导致静态属性被初始化，而且只会执行一次。（除了直接使用 <code>Benz.class</code> 类获取这种方式，这种方式不会导致静态属性被初始化）</p>
+<p><strong>下面的流程会经常使用到 benz 实例和 benzClass 类对象</strong></p>
+<h3 id="4）、获取类名"><a href="#4）、获取类名" class="headerlink" title="4）、获取类名"></a>4）、获取类名</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">String</span> <span class="hljs-variable">className</span> <span class="hljs-operator">=</span> benzClass.getSimpleName();<br>System.out.println(className);<br><br><span class="hljs-comment">//打印结果</span><br>Benz<br></code></pre></td></tr></table></figure>
+
+<h3 id="5）、获取类路径"><a href="#5）、获取类路径" class="headerlink" title="5）、获取类路径"></a>5）、获取类路径</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">String</span> <span class="hljs-variable">classPath1</span> <span class="hljs-operator">=</span> benzClass.getName();<br><span class="hljs-type">String</span> <span class="hljs-variable">classPath2</span> <span class="hljs-operator">=</span> benzClass.getCanonicalName();<br>System.out.println(classPath1);<br>System.out.println(classPath2);<br><span class="hljs-comment">//打印结果</span><br>com.dream.aptdemo.Benz<br>com.dream.aptdemo.Benz<br></code></pre></td></tr></table></figure>
+
+<p>这里可能大家会有个疑问：<code>benzClass.getName()</code> 和 <code>benzClass.getCanonicalName()</code> 有啥区别吗？</p>
+<p>从上面打印结果来看，没啥区别，但是如果我们在 Benz 这个里面加个内部类，然后获取内部类的路径，你就会看到区别了：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//...</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Benz</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Car</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">ICar</span> &#123;<br>    <span class="hljs-comment">//...</span><br>    <span class="hljs-keyword">class</span> <span class="hljs-title class_">InnerClass</span>&#123;<br>        <br>    &#125;<br>&#125;<br><br>Class&lt;Benz.InnerClass&gt; innerClass = Benz.InnerClass.class;<br>System.out.println(innerClass.getName());<br>System.out.println(innerClass.getCanonicalName());<br><span class="hljs-comment">//打印结果</span><br>com.dream.aptdemo.Benz$InnerClass<br>com.dream.aptdemo.Benz.InnerClass<br></code></pre></td></tr></table></figure>
+
+<p>看到区别了吧，因此我们可以得到结论：<strong>在正常情况下，<code>getCanonicalName</code>和 <code>getName</code> 获取到的都是包含路径的类名。但内部类有点特殊，getName 获取的是路径.类名$内部类</strong></p>
+<h3 id="6）、获取父类名"><a href="#6）、获取父类名" class="headerlink" title="6）、获取父类名"></a>6）、获取父类名</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">String</span> <span class="hljs-variable">fatherClassName</span> <span class="hljs-operator">=</span> benzClass.getSuperclass().getSimpleName();<br>System.out.println(fatherClassName);<br><span class="hljs-comment">//打印结果</span><br>Car<br></code></pre></td></tr></table></figure>
+
+<h3 id="7）、获取接口"><a href="#7）、获取接口" class="headerlink" title="7）、获取接口"></a>7）、获取接口</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java">Class[] interfaces = benzClass.getInterfaces();<br><span class="hljs-keyword">for</span> (Class anInterface : interfaces) &#123;<br>    System.out.println(anInterface.getName());<br>&#125;<br><span class="hljs-comment">//打印结果</span><br>com.dream.aptdemo.ICar<br></code></pre></td></tr></table></figure>
+
+<h3 id="8）、创建实例对象"><a href="#8）、创建实例对象" class="headerlink" title="8）、创建实例对象"></a>8）、创建实例对象</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//获取构造方法</span><br><span class="hljs-type">Constructor</span> <span class="hljs-variable">constructor</span> <span class="hljs-operator">=</span> benzClass.getDeclaredConstructor();<br><span class="hljs-comment">//创建实例</span><br><span class="hljs-type">Benz</span> <span class="hljs-variable">myBenz</span> <span class="hljs-operator">=</span> (Benz) constructor.newInstance();<br><span class="hljs-comment">//修改属性</span><br>myBenz.carColor = <span class="hljs-string">&quot;黑色&quot;</span>;<br>myBenz.combine();<br>System.out.println(myBenz.carColor);<br><span class="hljs-comment">//打印结果</span><br>组装一台奔驰<br>黑色<br></code></pre></td></tr></table></figure>
+
+<p><strong>注意</strong>：下面要讲的关于带 <code>Declare</code> 的属性和方法和不带<code>Declare</code> 区别：</p>
+<p><strong>1、带  <code>Declare</code> 的属性和方法获取的是本类所有的属性和方法，不包含继承得来的</strong></p>
+<p><strong>2、不带  <code>Declare</code> 的属性和方法获取的是所有 <code>public</code> 修饰的属性和方法，包含继承得来的</strong></p>
+<p><strong>3、访问 <code>private</code> 修饰的属性和方法，需调用 <code>setAccessible</code> 设置为 true ，表示允许我们访问私有变量</strong></p>
+<h2 id="四、属性"><a href="#四、属性" class="headerlink" title="四、属性"></a>四、属性</h2><h3 id="1）、获取单个属性"><a href="#1）、获取单个属性" class="headerlink" title="1）、获取单个属性"></a>1）、获取单个属性</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">Field</span> <span class="hljs-variable">carName</span> <span class="hljs-operator">=</span> benzClass.getDeclaredField(<span class="hljs-string">&quot;carName&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<h3 id="2）、获取多个属性"><a href="#2）、获取多个属性" class="headerlink" title="2）、获取多个属性"></a>2）、获取多个属性</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//获取本类全部属性</span><br>Field[] declaredFields = benzClass.getDeclaredFields();<br><span class="hljs-keyword">for</span> (Field declaredField : declaredFields) &#123;<br>    System.out.println(<span class="hljs-string">&quot;属性: &quot;</span> + declaredField.getName());<br>&#125;<br><span class="hljs-comment">//打印结果</span><br>属性: carName<br>属性: carColor<br><br><span class="hljs-comment">//获取本类及父类全部 public 修饰的属性</span><br>Field[] fields = benzClass.getFields();<br><span class="hljs-keyword">for</span> (Field field : fields) &#123;<br>    System.out.println(<span class="hljs-string">&quot;属性: &quot;</span> + field.getName());<br>&#125;<br><span class="hljs-comment">//打印结果</span><br>属性: carColor<br>属性: engine<br></code></pre></td></tr></table></figure>
+
+<h3 id="3）、设置允许访问私有变量"><a href="#3）、设置允许访问私有变量" class="headerlink" title="3）、设置允许访问私有变量"></a>3）、设置允许访问私有变量</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">carName.setAccessible(<span class="hljs-literal">true</span>);<br></code></pre></td></tr></table></figure>
+
+<p>4）、获取属性名</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">System.out.println(carName.getName());<br><span class="hljs-comment">//打印结果</span><br>carName<br></code></pre></td></tr></table></figure>
+
+<p>5）、获取变量类型</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">System.out.println(carName.getType().getName());<br><span class="hljs-comment">//打印结果</span><br>java.lang.String<br></code></pre></td></tr></table></figure>
+
+<p>6）、获取对象中该属性的值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">System.out.println(carName.get(benz));<br><span class="hljs-comment">//打印结果</span><br>奔驰<br></code></pre></td></tr></table></figure>
+
+<p>7）、给属性设置值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java">carName.set(benz,<span class="hljs-string">&quot;sweetying&quot;</span>);<br>System.out.println(carName.get(benz));<br><span class="hljs-comment">//打印结果</span><br>sweetying<br></code></pre></td></tr></table></figure>
+
+<h2 id="五、方法"><a href="#五、方法" class="headerlink" title="五、方法"></a>五、方法</h2><h3 id="1）、获取单个方法"><a href="#1）、获取单个方法" class="headerlink" title="1）、获取单个方法"></a>1）、获取单个方法</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//获取 public 方法</span><br><span class="hljs-type">Method</span> <span class="hljs-variable">publicMethod</span> <span class="hljs-operator">=</span> benzClass.getMethod(<span class="hljs-string">&quot;combine&quot;</span>);<br><br><span class="hljs-comment">//获取 private 方法</span><br><span class="hljs-type">Method</span> <span class="hljs-variable">privateMethod</span> <span class="hljs-operator">=</span> benzClass.getDeclaredMethod(<span class="hljs-string">&quot;privateMethod&quot;</span>,String.class);<br></code></pre></td></tr></table></figure>
+
+<h3 id="2）、获取多个方法"><a href="#2）、获取多个方法" class="headerlink" title="2）、获取多个方法"></a>2）、获取多个方法</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//获取本类全部方法</span><br>Method[] declaredMethods = benzClass.getDeclaredMethods();<br><span class="hljs-keyword">for</span> (Method declaredMethod : declaredMethods) &#123;<br>    System.out.println(<span class="hljs-string">&quot;方法名: &quot;</span> + declaredMethod.getName());<br>&#125;<br><span class="hljs-comment">//打印结果</span><br>方法名: privateMethod<br>方法名: combine<br><br><br><span class="hljs-comment">//获取本类及父类全部 public 修饰的方法</span><br>Method[] methods = benzClass.getMethods();<br><span class="hljs-keyword">for</span> (Method method : methods) &#123;<br>    System.out.println(<span class="hljs-string">&quot;方法名: &quot;</span> + method.getName());<br>&#125;<br><span class="hljs-comment">//打印结果 因为所有类默认继承 Object , 所以打印了 Object 的一些方法</span><br>方法名: combine<br>方法名: run<br>方法名: wait<br>方法名: wait<br>方法名: wait<br>方法名: equals<br>方法名: toString<br>方法名: hashCode<br>方法名: getClass<br>方法名: notify<br>方法名: notifyAll<br></code></pre></td></tr></table></figure>
+
+<h3 id="3）、方法调用"><a href="#3）、方法调用" class="headerlink" title="3）、方法调用"></a>3）、方法调用</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">Method</span> <span class="hljs-variable">privateMethod</span> <span class="hljs-operator">=</span> benzClass.getDeclaredMethod(<span class="hljs-string">&quot;privateMethod&quot;</span>,String.class);<br>privateMethod.setAccessible(<span class="hljs-literal">true</span>);<br>privateMethod.invoke(benz,<span class="hljs-string">&quot;接收传入的参数&quot;</span>);<br><span class="hljs-comment">//打印结果</span><br>我是私有方法: 接收传入的参数<br></code></pre></td></tr></table></figure>
+
+<h2 id="六、构造方法"><a href="#六、构造方法" class="headerlink" title="六、构造方法"></a>六、构造方法</h2><h3 id="1）、获取单个构造方法"><a href="#1）、获取单个构造方法" class="headerlink" title="1）、获取单个构造方法"></a>1）、获取单个构造方法</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//获取本类单个构造方法</span><br><span class="hljs-type">Constructor</span> <span class="hljs-variable">declaredConstructor</span> <span class="hljs-operator">=</span> benzClass.getDeclaredConstructor(String.class);<br><br><span class="hljs-comment">//获取本类单个 public 修饰的构造方法</span><br><span class="hljs-type">Constructor</span> <span class="hljs-variable">singleConstructor</span> <span class="hljs-operator">=</span> benzClass.getConstructor(String.class,String.class);<br></code></pre></td></tr></table></figure>
+
+<h3 id="2）、获取多个构造方法"><a href="#2）、获取多个构造方法" class="headerlink" title="2）、获取多个构造方法"></a>2）、获取多个构造方法</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//获取本类全部构造方法</span><br>Constructor[] declaredConstructors = benzClass.getDeclaredConstructors();<br><span class="hljs-keyword">for</span> (Constructor declaredConstructor1 : declaredConstructors) &#123;<br>    System.out.println(<span class="hljs-string">&quot;构造方法: &quot;</span> + declaredConstructor1);<br>&#125;<br><span class="hljs-comment">//打印结果</span><br>构造方法: <span class="hljs-keyword">public</span> com.dream.aptdemo.Benz()<br>构造方法: <span class="hljs-keyword">public</span> com.dream.aptdemo.Benz(java.lang.String,java.lang.String)<br>构造方法: <span class="hljs-keyword">private</span> com.dream.aptdemo.Benz(java.lang.String)<br><br><br><span class="hljs-comment">//获取全部 public 构造方法, 不包含父类的构造方法</span><br>Constructor[] constructors = benzClass.getConstructors();<br><span class="hljs-keyword">for</span> (Constructor constructor1 : constructors) &#123;<br>    System.out.println(<span class="hljs-string">&quot;构造方法: &quot;</span> + constructor1);<br>&#125;<br><span class="hljs-comment">//打印结果</span><br>构造方法: <span class="hljs-keyword">public</span> com.dream.aptdemo.Benz()<br>构造方法: <span class="hljs-keyword">public</span> com.dream.aptdemo.Benz(java.lang.String,java.lang.String)<br></code></pre></td></tr></table></figure>
+
+<h3 id="3）、构造方法实例化对象"><a href="#3）、构造方法实例化对象" class="headerlink" title="3）、构造方法实例化对象"></a>3）、构造方法实例化对象</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//以上面 declaredConstructor 为例</span><br>declaredConstructor.setAccessible(<span class="hljs-literal">true</span>);<br><span class="hljs-type">Benz</span> <span class="hljs-variable">declareBenz</span> <span class="hljs-operator">=</span> (Benz) declaredConstructor.newInstance(<span class="hljs-string">&quot;&quot;</span>);<br>System.out.println(declareBenz.carColor);<br><span class="hljs-comment">//打印结果</span><br>白色<br><br><span class="hljs-comment">//以上面 singleConstructor 为例</span><br><span class="hljs-type">Benz</span> <span class="hljs-variable">singleBenz</span> <span class="hljs-operator">=</span> (Benz) singleConstructor.newInstance(<span class="hljs-string">&quot;奔驰 S &quot;</span>,<span class="hljs-string">&quot;香槟金&quot;</span>);<br>System.out.println(singleBenz.carColor);<br><span class="hljs-comment">//打印结果</span><br>香槟金<br></code></pre></td></tr></table></figure>
+
+<h2 id="七、泛型"><a href="#七、泛型" class="headerlink" title="七、泛型"></a>七、泛型</h2><h3 id="1）、获取父类的泛型"><a href="#1）、获取父类的泛型" class="headerlink" title="1）、获取父类的泛型"></a>1）、获取父类的泛型</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">Type</span> <span class="hljs-variable">genericType</span> <span class="hljs-operator">=</span> benzClass.getGenericSuperclass();<br><span class="hljs-keyword">if</span> (genericType <span class="hljs-keyword">instanceof</span> ParameterizedType) &#123;<br>   Type[] actualType = ((ParameterizedType) genericType).getActualTypeArguments();<br>   <span class="hljs-keyword">for</span> (Type type : actualType) &#123;<br>       System.out.println(type.getTypeName());<br>   &#125;<br>&#125;<br><span class="hljs-comment">//打印结果</span><br>java.lang.String<br>java.lang.Integer<br></code></pre></td></tr></table></figure>
+
+<h2 id="八、注解"><a href="#八、注解" class="headerlink" title="八、注解"></a>八、注解</h2><h3 id="1）、获取单个注解"><a href="#1）、获取单个注解" class="headerlink" title="1）、获取单个注解"></a>1）、获取单个注解</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//获取单个本类或父类注解</span><br><span class="hljs-type">Annotation</span> <span class="hljs-variable">annotation1</span> <span class="hljs-operator">=</span> benzClass.getAnnotation(CustomAnnotation1.class);<br>System.out.println(annotation1.annotationType().getSimpleName());<br><span class="hljs-type">Annotation</span> <span class="hljs-variable">annotation3</span> <span class="hljs-operator">=</span> benzClass.getAnnotation(CustomAnnotation3.class);<br>System.out.println(annotation3.annotationType().getSimpleName());<br><span class="hljs-comment">//打印结果</span><br>CustomAnnotation1<br>CustomAnnotation3<br><br><span class="hljs-comment">//获取单个本类注解</span><br><span class="hljs-type">Annotation</span> <span class="hljs-variable">declaredAnnotation1</span> <span class="hljs-operator">=</span> benzClass.getDeclaredAnnotation(CustomAnnotation2.class);<br>System.out.println(declaredAnnotation1.annotationType().getSimpleName());<br><span class="hljs-comment">//打印结果</span><br>CustomAnnotation2<br></code></pre></td></tr></table></figure>
+
+<h3 id="2）、获取全部注解"><a href="#2）、获取全部注解" class="headerlink" title="2）、获取全部注解"></a>2）、获取全部注解</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//获取本类和父类的注解(父类的注解需用 @Inherited 表示可被继承)</span><br>Annotation[] annotations = benzClass.getAnnotations();<br><span class="hljs-keyword">for</span> (Annotation annotation : annotations) &#123;<br>    System.out.println(<span class="hljs-string">&quot;注解名称: &quot;</span> + annotation.annotationType().getSimpleName());<br>&#125;<br><span class="hljs-comment">//打印结果</span><br>注解名称: CustomAnnotation3<br>注解名称: CustomAnnotation1<br>注解名称: CustomAnnotation2<br><br><span class="hljs-comment">//获取本类的注解</span><br>Annotation[] declaredAnnotations = benzClass.getDeclaredAnnotations();<br><span class="hljs-keyword">for</span> (Annotation declaredAnnotation : declaredAnnotations) &#123;<br>    System.out.println(<span class="hljs-string">&quot;注解名称: &quot;</span> + declaredAnnotation.annotationType().getSimpleName());<br>&#125;<br><span class="hljs-comment">//打印结果</span><br>注解名称: CustomAnnotation1<br>注解名称: CustomAnnotation2<br></code></pre></td></tr></table></figure>
+
+<p>通过上面的讲解，我们把反射大部分知识点都讲完了，可以说反射是非常的强大，但是学习了之后，你可能会不知道该如何使用，反而觉得还不如直接调用方法来的直接和方便，下面我们通过实践来感受一下。</p>
+<h2 id="九、反射实践"><a href="#九、反射实践" class="headerlink" title="九、反射实践"></a>九、反射实践</h2><p>需求大概就是：通过后台配置下发，完成 App 业务功能的切换。因为只是模拟，我们这里就以通过读取本地配置文件完成 App 业务功能的切换：</p>
+<p>1）、首先准备两个业务类，假设他们的功能都很复杂</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//包名</span><br><span class="hljs-keyword">package</span> com.dream.aptdemo;<br><br><span class="hljs-comment">//业务1</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Business1</span> &#123;<br> <br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doBusiness1Function</span><span class="hljs-params">()</span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;复杂业务功能1&quot;</span>);<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//业务2</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Business2</span> &#123;<br> <br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doBusiness2Function</span><span class="hljs-params">()</span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;复杂业务功能2&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>2）、非反射方式</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Client</span> &#123;<br>  <br>    <span class="hljs-meta">@Test</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">test</span><span class="hljs-params">()</span> &#123;<br>      	<span class="hljs-comment">//业务功能1</span><br>        <span class="hljs-keyword">new</span> <span class="hljs-title class_">Business1</span>().doBusiness1Function();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>假设这个时候需要从第一个业务功能切换到第二个业务功能，使用非反射方式，必须修改代码，并且重新编译运行，才可以达到效果。那么我们可以通过反射去通过读取配置从而完成功能的切换，这样我们就不需要修改代码且代码变得更加通用</p>
+<p>3）、反射方式</p>
+<p>1、首先准备一个配置文件，如下图：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4de69825228a40dbb491fc9b3f456922~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210625180301557"></p>
+<p>2、读取配置文件，反射创建实例并调用方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Client</span> &#123;<br>  <br>    <span class="hljs-meta">@Test</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">test</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>      	<span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-comment">//获取文件</span><br>            <span class="hljs-type">File</span> <span class="hljs-variable">springConfigFile</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">File</span>(<span class="hljs-string">&quot;/Users/zhouying/AndroidStudioProjects/AptDemo/config.txt&quot;</span>);<br>            <span class="hljs-comment">//读取配置</span><br>            Properties config= <span class="hljs-keyword">new</span> <span class="hljs-title class_">Properties</span>();<br>            config.load(<span class="hljs-keyword">new</span> <span class="hljs-title class_">FileInputStream</span>(springConfigFile));<br>            <span class="hljs-comment">//获取类路径</span><br>            <span class="hljs-type">String</span> <span class="hljs-variable">classPath</span> <span class="hljs-operator">=</span> (String) config.get(<span class="hljs-string">&quot;class&quot;</span>);<br>            <span class="hljs-comment">//获取方法名</span><br>            <span class="hljs-type">String</span> <span class="hljs-variable">methodName</span> <span class="hljs-operator">=</span> (String) config.get(<span class="hljs-string">&quot;method&quot;</span>);<br>						<br>            <span class="hljs-comment">//反射创建实例并调用方法</span><br>            <span class="hljs-type">Class</span> <span class="hljs-variable">aClass</span> <span class="hljs-operator">=</span> Class.forName(classPath);<br>            <span class="hljs-type">Constructor</span> <span class="hljs-variable">declaredConstructor</span> <span class="hljs-operator">=</span> aClass.getDeclaredConstructor();<br>            <span class="hljs-type">Object</span> <span class="hljs-variable">o</span> <span class="hljs-operator">=</span> declaredConstructor.newInstance();<br>            <span class="hljs-type">Method</span> <span class="hljs-variable">declaredMethod</span> <span class="hljs-operator">=</span> aClass.getDeclaredMethod(methodName);<br>            declaredMethod.invoke(o);<br>        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>            e.printStackTrace();<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>3、完成上面两步后，后续我们就只需要修改配置文件就能完成 App 业务功能的切换了</p>
+<h2 id="十、总结"><a href="#十、总结" class="headerlink" title="十、总结"></a>十、总结</h2><p>本篇文章讲的一些重点内容：</p>
+<p>1、反射常用 Api 的使用，注意在访问私有属性和方法时，调用 <code>setAccessible</code> 设置为 true ，表示允许我们访问私有变量</p>
+<p>2、实践通过反射完成 App 业务功能的切换</p>
+<p>好了，本篇文章到这里就结束了，希望能给你带来帮助 🤝 </p>
+<p><strong>感谢你阅读这篇文章</strong></p>
+<h3 id="下篇预告"><a href="#下篇预告" class="headerlink" title="下篇预告"></a>下篇预告</h3><p>下篇文章我会讲注解，敬请期待吧</p>
+<h3 id="参考和推荐"><a href="#参考和推荐" class="headerlink" title="参考和推荐"></a>参考和推荐</h3><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41464123/article/details/109248009?utm_source=app">Java反射有多强？ 他拥有这五大神奇功能！</a></p>
+<p><a target="_blank" rel="noopener" href="https://how2j.cn/k/reflection/reflection-class/108.html">HOW2J 反射部分</a></p>
+<blockquote>
+<p><strong>你的点赞，评论，是对我巨大的鼓励！</strong></p>
+<p>欢迎关注我的<strong>公众号：</strong>  <a target="_blank" rel="noopener" href="http://m6z.cn/6jwi7b"><strong>sweetying</strong></a> ，文章更新可第一时间收到</p>
+<p>如果<strong>有问题</strong>，公众号内有加我微信的入口，在技术学习、个人成长的道路上，我们一起前进！</p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Android/" class="category-chain-item">Android</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Android/APT/" class="category-chain-item">APT</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%8E%9F%E5%88%9B/">#原创</a>
+      
+        <a href="/tags/Android/">#Android</a>
+      
+        <a href="/tags/Android-APT/">#Android APT</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Android APT 系列 （一）：APT 筑基之反射</div>
+      <div>https://sweetying520.github.io/2022/10/10/Android APT 系列 （一）：APT 筑基之反射/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>sweetying</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年10月10日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/10/10/Android%20APT%20%E7%B3%BB%E5%88%97%20%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9AAPT%20%E7%AD%91%E5%9F%BA%E4%B9%8B%E6%B3%A8%E8%A7%A3/" title="Android APT 系列 （二）：APT 筑基之注解">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Android APT 系列 （二）：APT 筑基之注解</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/10/10/Flutter%20%E7%B3%BB%E5%88%97%EF%BC%88%E5%85%AB%EF%BC%89%EF%BC%9AFlutter%20%E4%B8%8E%20Android%20%E7%9A%84%E4%BD%A0%E6%9D%A5%E6%88%91%E5%BE%80/" title="Flutter 系列（八）：Flutter 与 Android 的你来我往">
+                        <span class="hidden-mobile">Flutter 系列（八）：Flutter 与 Android 的你来我往</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.4.17/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"zN1E017kYhKuj6GqXHJSbGMb-gzGzoHsz","appKey":"JSwY8PjtA131Y78OHn7kKtio","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

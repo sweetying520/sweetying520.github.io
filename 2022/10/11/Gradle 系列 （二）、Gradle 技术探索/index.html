@@ -1,0 +1,1176 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar.png">
+  <link rel="icon" href="/img/avatar.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="sweetying">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前言很高兴遇见你~ 这又是一个新的系列，关于 Gradle 学习，我所理解的流程如下图：  在本系列的上一篇文章中，我们对 Gradle 的一些基础概念及 Groovy 语法进行了讲解，完成了第一个环节。还没有看过上一篇文章的朋友，建议先去阅读 Gradle 系列 （一）、Gradle相关概念理解，Groovy基础。 今天我们主要介绍环节二：熟悉 Gradle 常用 API，了解 Setting">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Gradle 系列 （二）、Gradle 技术探索">
+<meta property="og:url" content="https://sweetying520.github.io/2022/10/11/Gradle%20%E7%B3%BB%E5%88%97%20%EF%BC%88%E4%BA%8C%EF%BC%89%E3%80%81Gradle%20%E6%8A%80%E6%9C%AF%E6%8E%A2%E7%B4%A2/index.html">
+<meta property="og:site_name" content="sweetying">
+<meta property="og:description" content="前言很高兴遇见你~ 这又是一个新的系列，关于 Gradle 学习，我所理解的流程如下图：  在本系列的上一篇文章中，我们对 Gradle 的一些基础概念及 Groovy 语法进行了讲解，完成了第一个环节。还没有看过上一篇文章的朋友，建议先去阅读 Gradle 系列 （一）、Gradle相关概念理解，Groovy基础。 今天我们主要介绍环节二：熟悉 Gradle 常用 API，了解 Setting">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202210111023302.jpeg">
+<meta property="article:published_time" content="2022-10-11T02:17:20.000Z">
+<meta property="article:modified_time" content="2022-10-11T07:26:36.000Z">
+<meta property="article:author" content="sweetying">
+<meta property="article:tag" content="原创">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="Gradle">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202210111023302.jpeg">
+  
+  
+  
+  <title>Gradle 系列 （二）、Gradle 技术探索 - sweetying</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/iconfont_juejin/iconfont.css">
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sweetying520.github.io","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"zN1E017kYhKuj6GqXHJSbGMb-gzGzoHsz","app_key":"JSwY8PjtA131Y78OHn7kKtio","server_url":"https://zn1e017k.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  <div>
+	<div class='real_mask' style="
+		background-color: rgba(0,0,0,0.3);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -777;
+	"></div>
+	<div id="banner_video_insert">
+	</div>
+	<div id='vvd_banner_img'>
+	</div>
+</div>
+<div id="banner"></div>
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>sweetying</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" target="_blank" rel="noopener" href="https://www.foreverblog.cn/go.html">
+                <i class="iconfont icon-link-fill"></i>
+                虫洞
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://101.43.39.125/HexoFiles/new/bg-trans.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Gradle 系列 （二）、Gradle 技术探索"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        sweetying
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-10-11 10:17" pubdate>
+          2022年10月11日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          25k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          208 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
+
+	<div class="banner" id='banner' >
+
+		<div class="full-bg-img" >
+
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
+
+					function set_video_attr(id){
+
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
+
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
+					}
+
+					$.getJSON('/vvd_js/video_url.json', function(data){
+						if (true){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
+
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
+
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
+							set_video_attr('banner_img_item')
+
+							if (!isMobile) {
+								video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+								document.getElementById("banner_video_insert").innerHTML = video_html_res;
+								set_video_attr('video_item')
+							}
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+			</div>
+		</div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Gradle 系列 （二）、Gradle 技术探索</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202210111023302.jpeg" srcset="/img/loading.gif" lazyload alt="luc-dobigeon-BdvZQL0iebM-unsplash"></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>很高兴遇见你~</p>
+<p>这又是一个新的系列，关于 Gradle 学习，我所理解的流程如下图：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f65d4a418c9f4c209d6eb3d26a452fba~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="Gradle_learning"></p>
+<p>在本系列的上一篇文章中，我们对 Gradle 的一些基础概念及 Groovy 语法进行了讲解，完成了第一个环节。还没有看过上一篇文章的朋友，建议先去阅读 <a target="_blank" rel="noopener" href="https://juejin.cn/post/6939662617224937503">Gradle 系列 （一）、Gradle相关概念理解，Groovy基础</a>。</p>
+<p>今天我们主要介绍环节二：熟悉 Gradle 常用 API，了解 Settings，Project，Task 等等。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/sweetying520/GradleDemo">Github Demo 地址</a> , 大家可以结合 demo 一起看，效果杠杠滴🍺</p>
+<p>下面就正式进入 Gradle 的学习</p>
+<h2 id="一、Gradle-构建流程"><a href="#一、Gradle-构建流程" class="headerlink" title="一、Gradle 构建流程"></a>一、Gradle 构建流程</h2><h3 id="1）、Gradle-构建阶段"><a href="#1）、Gradle-构建阶段" class="headerlink" title="1）、Gradle 构建阶段"></a>1）、Gradle 构建阶段</h3><p>Gradle 构建流程主要分为三个阶段：</p>
+<p>1、初始化阶段</p>
+<p>2、配置阶段</p>
+<p>3、执行阶段</p>
+<h4 id="1、初始化阶段"><a href="#1、初始化阶段" class="headerlink" title="1、初始化阶段"></a>1、初始化阶段</h4><p>Gradle 初始化阶段主要就是执行 settings.gradle 脚本，构建 Project 对象</p>
+<p>我们使用 AndroidStudio 新建一个 Android 项目的时候会自动生成 settings.gradle 文件，内容如下：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs groovy">rootProject.name = <span class="hljs-string">&quot;GradleDemo&quot;</span><br>include <span class="hljs-string">&#x27;:app&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p>1、指定项目根 Project 的名称</p>
+<p>2、使用 include 导入 app 工程</p>
+<p>实际上 settings.gradle 对应一个 Settings 对象，include 就是 Settings 对象下的一个方法，它的作用就是引用哪些工程需要加入构建。然后 Gradle 会为每个带有 build.gradle 脚本文件的工程构建一个与之对应的 Project 对象</p>
+<h5 id="1、include-扩展"><a href="#1、include-扩展" class="headerlink" title="1、include 扩展"></a>1、include 扩展</h5><p>我们可以使用 include + project 方法引用任何位置下的工程，如下：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs groovy">include <span class="hljs-string">&#x27;:test&#x27;</span><br>project(<span class="hljs-string">&#x27;:test&#x27;</span>).projectDir = file(<span class="hljs-string">&#x27;当前工程的绝对路径&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>通常我会使用这种方式引用自己写的库进行调试，非常的方便</p>
+<p>但有的时候会遇到同时引入了 AAR 和源码的情况，我们可以使用 include + project，结合一些其他的配置，来实现 AAR 和源码的快速切换，具体步骤如下：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-comment">//步骤一：在 settings.gradle 中引入源码工程</span><br>include <span class="hljs-string">&#x27;:test&#x27;</span><br>project(<span class="hljs-string">&#x27;:test&#x27;</span>).projectDir = file(<span class="hljs-string">&#x27;当前工程的绝对路径&#x27;</span>)<br><br><span class="hljs-comment">//步骤二：在根 build.gradle 下进行如下配置</span><br>allprojects &#123;<br>    configurations.all &#123;<br>        resolutionStrategy &#123;<br>            dependencySubstitution &#123;<br>                substitute module(<span class="hljs-string">&quot;com.dream:test&quot;</span>) with project(<span class="hljs-string">&#x27;:test&#x27;</span>)<br>            &#125;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h5 id="2、Settings"><a href="#2、Settings" class="headerlink" title="2、Settings"></a>2、Settings</h5><p>关于 Settings 的所有属性和方法，如下图：</p>
+<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/353d7348729c4e50bd3ebb0ed107c623~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210707215114352" style="zoom:50%;" />
+
+<p>结合官网提供的文档 <a target="_blank" rel="noopener" href="https://docs.gradle.org/current/javadoc/org/gradle/api/initialization/Settings.html">传送门</a> 去查看，效果杠杠的😄</p>
+<h4 id="2、配置阶段"><a href="#2、配置阶段" class="headerlink" title="2、配置阶段"></a>2、配置阶段</h4><p>Gradle 配置阶段主要就是解析 Project 对象(build.gradle 脚本文件)，构建 Task 有向无环图</p>
+<p>配置阶段会执行的代码：<strong>除 Task 的 Action 中编写的代码都会被执行</strong>，不懂 Action 的继续往下看，后面会讲到。如：</p>
+<p>1、build.gradle 中的各种语句</p>
+<p>2、Task 配置段语句</p>
+<p>配置阶段完成后，整个工程的 Task 依赖关系都确定了，我们可以通过 Gradle  对象的 getTaskGraph 方法访问 Task ,对应的类为 TaskExecutionGraph ，关于 TaskExecutionGraph API 文档 <a target="_blank" rel="noopener" href="https://docs.gradle.org/current/javadoc/org/gradle/api/execution/TaskExecutionGraph.html">传送门</a></p>
+<p><strong>注意：</strong> 执行任何 Gradle 命令，在初始化阶段和配置阶段的代码都会被执行</p>
+<h4 id="3、执行阶段"><a href="#3、执行阶段" class="headerlink" title="3、执行阶段"></a>3、执行阶段</h4><p>Gradle 执行阶段主要就是执行 Task 及其依赖的 Task</p>
+<h3 id="2）、Gradle-生命周期-Hook-点"><a href="#2）、Gradle-生命周期-Hook-点" class="headerlink" title="2）、Gradle 生命周期 Hook 点"></a>2）、Gradle 生命周期 Hook 点</h3><p>引用 joe_H 一张完整的 Gradle 生命周期图，如下：</p>
+<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/403a1114a8ad4d8bb725224a70dedc5a~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210704212912830" style="zoom:50%;" />
+
+<p>上图对 Gradle 生命周期总结的很到位，我们解析一波：</p>
+<p><strong>注意</strong>：Gradle 执行脚本文件的时候会生成对应的实例，主要有如下三种对象：</p>
+<blockquote>
+<p>1、Gradle 对象：在项目初始化时构建，全局单例存在，只有这一个对象</p>
+<p>2、Project 对象：每一个 build.gradle 都会转换成一个 Project 对象</p>
+<p>3、Settings 对象：Seetings.gradle 会转变成一个 Seetings 对象</p>
+</blockquote>
+<p>1、Gradle 在各个阶段都提供了生命周期回调，在添加监听器的时候需要注意：<strong>监听器要在生命周期回调之前添加，否则会导致有些回调收不到</strong></p>
+<p>2、Gradle 初始化阶段</p>
+<ul>
+<li>在 settings.gradle 执行完后，会回调 Gradle 对象的 settingsEvaluated 方法</li>
+<li>在构建所有工程 build.gradle 对应的 Project 对象后，也就是初始化阶段完毕，会回调 Gradle 对象的 projectsLoaded 方法</li>
+</ul>
+<p>3、Gradle 配置阶段：</p>
+<ul>
+<li>Gradle 会循环执行每个工程的 build.gradle 脚本文件</li>
+<li>在执行当前工程 build.gradle 前，会回调 Gradle 对象的 beforeProject 方法和当前 Project 对象的 beforeEvaluate 方法</li>
+<li>在执行当前工程 build.gradle 后，会回调 Gradle 对象的 afterProject 方法和当前 Project 对象的 afterEvaluate 方法</li>
+<li>在所有工程的 build.gradle 执行完毕后，会回调 Gradle 对象的 projectsEvaluated 方法</li>
+<li>在构建 Task 依赖有向无环图后，也就是配置阶段完毕，会回调 TaskExecutionGraph 对象的 whenReady 方法</li>
+</ul>
+<p><strong>注意</strong>： Gradle 对象的 beforeProject，afterProject 方法和 Project 对象的 beforeEvaluate ，afterEvaluate 方法回调时机是一致的，区别在于：</p>
+<blockquote>
+<p>1、Gradle 对象的 beforeProject，afterProject 方法针对项目下的所有工程，即每个工程的 build.gradle 执行前后都会收到这两个方法的回调</p>
+<p>2、 Project 对象的 beforeEvaluate ，afterEvaluate 方法针对当前工程，即当前工程的 build.gradle 执行前后会收到这两个方法的回调</p>
+</blockquote>
+<p>4、执行阶段：</p>
+<ul>
+<li>Gradle 会循环执行 Task 及其依赖的 Task</li>
+<li>在当前 Task 执行之前，会回调 TaskExecutionGraph 对象的 beforeTask 方法</li>
+<li>在当前 Task 执行之后，会回调 TaskExecutionGraph 对象的 afterTask 方法</li>
+</ul>
+<p>5、当所有的 Task 执行完毕后，会回调 Gradle 对象的 buildFinish 方法</p>
+<p>了解了 Gradle 生命周期后，我们就可以根据自己的需求添加 Hook。例如：我们可以打印 Gradle 构建过程中，各个阶段及各个 Task 的耗时</p>
+<h3 id="3）、打印-Gradle-构建各个阶段及各个任务的耗时"><a href="#3）、打印-Gradle-构建各个阶段及各个任务的耗时" class="headerlink" title="3）、打印 Gradle 构建各个阶段及各个任务的耗时"></a>3）、打印 Gradle 构建各个阶段及各个任务的耗时</h3><p>在 settings.gradle 添加如下代码：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-comment">//初始化阶段开始时间</span><br><span class="hljs-type">long</span> beginOfSetting = System.currentTimeMillis()<br><span class="hljs-comment">//配置阶段开始时间</span><br><span class="hljs-keyword">def</span> beginOfConfig<br><span class="hljs-comment">//配置阶段是否开始了，只执行一次</span><br><span class="hljs-keyword">def</span> configHasBegin = <span class="hljs-literal">false</span><br><span class="hljs-comment">//存放每个 build.gradle 执行之前的时间</span><br><span class="hljs-keyword">def</span> beginOfProjectConfig = <span class="hljs-keyword">new</span> HashMap()<br><span class="hljs-comment">//执行阶段开始时间</span><br><span class="hljs-keyword">def</span> beginOfTaskExecute<br><span class="hljs-comment">//初始化阶段执行完毕</span><br>gradle.projectsLoaded &#123;<br>    println <span class="hljs-string">&quot;初始化总耗时 $&#123;System.currentTimeMillis() - beginOfSetting&#125; ms&quot;</span><br>&#125;<br><br><span class="hljs-comment">//build.gradle 执行前</span><br>gradle.beforeProject &#123;Project project -&gt;<br>    <span class="hljs-keyword">if</span>(!configHasBegin)&#123;<br>        configHasBegin = <span class="hljs-literal">true</span><br>        beginOfConfig = System.currentTimeMillis()<br>    &#125;<br>    beginOfProjectConfig.put(project,System.currentTimeMillis())<br>&#125;<br><br><span class="hljs-comment">//build.gradle 执行后</span><br>gradle.afterProject &#123;Project project -&gt;<br>    <span class="hljs-keyword">def</span> begin = beginOfProjectConfig.get(project)<br>    println <span class="hljs-string">&quot;配置阶段，$project 耗时：$&#123;System.currentTimeMillis() - begin&#125; ms&quot;</span><br>&#125;<br><br><span class="hljs-comment">//配置阶段完毕</span><br>gradle.taskGraph.whenReady &#123;<br>    println <span class="hljs-string">&quot;配置阶段总耗时：$&#123;System.currentTimeMillis() - beginOfConfig&#125; ms&quot;</span><br>    beginOfTaskExecute = System.currentTimeMillis()<br>&#125;<br><br><span class="hljs-comment">//执行阶段</span><br>gradle.taskGraph.beforeTask &#123;Task task -&gt;<br>    task.doFirst &#123;<br>        task.ext.beginOfTask = System.currentTimeMillis()<br>    &#125;<br><br>    task.doLast &#123;<br>        println <span class="hljs-string">&quot;执行阶段，$task 耗时：$&#123;System.currentTimeMillis() - task.ext.beginOfTask&#125; ms&quot;</span><br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//执行阶段完毕</span><br>gradle.buildFinished &#123;<br>    println <span class="hljs-string">&quot;执行阶段总耗时：$&#123;System.currentTimeMillis() - beginOfTaskExecute&#125;&quot;</span><br>&#125;<br><br><span class="hljs-comment">//执行 Gradle 命令</span><br>./gradlew clean<br><br><span class="hljs-comment">//打印结果如下：</span><br>初始化总耗时 <span class="hljs-number">140</span> ms<br><br>&gt; Configure <span class="hljs-attr">project :</span><br>配置阶段，root project <span class="hljs-string">&#x27;GradleDemo&#x27;</span> 耗时：<span class="hljs-number">1181</span> ms<br><br>&gt; Configure <span class="hljs-attr">project :</span>app<br>配置阶段，project <span class="hljs-string">&#x27;:app&#x27;</span> 耗时：<span class="hljs-number">1122</span> ms<br>配置阶段总耗时：<span class="hljs-number">2735</span> ms<br><br>&gt; <span class="hljs-attr">Task :</span>clean<br>执行阶段，task <span class="hljs-string">&#x27;:clean&#x27;</span> 耗时：<span class="hljs-number">0</span> ms<br><br>&gt; <span class="hljs-attr">Task :</span><span class="hljs-attr">app:</span>clean<br>执行阶段，task <span class="hljs-string">&#x27;:app:clean&#x27;</span> 耗时：<span class="hljs-number">1</span> ms<br>执行阶段总耗时：<span class="hljs-number">325</span><br></code></pre></td></tr></table></figure>
+
+<p>了解了 Gradle 的三个阶段及生命周期，接下来我们就学习 Gradle 的一些核心 API</p>
+<h2 id="二、Project-介绍"><a href="#二、Project-介绍" class="headerlink" title="二、Project 介绍"></a>二、Project 介绍</h2><p>对于一个 Android 项目，build.gradle 脚本文件是我们经常操作的文件之一，而每个 build.gradle 就对应了一个 Project 对象，因此学习好   Project 对应的 API 能帮助我们更好的去操作 build.gradle 脚本文件, 同时也能看懂大佬们所写的一些配置语句。</p>
+<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e9bc9ab568af4fb2af66bcb398926898~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210718164127432" style="zoom:50%;" />
+
+<p>首先看一眼我的项目结构，后续就是基于它来做演示</p>
+<p><strong>注意</strong>：</p>
+<p>1、下面所演示的 API 都是一些常用的 API，对 API 使用有疑问的可以去查询官方文档</p>
+<p>2、API 的演示如果没做特殊说明，则是在 app 的 build.gradle 文件下操作的</p>
+<h3 id="1）、Project-API"><a href="#1）、Project-API" class="headerlink" title="1）、Project API"></a>1）、Project API</h3><p><a target="_blank" rel="noopener" href="https://docs.gradle.org/current/javadoc/org/gradle/api/Project.html">Project API 文档</a>，我们主要介绍一些常用的 API</p>
+<h4 id="1、getRootProject-方法"><a href="#1、getRootProject-方法" class="headerlink" title="1、getRootProject 方法"></a>1、getRootProject 方法</h4><p>获取根 Project 对象</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs groovy">println getRootProject()<br><br><span class="hljs-comment">//打印结果</span><br>&gt; Configure <span class="hljs-attr">project :</span>app<br>root project <span class="hljs-string">&#x27;GradleDemo&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="2、getRootDir-方法"><a href="#2、getRootDir-方法" class="headerlink" title="2、getRootDir 方法"></a>2、getRootDir 方法</h4><p>获取根目录文件夹路径</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs groovy">println getRootDir()<br><br><span class="hljs-comment">//打印结果</span><br>&gt; Configure <span class="hljs-attr">project :</span>app<br><span class="hljs-regexp">/Users/</span>zhouying<span class="hljs-regexp">/learning/</span>GradleDemo<br></code></pre></td></tr></table></figure>
+
+<h4 id="3、getBuildDir-方法"><a href="#3、getBuildDir-方法" class="headerlink" title="3、getBuildDir 方法"></a>3、getBuildDir 方法</h4><p>获取当前 Project 的 build 文件夹路径</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs groovy">println getBuildDir()<br><br><span class="hljs-comment">//打印结果</span><br>&gt; Configure <span class="hljs-attr">project :</span>app<br><span class="hljs-regexp">/Users/</span>zhouying<span class="hljs-regexp">/learning/</span>GradleDemo<span class="hljs-regexp">/app/</span>build<br></code></pre></td></tr></table></figure>
+
+<h4 id="4、getParent-方法"><a href="#4、getParent-方法" class="headerlink" title="4、getParent 方法"></a>4、getParent 方法</h4><p>获取当前父 Project 对象</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs groovy">println getParent()<br><br><span class="hljs-comment">//打印结果</span><br>&gt; Configure <span class="hljs-attr">project :</span>app<br>root project <span class="hljs-string">&#x27;GradleDemo&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="5、getAllprojects-方法"><a href="#5、getAllprojects-方法" class="headerlink" title="5、getAllprojects 方法"></a>5、getAllprojects 方法</h4><p>获取当前 Project 及其子 Project 对象，返回值是一个 Set 集合</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-comment">//当前在根工程的 build.gradle 文件下</span><br>println getAllprojects()<br><br><span class="hljs-comment">//打印结果</span><br>&gt; Configure <span class="hljs-attr">project :</span><br>[root project <span class="hljs-string">&#x27;GradleDemo&#x27;</span>, project <span class="hljs-string">&#x27;:app&#x27;</span>]<br></code></pre></td></tr></table></figure>
+
+<p>我们还可以使用其闭包的形式</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs groovy">allprojects &#123;<br>    println it<br>&#125;<br><br><span class="hljs-comment">//打印结果</span><br>&gt; Configure <span class="hljs-attr">project :</span><br>root project <span class="hljs-string">&#x27;GradleDemo&#x27;</span><br>project <span class="hljs-string">&#x27;:app&#x27;</span><br><br><span class="hljs-comment">//我们通常会使用闭包的语法在根 build.gradle 下进行相关的配置，如下：</span><br>allprojects &#123;<br>    repositories &#123;<br>        google()<br>        mavenCentral()<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>注意</strong>：根 Project 与其子 Project 组成了一个树形结构，但这颗树的高度也仅仅被限定为了两层</p>
+<h4 id="6、getSubprojects-方法"><a href="#6、getSubprojects-方法" class="headerlink" title="6、getSubprojects 方法"></a>6、getSubprojects 方法</h4><p>获取当前 Project 下的所有子 Project 对象，返回值是一个 Set 集合</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-comment">//当前在根工程的 build.gradle 文件下</span><br>println getSubprojects()<br><br><span class="hljs-comment">//打印结果</span><br>&gt; Configure <span class="hljs-attr">project :</span><br>[project <span class="hljs-string">&#x27;:app&#x27;</span>]<br></code></pre></td></tr></table></figure>
+
+<p>同样我们也可以使用其闭包的形式</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs groovy">subprojects &#123;<br>    println it<br>&#125;<br><br><span class="hljs-comment">//打印结果</span><br>&gt; Configure <span class="hljs-attr">project :</span><br>project <span class="hljs-string">&#x27;:app&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="7、apply-系列方法"><a href="#7、apply-系列方法" class="headerlink" title="7、apply 系列方法"></a>7、apply 系列方法</h4><p>引用插件</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-comment">//引用第三方插件</span><br>apply <span class="hljs-attr">plugin:</span> <span class="hljs-string">&#x27;com.android.application&#x27;</span><br><br><span class="hljs-comment">//引用脚本文件插件</span><br>apply <span class="hljs-attr">from:</span> <span class="hljs-string">&#x27;config.gradle&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="8、configurations-闭包"><a href="#8、configurations-闭包" class="headerlink" title="8、configurations 闭包"></a>8、configurations 闭包</h4><p>编写 Project 一些相关的配置，如全局移除某个依赖</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs groovy">configurations &#123;<br>    all*.exclude <span class="hljs-attr">group:</span> <span class="hljs-string">&#x27;组名&#x27;</span>, <span class="hljs-attr">module:</span> <span class="hljs-string">&#x27;模块名&#x27;</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="9、project-系列方法"><a href="#9、project-系列方法" class="headerlink" title="9、project 系列方法"></a>9、project 系列方法</h4><p>指定工程实例，然后在闭包中对其进行相关的配置</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs groovy">project(<span class="hljs-string">&quot;app&quot;</span>) &#123;<br>    apply <span class="hljs-attr">plugin:</span> <span class="hljs-string">&#x27;com.android.application&#x27;</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="2）、扩展属性"><a href="#2）、扩展属性" class="headerlink" title="2）、扩展属性"></a>2）、扩展属性</h3><p>扩展属性作用：方便我们全局的一个使用。类似 Java 中，在工具类里面定义静态方法</p>
+<h4 id="1、扩展属性定义"><a href="#1、扩展属性定义" class="headerlink" title="1、扩展属性定义"></a>1、扩展属性定义</h4><p>我们可以通过以下两种方式来定义扩展属性：</p>
+<p>1、通过 <strong>ext</strong> 关键字定义扩展属性</p>
+<p>2、在 <strong>gradle.properties</strong> 下定义扩展属性</p>
+<h5 id="1、通过-ext-关键字定义扩展属性"><a href="#1、通过-ext-关键字定义扩展属性" class="headerlink" title="1、通过 ext 关键字定义扩展属性"></a>1、通过 ext 关键字定义扩展属性</h5><p>通过 ext 定义扩展属性的语法有两种：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-comment">//当前在根 build.gradle 下</span><br><span class="hljs-comment">//方式1：ext.属性名</span><br>ext.test = <span class="hljs-string">&#x27;erdai666&#x27;</span><br><br><span class="hljs-comment">//方式2：ext 后面接上一个闭包</span><br>ext&#123;<br>  test1 = <span class="hljs-string">&#x27;erdai777&#x27;</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h5 id="2、在-gradle-properties-下定义扩展属性"><a href="#2、在-gradle-properties-下定义扩展属性" class="headerlink" title="2、在 gradle.properties 下定义扩展属性"></a>2、在 gradle.properties 下定义扩展属性</h5><p>通过 gradle.properties 定义扩展属性，直接使用 <strong>key&#x3D;value</strong> 的形式即可：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs groovy">test2=erdai888<br></code></pre></td></tr></table></figure>
+
+<h4 id="2、扩展属性调用"><a href="#2、扩展属性调用" class="headerlink" title="2、扩展属性调用"></a>2、扩展属性调用</h4><p>1、ext 定义的扩展属性调用的时候可以去掉 ext 前缀直接调用</p>
+<p>2、ext 定义的扩展属性也可以通过 <strong>当前定义扩展属性的 Project 对象.ext.属性名</strong> 进行调用</p>
+<p>3、gradle.properties 定义的扩展属性直接通过属性名调用即可</p>
+<p>下面我们在 app 的 build.gradle 下进行演示：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 下面这种写法之所以能这么写</span><br><span class="hljs-comment"> * 1、ext 定义的扩展属性调用的时候可以去掉 ext 前缀直接调用</span><br><span class="hljs-comment"> * 2、子 Project 能拿到根 Project 中的属性和方法</span><br><span class="hljs-comment"> */</span><br>println test<br>println test1<br>println test2<br><br><span class="hljs-comment">//2、ext 定义的扩展属性也可以通过 当前定义扩展属性的 Project 对象.ext.属性名 调用</span><br>println rootProject.ext.test<br>println rootProject.ext.test1<br>println test2<br><br><span class="hljs-comment">//上述两种方式打印结果均为</span><br>&gt; Configure <span class="hljs-attr">project :</span>app<br>erdai666<br>erdai777<br>erdai888<br></code></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong> 子 Project 和根 Project 存在继承关系，因此根 Project 中定义的属性和方法子 Project 能获取到</p>
+<h4 id="3、扩展属性应用"><a href="#3、扩展属性应用" class="headerlink" title="3、扩展属性应用"></a>3、扩展属性应用</h4><p>通常我们会使用扩展属性来优化 build.gradle 脚本文件，例如我们以优化 app 下的 build.gradle 为例：</p>
+<p>首先看一眼优化之前 app 的 build.gradle 长啥样：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs groovy">apply <span class="hljs-attr">plugin:</span> <span class="hljs-string">&#x27;com.android.application&#x27;</span><br><br>android &#123;<br>    compileSdkVersion <span class="hljs-number">30</span><br><br>    defaultConfig &#123;<br>        applicationId <span class="hljs-string">&quot;com.dream.gradledemo&quot;</span><br>        minSdkVersion <span class="hljs-number">19</span><br>        targetSdkVersion <span class="hljs-number">30</span><br>        versionCode <span class="hljs-number">1</span><br>        versionName <span class="hljs-string">&quot;1.0&quot;</span><br><br>        testInstrumentationRunner <span class="hljs-string">&quot;androidx.test.runner.AndroidJUnitRunner&quot;</span><br>    &#125;<br><br>    buildTypes &#123;<br>        release &#123;<br>            minifyEnabled <span class="hljs-literal">false</span><br>            proguardFiles getDefaultProguardFile(<span class="hljs-string">&#x27;proguard-android-optimize.txt&#x27;</span>), <span class="hljs-string">&#x27;proguard-rules.pro&#x27;</span><br>        &#125;<br>    &#125;<br>&#125;<br><br>dependencies &#123;<br>    implementation <span class="hljs-string">&#x27;androidx.appcompat:appcompat:1.3.0&#x27;</span><br>    implementation <span class="hljs-string">&#x27;com.google.android.material:material:1.4.0&#x27;</span><br>    implementation <span class="hljs-string">&#x27;androidx.constraintlayout:constraintlayout:2.0.4&#x27;</span><br>    testImplementation <span class="hljs-string">&#x27;junit:junit:4.13.2&#x27;</span><br>    androidTestImplementation <span class="hljs-string">&#x27;androidx.test.ext:junit:1.1.3&#x27;</span><br>    androidTestImplementation <span class="hljs-string">&#x27;androidx.test.espresso:espresso-core:3.4.0&#x27;</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>下面我们就来进行改造</p>
+<p><strong>步骤1：</strong> 在根目录下创建一个脚本文件 config.gradle ，用来存放扩展属性</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs groovy">ext&#123;<br><br>    androidConfig = [<br>            <span class="hljs-attr">compileSdkVersion :</span> <span class="hljs-number">30</span>,<br>            <span class="hljs-attr">applicationId :</span> <span class="hljs-string">&#x27;com.dream.gradledemo&#x27;</span>,<br>            <span class="hljs-attr">minSdkVersion :</span> <span class="hljs-number">19</span>,<br>            <span class="hljs-attr">targetSdkVersion :</span> <span class="hljs-number">30</span>,<br>            <span class="hljs-attr">versionCode :</span> <span class="hljs-number">1</span>,<br>            <span class="hljs-attr">versionName :</span> <span class="hljs-string">&#x27;1.0&#x27;</span><br>    ]<br><br><br>    implementationLib = [<br>            <span class="hljs-attr">appcompat :</span> <span class="hljs-string">&#x27;androidx.appcompat:appcompat:1.3.0&#x27;</span>,<br>            <span class="hljs-attr">material  :</span> <span class="hljs-string">&#x27;com.google.android.material:material:1.4.0&#x27;</span>,<br>            <span class="hljs-attr">constraintlayout :</span> <span class="hljs-string">&#x27;androidx.constraintlayout:constraintlayout:2.0.4&#x27;</span><br>    ]<br><br>    testImplementationLib = [<br>            <span class="hljs-attr">junit :</span> <span class="hljs-string">&#x27;junit:junit:4.13.2&#x27;</span><br>    ]<br><br><br>    androidTestImplementationLib = [<br>            <span class="hljs-attr">junit :</span> <span class="hljs-string">&#x27;androidx.test.ext:junit:1.1.3&#x27;</span>,<br>            <span class="hljs-string">&#x27;espresso-core&#x27;</span> : <span class="hljs-string">&#x27;androidx.test.espresso:espresso-core:3.4.0&#x27;</span><br>    ]<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>步骤2：</strong> 在根 build.gradle 对 config.gradle 进行引用</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs groovy">apply <span class="hljs-attr">from:</span> <span class="hljs-string">&#x27;config.gradle&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong> 在根 build.gradle 进行引用的好处就是所有的子 build.gradle 都能够获取到这些扩展属性</p>
+<p><strong>步骤3:</strong>  在 app 的 build.gradle 里面进行扩展属性的调用</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs groovy">apply <span class="hljs-attr">plugin:</span> <span class="hljs-string">&#x27;com.android.application&#x27;</span><br><br>android &#123;<br>    compileSdkVersion androidConfig.compileSdkVersion<br><br>    defaultConfig &#123;<br>        applicationId androidConfig.applicationId<br>        minSdkVersion androidConfig.minSdkVersion<br>        targetSdkVersion androidConfig.targetSdkVersion<br>        versionCode androidConfig.versionCode<br>        versionName androidConfig.versionName<br><br>        testInstrumentationRunner <span class="hljs-string">&quot;androidx.test.runner.AndroidJUnitRunner&quot;</span><br>    &#125;<br><br>    buildTypes &#123;<br>        release &#123;<br>            minifyEnabled <span class="hljs-literal">false</span><br>            proguardFiles getDefaultProguardFile(<span class="hljs-string">&#x27;proguard-android-optimize.txt&#x27;</span>), <span class="hljs-string">&#x27;proguard-rules.pro&#x27;</span><br>        &#125;<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">def</span> implementationLibMap = implementationLib<br><span class="hljs-keyword">def</span> testImplementationLibMap = testImplementationLib<br><span class="hljs-keyword">def</span> androidTestImplementationLibMap = androidTestImplementationLib<br><br>dependencies &#123;<br>    implementationLibMap.each&#123;k,v -&gt;<br>        implementation v<br>    &#125;<br><br>    testImplementationLibMap.each&#123;k,v -&gt;<br>        testImplementation v<br>    &#125;<br><br>    androidTestImplementationLibMap.each&#123;k,v -&gt;<br>        androidTestImplementation v<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="3）、文件操作-API"><a href="#3）、文件操作-API" class="headerlink" title="3）、文件操作 API"></a>3）、文件操作 API</h3><h4 id="1、file-x2F-files-系列文件定位"><a href="#1、file-x2F-files-系列文件定位" class="headerlink" title="1、file&#x2F;files 系列文件定位"></a>1、file&#x2F;files 系列文件定位</h4><p>Project 对象提供的 file&#x2F;files 系列方法主要用来定位一个或者多个文件，值的注意的是：<strong>它们接收的参数是一个相对路径，从当前 project 工程开始查找</strong>，而我们通过 new File 的方式需要传入一个绝对路径，下面通过代码演示感受一下他们的区别：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-comment">//============================== 1、file 方法应用============================</span><br><span class="hljs-comment">//通过 file 方法传入一个相对路径，返回值是一个 file 对象</span><br>println file(<span class="hljs-string">&#x27;../config.gradle&#x27;</span>).text<br><br><span class="hljs-comment">//通过 new File 方式传入一个绝对路径</span><br><span class="hljs-keyword">def</span> file = <span class="hljs-keyword">new</span> File(<span class="hljs-string">&#x27;/Users/zhouying/learning/GradleDemo/config.gradle&#x27;</span>)<br>println file.text<br><br><span class="hljs-comment">//上述两者打印结果相同，如下截图</span><br><br><span class="hljs-comment">//============================== 2、files 方法应用============================</span><br><span class="hljs-comment">//通过 files 方法传入多个相对路径，返回值是一个 ConfigurableFileCollection 即文件集合</span><br>files(<span class="hljs-string">&#x27;../config.gradle&#x27;</span>,<span class="hljs-string">&#x27;../build.gradle&#x27;</span>).each &#123;<br>    println it.name<br>&#125;<br><br><span class="hljs-comment">//打印结果</span><br>&gt; Configure <span class="hljs-attr">project :</span>app<br>config.gradle<br>build.gradle<br></code></pre></td></tr></table></figure>
+
+<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/152c811c766440cd857b72a8b8c1542c~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210717121715148"  />
+
+<h4 id="2、copy-文件拷贝"><a href="#2、copy-文件拷贝" class="headerlink" title="2、copy 文件拷贝"></a>2、copy 文件拷贝</h4><blockquote>
+<p>1、Project 对象提供了 copy 方法，它使得我们拷贝一个文件或文件夹变得十分简单</p>
+<p>2、copy 方法能够接收一个闭包，闭包的参数 CopySpec ，CopySpec 提供了很多文件操作的 API，具体可以查看文档 <a target="_blank" rel="noopener" href="https://docs.gradle.org/current/javadoc/org/gradle/api/file/CopySpec.html">传送门</a></p>
+</blockquote>
+<p>下面会使用到 CopySpec 的 from 和 into 方法</p>
+<p><strong>注意：</strong> from 和 into 接收的参数是 Object 类型的，因此我们可以传入一个路径或文件</p>
+<p>1、文件拷贝</p>
+<p>例如我们实现：<strong>将根目录下的 config.gradle 文件拷贝拷贝到 app 目录下。</strong> 如下：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-comment">//1、传入路径</span><br>copy &#123;<br>    from getRootDir().path + <span class="hljs-string">&quot;/config.gradle&quot;</span><br>    into getProjectDir().path<br>&#125;<br><br><span class="hljs-comment">//2、传入文件</span><br>copy &#123;<br>    from file(<span class="hljs-string">&#x27;../config.gradle&#x27;</span>)<br>    into getProjectDir()<br>&#125;<br><br><span class="hljs-comment">//最终结果是这两种方式都能拷贝成功</span><br></code></pre></td></tr></table></figure>
+
+<p>2、文件夹拷贝</p>
+<p>例如我们实现：<strong>将根目录下的 gradle 文件夹下的所有文件和文件夹拷贝到 app 目录下的 gradle 文件夹</strong></p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs groovy">copy &#123;<br>    from file(<span class="hljs-string">&#x27;../gradle/&#x27;</span>)<br>    into getProjectDir().path + <span class="hljs-string">&quot;/gradle/&quot;</span><br>&#125;<br><br><span class="hljs-comment">//最终结果拷贝成功</span><br></code></pre></td></tr></table></figure>
+
+<p>此时如果 app 目录下没有 gradle 文件夹，那么 copy 方法会给我们自动创建，非常的方便</p>
+<h4 id="3、fileTree-文件树映射"><a href="#3、fileTree-文件树映射" class="headerlink" title="3、fileTree 文件树映射"></a>3、fileTree 文件树映射</h4><p>Project 对象提供了 fileTree 方法，方便我们将一个目录转换为文件树，然后对文件树进行相关的逻辑处理，它接收的参数和 file&#x2F;files 类似，也是一个相对路径</p>
+<p>例如我们实现：<strong>遍历根目录下的 gradle 文件夹，并打印文件及文件夹的名称</strong></p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs groovy">fileTree(<span class="hljs-string">&#x27;../gradle/&#x27;</span>)&#123; FileTree fileTree -&gt;<br>    fileTree.visit &#123; FileTreeElement fileTreeElement -&gt;<br>        println fileTreeElement.name<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//打印结果</span><br>&gt; Configure <span class="hljs-attr">project :</span>app<br>wrapper<br>gradle-wrapper.jar<br>gradle-wrapper.properties<br></code></pre></td></tr></table></figure>
+
+<p>我们通常会在 app 的 build.gradle 下看到这么一个配置语句：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs groovy">implementation fileTree(<span class="hljs-attr">include:</span> [<span class="hljs-string">&#x27;*.jar&#x27;</span>], <span class="hljs-attr">dir:</span> <span class="hljs-string">&#x27;libs&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>他实际上是调用了 fileTree 接收 Map 参数的重载方法：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs groovy">ConfigurableFileTree fileTree(Map&lt;String, ?&gt; var1);<br></code></pre></td></tr></table></figure>
+
+<p>这句配置语句的意思就是：<strong>引入当前 project 目录下的 libs 文件夹下的所有 jar 包</strong></p>
+<h3 id="4）、buildscript-解读"><a href="#4）、buildscript-解读" class="headerlink" title="4）、buildscript 解读"></a>4）、buildscript 解读</h3><p>我们通常在新建一个 Android 项目的时候可以看到根 build.gradle 有这么一段配置：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs groovy">buildscript &#123;<br>    <span class="hljs-comment">//插件仓库地址</span><br>    repositories &#123;<br>        google()<br>        mavenCentral()<br>    &#125;<br>  <br>    <span class="hljs-comment">//插件依赖</span><br>    dependencies &#123;<br>        classpath <span class="hljs-string">&quot;com.android.tools.build:gradle:4.2.1&quot;</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>它的作用是：<strong>引入 Gradle 构建过程中的一些插件</strong></p>
+<p>实际上上面这段代码的完整写法如下：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs groovy">buildscript &#123; ScriptHandler scriptHandler -&gt;<br>    scriptHandler.repositories &#123; RepositoryHandler repositoryHandler -&gt;<br>        repositoryHandler.google()<br>        repositoryHandler.mavenCentral()<br>    &#125;<br>  <br>    scriptHandler.dependencies &#123; DependencyHandler dependencyHandler -&gt;<br>        dependencyHandler.classpath <span class="hljs-string">&quot;com.android.tools.build:gradle:4.2.1&quot;</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>你是否会有这么一个疑问：为啥这些参数都能够去掉，简化成上面那样？🤔️</p>
+<p>要明白上面这个问题，首先我们得对闭包有一定的了解：</p>
+<p>1、首先闭包中有 owenr this delegate 三个对象，这三个对象拥有的属性和方法我们都可以调用，并且无需写出来</p>
+<p>2、这三个对象调用的先后顺序取决于闭包的委托策略，一般我们会对 delegate 进行操作并修改它的委托策略</p>
+<p>实际上，Gradle 对上面的这些闭包的 delegate 修改为了传入闭包的参数，并把委托策略设置为了 DELEGATE_FIRST ，因此我们调用的时候才能把这些参数给去掉，感兴趣的可以点击 buildscript 进去看下源码，这里就不对源码进行分析了</p>
+<h3 id="5）、exec-外部命令执行"><a href="#5）、exec-外部命令执行" class="headerlink" title="5）、exec 外部命令执行"></a>5）、exec 外部命令执行</h3><p>Project 对象提供了 exec 方法，方便我们执行外部的命令</p>
+<p>我们可以在 linux 下通过如下命令去移动一个文件夹：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs groovy">mv -f 源文件路径 目标文件路径<br></code></pre></td></tr></table></figure>
+
+<p>现在我们在 Gradle 下去进行这一操作</p>
+<p>例如我们实现：<strong>使用外部命令，将我们存放的 apk 目录移动到项目的根目录</strong> ，如下：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs groovy">task taskMove() &#123;<br>    doLast &#123;<br>        <span class="hljs-comment">// 在 gradle 的执行阶段去执行</span><br>        <span class="hljs-keyword">def</span> sourcePath = buildDir.path + <span class="hljs-string">&quot;/outputs/apk&quot;</span><br>        <span class="hljs-keyword">def</span> destinationPath = getRootDir().path<br>        <span class="hljs-keyword">def</span> command = <span class="hljs-string">&quot;mv -f $sourcePath $destinationPath&quot;</span><br>        exec &#123;<br>            <span class="hljs-keyword">try</span> &#123;<br>                executable <span class="hljs-string">&quot;bash&quot;</span><br>                args <span class="hljs-string">&quot;-c&quot;</span>, command<br>                println <span class="hljs-string">&quot;The command execute is success&quot;</span><br>            &#125; <span class="hljs-keyword">catch</span> (GradleException e) &#123;<br>                e.printStackTrace()<br>                println <span class="hljs-string">&quot;The command execute is failed&quot;</span><br>            &#125;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="三、Task-介绍"><a href="#三、Task-介绍" class="headerlink" title="三、Task 介绍"></a>三、Task 介绍</h2><p>Task 中文翻译即任务，它是 Gradle 中的一个接口，代表了要执行的任务，不同的插件可以添加不同的 Task，每一个 Task 都要和 Project关联。众所周知，线程是 cpu 执行的最小单元。同理，Task 是 Gradle 执行的最小单元，Gradle 将一个个 Task 串联起来，完成一个具体的构建任务</p>
+<h3 id="1）、doFirst、doLast-介绍"><a href="#1）、doFirst、doLast-介绍" class="headerlink" title="1）、doFirst、doLast 介绍"></a>1）、doFirst、doLast 介绍</h3><p>首先我们要搞懂 Action 这个概念，Action 本质上是一个执行动作，它只有在我们执行当前 Task 时才会被执行，Gradle 执行阶段本质上就是在执行每个 Task 中的一系列 Action</p>
+<p>doFirst，doLast 是 Task 给我们提供的两个 Action</p>
+<p><strong>doFirst</strong> 表示：Task 执行最开始时被调用的 Action</p>
+<p><strong>doLast</strong> 表示： task 执行完时被调用的 Action</p>
+<p>值的注意的是：<strong>doFirst 和 doLast 可被多次添加执行</strong> ，如下：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs groovy">task erdai&#123;<br>    println <span class="hljs-string">&#x27;task start...&#x27;</span><br><br>    doFirst &#123;<br>        println <span class="hljs-string">&#x27;doFirst1&#x27;</span><br>    &#125;<br><br>    doLast &#123;<br>        println <span class="hljs-string">&#x27;doLast1&#x27;</span><br>    &#125;<br><br>    doLast &#123;<br>        println <span class="hljs-string">&#x27;doLast2&#x27;</span><br>    &#125;<br><br>    println <span class="hljs-string">&#x27;task end...&#x27;</span><br>&#125;<br><br><span class="hljs-comment">//执行当前 task</span><br>./gradlew erdai<br><br><span class="hljs-comment">//打印结果如下</span><br>&gt; Configure <span class="hljs-attr">project :</span>app<br>task start...<br>task end...<br><br>&gt; <span class="hljs-attr">Task :</span><span class="hljs-attr">app:</span>erdai<br>doFirst1<br>doLast1<br>doLast2<br></code></pre></td></tr></table></figure>
+
+<p>从上述打印结果我们可以发现</p>
+<p>1、<code>println &#39;task start...&#39;</code>，<code> println &#39;task end...&#39;</code>这两句的代码在 Gradle 配置阶段就被执行了</p>
+<p>2、doFirst，doLast 中的代码是在 Gradle 执行阶段，执行 erdai 这个 task 时被执行的</p>
+<p>因此也验证了一开始我说的那个结论： <strong>Gradle 配置阶段，除 Task 的 Action 中编写的代码都会被执行</strong></p>
+<h3 id="2）、Task-属性介绍"><a href="#2）、Task-属性介绍" class="headerlink" title="2）、Task 属性介绍"></a>2）、Task 属性介绍</h3><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>name</td>
+<td>task 名字</td>
+<td>无，必须指定</td>
+</tr>
+<tr>
+<td>type</td>
+<td>Task 的父类</td>
+<td>DefaultTask</td>
+</tr>
+<tr>
+<td>action</td>
+<td>当 Task 执行的时候，需要执行的闭包或 Action</td>
+<td>null</td>
+</tr>
+<tr>
+<td>overwrite</td>
+<td>替换一个已存在的 Task</td>
+<td>false</td>
+</tr>
+<tr>
+<td>dependsOn</td>
+<td>该 Task 所依赖的 Task 集合</td>
+<td>[]</td>
+</tr>
+<tr>
+<td>group</td>
+<td>该 task 所属分组</td>
+<td>null</td>
+</tr>
+<tr>
+<td>description</td>
+<td>该 Task 的描述信息</td>
+<td>null</td>
+</tr>
+<tr>
+<td>constructorArgs</td>
+<td>传递到 Task Class 构造器中的参数</td>
+<td>null</td>
+</tr>
+</tbody></table>
+<h3 id="3）、Task-类型介绍"><a href="#3）、Task-类型介绍" class="headerlink" title="3）、Task 类型介绍"></a>3）、Task 类型介绍</h3><p>一般我们创建的 Task 默认是继承 DefaultTask，我们可以通过 type 属性让他继承其他的类，也可以通过 extends 关键字直接指定，Gradle 自带的有  Copy、Delete 等等，如下：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-comment">// 1、继承 Delete 这个类，删除根目录下的 build 文件</span><br>task deleteTask(<span class="hljs-attr">type:</span> Delete) &#123;<br>    delete rootProject.buildDir<br>&#125;<br><br><span class="hljs-comment">//通过 extends 关键字指定</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">DeleteTask</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Delete</span>&#123;<br><br>&#125;<br>DeleteTask deleteTask = tasks.create(<span class="hljs-string">&quot;deleteTask&quot;</span>,DeleteTask)<br>deleteTask.delete(rootProject.buildDir)<br><br><br><span class="hljs-comment">// 2、继承 Copy 这个类</span><br>task copyTask(<span class="hljs-attr">type:</span> Copy) &#123;<br>    <span class="hljs-comment">//...</span><br>&#125;<br><br><span class="hljs-comment">//通过 extends 关键字指定</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">CopyTask</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Copy</span>&#123;<br>    <span class="hljs-comment">//...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="4）、TaskContainer-介绍"><a href="#4）、TaskContainer-介绍" class="headerlink" title="4）、TaskContainer 介绍"></a>4）、TaskContainer 介绍</h3><p>TaskContainer 你可以理解为一个 Task 容器，Project 对象就是通过 TaskContainer 来管理 Task，因此我们可以通过 TaskContainer，对 Task 进行相关的操作，一些常用的 API 如下：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-comment">//查找task</span><br>findByPath(<span class="hljs-attr">path:</span> String): Task <br>getByPath(<span class="hljs-attr">path:</span> String): Task<br>getByName(<span class="hljs-attr">name:</span> String): Task<br><br><span class="hljs-comment">//创建task</span><br>create(<span class="hljs-attr">name:</span> String): Task<br>create(<span class="hljs-attr">name:</span> String, <span class="hljs-attr">configure:</span> Closure): Task <br>create(<span class="hljs-attr">name:</span> String, <span class="hljs-attr">type:</span> Class): Task<br>create(<span class="hljs-attr">options:</span> Map&lt;String, ?&gt;): Task<br>create(<span class="hljs-attr">options:</span> Map&lt;String, ?&gt;, configure: Closure): Task<br><br><span class="hljs-comment">//当 task 被加入到 TaskContainer 时的监听</span><br>whenTaskAdded(<span class="hljs-attr">action:</span> Closure)<br></code></pre></td></tr></table></figure>
+
+<h3 id="5）、Task-定义及配置"><a href="#5）、Task-定义及配置" class="headerlink" title="5）、Task 定义及配置"></a>5）、Task 定义及配置</h3><p>因为 Task 和 Project 是相互关联的，Project 中提供了一系列创建 Task 的方法，下面介绍一些常用的：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-comment">//1、创建一个名为 task1 的 Task</span><br>task task1<br><br><span class="hljs-comment">//2、创建一个名为 task2 的 Task，并通过闭包进行相应的配置</span><br>task task2&#123;<br>    <span class="hljs-comment">//指定 task 的分组</span><br>    group <span class="hljs-string">&#x27;erdai666&#x27;</span><br>  <br>    doFirst&#123;<br>    <br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//3、创建一个名为 task3 的 Task，该 Task 继承自 Copy 这个 Task，依赖 task2</span><br>task task3(<span class="hljs-attr">type:</span> Copy)&#123;<br>    dependsOn <span class="hljs-string">&quot;task2&quot;</span><br>    doLast&#123;<br>    <br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//4、创建一个名为 task4 的 Task 并指定了分组和描述</span><br>task task4(<span class="hljs-attr">group:</span> <span class="hljs-string">&quot;erdai666&quot;</span>, <span class="hljs-attr">description:</span> <span class="hljs-string">&quot;task4&quot;</span>) &#123;<br>    doFirst &#123;<br>        <br>    &#125;<br>    <br>    doLast &#123;<br>        <br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//5、通过 Project 对象的 TaskContainer 创建名为 task5 的 Task</span><br>tasks.create(<span class="hljs-string">&quot;task5&quot;</span>)&#123;<br><br>&#125;<br><br><span class="hljs-comment">//6、通过 Project 对象的 TaskContainer 创建名为 task6 的 Task</span><br><span class="hljs-comment">//相对于 5 ，只是调用了不同的重载方法而已</span><br>tasks.create(<span class="hljs-attr">name:</span> <span class="hljs-string">&quot;task6&quot;</span>)&#123;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="6）、Task-执行实战"><a href="#6）、Task-执行实战" class="headerlink" title="6）、Task 执行实战"></a>6）、Task 执行实战</h3><p>通常我们会使用 doFirst 与 doLast 在 Task 执行期间进行相关操作，下面我们就来实现 <strong>build 任务执行期间耗时</strong>：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-comment">// Task 执行实战：计算 build 执行期间的耗时</span><br><span class="hljs-keyword">def</span> startBuildTime, endBuildTime<br><span class="hljs-comment">// 1、在 Gradle 配置阶段完成之后进行操作，</span><br><span class="hljs-comment">// 以此保证要执行的 task 配置完毕</span><br><span class="hljs-variable language_">this</span>.afterEvaluate &#123; Project project -&gt;<br>    <span class="hljs-comment">// 2、找到当前 project 下第一个执行的 task，即 preBuild task</span><br>    <span class="hljs-keyword">def</span> preBuildTask = project.tasks.getByName(<span class="hljs-string">&quot;preBuild&quot;</span>)<br>    preBuildTask.doFirst &#123;<br>        <span class="hljs-comment">// 3、获取第一个 task 开始执行时刻的时间戳</span><br>        startBuildTime = System.currentTimeMillis()<br>    &#125;<br>    <span class="hljs-comment">// 4、找到当前 project 下最后一个执行的 task，即 build task</span><br>    <span class="hljs-keyword">def</span> buildTask = project.tasks.getByName(<span class="hljs-string">&quot;build&quot;</span>)<br>    buildTask.doLast &#123;<br>        <span class="hljs-comment">// 5、获取最后一个 task 执行完成前一瞬间的时间戳</span><br>        endBuildTime = System.currentTimeMillis()<br>        <span class="hljs-comment">// 6、输出 build 执行期间的耗时</span><br>        println <span class="hljs-string">&quot;Current project execute time is $&#123;endBuildTime - startBuildTime&#125;&quot;</span><br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//执行 build 任务</span><br>./gradlew build<br><br><span class="hljs-comment">//打印结果</span><br>Current project execute time is <span class="hljs-number">21052</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="7）、指定-Task-执行顺序"><a href="#7）、指定-Task-执行顺序" class="headerlink" title="7）、指定 Task 执行顺序"></a>7）、指定 Task 执行顺序</h3><p>在 Gradle 中，有三种方式可以指定 Task 执行顺序：</p>
+<p>1、dependsOn 强依赖方式</p>
+<p>2、通过 Task 输入输出</p>
+<p>3、通过 API 指定执行顺序</p>
+<h4 id="1、dependsOn-强依赖方式"><a href="#1、dependsOn-强依赖方式" class="headerlink" title="1、dependsOn 强依赖方式"></a>1、dependsOn 强依赖方式</h4><p>dependsOn 强依赖方式可细分为<strong>静态依赖</strong>和<strong>动态依赖</strong></p>
+<ul>
+<li>静态依赖：在创建 Task 的时候，直接通过 dependsOn 指定需要依赖的 Task</li>
+<li>动态依赖：在创建 Task 的时候，不知道需要依赖哪些 Task，需通过 dependsOn 动态依赖符合条件的 Task</li>
+</ul>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-comment">//=================================静态依赖=============================</span><br>task taskA&#123;<br>    doLast &#123;<br>        println <span class="hljs-string">&#x27;taskA&#x27;</span><br>    &#125;<br>&#125;<br><br>task taskB&#123;<br>    doLast &#123;<br>        println <span class="hljs-string">&#x27;taskB&#x27;</span><br>    &#125;<br>&#125;<br><br>task taskC(<span class="hljs-attr">dependsOn:</span> taskA)&#123;<span class="hljs-comment">//多依赖方式 dependsOn:[taskA,taskB]</span><br>    doLast &#123;<br>        println <span class="hljs-string">&#x27;taskC&#x27;</span><br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//执行 taskC</span><br>./gradlew taskC<br><br><span class="hljs-comment">//打印结果</span><br>&gt; <span class="hljs-attr">Task :</span><span class="hljs-attr">app:</span>taskA<br>taskA<br><br>&gt; <span class="hljs-attr">Task :</span><span class="hljs-attr">app:</span>taskC<br>taskC<br></code></pre></td></tr></table></figure>
+
+<p>上述代码，当我们执行 taskC 的时候，因为依赖了 taskA，因此 taskA 会先执行，在执行 taskC</p>
+<p><strong>注意</strong>：当一个 Task 依赖多个 Task 的时候，被依赖的 Task 之间如果没有依赖关系，那么它们的执行顺序是随机的，并无影响，如下：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs groovy">task taskC(<span class="hljs-attr">dependsOn:</span>[taskA,taskB])&#123;<br>    doLast &#123;<br>        println <span class="hljs-string">&#x27;taskC&#x27;</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>taskA 和 taskB 的执行顺序是随机的</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-comment">//=================================动态依赖=============================</span><br><span class="hljs-comment">// Task 动态依赖方式</span><br>task lib1 &#123;<br>    doLast&#123;<br>        println <span class="hljs-string">&#x27;lib1&#x27;</span><br>    &#125;<br>&#125;<br>task lib2 &#123;<br>    doLast&#123;<br>        println <span class="hljs-string">&#x27;lib2&#x27;</span><br>    &#125;<br>&#125;<br>task lib3 &#123;<br>    doLast&#123;<br>        println <span class="hljs-string">&#x27;lib3&#x27;</span><br>    &#125;<br>&#125;<br><br><span class="hljs-comment">// 动态指定taskX依赖所有以lib开头的task</span><br>task taskDynamic&#123;<br>    <span class="hljs-comment">// 动态指定依赖</span><br>    dependsOn tasks.findAll&#123; Task task -&gt;<br>        <span class="hljs-keyword">return</span> task.name.startsWith(<span class="hljs-string">&#x27;lib&#x27;</span>)<br>    &#125;<br><br>    doLast &#123;<br>        println <span class="hljs-string">&#x27;taskDynamic&#x27;</span><br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//执行 taskDynamic</span><br>./gradlew taskDynamic<br><br><span class="hljs-comment">//打印结果</span><br>&gt; <span class="hljs-attr">Task :</span><span class="hljs-attr">app:</span>lib1<br>lib1<br><br>&gt; <span class="hljs-attr">Task :</span><span class="hljs-attr">app:</span>lib2<br>lib2<br><br>&gt; <span class="hljs-attr">Task :</span><span class="hljs-attr">app:</span>lib3<br>lib3<br><br>&gt; <span class="hljs-attr">Task :</span><span class="hljs-attr">app:</span>taskDynamic<br>taskDynamic<br></code></pre></td></tr></table></figure>
+
+<h4 id="2、通过-Task-输入输出指定执行顺序"><a href="#2、通过-Task-输入输出指定执行顺序" class="headerlink" title="2、通过 Task 输入输出指定执行顺序"></a>2、通过 Task 输入输出指定执行顺序</h4><p>当一个参数，作为 TaskA 的输入参数，同时又作为 TaskB 的输出参数，那么 TaskA 执行的时候先要执行 TaskB。即输出的 Task 先于输入的 Task 执行</p>
+<p>但是我在实际测试过程中发现：<strong>输入的 Task 会先执行，然后在执行输出的 Task</strong>，如下：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs groovy">ext &#123;<br>    testFile = file(<span class="hljs-string">&quot;$&#123;projectDir.path&#125;/test.txt&quot;</span>)<br>    <span class="hljs-keyword">if</span>(testFile != <span class="hljs-literal">null</span> || !testFile.exists())&#123;<br>        testFile.createNewFile()<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//输出 Task</span><br>task outputTask &#123;<br>    outputs.file testFile<br>    doLast &#123;<br>        outputs.getFiles().singleFile.withWriter &#123; writer -&gt;<br>            writer.append(<span class="hljs-string">&quot;erdai666&quot;</span>)<br>        &#125;<br>        println <span class="hljs-string">&quot;outputTask 执行结束&quot;</span><br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//输入 Task</span><br>task inputTask &#123;<br>    inputs.file testFile<br>    doLast &#123;<br>        println <span class="hljs-string">&quot;读取文件内容：$&#123;inputs.files.singleFile.text&#125;&quot;</span><br>        println <span class="hljs-string">&quot;inputTask 执行结束&quot;</span><br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//测试 Task</span><br>task testTask(<span class="hljs-attr">dependsOn:</span> [outputTask, inputTask]) &#123;<br>    doLast &#123;<br>        println <span class="hljs-string">&quot;testTask1 执行结束&quot;</span><br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//执行 testTask</span><br>./gradlew testTask<br><br><span class="hljs-comment">//理论上会先执行 outputTask，在执行 inputTask，最后执行 testTask</span><br><span class="hljs-comment">//但实际打印结果</span><br>&gt; <span class="hljs-attr">Task :</span><span class="hljs-attr">app:</span>inputTask<br>读取文件内容：<br>inputTask 执行结束<br><br>&gt; <span class="hljs-attr">Task :</span><span class="hljs-attr">app:</span>outputTask<br>outputTask 执行结束<br><br>&gt; <span class="hljs-attr">Task :</span><span class="hljs-attr">app:</span>testTask<br>testTask1 执行结束<br></code></pre></td></tr></table></figure>
+
+<p>最终我对 inputTask 指定了具体依赖才达到了预期效果：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs groovy">task inputTask(<span class="hljs-attr">dependsOn:</span> outputTask) &#123;<br>    inputs.file testFile<br>    doLast &#123;<br>        println <span class="hljs-string">&quot;读取文件内容：$&#123;inputs.files.singleFile.text&#125;&quot;</span><br>        println <span class="hljs-string">&quot;inputTask 执行结束&quot;</span><br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//修改之后的打印结果</span><br>&gt; <span class="hljs-attr">Task :</span><span class="hljs-attr">app:</span>outputTask<br>outputTask 执行结束<br><br>&gt; <span class="hljs-attr">Task :</span><span class="hljs-attr">app:</span>inputTask<br>读取文件内容：erdai666<br>inputTask 执行结束<br><br>&gt; <span class="hljs-attr">Task :</span><span class="hljs-attr">app:</span>testTask<br>testTask1 执行结束<br></code></pre></td></tr></table></figure>
+
+<h4 id="3、通过-API-指定执行顺序"><a href="#3、通过-API-指定执行顺序" class="headerlink" title="3、通过 API 指定执行顺序"></a>3、通过 API 指定执行顺序</h4><p>可以指定 Task 执行顺序的 API 有：</p>
+<p><strong>mustRunAfter</strong>：指定必须在哪个 Task 执行完成之后执行</p>
+<p><strong>shouldRunAfter</strong>：跟 mustRunAfter 类似，区别在于不强制，不常用</p>
+<p><strong>finalizeBy</strong>：在当前 Task 执行完成之后，指定执行的 Task</p>
+<p>下面我们通过代码来演示一下：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-comment">//======================================= mustRunAfter ===========================</span><br>task taskX&#123;<br>    doLast &#123;<br>        println <span class="hljs-string">&#x27;taskX&#x27;</span><br>    &#125;<br>&#125;<br><br>task taskY&#123;<br>    mustRunAfter taskX<br>    doLast &#123;<br>        println <span class="hljs-string">&#x27;taskY&#x27;</span><br>    &#125;<br>&#125;<br><br>task taskXY(<span class="hljs-attr">dependsOn:</span> [taskX,taskY])&#123;<br>    doLast &#123;<br>        println <span class="hljs-string">&#x27;taskXY&#x27;</span><br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//执行 taskXY</span><br>./gradlew taskXY<br><br><span class="hljs-comment">//打印结果</span><br>&gt; <span class="hljs-attr">Task :</span><span class="hljs-attr">app:</span>taskX<br>taskX<br><br>&gt; <span class="hljs-attr">Task :</span><span class="hljs-attr">app:</span>taskY<br>taskY<br><br>&gt; <span class="hljs-attr">Task :</span><span class="hljs-attr">app:</span>taskXY<br>taskXY<br><br><span class="hljs-comment">//======================================= finalizeBy ===========================</span><br>task taskI&#123;<br>    doLast &#123;<br>        println <span class="hljs-string">&#x27;taskI&#x27;</span><br>    &#125;<br>&#125;<br><br>task taskJ&#123;<br>    finalizedBy taskI<br>    doLast &#123;<br>        println <span class="hljs-string">&#x27;taskJ&#x27;</span><br>    &#125;<br>&#125;<br><br><br>task taskIJ(<span class="hljs-attr">dependsOn:</span> [taskI,taskJ])&#123;<br>    doLast &#123;<br>        println <span class="hljs-string">&#x27;taskIJ&#x27;</span><br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//执行 taskIJ</span><br>./gradlew taskIJ<br><br><span class="hljs-comment">//打印结果</span><br>&gt; <span class="hljs-attr">Task :</span><span class="hljs-attr">app:</span>taskJ<br>taskJ<br><br>&gt; <span class="hljs-attr">Task :</span><span class="hljs-attr">app:</span>taskI<br>taskI<br><br>&gt; <span class="hljs-attr">Task :</span><span class="hljs-attr">app:</span>taskIJ<br>taskIJ<br></code></pre></td></tr></table></figure>
+
+<h2 id="四、自定义-Task-挂接到-Android-应用构建流程"><a href="#四、自定义-Task-挂接到-Android-应用构建流程" class="headerlink" title="四、自定义 Task 挂接到 Android 应用构建流程"></a>四、自定义 Task 挂接到 Android 应用构建流程</h2><h3 id="1）、Task-依赖关系插件介绍"><a href="#1）、Task-依赖关系插件介绍" class="headerlink" title="1）、Task 依赖关系插件介绍"></a>1）、Task 依赖关系插件介绍</h3><p>我们可以引入如下插件来查看 Task 的一个依赖关系：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-comment">//1、在根 build.gradle 添加如下代码</span><br>buildscript &#123;<br>    repositories &#123;<br>      	<span class="hljs-comment">//...</span><br>        maven&#123;<br>           url <span class="hljs-string">&quot;https://plugins.gradle.org/m2/&quot;</span><br>        &#125;<br>    &#125;<br>    dependencies &#123;<br>      	<span class="hljs-comment">//..</span><br>        classpath <span class="hljs-string">&quot;gradle.plugin.com.dorongold.plugins:task-tree:1.5&quot;</span><br>    &#125;<br>&#125;<br><br><br><span class="hljs-comment">// 2、在 app 的 build.gradle 中应用插件</span><br>apply <span class="hljs-attr">plugin:</span> com.dorongold.gradle.tasktree.TaskTreePlugin<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 3、在命令行中执行：./gradlew &lt;任务名&gt; taskTree --no-repeat 命令即可查看</span><br><span class="hljs-comment"> * 这里以执行 build 这个 task 为例</span><br><span class="hljs-comment"> */</span><br>./gradlew build taskTree --no-repeat<br></code></pre></td></tr></table></figure>
+
+<p>经过上面 3 步，我们看下依赖关系图，仅截取部分：</p>
+<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/86c516a5a77b459da8395072715338d8~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210718114010544" style="zoom:50%;" />
+
+<h3 id="2）、自定义-Task-挂接到-Android-构建流程"><a href="#2）、自定义-Task-挂接到-Android-构建流程" class="headerlink" title="2）、自定义 Task 挂接到 Android 构建流程"></a>2）、自定义 Task 挂接到 Android 构建流程</h3><p>我们知道，Gradle 在执行阶段就是执行 Task 及其依赖的 Task，就比如上面截图的 build Task 的关系依赖图，它会按照这个依赖图有条不紊的去执行。</p>
+<p>那么如果我想把自己自定义的 Task 挂接到这个构建流程，该怎么做呢？</p>
+<h5 id="1、通过-dependsOn-指定"><a href="#1、通过-dependsOn-指定" class="headerlink" title="1、通过 dependsOn 指定"></a>1、通过 dependsOn 指定</h5><p><strong>注意：</strong> 单独使用 dependsOn ，必须让构建流程中的 Task 依赖我们自定义的 Task，否则我们的 Task 不会生效</p>
+<p>如下代码演示一下：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs groovy">task myCustomTask&#123;<br>    doLast &#123;<br>        println <span class="hljs-string">&#x27;This is myCustomTask&#x27;</span><br>    &#125;<br>&#125;<br><br>afterEvaluate &#123;<br>    <span class="hljs-comment">//1、找到需要的构建流程 Task</span><br>    <span class="hljs-keyword">def</span> mergeDebugResources = tasks.findByName(<span class="hljs-string">&quot;mergeDebugResources&quot;</span>)<br>    <span class="hljs-comment">//2、通过 dependsOn 指定</span><br>    mergeDebugResources.dependsOn(myCustomTask)<br>  <br>    <span class="hljs-comment">//如果换成下面这种写法则自定义 Task 不会生效</span><br>    <span class="hljs-comment">//myCustomTask.dependsOn(mergeDebugResources)</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>接下来我们验证一下</p>
+<p>首先看一眼 Task 依赖关系图：</p>
+<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/abf5fd86aaed4ecd818e9df7b0aa8ba1~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210718130023237" style="zoom:50%;" />
+
+<p>我们自定义的 Task 挂接到了 mergeDebugResources 上</p>
+<p>执行下 build 这个 Task，可以发现我们的 Task 被执行了：</p>
+<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4d4a4b36ece04058ba2430def0685a72~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210718130303391" style="zoom:50%;" />
+
+<h5 id="2、通过-finalizedBy-指定"><a href="#2、通过-finalizedBy-指定" class="headerlink" title="2、通过 finalizedBy 指定"></a>2、通过 finalizedBy 指定</h5><p>在某个 Task 执行完成后，指定需要执行的 Task</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs groovy">task myCustomTask&#123;<br>    doLast &#123;<br>        println <span class="hljs-string">&#x27;This is myCustomTask&#x27;</span><br>    &#125;<br>&#125;<br><br>afterEvaluate &#123;<br>    <span class="hljs-keyword">def</span> mergeDebugResources = tasks.findByName(<span class="hljs-string">&quot;mergeDebugResources&quot;</span>)<br>    <span class="hljs-comment">//将 myCustomTask 挂接在 mergeDebugResources 后面执行</span><br>    mergeDebugResources.finalizedBy(myCustomTask)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h5 id="3、通过-mustRunAfter-配合-dependsOn-指定"><a href="#3、通过-mustRunAfter-配合-dependsOn-指定" class="headerlink" title="3、通过 mustRunAfter 配合 dependsOn 指定"></a>3、通过 mustRunAfter 配合 dependsOn 指定</h5><p>在两个 Task 之间，插入自定义的 Task </p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs groovy">task myCustomTask&#123;<br>    doLast &#123;<br>        println <span class="hljs-string">&#x27;This is myCustomTask&#x27;</span><br>    &#125;<br>&#125;<br><br>afterEvaluate &#123;<br>    <span class="hljs-comment">//在 mergeDebugResources 和 processDebugResources 之间插入 myCustomTask</span><br>    <span class="hljs-keyword">def</span> processDebugResources = tasks.findByName(<span class="hljs-string">&quot;processDebugResources&quot;</span>)<br>    <span class="hljs-keyword">def</span> mergeDebugResources = tasks.findByName(<span class="hljs-string">&quot;mergeDebugResources&quot;</span>)<br>    myCustomTask.mustRunAfter(mergeDebugResources)<br>    processDebugResources.dependsOn(myCustomTask)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>上述 Task 依赖变化过程：</p>
+<p>processDebugResources -&gt; mergeDebugResources &#x3D;&#x3D;&#x3D;&gt; processDebugResources -&gt; myCustomTask -&gt; mergeDebugResources</p>
+<h2 id="五、Gradle-相关命令介绍"><a href="#五、Gradle-相关命令介绍" class="headerlink" title="五、Gradle 相关命令介绍"></a>五、Gradle 相关命令介绍</h2><h3 id="1）、查看项目所有的-Project-对象"><a href="#1）、查看项目所有的-Project-对象" class="headerlink" title="1）、查看项目所有的 Project 对象"></a>1）、查看项目所有的 Project 对象</h3><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs groovy">./gradlew project<br></code></pre></td></tr></table></figure>
+
+<h3 id="2）、查看-module-下所有的-task"><a href="#2）、查看-module-下所有的-task" class="headerlink" title="2）、查看 module 下所有的 task"></a>2）、查看 module 下所有的 task</h3><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs groovy">./gradlew <span class="hljs-attr">$moduleName:</span>tasks<br><br><span class="hljs-comment">//演示</span><br><span class="hljs-comment">//查看 app 下的所有 Task</span><br>./gradlew <span class="hljs-attr">app:</span>tasks<br><br><span class="hljs-comment">//查看根 Project 的所有 Task</span><br>./gradlew tasks<br></code></pre></td></tr></table></figure>
+
+<h3 id="3）、执行一个-Task"><a href="#3）、执行一个-Task" class="headerlink" title="3）、执行一个 Task"></a>3）、执行一个 Task</h3><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs groovy">./gradlew $taskName<br><br><span class="hljs-comment">//执行 build Task</span><br>./gradlew build<br></code></pre></td></tr></table></figure>
+
+<h3 id="4）、查看-module-下的第三方库依赖关系"><a href="#4）、查看-module-下的第三方库依赖关系" class="headerlink" title="4）、查看 module 下的第三方库依赖关系"></a>4）、查看 module 下的第三方库依赖关系</h3><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs groovy">./gradlew <span class="hljs-attr">$moduleName:</span>dependencies<br><br><span class="hljs-comment">//查看 app 下的第三方库依赖关系</span><br>./gradlew <span class="hljs-attr">app:</span>dependencies<br></code></pre></td></tr></table></figure>
+
+<h2 id="六、总结"><a href="#六、总结" class="headerlink" title="六、总结"></a>六、总结</h2><p>本篇文章讲的一些重点内容：</p>
+<p>1、Gradle 三个阶段及生命周期 Hook 点</p>
+<p>2、Project 对象常用 API 介绍，扩展属性的应用与实战</p>
+<p>3、Task 常用配置介绍，其中通过 Task 输入输出指定执行顺序遇到了坑：会先执行输入的 Task。最终还是通过使用 dependsOn 指定具体依赖才达到预期效果</p>
+<p>4、自定义 Task 挂接到 Android 应用构建流程的三种方式：</p>
+<blockquote>
+<p>1、单独使用 dependsOn （注意必须使用构建流程中的 Task 依赖我们自定义的 Task）</p>
+<p>2、使用 finalizedBy</p>
+<p>3、mustRunAfter 配合 dependsOn</p>
+</blockquote>
+<p>5、Gradle 一些常用的命令介绍</p>
+<p>好了，本篇文章到这里就结束了，希望能给你带来帮助 🤝 </p>
+<p><strong>感谢你阅读这篇文章</strong></p>
+<h3 id="下篇预告"><a href="#下篇预告" class="headerlink" title="下篇预告"></a>下篇预告</h3><p>下篇文章我会讲如何自定义第三方插件，敬请期待吧😄</p>
+<h3 id="参考和推荐"><a href="#参考和推荐" class="headerlink" title="参考和推荐"></a>参考和推荐</h3><p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6950643579643494431#heading-14">补齐Android技能树 - 玩转Gradle</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6937208620337610766/#heading-31">Gradle学习系列（二）：Gradle核心探索</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904122492125198#heading-26">深度探索 Gradle 自动化构建技术（三、Gradle 核心解密）</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6982379643311489032#heading-15">从Gradle生命周期到自定义Task挂接到Build构建流程全解</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6947675376835362846#heading-1">7个你应该知道的Gradle实用技巧</a></p>
+<blockquote>
+<p><strong>你的点赞，评论，是对我巨大的鼓励！</strong></p>
+<p>欢迎关注我的<strong>公众号：</strong>  <a target="_blank" rel="noopener" href="http://m6z.cn/6jwi7b"><strong>sweetying</strong></a> ，文章更新可第一时间收到</p>
+<p>如果<strong>有问题</strong>，公众号内有加我微信的入口，在技术学习、个人成长的道路上，我们一起前进！</p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Android/" class="category-chain-item">Android</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Android/Gradle/" class="category-chain-item">Gradle</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%8E%9F%E5%88%9B/">#原创</a>
+      
+        <a href="/tags/Android/">#Android</a>
+      
+        <a href="/tags/Gradle/">#Gradle</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Gradle 系列 （二）、Gradle 技术探索</div>
+      <div>https://sweetying520.github.io/2022/10/11/Gradle 系列 （二）、Gradle 技术探索/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>sweetying</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年10月11日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/10/11/Gradle%20%E7%B3%BB%E5%88%97%20%EF%BC%88%E4%B8%89%EF%BC%89%E3%80%81Gradle%20%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91/" title="Gradle 系列 （三）、Gradle 插件开发">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Gradle 系列 （三）、Gradle 插件开发</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/10/11/Gradle%20%E7%B3%BB%E5%88%97%20%EF%BC%88%E4%B8%80%EF%BC%89%E3%80%81Gradle%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5%E7%90%86%E8%A7%A3%EF%BC%8CGroovy%E5%9F%BA%E7%A1%80/" title="Gradle 系列 （一）、Gradle相关概念理解，Groovy基础">
+                        <span class="hidden-mobile">Gradle 系列 （一）、Gradle相关概念理解，Groovy基础</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.4.17/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"zN1E017kYhKuj6GqXHJSbGMb-gzGzoHsz","appKey":"JSwY8PjtA131Y78OHn7kKtio","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

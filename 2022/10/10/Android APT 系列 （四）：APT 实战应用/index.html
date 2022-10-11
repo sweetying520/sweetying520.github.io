@@ -1,0 +1,880 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar.png">
+  <link rel="icon" href="/img/avatar.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="sweetying">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前言很高兴遇见你~ 在本系列的上一篇文章中，我们对 APT 技术进行了讲解，还没有看过上一篇文章的朋友，建议先去阅读 Android APT 系列 （三）：APT 技术探究。接下来，我们就使用 APT 技术来进行实战应用。 Github Demo 地址 , 大家可以看 Demo 跟随我的思路一起分析 回顾在本系列的开篇，我讲了在项目实践过程中做的一个布局优化，Android 中少量的系统控件是通">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android APT 系列 （四）：APT 实战应用">
+<meta property="og:url" content="https://sweetying520.github.io/2022/10/10/Android%20APT%20%E7%B3%BB%E5%88%97%20%EF%BC%88%E5%9B%9B%EF%BC%89%EF%BC%9AAPT%20%E5%AE%9E%E6%88%98%E5%BA%94%E7%94%A8/index.html">
+<meta property="og:site_name" content="sweetying">
+<meta property="og:description" content="前言很高兴遇见你~ 在本系列的上一篇文章中，我们对 APT 技术进行了讲解，还没有看过上一篇文章的朋友，建议先去阅读 Android APT 系列 （三）：APT 技术探究。接下来，我们就使用 APT 技术来进行实战应用。 Github Demo 地址 , 大家可以看 Demo 跟随我的思路一起分析 回顾在本系列的开篇，我讲了在项目实践过程中做的一个布局优化，Android 中少量的系统控件是通">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202210101948272.jpeg">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d18efb79eeed4538b4ac115e272c36f5~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e9ab51732570425eaf4c8ddebe921875~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9465eb668782489b8915bce09f8c589d~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1a7e9154f8ad4ba1827f9839acd15bf7~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/47cefa64ab494d6aa18ad8cafb0d28d3~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/123032d1ca3844f4959839bf46d66a80~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="article:published_time" content="2022-10-10T09:54:49.000Z">
+<meta property="article:modified_time" content="2022-10-11T03:41:14.806Z">
+<meta property="article:author" content="sweetying">
+<meta property="article:tag" content="原创">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="Android APT">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202210101948272.jpeg">
+  
+  
+  
+  <title>Android APT 系列 （四）：APT 实战应用 - sweetying</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/iconfont_juejin/iconfont.css">
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sweetying520.github.io","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"zN1E017kYhKuj6GqXHJSbGMb-gzGzoHsz","app_key":"JSwY8PjtA131Y78OHn7kKtio","server_url":"https://zn1e017k.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  <div>
+	<div class='real_mask' style="
+		background-color: rgba(0,0,0,0.3);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -777;
+	"></div>
+	<div id="banner_video_insert">
+	</div>
+	<div id='vvd_banner_img'>
+	</div>
+</div>
+<div id="banner"></div>
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>sweetying</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" target="_blank" rel="noopener" href="https://www.foreverblog.cn/go.html">
+                <i class="iconfont icon-link-fill"></i>
+                虫洞
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://101.43.39.125/HexoFiles/new/bg-trans.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Android APT 系列 （四）：APT 实战应用"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        sweetying
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-10-10 17:54" pubdate>
+          2022年10月10日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          8.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          75 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
+
+	<div class="banner" id='banner' >
+
+		<div class="full-bg-img" >
+
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
+
+					function set_video_attr(id){
+
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
+
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
+					}
+
+					$.getJSON('/vvd_js/video_url.json', function(data){
+						if (true){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
+
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
+
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
+							set_video_attr('banner_img_item')
+
+							if (!isMobile) {
+								video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+								document.getElementById("banner_video_insert").innerHTML = video_html_res;
+								set_video_attr('video_item')
+							}
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+			</div>
+		</div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Android APT 系列 （四）：APT 实战应用</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202210101948272.jpeg" srcset="/img/loading.gif" lazyload alt="lesly-juarez-uR7DBrAa4HE-unsplash"></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>很高兴遇见你~</p>
+<p>在本系列的上一篇文章中，我们对 APT 技术进行了讲解，还没有看过上一篇文章的朋友，建议先去阅读 <a target="_blank" rel="noopener" href="https://juejin.cn/post/6978500975770206239">Android APT 系列 （三）：APT 技术探究</a>。接下来，我们就使用 APT 技术来进行实战应用。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/sweetying520/AptDemo">Github Demo 地址</a> , 大家可以看 Demo 跟随我的思路一起分析</p>
+<h2 id="回顾"><a href="#回顾" class="headerlink" title="回顾"></a>回顾</h2><p>在本系列的开篇，我讲了在项目实践过程中做的一个布局优化，Android 中少量的系统控件是通过 <code>new</code> 的方式创建出来的，而大部分控件如 <code>androidx.appcompat.widget</code> 下的控件，自定义控件，第三方控件等等，都是通过反射创建的。大量的反射创建多多少少会带来一些性能问题，因此我们需要去解决反射创建的问题，我的解决思路是：</p>
+<blockquote>
+<p>1、通过编写 Android 插件获取 Xml 布局中的所有控件 </p>
+<p>2、拿到控件后，通过 APT 生成用 <code>new</code> 的方式创建 View 的类 </p>
+<p>3、最后通过反射获取当前类并在基类里面完成替换</p>
+</blockquote>
+<h2 id="一、准备-Android-插件生成的文件"><a href="#一、准备-Android-插件生成的文件" class="headerlink" title="一、准备 Android 插件生成的文件"></a>一、准备 Android 插件生成的文件</h2><p>其中 1 的具体流程是：通过 Android 插件获取所有 Xml 布局中的控件名称，并写入到一个<code>.txt</code>文件中，因 Gradle 系列还没讲，这里我们假设所有的控件名称已经写入到<code>.txt</code>文件，如下：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d18efb79eeed4538b4ac115e272c36f5~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210629191446005"></p>
+<p>上述文件我们可以看到：</p>
+<p>1、一些不带 <code>.</code> 的系统控件，如 TextView，ImageView 。系统会默认给我们通过 <code>new</code> 的方式去创建，且替换为了<code>androidx.appcompat.widget</code>包下的控件，例如：TextView -&gt; AppCompatTextView ，ImageView -&gt; AppCompatImageView </p>
+<p>2、带 <code>.</code> 的控件。可能为 <code>androidx.appcompat.widget</code> 下的控件，自定义控件，第三方控件等等，这些控件如果我们不做处理，系统会通过反射去创建。因此我们主要是针对这些控件去做处理</p>
+<p><strong>注意</strong>：我这里在根目录下创建了一个 <code>all_view_name.txt</code> 的文件，然后放入了一些 View 的名称，这里只是方便我们演示。实际上用 Android 插件去生成的文件我们一般会指定放在 app 的 <code>/build</code>目录下，这样我们在 clean 的时候就能顺带把它给干掉</p>
+<p>现在 1 完成了，接下来 2 和 3 就回到了我们熟悉的 APT 流程，我们需要读取该文件，通过 APT 生成相应的类，最后使用这个类的功能就 OK 了，还不熟悉 APT 的，先去学习一波 <a target="_blank" rel="noopener" href="https://juejin.cn/post/6978500975770206239">传送门</a> </p>
+<p>还是基于上篇文章的工程进行实操，为了方便后续流程的讲解，我还是贴出上篇文章的工程图：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e9ab51732570425eaf4c8ddebe921875~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210627182425586"></p>
+<h2 id="二、apt-annotation-注解编写"><a href="#二、apt-annotation-注解编写" class="headerlink" title="二、apt-annotation 注解编写"></a>二、apt-annotation 注解编写</h2><p>编写注解，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Inherited</span><br><span class="hljs-meta">@Documented</span><br><span class="hljs-meta">@Retention(RetentionPolicy.CLASS)</span><br><span class="hljs-meta">@Target(ElementType.TYPE)</span><br><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> ViewCreator &#123;<br>    <br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="三、规定生成的类模版，为后续自动生成代码做准备"><a href="#三、规定生成的类模版，为后续自动生成代码做准备" class="headerlink" title="三、规定生成的类模版，为后续自动生成代码做准备"></a>三、规定生成的类模版，为后续自动生成代码做准备</h2><p>在实际工作中，我们一般会这么做：</p>
+<p>1、将需要生成的类文件实现某个定义好的接口，通过接口代理来使用</p>
+<p>2、规定生成的 Java 类模版，根据模版去进行生成代码逻辑的编写</p>
+<h3 id="1、将需要生成的类文件实现某个定义好的接口，通过接口代理来使用"><a href="#1、将需要生成的类文件实现某个定义好的接口，通过接口代理来使用" class="headerlink" title="1、将需要生成的类文件实现某个定义好的接口，通过接口代理来使用"></a>1、将需要生成的类文件实现某个定义好的接口，通过接口代理来使用</h3><p>关于接口，我们一般会放到 <code>apt-api</code> 这个 Module 中</p>
+<h3 id="2、规定生成的-Java-类模版，根据模版去进行生成代码逻辑的编写"><a href="#2、规定生成的-Java-类模版，根据模版去进行生成代码逻辑的编写" class="headerlink" title="2、规定生成的 Java 类模版，根据模版去进行生成代码逻辑的编写"></a>2、规定生成的 Java 类模版，根据模版去进行生成代码逻辑的编写</h3><p>假设我们需要生成的 Java 类模版如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.dream.aptdemo;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyViewCreatorImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">IMyViewCreator</span> &#123;<br>  <span class="hljs-meta">@Override</span><br>  <span class="hljs-keyword">public</span> View <span class="hljs-title function_">createView</span><span class="hljs-params">(String name, Context context, AttributeSet attr)</span> &#123;<br>    <span class="hljs-type">View</span> <span class="hljs-variable">view</span> <span class="hljs-operator">=</span> <span class="hljs-literal">null</span>;<br>    <span class="hljs-keyword">switch</span>(name) &#123;<br>      <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;androidx.core.widget.NestedScrollView&quot;</span>:<br>      	view = <span class="hljs-keyword">new</span> <span class="hljs-title class_">NestedScrollView</span>(context,attr);<br>      	<span class="hljs-keyword">break</span>;<br>      <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;androidx.constraintlayout.widget.ConstraintLayout&quot;</span>:<br>      	view = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ConstraintLayout</span>(context,attr);<br>      	<span class="hljs-keyword">break</span>;<br>      <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;androidx.appcompat.widget.ButtonBarLayout&quot;</span>:<br>      	view = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ButtonBarLayout</span>(context,attr);<br>      	<span class="hljs-keyword">break</span>;<br>        <span class="hljs-comment">//...</span><br>      <span class="hljs-keyword">default</span>:<br>      	<span class="hljs-keyword">break</span>;<br>    &#125;<br>    <span class="hljs-keyword">return</span> view;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>根据上面这些信息，我们就可以进行自动生成代码逻辑的编写了</p>
+<h2 id="四、apt-processor-自动生成代码"><a href="#四、apt-processor-自动生成代码" class="headerlink" title="四、apt-processor 自动生成代码"></a>四、apt-processor 自动生成代码</h2><p>这里你就对着上面给出的代码模版，通过 javapoet 框架编写相应的代码生成逻辑即可，对 <code>javapoet</code> 不熟的赶紧去学习一波 <a target="_blank" rel="noopener" href="https://github.com/square/javapoet">传送门</a></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@AutoService(Processor.class)</span><br><span class="hljs-meta">@SupportedAnnotationTypes(&quot;com.dream.apt_annotation.ViewCreator&quot;)</span><br><span class="hljs-meta">@SupportedSourceVersion(SourceVersion.RELEASE_8)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyViewCreatorProcessor</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">AbstractProcessor</span> &#123;<br><br>    <span class="hljs-comment">/**文件生成器*/</span><br>    <span class="hljs-keyword">private</span> Filer mFiler;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">synchronized</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">init</span><span class="hljs-params">(ProcessingEnvironment processingEnv)</span> &#123;<br>        <span class="hljs-built_in">super</span>.init(processingEnv);<br>        mFiler = processingEnv.getFiler();<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">process</span><span class="hljs-params">(Set&lt;? extends TypeElement&gt; annotations, RoundEnvironment roundEnv)</span> &#123;<br>        <span class="hljs-comment">//从文件中读取控件名称，并转换成对应的集合</span><br>        Set&lt;String&gt; mViewNameSet = readViewNameFromFile();<br>        <span class="hljs-comment">//如果获取的控件名称集合为空，则终止流程</span><br>        <span class="hljs-keyword">if</span>(mViewNameSet == <span class="hljs-literal">null</span> || mViewNameSet.isEmpty())&#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>        &#125;<br>      <br>        <span class="hljs-comment">//获取使用了注解的元素</span><br>        Set&lt;? <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Element</span>&gt; elementsAnnotatedWith = roundEnv.getElementsAnnotatedWith(ViewCreator.class);<br>        <span class="hljs-keyword">for</span> (Element element : elementsAnnotatedWith) &#123;<br>            System.out.println(<span class="hljs-string">&quot;Hello &quot;</span> + element.getSimpleName() + <span class="hljs-string">&quot;, 欢迎使用 APT&quot;</span>);<br>            startGenerateCode(mViewNameSet);<br>            <span class="hljs-comment">//如果有多个地方标注了注解，我们只读取第一次的就行了</span><br>            <span class="hljs-keyword">break</span>;<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 开始执行生成代码的逻辑</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> mViewNameSet 控件名称集合</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">startGenerateCode</span><span class="hljs-params">(Set&lt;String&gt; mViewNameSet)</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;开始生成 Java 类...&quot;</span>);<br>        System.out.println(<span class="hljs-string">&quot;a few moment later...&quot;</span>);<br>        <span class="hljs-comment">//=================================== 构建方法 start ======================================</span><br>        <span class="hljs-comment">//1、构建方法：方法名，注解，修饰符，返回值，参数</span><br><br>        <span class="hljs-type">ClassName</span> <span class="hljs-variable">viewType</span> <span class="hljs-operator">=</span> ClassName.get(<span class="hljs-string">&quot;android.view&quot;</span>,<span class="hljs-string">&quot;View&quot;</span>);<br>        MethodSpec.<span class="hljs-type">Builder</span> <span class="hljs-variable">methodBuilder</span> <span class="hljs-operator">=</span> MethodSpec<br>                <span class="hljs-comment">//方法名</span><br>                .methodBuilder(<span class="hljs-string">&quot;createView&quot;</span>)<br>                <span class="hljs-comment">//注解</span><br>                .addAnnotation(Override.class)<br>                <span class="hljs-comment">//修饰符</span><br>                .addModifiers(Modifier.PUBLIC)<br>                <span class="hljs-comment">//返回值</span><br>                .returns(viewType)<br>                <span class="hljs-comment">//第一个参数</span><br>                .addParameter(String.class,<span class="hljs-string">&quot;name&quot;</span>)<br>                <span class="hljs-comment">//第二个参数</span><br>                .addParameter(ClassName.get(<span class="hljs-string">&quot;android.content&quot;</span>,<span class="hljs-string">&quot;Context&quot;</span>),<span class="hljs-string">&quot;context&quot;</span>)<br>                <span class="hljs-comment">//第三个参数</span><br>                .addParameter(ClassName.get(<span class="hljs-string">&quot;android.util&quot;</span>,<span class="hljs-string">&quot;AttributeSet&quot;</span>),<span class="hljs-string">&quot;attr&quot;</span>);<br><br>        <span class="hljs-comment">//2、构建方法体</span><br>        methodBuilder.addStatement(<span class="hljs-string">&quot;$T view = null&quot;</span>,viewType);<br>        methodBuilder.beginControlFlow(<span class="hljs-string">&quot;switch(name)&quot;</span>);<br>        <span class="hljs-comment">//循环遍历控件名称集合</span><br>        <span class="hljs-keyword">for</span> (String viewName : mViewNameSet) &#123;<br>            <span class="hljs-comment">//针对包含 . 的控件名称进行处理</span><br>            <span class="hljs-keyword">if</span>(viewName.contains(<span class="hljs-string">&quot;.&quot;</span>))&#123;<br>                <span class="hljs-comment">//分离包名和控件名，如：androidx.constraintlayout.widget.ConstraintLayout</span><br>                <span class="hljs-comment">//packageName：androidx.constraintlayout.widget</span><br>                <span class="hljs-comment">//simpleViewName：ConstraintLayout</span><br>                <span class="hljs-type">String</span> <span class="hljs-variable">packageName</span> <span class="hljs-operator">=</span> viewName.substring(<span class="hljs-number">0</span>,viewName.lastIndexOf(<span class="hljs-string">&quot;.&quot;</span>));<br>                <span class="hljs-type">String</span> <span class="hljs-variable">simpleViewName</span> <span class="hljs-operator">=</span> viewName.substring(viewName.lastIndexOf(<span class="hljs-string">&quot;.&quot;</span>) + <span class="hljs-number">1</span>);<br>                <span class="hljs-type">ClassName</span> <span class="hljs-variable">returnType</span> <span class="hljs-operator">=</span> ClassName.get(packageName, simpleViewName);<br><br>                methodBuilder.addCode(<span class="hljs-string">&quot;case $S:\n&quot;</span>,viewName);<br>                methodBuilder.addStatement(<span class="hljs-string">&quot;\tview = new $T(context,attr)&quot;</span>, returnType);<br>                methodBuilder.addStatement(<span class="hljs-string">&quot;\tbreak&quot;</span>);<br>            &#125;<br>        &#125;<br>        methodBuilder.addCode(<span class="hljs-string">&quot;default:\n&quot;</span>);<br>        methodBuilder.addStatement(<span class="hljs-string">&quot;\tbreak&quot;</span>);<br>        methodBuilder.endControlFlow();<br>        methodBuilder.addStatement(<span class="hljs-string">&quot;return view&quot;</span>);<br><br>        <span class="hljs-type">MethodSpec</span> <span class="hljs-variable">createView</span> <span class="hljs-operator">=</span> methodBuilder.build();<br>        <span class="hljs-comment">//=================================== 构建方法 end ======================================</span><br><br>        <span class="hljs-comment">//=================================== 构建类 start ======================================</span><br>        <span class="hljs-type">TypeSpec</span> <span class="hljs-variable">myViewCreatorImpl</span> <span class="hljs-operator">=</span> TypeSpec.classBuilder(<span class="hljs-string">&quot;MyViewCreatorImpl&quot;</span>)<br>                <span class="hljs-comment">//类修饰符</span><br>                .addModifiers(Modifier.PUBLIC)<br>                <span class="hljs-comment">//实现接口</span><br>                .addSuperinterface(ClassName.get(<span class="hljs-string">&quot;com.dream.apt_api&quot;</span>, <span class="hljs-string">&quot;IMyViewCreator&quot;</span>))<br>                <span class="hljs-comment">//添加方法</span><br>                .addMethod(createView)<br>                .build();<br>        <span class="hljs-comment">//=================================== 构建类 end ========================================</span><br><br>        <span class="hljs-comment">//=================================== 指定包路径，构建文件体 start =========================</span><br>        <span class="hljs-comment">//指定类包路径</span><br>        <span class="hljs-type">JavaFile</span> <span class="hljs-variable">javaFile</span> <span class="hljs-operator">=</span> JavaFile.builder(<span class="hljs-string">&quot;com.dream.aptdemo&quot;</span>,myViewCreatorImpl).build();<br>        <span class="hljs-comment">//生成文件</span><br>        <span class="hljs-keyword">try</span> &#123;<br>            javaFile.writeTo(mFiler);<br>            System.out.println(<span class="hljs-string">&quot;生成成功...&quot;</span>);<br>        &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>            e.printStackTrace();<br>            System.out.println(<span class="hljs-string">&quot;生成失败...&quot;</span>);<br>        &#125;<br>        <span class="hljs-comment">//=================================== 指定包路径，构建文件体 end ============================</span><br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 从文件中读取控件名称，并转换成对应的集合</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> Set&lt;String&gt; <span class="hljs-title function_">readViewNameFromFile</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-comment">//获取存储控件名称的文件</span><br>            <span class="hljs-type">File</span> <span class="hljs-variable">file</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">File</span>(<span class="hljs-string">&quot;/Users/zhouying/AndroidStudioProjects/AptDemo/all_view_name.txt&quot;</span>);<br>            <span class="hljs-type">Properties</span> <span class="hljs-variable">config</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Properties</span>();<br>            config.load(<span class="hljs-keyword">new</span> <span class="hljs-title class_">FileInputStream</span>(file));<br>            <span class="hljs-comment">//获取控件名称集合</span><br>            <span class="hljs-keyword">return</span> config.stringPropertyNames();<br>        &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>            e.printStackTrace();<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>上述生成代码的逻辑写了详细的注释，主要就是对 <code>javapoet</code> 框架的一个应用</p>
+<p>代码生成好了，接下来就需要提供给上层使用</p>
+<h2 id="五、apt-api-业务封装供上层使用"><a href="#五、apt-api-业务封装供上层使用" class="headerlink" title="五、apt-api 业务封装供上层使用"></a>五、apt-api 业务封装供上层使用</h2><h3 id="1、定义一个接口，-apt-api-和-apt-processor-都会使用到"><a href="#1、定义一个接口，-apt-api-和-apt-processor-都会使用到" class="headerlink" title="1、定义一个接口， apt-api 和 apt-processor 都会使用到"></a>1、定义一个接口， <code>apt-api</code> 和 <code>apt-processor</code> 都会使用到</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//定义一个接口</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">IMyViewCreator</span> &#123;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 通过 new 的方式创建 View</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> name 控件名称</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> context 上下文</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> attributeSet 属性</span><br><span class="hljs-comment">     */</span><br>    View <span class="hljs-title function_">createView</span><span class="hljs-params">(String name, Context context, AttributeSet attributeSet)</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="2、反射获取生成的类，提供相应的代理类供上层调用"><a href="#2、反射获取生成的类，提供相应的代理类供上层调用" class="headerlink" title="2、反射获取生成的类，提供相应的代理类供上层调用"></a>2、反射获取生成的类，提供相应的代理类供上层调用</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyViewCreatorDelegate</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">IMyViewCreator</span>&#123;<br>    <br>    <span class="hljs-keyword">private</span> IMyViewCreator mIMyViewCreator;<br>    <br>    <span class="hljs-comment">//================================== 单例 start =====================================</span><br>    <span class="hljs-meta">@SuppressWarnings(&quot;all&quot;)</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-title function_">MyViewCreatorDelegate</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-comment">// 通过反射拿到 Apt 生成的类</span><br>            <span class="hljs-type">Class</span> <span class="hljs-variable">aClass</span> <span class="hljs-operator">=</span> Class.forName(<span class="hljs-string">&quot;com.dream.aptdemo.MyViewCreatorImpl&quot;</span>);<br>            mIMyViewCreator = (IMyViewCreator) aClass.newInstance();<br>        &#125; <span class="hljs-keyword">catch</span> (Throwable t) &#123;<br>            t.printStackTrace();<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> MyViewCreatorDelegate <span class="hljs-title function_">getInstance</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-keyword">return</span> Holder.MY_VIEW_CREATOR_DELEGATE;<br>    &#125;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Holder</span>&#123;<br>        <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">MyViewCreatorDelegate</span> <span class="hljs-variable">MY_VIEW_CREATOR_DELEGATE</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">MyViewCreatorDelegate</span>();<br>    &#125;<br>    <span class="hljs-comment">//================================== 单例 end =======================================</span><br><br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 通过生成的类创建 View</span><br><span class="hljs-comment">     * </span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> name 控件名称</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> context 上下文</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> attributeSet 属性</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> View</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> View <span class="hljs-title function_">createView</span><span class="hljs-params">(String name, Context context, AttributeSet attributeSet)</span> &#123;<br>        <span class="hljs-keyword">if</span>(mIMyViewCreator != <span class="hljs-literal">null</span>)&#123;<br>            <span class="hljs-keyword">return</span> mIMyViewCreator.createView(name, context, attributeSet);<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>到这里我们布局优化流程差不多就要结束了，接下来就是上层调用</p>
+<h2 id="六、app-上层调用"><a href="#六、app-上层调用" class="headerlink" title="六、app 上层调用"></a>六、app 上层调用</h2><h3 id="1、在创建的-MyApplication-上添加注解"><a href="#1、在创建的-MyApplication-上添加注解" class="headerlink" title="1、在创建的 MyApplication 上添加注解"></a>1、在创建的 MyApplication 上添加注解</h3><p>关于注解你可以添加在其他地方，因为我注解处理器里面做了逻辑判断，只会读取第一次的注解。为了对应，我选择把注解加到 MyApplication 中，如下图：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9465eb668782489b8915bce09f8c589d~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210629192519893"></p>
+<h3 id="2、最后在-MainActviity-中加入替换-View-的逻辑"><a href="#2、最后在-MainActviity-中加入替换-View-的逻辑" class="headerlink" title="2、最后在 MainActviity 中加入替换 View 的逻辑"></a>2、最后在 MainActviity 中加入替换 View 的逻辑</h3><p>如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//...</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MainActivity</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">AppCompatActivity</span> &#123;<br><br>    <span class="hljs-comment">//...</span><br>    <span class="hljs-meta">@Nullable</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> View <span class="hljs-title function_">onCreateView</span><span class="hljs-params">(<span class="hljs-meta">@NonNull</span> String name, <span class="hljs-meta">@NonNull</span> Context context, <span class="hljs-meta">@NonNull</span> AttributeSet attrs)</span> &#123;<br>        <span class="hljs-comment">//1、优先使用我们生成的类去进行 View 的创建</span><br>        <span class="hljs-type">View</span> <span class="hljs-variable">view</span> <span class="hljs-operator">=</span> MyViewCreatorDelegate.getInstance().createView(name, context, attrs);<br>        <span class="hljs-keyword">if</span> (view != <span class="hljs-literal">null</span>) &#123;<br>            <span class="hljs-keyword">return</span> view;<br>        &#125;<br>        <span class="hljs-comment">//2、一些系统的 View ,则走系统的一个创建流程</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">super</span>.onCreateView(name, context, attrs);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>注意</strong>：一般我们会把替换 View 的逻辑放到基类里面</p>
+<h2 id="七、效果验证"><a href="#七、效果验证" class="headerlink" title="七、效果验证"></a>七、效果验证</h2><p>运行项目</p>
+<p>1、先看下我们打印的日志，如下图：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1a7e9154f8ad4ba1827f9839acd15bf7~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210629195411055"></p>
+<p>2、在看一眼我们生成的 Java 类文件，如下图：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/47cefa64ab494d6aa18ad8cafb0d28d3~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210629194711378"></p>
+<p>3、最后 debug 项目跟下流程，发现和我们预期的一致，如下图：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/123032d1ca3844f4959839bf46d66a80~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210629194101025"></p>
+<p>至此，需求完结</p>
+<h2 id="八、总结"><a href="#八、总结" class="headerlink" title="八、总结"></a>八、总结</h2><p>本篇文章讲的一些重点内容：</p>
+<p>1、通过 APT 读取文件获取所有的控件名称并生成 Java 类</p>
+<p>2、通过接口代理，合理的业务封装提供给上层调用</p>
+<p>3、在上层 Application 里面进行注解，在 Activity 中进行 View 控件的替换</p>
+<p>4、实际完成后的一个效果验证</p>
+<p>好了，本系列文章到这里就结束了，希望能给你带来帮助 🤝 </p>
+<p><strong>感谢你阅读这篇文章</strong></p>
+<blockquote>
+<p><strong>你的点赞，评论，是对我巨大的鼓励！</strong></p>
+<p>欢迎关注我的<strong>公众号：</strong>  <a target="_blank" rel="noopener" href="http://m6z.cn/6jwi7b"><strong>sweetying</strong></a> ，文章更新可第一时间收到</p>
+<p>如果<strong>有问题</strong>，公众号内有加我微信的入口，在技术学习、个人成长的道路上，我们一起前进！</p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Android/" class="category-chain-item">Android</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Android/APT/" class="category-chain-item">APT</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%8E%9F%E5%88%9B/">#原创</a>
+      
+        <a href="/tags/Android/">#Android</a>
+      
+        <a href="/tags/Android-APT/">#Android APT</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Android APT 系列 （四）：APT 实战应用</div>
+      <div>https://sweetying520.github.io/2022/10/10/Android APT 系列 （四）：APT 实战应用/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>sweetying</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年10月10日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/10/11/Gradle%20%E7%B3%BB%E5%88%97%20%EF%BC%88%E4%B8%80%EF%BC%89%E3%80%81Gradle%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5%E7%90%86%E8%A7%A3%EF%BC%8CGroovy%E5%9F%BA%E7%A1%80/" title="Gradle 系列 （一）、Gradle相关概念理解，Groovy基础">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Gradle 系列 （一）、Gradle相关概念理解，Groovy基础</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/10/10/Android%20APT%20%E7%B3%BB%E5%88%97%20%EF%BC%88%E4%B8%89%EF%BC%89%EF%BC%9AAPT%20%E6%8A%80%E6%9C%AF%E6%8E%A2%E7%A9%B6/" title="Android APT 系列 （三）：APT 技术探究">
+                        <span class="hidden-mobile">Android APT 系列 （三）：APT 技术探究</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.4.17/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"zN1E017kYhKuj6GqXHJSbGMb-gzGzoHsz","appKey":"JSwY8PjtA131Y78OHn7kKtio","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

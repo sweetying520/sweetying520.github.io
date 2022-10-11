@@ -1,0 +1,876 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar.png">
+  <link rel="icon" href="/img/avatar.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="sweetying">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前言很高兴遇见你~ 在本系列的上一篇文章中，我们对 Typeface 进行了深入的解析，还没有看过上一篇文章的朋友，建议先去阅读 Android字体系列 （二）：Typeface完全解析。接下来我们看下 Google 推出的 Xml 中使用字体 一、Xml 中字体介绍Google 在 Android Support Library 26 引入了 Xml 中设置字体这项新功能，它可以让你将字体当成">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android字体系列 （三）：Xml中的字体">
+<meta property="og:url" content="https://sweetying520.github.io/2022/10/11/Android%E5%AD%97%E4%BD%93%E7%B3%BB%E5%88%97%20%EF%BC%88%E4%B8%89%EF%BC%89%EF%BC%9AXml%E4%B8%AD%E7%9A%84%E5%AD%97%E4%BD%93/index.html">
+<meta property="og:site_name" content="sweetying">
+<meta property="og:description" content="前言很高兴遇见你~ 在本系列的上一篇文章中，我们对 Typeface 进行了深入的解析，还没有看过上一篇文章的朋友，建议先去阅读 Android字体系列 （二）：Typeface完全解析。接下来我们看下 Google 推出的 Xml 中使用字体 一、Xml 中字体介绍Google 在 Android Support Library 26 引入了 Xml 中设置字体这项新功能，它可以让你将字体当成">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202210111037504.jpeg">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/cd62460948db4b58890928b39f79f5d1~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/569d3b8d750e4d3ebf07598940d2523f~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5da14193f7c94277a54a15e39832c291~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/81fe6df932464ebaa318c945c2cf8a82~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/294f76797cd44994a3a753eb7327c6ae~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="article:published_time" content="2022-10-11T02:30:56.000Z">
+<meta property="article:modified_time" content="2022-10-11T03:42:28.668Z">
+<meta property="article:author" content="sweetying">
+<meta property="article:tag" content="原创">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="Android Font">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202210111037504.jpeg">
+  
+  
+  
+  <title>Android字体系列 （三）：Xml中的字体 - sweetying</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/iconfont_juejin/iconfont.css">
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sweetying520.github.io","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"zN1E017kYhKuj6GqXHJSbGMb-gzGzoHsz","app_key":"JSwY8PjtA131Y78OHn7kKtio","server_url":"https://zn1e017k.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  <div>
+	<div class='real_mask' style="
+		background-color: rgba(0,0,0,0.3);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -777;
+	"></div>
+	<div id="banner_video_insert">
+	</div>
+	<div id='vvd_banner_img'>
+	</div>
+</div>
+<div id="banner"></div>
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>sweetying</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" target="_blank" rel="noopener" href="https://www.foreverblog.cn/go.html">
+                <i class="iconfont icon-link-fill"></i>
+                虫洞
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://101.43.39.125/HexoFiles/new/bg-trans.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Android字体系列 （三）：Xml中的字体"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        sweetying
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-10-11 10:30" pubdate>
+          2022年10月11日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          32 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
+
+	<div class="banner" id='banner' >
+
+		<div class="full-bg-img" >
+
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
+
+					function set_video_attr(id){
+
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
+
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
+					}
+
+					$.getJSON('/vvd_js/video_url.json', function(data){
+						if (true){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
+
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
+
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
+							set_video_attr('banner_img_item')
+
+							if (!isMobile) {
+								video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+								document.getElementById("banner_video_insert").innerHTML = video_html_res;
+								set_video_attr('video_item')
+							}
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+			</div>
+		</div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Android字体系列 （三）：Xml中的字体</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202210111037504.jpeg" srcset="/img/loading.gif" lazyload alt="michael-baccin-sN4nCLXGiu8-unsplash"></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>很高兴遇见你~</p>
+<p>在本系列的上一篇文章中，我们对 Typeface 进行了深入的解析，还没有看过上一篇文章的朋友，建议先去阅读 <a target="_blank" rel="noopener" href="https://juejin.cn/post/6973553157326503943">Android字体系列 （二）：Typeface完全解析</a>。接下来我们看下 Google 推出的 Xml 中使用字体</p>
+<h2 id="一、Xml-中字体介绍"><a href="#一、Xml-中字体介绍" class="headerlink" title="一、Xml 中字体介绍"></a>一、Xml 中字体介绍</h2><p>Google 在 Android Support Library 26 引入了 Xml 中设置字体这项新功能，它可以让你将字体当成资源去使用，你可以在 res&#x2F;font&#x2F; 文件夹中添加 font 文件，将字体捆绑为资源。这些字体会在 R 文件中编译，可直接在 Android Studio 中使用，如:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs xml">@font/myfont <br>R.font.myfont<br></code></pre></td></tr></table></figure>
+
+<p><strong>注意</strong>：要使用 Xml 字体功能，需引入 Android Support Library 26 及更高版本且要在 Android 4.1 及更高版本的设备</p>
+<h2 id="二、使用步骤"><a href="#二、使用步骤" class="headerlink" title="二、使用步骤"></a>二、使用步骤</h2><p>1、右键点击 <strong>res</strong> 文件夹，然后转到 <strong>New &gt; Android resource directory</strong></p>
+<p>2、在 <strong>Resource type</strong> 列表中，选择 <strong>font</strong>，然后点击 <strong>OK</strong></p>
+<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/cd62460948db4b58890928b39f79f5d1~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210616203615018" style="zoom:50%;" />
+
+<p>3、在 <strong>font</strong> 文件夹中添加字体文件</p>
+<blockquote>
+<p>关于字体，推荐两个免费下载的网站</p>
+<p><a target="_blank" rel="noopener" href="https://fonts.google.com/">https://fonts.google.com/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.1001freefonts.com/">https://www.1001freefonts.com/</a></p>
+</blockquote>
+<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/569d3b8d750e4d3ebf07598940d2523f~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210616203940427" style="zoom:50%;" />
+
+<p>添加之后就会生成 R.font.ma_shan_zhenng_regular 和 R.font.noto_sans_bold</p>
+<p>4、双击字体文件可预览当前字体</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5da14193f7c94277a54a15e39832c291~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210616204148155"></p>
+<p>以上 4 个步骤完成后我们就可以在 Xml 中使用字体了</p>
+<p>5、创建 font family</p>
+<p>1）、右键点击 font 文件夹，然后转到 <strong>New &gt; Font resource file</strong>。此时将显示 <strong>New Resource File</strong> 窗口。</p>
+<p>2）、输入文件名，然后点击 <strong>OK</strong>。新的字体资源 Xml 会在编辑器中打开。</p>
+<p>3）、将各个字体文件、样式和粗细属性都封装在 <code>&lt;font&gt;</code> 元素中。如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;utf-8&quot;</span>?&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">font-family</span> <span class="hljs-attr">xmlns:tools</span>=<span class="hljs-string">&quot;http://schemas.android.com/tools&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">xmlns:android</span>=<span class="hljs-string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">tools:ignore</span>=<span class="hljs-string">&quot;UnusedAttribute&quot;</span>&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">font</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:fontStyle</span>=<span class="hljs-string">&quot;normal&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:fontWeight</span>=<span class="hljs-string">&quot;400&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:font</span>=<span class="hljs-string">&quot;@font/ma_shan_zheng_regular&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">tools:ignore</span>=<span class="hljs-string">&quot;UnusedAttribute&quot;</span> /&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">font</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:fontStyle</span>=<span class="hljs-string">&quot;normal&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:fontWeight</span>=<span class="hljs-string">&quot;400&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:font</span>=<span class="hljs-string">&quot;@font/noto_sans_bold&quot;</span></span><br><span class="hljs-tag">         /&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">font-family</span>&gt;</span><br></code></pre></td></tr></table></figure>
+<p>实践发现使用 font family 存在一些坑：</p>
+<p>1、例如我上面添加了两个 font 标签，这个时候在 Xml 里面引用将不会有任何效果，而且设置的 fontStyle 等属性不会生效。</p>
+<p>2、当只添加了一个 font 标签，此时字体会生效，但是设置的 fontStyle 等属性还是不会生效</p>
+<p>因此我们在使用的时候建议直接对字体资源进行引用，样式粗细这些在进行单独的设置</p>
+<h2 id="三、在-XML-布局中使用字体"><a href="#三、在-XML-布局中使用字体" class="headerlink" title="三、在 XML 布局中使用字体"></a>三、在 XML 布局中使用字体</h2><p>直接在布局 Xml 中使用 fontFamily 属性进行引用，如下图：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/81fe6df932464ebaa318c945c2cf8a82~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210616205129045"></p>
+<h2 id="四、在样式中添加并使用字体"><a href="#四、在样式中添加并使用字体" class="headerlink" title="四、在样式中添加并使用字体"></a>四、在样式中添加并使用字体</h2><p>1、在 style.xml 中添加样式</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">style</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;customfontstyle&quot;</span> <span class="hljs-attr">parent</span>=<span class="hljs-string">&quot;Theme.ChangeDefaultFontDemo&quot;</span>&gt;</span><span class="language-xml"></span><br><span class="language-xml">    <span class="hljs-tag">&lt;<span class="hljs-name">item</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;android:fontFamily&quot;</span>&gt;</span>@font/noto_sans_bold<span class="hljs-tag">&lt;/<span class="hljs-name">item</span>&gt;</span></span><br><span class="language-xml"></span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>2、在布局 Xml 中使用，如下图：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/294f76797cd44994a3a753eb7327c6ae~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210616205611588"></p>
+<h2 id="五、在代码中使用字体"><a href="#五、在代码中使用字体" class="headerlink" title="五、在代码中使用字体"></a>五、在代码中使用字体</h2><p>在代码中，我们可以通过 ResourcesCompat 或 Resource 的 gontFont 方法拿到 Typeface 对象，然后调用相关的 Api 去设置就行了，例如：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-comment">//方式1</span><br><span class="hljs-keyword">val</span> typeface = ResourcesCompat.getFont(context, R.font.myfont)<br><span class="hljs-comment">//方式2</span><br><span class="hljs-keyword">val</span> typeface = resources.getFont(R.font.myfont)<br><span class="hljs-comment">//设置字体</span><br>textView.typeface = typeface<br></code></pre></td></tr></table></figure>
+
+<p>为了方便在代码中使用，我们可以进行合理的封装：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">object</span> FontUtil &#123;<br><br>    <span class="hljs-keyword">const</span> <span class="hljs-keyword">val</span> NOTO_SANS_BOLD = R.font.noto_sans_bold<br>    <span class="hljs-keyword">const</span> <span class="hljs-keyword">val</span> MA_SHAN_ZHENG_REGULAR = R.font.ma_shan_zheng_regular<br><br>    <span class="hljs-comment">/**缓存字体 Map*/</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">val</span> cacheTypeFaceMap: HashMap&lt;<span class="hljs-built_in">Int</span>,Typeface&gt; = HashMap()<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 设置 NotoSanUIBold 字体</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">setNotoSanUIBold</span><span class="hljs-params">(mTextView: <span class="hljs-type">TextView</span>)</span></span>&#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            mTextView.typeface = getTypeface(NOTO_SANS_BOLD)<br>        &#125; <span class="hljs-keyword">catch</span> (e: Exception) &#123;<br>            e.printStackTrace()<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 设置 MaShanZhengRegular 字体</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">setMaShanZhengRegular</span><span class="hljs-params">(mTextView: <span class="hljs-type">TextView</span>)</span></span>&#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            mTextView.typeface = getTypeface(MA_SHAN_ZHENG_REGULAR)<br>        &#125; <span class="hljs-keyword">catch</span> (e: Exception) &#123;<br>            e.printStackTrace()<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 获取字体 Typeface 对象</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">getTypeface</span><span class="hljs-params">(fontResName: <span class="hljs-type">Int</span>)</span></span>: Typeface? &#123;<br>        <span class="hljs-keyword">val</span> cacheTypeface = cacheTypeFaceMap[fontResName]<br>        <span class="hljs-keyword">if</span> (cacheTypeface != <span class="hljs-literal">null</span>) &#123;<br>            <span class="hljs-keyword">return</span> cacheTypeface<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-keyword">val</span> typeface: Typeface? = ResourcesCompat.getFont(MyApplication.mApplication, fontResName)<br>            cacheTypeFaceMap[fontResName] = typeface!!<br>            typeface<br>        &#125; <span class="hljs-keyword">catch</span> (e: Exception) &#123;<br>            e.printStackTrace()<br>            Typeface.DEFAULT<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>那么后续我们在代码中使用字体，就只需调一行代码就 Ok 了</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs kotlin">FontUtil.setMaShanZhengRegular(mTextView1)<br>FontUtil.setNotoSanUIBold(mTextView2)<br></code></pre></td></tr></table></figure>
+
+<h2 id="六、项目需求实践"><a href="#六、项目需求实践" class="headerlink" title="六、项目需求实践"></a>六、项目需求实践</h2><p>回顾一下我接到的项目需求：<strong>全局替换当前项目中的默认字体，并引入 UI 设计师提供的一些新字体</strong></p>
+<p>在学习本篇文章之前，我们引入字体都是放在 assets 文件目录下，这个目录下的字体文件，我们只能在代码中获取并使用。那么通过本篇文章的讲解，我们不仅可以在代码中进行使用，还可以在 Xml 中进行使用。现在我们解决了一半的需求，关于全局替换默认字体还需等到下一篇文章😄</p>
+<h2 id="七、总结"><a href="#七、总结" class="headerlink" title="七、总结"></a>七、总结</h2><p>回顾下本篇文章我们讲的一些重点内容：</p>
+<p>1、将字体放在 res 的 font 目录下，这样我们就可以在 Xml 中使用字体了</p>
+<p>2、通过字体 R 资源索引获取字体文件，封装相应的字体工具类，在代码中优雅的使用</p>
+<p>好了，本篇文章到这里就结束了，希望能给你带来帮助 🤝 </p>
+<p><a target="_blank" rel="noopener" href="https://github.com/sweetying520/ChangeDefaultFontDemo">Github Demo 地址</a></p>
+<p><strong>感谢你阅读这篇文章</strong></p>
+<h3 id="下篇预告"><a href="#下篇预告" class="headerlink" title="下篇预告"></a>下篇预告</h3><p>下篇文章我会讲 Android 全局替换字体的几种方式，敬请期待吧 😄</p>
+<h3 id="参考和推荐"><a href="#参考和推荐" class="headerlink" title="参考和推荐"></a>参考和推荐</h3><p><a target="_blank" rel="noopener" href="https://developer.android.com/guide/topics/ui/look-and-feel/fonts-in-xml#kotlin">XML 中的字体</a></p>
+<blockquote>
+<p><strong>你的点赞，评论，是对我巨大的鼓励！</strong></p>
+<p>欢迎关注我的<strong>公众号：</strong>  <a target="_blank" rel="noopener" href="http://m6z.cn/6jwi7b"><strong>sweetying</strong></a> ，文章更新可第一时间收到</p>
+<p>如果<strong>有问题</strong>，公众号内有加我微信的入口，在技术学习、个人成长的道路上，我们一起前进！</p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Android/" class="category-chain-item">Android</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Android/Font/" class="category-chain-item">Font</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%8E%9F%E5%88%9B/">#原创</a>
+      
+        <a href="/tags/Android/">#Android</a>
+      
+        <a href="/tags/Android-Font/">#Android Font</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Android字体系列 （三）：Xml中的字体</div>
+      <div>https://sweetying520.github.io/2022/10/11/Android字体系列 （三）：Xml中的字体/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>sweetying</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年10月11日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/10/11/Android%E5%AD%97%E4%BD%93%E7%B3%BB%E5%88%97%20%EF%BC%88%E5%9B%9B%EF%BC%89%EF%BC%9A%E5%85%A8%E5%B1%80%E6%9B%BF%E6%8D%A2%E5%AD%97%E4%BD%93%E6%96%B9%E5%BC%8F/" title="Android字体系列 （四）：全局替换字体方式">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Android字体系列 （四）：全局替换字体方式</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/10/11/Android%E5%AD%97%E4%BD%93%E7%B3%BB%E5%88%97%20%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9ATypeface%E5%AE%8C%E5%85%A8%E8%A7%A3%E6%9E%90/" title="Android字体系列 （二）：Typeface完全解析">
+                        <span class="hidden-mobile">Android字体系列 （二）：Typeface完全解析</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.4.17/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"zN1E017kYhKuj6GqXHJSbGMb-gzGzoHsz","appKey":"JSwY8PjtA131Y78OHn7kKtio","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

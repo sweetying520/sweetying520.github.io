@@ -1,0 +1,1065 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar.png">
+  <link rel="icon" href="/img/avatar.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="sweetying">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前言很高兴遇见你~ 在本系列的上一篇文章中，我们介绍了 Flutter 中常用的按钮 Widget，Flutter 1.x 和 Flutter 2.x 按钮的变化，最后通过 Flutter 1.x 相关 Button + BottomNavigationBar + FloatingActionButton 实现了一个综合案例。还没有看过上一篇文章的朋友，建议先去阅读 Flutter 系列（五）：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flutter 系列（六）：Flutter 常用表单 Widget">
+<meta property="og:url" content="https://sweetying520.github.io/2022/10/10/Flutter%20%E7%B3%BB%E5%88%97%EF%BC%88%E5%85%AD%EF%BC%89%EF%BC%9AFlutter%20%E5%B8%B8%E7%94%A8%E8%A1%A8%E5%8D%95%20Widget/index.html">
+<meta property="og:site_name" content="sweetying">
+<meta property="og:description" content="前言很高兴遇见你~ 在本系列的上一篇文章中，我们介绍了 Flutter 中常用的按钮 Widget，Flutter 1.x 和 Flutter 2.x 按钮的变化，最后通过 Flutter 1.x 相关 Button + BottomNavigationBar + FloatingActionButton 实现了一个综合案例。还没有看过上一篇文章的朋友，建议先去阅读 Flutter 系列（五）：">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202210101705690.jpeg">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/02d56e52ecc84c8baebd9e8b1f3cc86c~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/152787ffc53245e6952bdb94f269da08~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3d902dab159d44c4b737255539be94e4~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/45fad04d96ec4c12a3b9f7ee67e04580~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1783f4399eb14b8eaafb5a5a69778c0d~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b87c5a8f38ca46c1a1c9931f6a9d6cda~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ca88da02d2e84137ac6b3fd017ab63c1~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="article:published_time" content="2022-10-10T08:54:24.000Z">
+<meta property="article:modified_time" content="2022-10-11T03:38:30.822Z">
+<meta property="article:author" content="sweetying">
+<meta property="article:tag" content="原创">
+<meta property="article:tag" content="Flutter">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202210101705690.jpeg">
+  
+  
+  
+  <title>Flutter 系列（六）：Flutter 常用表单 Widget - sweetying</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/iconfont_juejin/iconfont.css">
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sweetying520.github.io","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"zN1E017kYhKuj6GqXHJSbGMb-gzGzoHsz","app_key":"JSwY8PjtA131Y78OHn7kKtio","server_url":"https://zn1e017k.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  <div>
+	<div class='real_mask' style="
+		background-color: rgba(0,0,0,0.3);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -777;
+	"></div>
+	<div id="banner_video_insert">
+	</div>
+	<div id='vvd_banner_img'>
+	</div>
+</div>
+<div id="banner"></div>
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>sweetying</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" target="_blank" rel="noopener" href="https://www.foreverblog.cn/go.html">
+                <i class="iconfont icon-link-fill"></i>
+                虫洞
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://101.43.39.125/HexoFiles/new/bg-trans.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Flutter 系列（六）：Flutter 常用表单 Widget"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        sweetying
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-10-10 16:54" pubdate>
+          2022年10月10日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          13k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          109 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
+
+	<div class="banner" id='banner' >
+
+		<div class="full-bg-img" >
+
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
+
+					function set_video_attr(id){
+
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
+
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
+					}
+
+					$.getJSON('/vvd_js/video_url.json', function(data){
+						if (true){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
+
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
+
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
+							set_video_attr('banner_img_item')
+
+							if (!isMobile) {
+								video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+								document.getElementById("banner_video_insert").innerHTML = video_html_res;
+								set_video_attr('video_item')
+							}
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+			</div>
+		</div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Flutter 系列（六）：Flutter 常用表单 Widget</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202210101705690.jpeg" srcset="/img/loading.gif" lazyload alt="beach-1824855_1920"></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>很高兴遇见你~</p>
+<p>在本系列的上一篇文章中，我们介绍了 Flutter 中常用的按钮 Widget，Flutter 1.x 和 Flutter 2.x 按钮的变化，最后通过 Flutter 1.x 相关 Button + BottomNavigationBar + FloatingActionButton 实现了一个综合案例。还没有看过上一篇文章的朋友，建议先去阅读 <a target="_blank" rel="noopener" href="https://juejin.cn/post/7137082885571346463">Flutter 系列（五）：Flutter 常用按钮 Widget</a>。接下来我们对 Flutter 表单 Widget 进行学习</p>
+<p>Flutter 中常见的表单有：TextField，CheckBox，Radio，Switch，CheckboxListTile，RadioListTile，SwitchListTile，Slider 等，下面就介绍一下这些常用的 Widget</p>
+<h2 id="一、Flutter-常用表单-Widget-介绍"><a href="#一、Flutter-常用表单-Widget-介绍" class="headerlink" title="一、Flutter 常用表单 Widget 介绍"></a>一、Flutter 常用表单 Widget 介绍</h2><h3 id="1-1、TextFiled-文本框"><a href="#1-1、TextFiled-文本框" class="headerlink" title="1.1、TextFiled 文本框"></a>1.1、TextFiled 文本框</h3><p>TextFiled 是 Flutter 给我们提供的文本框 Widget，其常用的属性有：</p>
+<table>
+<thead>
+<tr>
+<th>属性名称</th>
+<th>属性类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>maxLines</td>
+<td>int</td>
+<td>设置此参数可以把文本框改为多行文本框</td>
+</tr>
+<tr>
+<td>onChanged</td>
+<td>ValueChanged<String></td>
+<td>文本框改变时触发的事件</td>
+</tr>
+<tr>
+<td>decoratioin</td>
+<td>InputDecoration</td>
+<td>装饰，InputDecoration 常用属性：<br>hintText：默认提示文案<br>border：文本框边框，配合 OutlineInputBorder 使用<br>labelText：label 的名称<br>labelStyle：配置 label 的样式</td>
+</tr>
+<tr>
+<td>obscureText</td>
+<td>bool</td>
+<td>是否把文本框改为密码框</td>
+</tr>
+<tr>
+<td>controller</td>
+<td>TextEditingController</td>
+<td>配置文本框默认显示的内容</td>
+</tr>
+</tbody></table>
+<p>运行下面代码：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:flutter/material.dart&#x27;</span>;<br><br><span class="hljs-keyword">void</span> main() &#123;<br>  runApp(MaterialApp(<br>    home: Scaffold(<br>      appBar: AppBar(<br>        title: Text(<span class="hljs-string">&quot;Flutter Form Practice&quot;</span>), <span class="hljs-comment">//设置标题栏标题</span><br>      ),<br>      body: MyBodyPage(), <span class="hljs-comment">//自定义 body Wdiget</span><br>    )<br>  ));<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyBodyPage</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">StatelessWidget</span></span>&#123;<br><br>  <span class="hljs-meta">@override</span><br>  Widget build(BuildContext context) &#123;<br>    <span class="hljs-keyword">return</span> Padding(<br>      padding: EdgeInsets.all(<span class="hljs-number">20</span>),<br>      child: Column(<br>        children: [<br>          TextField( <span class="hljs-comment">//账号输入框</span><br>            maxLines: <span class="hljs-number">1</span>, <span class="hljs-comment">//最大显示一行</span><br>            decoration: InputDecoration(<br>                hintText: <span class="hljs-string">&quot;please input account&quot;</span>, <span class="hljs-comment">//默认提示文案</span><br>                label: Text(<span class="hljs-string">&quot;Account&quot;</span>) <span class="hljs-comment">//文本框标签提示</span><br>            ),<br>          ),<br>          SizedBox(height: <span class="hljs-number">20</span>),<br>          TextField(<span class="hljs-comment">//密码输入框</span><br>            maxLines: <span class="hljs-number">1</span>, <span class="hljs-comment">//最大显示一行</span><br>            obscureText: <span class="hljs-keyword">true</span>, <span class="hljs-comment">//设置文本输入为密文</span><br>            decoration: InputDecoration(<br>                hintText: <span class="hljs-string">&quot;please input password&quot;</span>, <span class="hljs-comment">//默认提示文案</span><br>                label: Text(<span class="hljs-string">&quot;Password&quot;</span>) <span class="hljs-comment">//文本框标签提示</span><br>            ),<br>          )<br>        ],<br>      ),<br>    );<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>效果：</p>
+<img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/02d56e52ecc84c8baebd9e8b1f3cc86c~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="textfield.png" width="50%" />
+
+<h3 id="1-2、Checkbox，CheckboxListTile-复选框"><a href="#1-2、Checkbox，CheckboxListTile-复选框" class="headerlink" title="1.2、Checkbox，CheckboxListTile 复选框"></a>1.2、Checkbox，CheckboxListTile 复选框</h3><p>Checkbox 是 Flutter 给我们提供的复选框 Widget，常用属性有：</p>
+<table>
+<thead>
+<tr>
+<th>属性名称</th>
+<th>属性类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>value</td>
+<td>bool</td>
+<td>必填项，true：选中，false：未选中</td>
+</tr>
+<tr>
+<td>onChanged</td>
+<td>ValueChanged<bool></td>
+<td>必填项，改变时触发的事件</td>
+</tr>
+<tr>
+<td>activeColor</td>
+<td>Color</td>
+<td>选中的背景颜色</td>
+</tr>
+<tr>
+<td>checkColor</td>
+<td>Color</td>
+<td>选中复选框里面符号的颜色</td>
+</tr>
+</tbody></table>
+<p>CheckboxListTile 是 Flutter 给我们提供的复选框列表 Item，常用属性有：</p>
+<table>
+<thead>
+<tr>
+<th>属性名称</th>
+<th>属性类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>value</td>
+<td>bool</td>
+<td>必填项，true：选中，false：未选中</td>
+</tr>
+<tr>
+<td>onChanged</td>
+<td>ValueChanged<bool></td>
+<td>必填项，改变时触发的事件</td>
+</tr>
+<tr>
+<td>activeColor</td>
+<td>Color</td>
+<td>选中的背景颜色，如果 selected 为 true ，则 title，subtitle，secondary 也会变</td>
+</tr>
+<tr>
+<td>checkColor</td>
+<td>Color</td>
+<td>选中复选框里面符号的颜色</td>
+</tr>
+<tr>
+<td>title</td>
+<td>Widget</td>
+<td>标题</td>
+</tr>
+<tr>
+<td>subtitle</td>
+<td>Widget</td>
+<td>二级标题</td>
+</tr>
+<tr>
+<td>secondary</td>
+<td>Widget</td>
+<td>配置显示的图标或图片</td>
+</tr>
+<tr>
+<td>selected</td>
+<td>bool</td>
+<td>选中时其它子 Widget 颜色是否跟着改变</td>
+</tr>
+</tbody></table>
+<p>在这之前，我们自定义 Wdiget 都是继承 StatelessWidget，但表单相关的 Widget 都是有状态的，因此需要继承 StatefulWidget 来动态展示它的一个状态，继承 StatefulWidget 的一个标准模版如下：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyBodyPage</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">StatefulWidget</span></span>&#123;<br>  <span class="hljs-meta">@override</span><br>  State&lt;StatefulWidget&gt; createState() =&gt; _MyBodyPageState();<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">_MyBodyPageState</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">State</span>&lt;<span class="hljs-title">MyBodyPage</span>&gt;</span>&#123;<br>  <span class="hljs-meta">@override</span><br>  Widget build(BuildContext context) &#123;<br>    <span class="hljs-comment">// <span class="hljs-doctag">TODO:</span> implement build</span><br>    <span class="hljs-keyword">throw</span> UnimplementedError();<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>接下来我们使用 Checkbox，CheckboxListTile 来实践一下：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:flutter/material.dart&#x27;</span>;<br><br><span class="hljs-keyword">void</span> main() &#123;<br>  runApp(MaterialApp(<br>    home: Scaffold(<br>      appBar: AppBar(<br>        title: Text(<span class="hljs-string">&quot;Flutter Form Practice&quot;</span>), <span class="hljs-comment">//设置标题栏标题</span><br>      ),<br>      body: MyBodyPage(), <span class="hljs-comment">//自定义 body Wdiget</span><br>    )<br>  ));<br>&#125;<br><br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyBodyPage</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">StatefulWidget</span></span>&#123;<br>  <span class="hljs-meta">@override</span><br>  State&lt;StatefulWidget&gt; createState() =&gt; _MyBodyPageState();<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">_MyBodyPageState</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">State</span>&lt;<span class="hljs-title">MyBodyPage</span>&gt; </span>&#123;<br><br>  <span class="hljs-comment">//记录第一个复选框的选中状态</span><br>  <span class="hljs-keyword">var</span> flag1 = <span class="hljs-keyword">false</span>;<br>  <span class="hljs-comment">//记录第二个复选框的选中状态</span><br>  <span class="hljs-keyword">var</span> flag2 = <span class="hljs-keyword">false</span>;<br>  <span class="hljs-comment">//记录第三个复选框的选中状态</span><br>  <span class="hljs-keyword">var</span> flag3 = <span class="hljs-keyword">false</span>;<br><br>  <span class="hljs-meta">@override</span><br>  Widget build(BuildContext context) &#123;<br>    <span class="hljs-keyword">return</span> Column(<br>      mainAxisAlignment: MainAxisAlignment.center,<br>      children: [<br>        Checkbox( <span class="hljs-comment">//第一个复选框</span><br>          value: flag1,<br>          onChanged: (value)&#123;<br>            setState(() &#123;<br>              flag1 = value??<span class="hljs-keyword">false</span>; <span class="hljs-comment">//更新复选框的状态</span><br>            &#125;);<br>          &#125;,<br>        ),<br>        Row(<br>          mainAxisAlignment: MainAxisAlignment.center,<br>          children: [<br>            Text(flag1 == <span class="hljs-keyword">true</span> ? <span class="hljs-string">&quot;选中&quot;</span> : <span class="hljs-string">&quot;未选中&quot;</span>)<br>          ],<br>        ),<br>        Divider(color: Colors.black),<br>        CheckboxListTile(value: flag2, onChanged: (value)&#123; <span class="hljs-comment">//第二个复选框列表 item</span><br>          setState(() &#123;<br>            flag2 = value??<span class="hljs-keyword">false</span>; <span class="hljs-comment">//更新复选框的状态</span><br>          &#125;);<br>        &#125;,<br>          activeColor: Colors.green, <span class="hljs-comment">//选中的背景颜色，如果 selected 为 true ，则 title，subtitle，secondary 也会变</span><br>          checkColor: Colors.black, <span class="hljs-comment">//选中复选框里面符号的颜色</span><br>          title: Text(<span class="hljs-string">&#x27;标题&#x27;</span>), <span class="hljs-comment">//展示标题</span><br>          subtitle: Text(<span class="hljs-string">&quot;描述&quot;</span>), <span class="hljs-comment">//展示副标题</span><br>          selected: flag2, <span class="hljs-comment">//选中时其它子 Widget 颜色跟着改变</span><br>        ),<br><br>        Divider(color: Colors.black),<br><br>        CheckboxListTile(value: flag3, onChanged: (value)&#123; <span class="hljs-comment">//第三个复选框列表 item</span><br>          setState(() &#123;<br>            flag3 = value??<span class="hljs-keyword">false</span>; <span class="hljs-comment">//更新复选框的状态</span><br>          &#125;);<br>        &#125;,<br>          title: Text(<span class="hljs-string">&#x27;标题&#x27;</span>), <span class="hljs-comment">//展示标题</span><br>          subtitle: Text(<span class="hljs-string">&quot;描述&quot;</span>), <span class="hljs-comment">//展示副标题</span><br>          secondary: Icon(Icons.home), <span class="hljs-comment">//展示图标</span><br>          selected: <span class="hljs-keyword">false</span>, <span class="hljs-comment">//选中时其它子 Widget 颜色不跟着改变</span><br>        )<br>      ],<br>    );<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>效果：</p>
+<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/152787ffc53245e6952bdb94f269da08~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="checkbox.gif" width="30%" />
+
+<h3 id="1-3、Radio，RadioListTile-单选框"><a href="#1-3、Radio，RadioListTile-单选框" class="headerlink" title="1.3、Radio，RadioListTile 单选框"></a>1.3、Radio，RadioListTile 单选框</h3><p>Radio，RadioListTile 是 Flutter 给我们提供的单选框和单选框列表 Item，它的常用属性和 Checkbox，CheckboxListTile 非常类似，区别就是：Radio，RadioListTile 必须提供一个 groupValue 属性用于记录单选框的分组，直接上代码感受下：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:flutter/material.dart&#x27;</span>;<br><br><span class="hljs-keyword">void</span> main() &#123;<br>  runApp(MaterialApp(<br>    home: Scaffold(<br>      appBar: AppBar(<br>        title: Text(<span class="hljs-string">&quot;Flutter Form Practice&quot;</span>), <span class="hljs-comment">//设置标题栏标题</span><br>      ),<br>      body: MyBodyPage(), <span class="hljs-comment">//自定义 body Wdiget</span><br>    )<br>  ));<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyBodyPage</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">StatefulWidget</span> </span>&#123;<br>  <span class="hljs-meta">@override</span><br>  State&lt;StatefulWidget&gt; createState() =&gt; _MyBodyPageState();<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">_MyBodyPageState</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">State</span>&lt;<span class="hljs-title">MyBodyPage</span>&gt; </span>&#123;<br>  <span class="hljs-comment">//性别</span><br>  <span class="hljs-built_in">int</span> sex = <span class="hljs-number">1</span>;<br>  <span class="hljs-comment">//第二个复选框状态标记</span><br>  <span class="hljs-built_in">bool</span> flag = <span class="hljs-keyword">true</span>;<br><br>  <span class="hljs-meta">@override</span><br>  Widget build(BuildContext context) &#123;<br>    <span class="hljs-keyword">return</span> Column(<br>      mainAxisAlignment: MainAxisAlignment.center,<br>      children: [<br>        <span class="hljs-comment">//第一组单选框</span><br>        Row(<br>          mainAxisAlignment: MainAxisAlignment.center,<br>          children: [<br>            Text(<span class="hljs-string">&quot;男&quot;</span>),<br>            Radio(<br>                value: <span class="hljs-number">1</span>,<br>                onChanged: (value) &#123;<br>                  setState(() &#123;<br>                    sex = value <span class="hljs-keyword">as</span> <span class="hljs-built_in">int</span>; <span class="hljs-comment">//更新状态</span><br>                  &#125;);<br>                &#125;,<br>                groupValue: sex), <span class="hljs-comment">//groupValue 为 sex</span><br>            SizedBox(width: <span class="hljs-number">20</span>),<br>            Text(<span class="hljs-string">&quot;女&quot;</span>),<br>            Radio(<br>                value: <span class="hljs-number">2</span>,<br>                onChanged: (value) &#123;<br>                  setState(() &#123;<br>                    sex = value <span class="hljs-keyword">as</span> <span class="hljs-built_in">int</span>; <span class="hljs-comment">//更新状态</span><br>                  &#125;);<br>                &#125;,<br>                groupValue: sex) <span class="hljs-comment">//groupValue 为 sex</span><br>          ],<br>        ),<br>        SizedBox(height: <span class="hljs-number">20</span>),<br>        Divider(),<br>         <span class="hljs-comment">//第二组单选框</span><br>        RadioListTile(<br>          value: <span class="hljs-keyword">true</span>,<br>          onChanged: (value) &#123;<br>            setState(() &#123;<br>              flag = value <span class="hljs-keyword">as</span> <span class="hljs-built_in">bool</span>; <span class="hljs-comment">//更新状态</span><br>            &#125;);<br>          &#125;,<br>          groupValue: flag, <span class="hljs-comment">//groupValue 为 flag</span><br>          title: Text(<span class="hljs-string">&quot;一级标题&quot;</span>), <span class="hljs-comment">//标题</span><br>          subtitle: Text(<span class="hljs-string">&quot;二级标题&quot;</span>), <span class="hljs-comment">//副标题</span><br>          secondary: Icon(Icons.home), <span class="hljs-comment">//显示图标</span><br>        ),<br>        RadioListTile(<br>          value: <span class="hljs-keyword">false</span>,<br>          onChanged: (value) &#123;<br>            setState(() &#123;<br>              flag = value <span class="hljs-keyword">as</span> <span class="hljs-built_in">bool</span>; <span class="hljs-comment">//更新状态</span><br>            &#125;);<br>          &#125;,<br>          groupValue: flag, <span class="hljs-comment">//groupValue 为 flag</span><br>          title: Text(<span class="hljs-string">&quot;一级标题&quot;</span>), <span class="hljs-comment">//标题</span><br>          subtitle: Text(<span class="hljs-string">&quot;二级标题&quot;</span>), <span class="hljs-comment">//副标题</span><br>          secondary: Image.network( <span class="hljs-comment">//显示图片</span><br>              <span class="hljs-string">&quot;https://img.lianzhixiu.com/uploads/210106/37-21010609363aS.jpg&quot;</span>),<br>        )<br>      ],<br>    );<br>  &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>效果：</p>
+<img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3d902dab159d44c4b737255539be94e4~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="radiobutton.gif" width="30%" />
+
+<h3 id="1-4、Switch，SwitchListTile-开关"><a href="#1-4、Switch，SwitchListTile-开关" class="headerlink" title="1.4、Switch，SwitchListTile 开关"></a>1.4、Switch，SwitchListTile 开关</h3><p>Switch，SwitchListTile 是 Flutter 给我们提供的开关和开关列表 Item，常用属性和上面两个类似，我们快速过一下：</p>
+<p>代码实践：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:flutter/material.dart&#x27;</span>;<br><br><span class="hljs-keyword">void</span> main() &#123;<br>  runApp(MaterialApp(<br>    home: Scaffold(<br>      appBar: AppBar(<br>        title: Text(<span class="hljs-string">&quot;Flutter Form Practice&quot;</span>), <span class="hljs-comment">//设置标题栏标题</span><br>      ),<br>      body: MyBodyPage(), <span class="hljs-comment">//自定义 body Wdiget</span><br>    )<br>  ));<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyBodyPage</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">StatefulWidget</span> </span>&#123;<br>  <span class="hljs-meta">@override</span><br>  State&lt;StatefulWidget&gt; createState() =&gt; _MyBodyPageState();<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">_MyBodyPageState</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">State</span>&lt;<span class="hljs-title">MyBodyPage</span>&gt; </span>&#123;<br>  <span class="hljs-comment">//开关的状态标记</span><br>  <span class="hljs-built_in">bool</span> flag = <span class="hljs-keyword">true</span>;<br><br>  <span class="hljs-meta">@override</span><br>  Widget build(BuildContext context) &#123;<br>    <span class="hljs-keyword">return</span> Column(<br>      children: [<br>        Switch( <span class="hljs-comment">//Switch</span><br>            value: flag,<br>            onChanged: (value) &#123;<br>              setState(() &#123;<br>                flag = value; <span class="hljs-comment">//更新状态</span><br>              &#125;);<br>            &#125;),<br>        SizedBox(height: <span class="hljs-number">20</span>),<br>        SwitchListTile( <span class="hljs-comment">//SwitchListTile</span><br>            value: flag,<br>            onChanged: (value) &#123;<br>              setState(() &#123;<br>                flag = value; <span class="hljs-comment">//更新状态</span><br>              &#125;);<br>            &#125;,<br>            title: Text(<span class="hljs-string">&quot;标题&quot;</span>), <span class="hljs-comment">//标题</span><br>            subtitle: Text(<span class="hljs-string">&quot;副标题&quot;</span>), <span class="hljs-comment">//副标题</span><br>            secondary: Image.network( <span class="hljs-comment">//显示图片</span><br>              <span class="hljs-string">&quot;https://img.lianzhixiu.com/uploads/210106/37-21010609363aS.jpg&quot;</span><br>            ) <br>        )<br>      ],<br>    );<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>效果：</p>
+<img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/45fad04d96ec4c12a3b9f7ee67e04580~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="switch.gif" width="30%" />
+
+<h3 id="1-5、Slider-进度条"><a href="#1-5、Slider-进度条" class="headerlink" title="1.5、Slider 进度条"></a>1.5、Slider 进度条</h3><p>Slider 是 Flutter 给我们提供的进度条 Widget。其常用属性有：</p>
+<table>
+<thead>
+<tr>
+<th>属性名称</th>
+<th>属性类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>value</td>
+<td>double</td>
+<td>必填项，当前 Slider 滑块位置的值，注意不可以超出 min 和 max 的范围，否则会报错</td>
+</tr>
+<tr>
+<td>onChanged</td>
+<td>ValueChanged<double></td>
+<td>必填项，正在滑动或者点击，未松手</td>
+</tr>
+<tr>
+<td>onChangeStart</td>
+<td>ValueChanged<double></td>
+<td>刚开始点击</td>
+</tr>
+<tr>
+<td>onChangeEnd</td>
+<td>ValueChanged<double></td>
+<td>滑动或者点击结束，已松手</td>
+</tr>
+<tr>
+<td>min</td>
+<td>double</td>
+<td>最小值，默认为 0.0</td>
+</tr>
+<tr>
+<td>max</td>
+<td>double</td>
+<td>最大值，默认为 1.0</td>
+</tr>
+<tr>
+<td>activeColor</td>
+<td>Color</td>
+<td>滑块颜色</td>
+</tr>
+<tr>
+<td>inactiveColor</td>
+<td>Color</td>
+<td>轨道颜色</td>
+</tr>
+<tr>
+<td>label</td>
+<td>String</td>
+<td>气泡文本</td>
+</tr>
+<tr>
+<td>divisions</td>
+<td>int</td>
+<td>刻度，如没有刻度，label 则不会展示</td>
+</tr>
+</tbody></table>
+<p>代码实践：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:flutter/material.dart&#x27;</span>;<br><br><span class="hljs-keyword">void</span> main() &#123;<br>  runApp(MaterialApp(<br>    home: Scaffold(<br>      appBar: AppBar(<br>        title: Text(<span class="hljs-string">&quot;Flutter Form Practice&quot;</span>), <span class="hljs-comment">//设置标题栏标题</span><br>      ),<br>      body: MyBodyPage(), <span class="hljs-comment">//自定义 body Wdiget</span><br>    )<br>  ));<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyBodyPage</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">StatefulWidget</span></span>&#123;<br><br>  <span class="hljs-meta">@override</span><br>  State&lt;StatefulWidget&gt; createState() =&gt; _MyBodyPageState();<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">_MyBodyPageState</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">State</span>&lt;<span class="hljs-title">MyBodyPage</span>&gt;</span>&#123;<br>  <span class="hljs-comment">//滑块的值</span><br>  <span class="hljs-built_in">double</span> sliderValue = <span class="hljs-number">0</span>;<br><br>  <span class="hljs-comment">// 更新状态</span><br>  <span class="hljs-keyword">void</span> updateSlider(value)&#123;<br>    sliderValue = value;<br>    setState(() &#123;<br><br>    &#125;);<br>  &#125;<br><br>  <span class="hljs-meta">@override</span><br>  Widget build(BuildContext context) &#123;<br>    <span class="hljs-keyword">return</span> Padding(<br>      padding: EdgeInsets.all(<span class="hljs-number">20</span>),<br>      child: Column(<br>        children: [<br>          _slider() <br>        ],<br>      ),<br>    );<br>  &#125;<br><br>  <span class="hljs-comment">//构建滑块 Widget</span><br>  Slider _slider()&#123;<br>    <span class="hljs-keyword">return</span> Slider(<br>      value: sliderValue,<br>      max: <span class="hljs-number">100</span>, <span class="hljs-comment">//最大值为 100</span><br>      activeColor: Colors.red, <span class="hljs-comment">//滑块颜色为红色</span><br>      inactiveColor: Colors.green, <span class="hljs-comment">//轨道颜色为绿色</span><br>      label: <span class="hljs-string">&quot;进度：<span class="hljs-subst">$sliderValue</span>&quot;</span>, <span class="hljs-comment">//气泡文本</span><br>      divisions: <span class="hljs-number">10</span>, <span class="hljs-comment">//刻度</span><br>      onChanged: (value)&#123; <span class="hljs-comment">//正在滑动或者点击，未松手</span><br>        updateSlider(value);<br>      &#125;,<br>      onChangeStart: (value)&#123; <span class="hljs-comment">//刚开始点击</span><br>        updateSlider(value);<br>      &#125;,<br>      onChangeEnd: (value)&#123; <span class="hljs-comment">//滑动或者点击结束，已松手</span><br>        updateSlider(value);<br>      &#125;,<br>    );<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>效果：</p>
+<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1783f4399eb14b8eaafb5a5a69778c0d~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="slider.gif" width="30%" />
+
+<p>我们还可以使用 SliderTheme 嵌套 Slider 实现各种自定义样式，这里就不做演示了，SliderTheme 常用属性有：</p>
+<table>
+<thead>
+<tr>
+<th>属性名称</th>
+<th>属性类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>data</td>
+<td>SliderThemeData</td>
+<td>必填项，通过 SliderThemeData 实现各种自定义样式</td>
+</tr>
+<tr>
+<td>child</td>
+<td>Widget</td>
+<td>必填项，子 Widget</td>
+</tr>
+</tbody></table>
+<p>SliderThemeData 属性介绍：<a target="_blank" rel="noopener" href="https://api.flutter.dev/flutter/material/SliderThemeData-class.html">https://api.flutter.dev/flutter/material/SliderThemeData-class.html</a></p>
+<h2 id="二、表单-Widget-之综合案例"><a href="#二、表单-Widget-之综合案例" class="headerlink" title="二、表单 Widget 之综合案例"></a>二、表单 Widget 之综合案例</h2><p>接下来，我们就使用表单 Widget 做一个用户信息登记系统，效果如下：</p>
+<img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b87c5a8f38ca46c1a1c9931f6a9d6cda~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="form_combine.gif" width="30%" />
+
+<p>按照惯例，我们先分析这个页面：</p>
+<p>1、可以看到这是一个从上往下的垂直布局，有个内边距，子 Widget 是自适应的，这里我们可以使用 ListView 并设置一个 padding 实现</p>
+<p>2、然后从上往下依次是，输入姓名：文本框（TextField），性别选择：单选框（Radio），兴趣爱好：复选框（Checkbox），颜值打分：滑块（Slider），永不宕机：开关（SwitchListTile），获取用户信息（RaisedButton），用户信息展示（Text）</p>
+<p>3、这些 Widget 都是有状态的，因此我们需要继承 StatefulWidget，并使用 setState 方法去更新状态</p>
+<p>我们画一张图来理一下 Widget 之间的树形结构：</p>
+<img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ca88da02d2e84137ac6b3fd017ab63c1~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="表单 Widget 之综合案例.png" width="50%" />
+
+<p>最后我们进行代码实现，里面写了详细的注释：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;package:flutter/material.dart&#x27;</span>;<br><br><span class="hljs-keyword">void</span> main() &#123;<br>  runApp(MaterialApp(<br>      home: Scaffold(<br>        appBar: AppBar(<br>          title: Text(<span class="hljs-string">&quot;用户信息登记系统&quot;</span>), <span class="hljs-comment">//设置标题栏标题</span><br>        ),<br>        body: MyBodyPage(), <span class="hljs-comment">//自定义 body Wdiget</span><br>      )<br>  ));<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyBodyPage</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">StatefulWidget</span> </span>&#123;<br>  <span class="hljs-meta">@override</span><br>  State&lt;StatefulWidget&gt; createState() =&gt; _MyBodyPageState();<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">_MyBodyPageState</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">State</span>&lt;<span class="hljs-title">MyBodyPage</span>&gt; </span>&#123;<br><br>  <span class="hljs-comment">//用户姓名</span><br>  <span class="hljs-built_in">String</span> userName = <span class="hljs-string">&quot;&quot;</span>;<br>  <span class="hljs-comment">//性别</span><br>  <span class="hljs-built_in">int</span> sex = <span class="hljs-number">1</span>;<br>  <span class="hljs-comment">//是否开启永不宕机</span><br>  <span class="hljs-built_in">bool</span> flag = <span class="hljs-keyword">false</span>;<br>  <span class="hljs-comment">//颜值打分</span><br>  <span class="hljs-built_in">double</span> sliderValue = <span class="hljs-number">0</span>;<br>  <span class="hljs-comment">//兴趣爱好</span><br>  <span class="hljs-built_in">List</span> hobbies = [<br>    &#123;<span class="hljs-string">&quot;checked&quot;</span>: <span class="hljs-keyword">false</span>, <span class="hljs-string">&quot;title&quot;</span>: <span class="hljs-string">&quot;打篮球&quot;</span>&#125;,<br>    &#123;<span class="hljs-string">&quot;checked&quot;</span>: <span class="hljs-keyword">false</span>, <span class="hljs-string">&quot;title&quot;</span>: <span class="hljs-string">&quot;爬山&quot;</span>&#125;,<br>    &#123;<span class="hljs-string">&quot;checked&quot;</span>: <span class="hljs-keyword">false</span>, <span class="hljs-string">&quot;title&quot;</span>: <span class="hljs-string">&quot;写代码&quot;</span>&#125;,<br>  ];<br>  <span class="hljs-comment">//个人信息</span><br>  <span class="hljs-built_in">String</span> info = <span class="hljs-string">&quot;&quot;</span>;<br><br>  <span class="hljs-meta">@override</span><br>  Widget build(BuildContext context) &#123;<br>    <span class="hljs-keyword">return</span> ListView(<br>      padding: EdgeInsets.all(<span class="hljs-number">20</span>),<br>      children: [<br>        TextField( <span class="hljs-comment">//文本框：用户姓名</span><br>          decoration: InputDecoration(<br>              hintText: <span class="hljs-string">&quot;请输入用户姓名&quot;</span>, <span class="hljs-comment">//默认提示文案</span><br>              label: Text(<span class="hljs-string">&quot;姓名&quot;</span>) <span class="hljs-comment">//标签</span><br>          ),<br>          onChanged: (str)&#123;<br>            setState(() &#123;<br>              userName = str; <span class="hljs-comment">//更新用户姓名状态</span><br>            &#125;);<br>          &#125;,<br>        ),<br>        SizedBox(height: <span class="hljs-number">10</span>),<br>        Text(<span class="hljs-string">&quot;性别：&quot;</span>),<br>        Row( <span class="hljs-comment">//性别选择</span><br>          children: [<br>            Text(<span class="hljs-string">&quot;男&quot;</span>),<br>            Radio(value: <span class="hljs-number">1</span>, groupValue: sex, onChanged: _sexChanged),<br>            Text(<span class="hljs-string">&quot;女&quot;</span>),<br>            Radio(value: <span class="hljs-number">2</span>, groupValue: sex, onChanged:_sexChanged)<br>          ],<br>        ),<br>        Text(<span class="hljs-string">&quot;兴趣爱好：&quot;</span>),<br>        Row( <span class="hljs-comment">//兴趣爱好</span><br>          children: _getHobbies(),<br>        ),<br>        _slider(),<br>        Row( <span class="hljs-comment">//颜值打分</span><br>          mainAxisAlignment: MainAxisAlignment.center,<br>          children: [<br>            Text(<span class="hljs-string">&quot;颜值：<span class="hljs-subst">$sliderValue</span>分&quot;</span>),<br>          ],<br>        ),<br>        SwitchListTile( <span class="hljs-comment">//开关永不宕机</span><br>            value: flag,<br>            title: Text(<span class="hljs-string">&quot;永不宕机&quot;</span>),<br>            onChanged: (value)&#123;<br>              setState(() &#123;<br>                flag = value;<br>              &#125;);<br>            &#125;<br>        ),<br>        RaisedButton( <span class="hljs-comment">//获取用户信息</span><br>          child: Text(<span class="hljs-string">&quot;获取用户信息&quot;</span>),<br>          onPressed: ()&#123;<br>            setState(() &#123;<br>              info = getInfo(); <span class="hljs-comment">//更新用户状态信息</span><br>            &#125;);<br>          &#125;,<br>          color: Colors.blue,<br>          textColor: Colors.white,<br>        ),<br><br>        Text(info) <span class="hljs-comment">//用户信息展示</span><br>      ],<br>    );<br>  &#125;<br><br>  <span class="hljs-comment">//获取用户展示的信息</span><br>  <span class="hljs-built_in">String</span> getInfo() &#123;<br>    <span class="hljs-built_in">String</span> hobbiesStr = <span class="hljs-string">&quot;&quot;</span>;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> element <span class="hljs-keyword">in</span> hobbies) &#123;<br>      <span class="hljs-keyword">if</span>(element[<span class="hljs-string">&quot;checked&quot;</span>])&#123;<br>        hobbiesStr += element[<span class="hljs-string">&quot;title&quot;</span>] + <span class="hljs-string">&quot;，&quot;</span>;<br>      &#125;<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;<span class="hljs-subst">$userName</span>，性别<span class="hljs-subst">$&#123;sex == <span class="hljs-number">1</span> ? <span class="hljs-string">&quot;男&quot;</span> : <span class="hljs-string">&quot;女&quot;</span>&#125;</span>，喜欢<span class="hljs-subst">$hobbiesStr</span><span class="hljs-subst">$&#123;flag ? <span class="hljs-string">&quot;永不宕机，&quot;</span> : <span class="hljs-string">&quot;&quot;</span>&#125;</span>颜值<span class="hljs-subst">$sliderValue</span>分&quot;</span>;<br>  &#125;<br><br>  <span class="hljs-comment">//更新性别状态</span><br>  <span class="hljs-keyword">void</span> _sexChanged(value)&#123;<br>    setState(() &#123;<br>      sex = value <span class="hljs-keyword">as</span> <span class="hljs-built_in">int</span>;<br>    &#125;);<br>  &#125;<br><br>  <span class="hljs-comment">//更新滑块状态</span><br>  <span class="hljs-keyword">void</span> updateSlider(value)&#123;<br>    sliderValue = value;<br>    setState(() &#123;<br><br>    &#125;);<br>  &#125;<br><br>  <span class="hljs-comment">//获取兴趣爱好 Widget List</span><br>  <span class="hljs-built_in">List</span>&lt;Widget&gt; _getHobbies() &#123;<br>    <span class="hljs-built_in">List</span>&lt;Widget&gt; temp = [];<br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> element <span class="hljs-keyword">in</span> hobbies) &#123;<br>      <span class="hljs-comment">//添加 Text</span><br>      temp.add(Text(element[<span class="hljs-string">&quot;title&quot;</span>]));<br>      <span class="hljs-comment">//添加 Checkbox</span><br>      temp.add(Checkbox(<br>          value: element[<span class="hljs-string">&quot;checked&quot;</span>],<br>          onChanged: (value) &#123;<br>            setState(() &#123;<br>              element[<span class="hljs-string">&quot;checked&quot;</span>] = value;<br>            &#125;);<br>          &#125;));<br>    &#125;<br>    <span class="hljs-keyword">return</span> temp;<br>  &#125;<br><br>  <span class="hljs-comment">//获取滑块 Widget</span><br>  Slider _slider()&#123;<br>    <span class="hljs-keyword">return</span> Slider(<br>      value: sliderValue,<br>      max: <span class="hljs-number">100</span>, <span class="hljs-comment">//最大值为 100</span><br>      label: <span class="hljs-string">&quot;颜值：<span class="hljs-subst">$sliderValue</span>分&quot;</span>, <span class="hljs-comment">//气泡文本</span><br>      divisions: <span class="hljs-number">10</span>, <span class="hljs-comment">//刻度</span><br>      onChanged: (value)&#123; <span class="hljs-comment">//正在滑动或者点击，未松手</span><br>        updateSlider(value);<br>      &#125;,<br>      onChangeStart: (value)&#123; <span class="hljs-comment">//刚开始点击</span><br>        updateSlider(value);<br>      &#125;,<br>      onChangeEnd: (value)&#123; <span class="hljs-comment">//滑动或者点击结束，已松手</span><br>        updateSlider(value);<br>      &#125;,<br>    );<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="三、总结"><a href="#三、总结" class="headerlink" title="三、总结"></a>三、总结</h2><p>本篇文章我们介绍了：</p>
+<p>1、Flutter 中常用的表单 Widget ：TextField，CheckBox，Radio，Switch，CheckboxListTile，RadioListTile，SwitchListTile，Slider 的常用属性和使用，以及它们的显示效果</p>
+<p>2、通过表单 Widget 组合实现了一个用户信息登记系统</p>
+<p>好了，本篇文章到这里就结束了，希望能给你带来帮助 🤝</p>
+<p><strong>感谢你阅读这篇文章</strong></p>
+<h3 id="下篇预告"><a href="#下篇预告" class="headerlink" title="下篇预告"></a>下篇预告</h3><p>后续不会花大篇幅去介绍 Widget，我会穿插在其它知识点中简单介绍下，Flutter 中有 400 多个 Widget，不可能每个都去学，我的建议：掌握常用的，其它用到时在去官网查询。</p>
+<p>下篇文章我会讲 Flutter 中的路由以及实际开发中请求 Http 接口渲染页面，尽请期待吧🍺</p>
+<h3 id="参考和推荐"><a href="#参考和推荐" class="headerlink" title="参考和推荐"></a>参考和推荐</h3><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1S4411E7LY?p=19&vd_source=d0b24cb21c438ff4a9ac2e589eacb3d9">Flutter 教程</a>：通俗易懂的 Flutter 入门教程</p>
+<blockquote>
+<p><strong>你的点赞，评论，是对我巨大的鼓励！</strong></p>
+<p>欢迎关注我的<strong>公众号：</strong>  <a target="_blank" rel="noopener" href="http://m6z.cn/6jwi7b"><strong>sweetying</strong></a> ，文章更新可第一时间收到</p>
+<p>如果<strong>有问题</strong>，公众号内有加我微信的入口，在技术学习、个人成长的道路上，我们一起前进！</p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Flutter/" class="category-chain-item">Flutter</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%8E%9F%E5%88%9B/">#原创</a>
+      
+        <a href="/tags/Flutter/">#Flutter</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Flutter 系列（六）：Flutter 常用表单 Widget</div>
+      <div>https://sweetying520.github.io/2022/10/10/Flutter 系列（六）：Flutter 常用表单 Widget/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>sweetying</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年10月10日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/10/10/Flutter%20%E7%B3%BB%E5%88%97%EF%BC%88%E4%B8%83%EF%BC%89%EF%BC%9AFlutter%20%E8%B7%AF%E7%94%B1%E5%92%8C%20HTTPS%20%E8%AF%B7%E6%B1%82%E5%AE%9E%E6%88%98/" title="Flutter 系列（七）：Flutter 路由和 HTTPS 请求实战">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Flutter 系列（七）：Flutter 路由和 HTTPS 请求实战</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/10/10/Flutter%20%E7%B3%BB%E5%88%97%EF%BC%88%E4%BA%94%EF%BC%89%EF%BC%9AFlutter%20%E5%B8%B8%E7%94%A8%E6%8C%89%E9%92%AE%20Widget/" title="Flutter 系列（五）：Flutter 常用按钮 Widget">
+                        <span class="hidden-mobile">Flutter 系列（五）：Flutter 常用按钮 Widget</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.4.17/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"zN1E017kYhKuj6GqXHJSbGMb-gzGzoHsz","appKey":"JSwY8PjtA131Y78OHn7kKtio","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
