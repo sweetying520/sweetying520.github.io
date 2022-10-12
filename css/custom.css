@@ -6,17 +6,17 @@
     color: #d9dbdc;
 }
 
-.footer {
+footer {
 	color: #d9dbdc;
 }
-.footer a:link,
-.footer a:visited {
+footer a:link,
+footer a:visited {
 	color:#d8d9da;
 	text-decoration:none;
 }
 
-.footer a:hover,
-.footer a:active {
+footer a:hover,
+footer a:active {
 	color:#40b9ee;
 	text-decoration:none;
 }
