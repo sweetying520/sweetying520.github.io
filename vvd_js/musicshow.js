@@ -1,6 +1,6 @@
 !(function() {
   function show() {
-    if(isPC()){
+    if(!isMobile()){
        //如果是 PC 端
        if (location.href === "https://sweetying520.github.io/"){
             //简单判断首页，因为我的域名是https://sweetying520.github.io，所以首页就会触发
@@ -21,18 +21,13 @@
     }
   }
 
-  /*是否是 PC 端*/
-  function isPC() {
-     var userAgentInfo = navigator.userAgent;
-     var Agents = ["Android", "iPhone","SymbianOS", "Windows Phone","iPad", "iPod"];
-     var flag = true;
-     for (var v = 0; v < Agents.length; v++) {
-         if (userAgentInfo.indexOf(Agents[v]) > 0) {
-              flag = false;
-              break;
-         }
-     }
-     return flag;
+  // 判断浏览器函数
+  function isMobile(){
+   if(window.navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)) {
+    return true; // 移动端
+   }else{
+    return false; // PC端
+   }
   }
 
   show();
