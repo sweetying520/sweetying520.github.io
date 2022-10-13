@@ -10,8 +10,8 @@
        		$(window).scroll(function(){
        			//获取滚动条的滑动距离
        			var scroH = $(this).scrollTop();
-       			//滚动条的滑动距离大于1000，就显示，反之就隐藏
-       			if(scroH >= 500){
+       			//滚动条的滑动距离大于900，就显示，反之就隐藏
+       			if(scroH >= 800){
        				$("#music_div").attr("style","display:block;position:fixed;z-index:10000;bottom:350px;left:0px;");
        			}else {
        				$("#music_div").attr("style","display:none;");
@@ -24,8 +24,8 @@
             $(window).scroll(function(){
                 //获取滚动条的滑动距离
                 var scroH = $(this).scrollTop();
-                //滚动条的滑动距离大于1000，就显示，反之就隐藏
-                if(scroH >= 1000){
+                //滚动条的滑动距离大于2500，就显示，反之就隐藏
+                if(scroH >= 2500){
                   	$("#music_div").attr("style","display:block;position:fixed;z-index:10000;bottom:350px;left:0px;");
                 }
             })
