@@ -1,6 +1,6 @@
 !(function() {
   function show() {
-    if(!isMobile() && !isWxClient()){
+    if(!isMobile()){
        //如果不是移动端或微信环境
        if (location.href === "https://sweetying520.github.io/"){
             //简单判断首页，因为我的域名是https://sweetying520.github.io，所以首页就会触发
