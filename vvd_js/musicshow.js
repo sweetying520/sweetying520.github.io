@@ -1,7 +1,7 @@
 !(function() {
   function show() {
-     //简单判断首页，因为我的域名是tomorrow50.xyz，所以首页就会触发
-	//if (location.href.match(/io.{0,1}$/)){
+    //简单判断首页，因为我的域名是https://sweetying520.github.io，所以首页就会触发
+	if (location.href === "https://sweetying520.github.io"){
          //直接把音乐框隐藏
 		$("#music_div").attr("style","display:none;");
          //滚动条事件
@@ -15,7 +15,7 @@
 				$("#music_div").attr("style","display:none;");
 			}
 		 })
-	//}
+	}
 
   }
   show();
