@@ -18,6 +18,9 @@
        			}
        		 })
        	}
+    }else{
+        //直接把音乐框隐藏
+        $("#music_div").attr("style","display:none;");
     }
   }
 
