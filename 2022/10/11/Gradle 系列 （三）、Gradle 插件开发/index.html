@@ -27,35 +27,15 @@
 <meta property="og:site_name" content="sweetying">
 <meta property="og:description" content="前言很高兴遇见你~ 关于 Gradle 学习，我所理解的流程如下图：  在本系列的上一篇文章中，我们讲了 Gradle 的生命周期及一些常用 API，了解了 Settings，Project，Task 等等，完成了第二个环节。还没有看过上一篇文章的朋友，建议先去阅读 Gradle 系列 （二）、Gradle 技术探索。 今天我们主要介绍环节三：熟悉自定义 Gradle 插件 Gradle 给我们">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202210111024176.jpeg">
-<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c09f872b2165474f81381f51f996cde5~tplv-k3u1fbpfcp-zoom-1.image">
-<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/fea94ae1d3d04696960ef930ad82a052~tplv-k3u1fbpfcp-zoom-1.image">
-<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/48731dd12c4d4829940395f69a83e7fa~tplv-k3u1fbpfcp-zoom-1.image">
-<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7ad37d5e82334a7298b3b764a4eb78f4~tplv-k3u1fbpfcp-zoom-1.image">
-<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2cd9b620154744b5882de52ccd4aae62~tplv-k3u1fbpfcp-zoom-1.image">
-<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/534911a6b92e463588a32874ec3f3548~tplv-k3u1fbpfcp-zoom-1.image">
-<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/842ac9d4e76e4cadb1481ffca307aeeb~tplv-k3u1fbpfcp-zoom-1.image">
-<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d3d5d3e543dd4b58851958448fe435e4~tplv-k3u1fbpfcp-zoom-1.image">
-<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1b1ee1594cad4394be3515a825a4ade6~tplv-k3u1fbpfcp-zoom-1.image">
-<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/75c517e03ea14ed9812d78d9b867dd32~tplv-k3u1fbpfcp-zoom-1.image">
-<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8064a27b3f004af3a40b2f0b99d236c1~tplv-k3u1fbpfcp-zoom-1.image">
-<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/48b574c3c1174a9098bafd64fc3a3af1~tplv-k3u1fbpfcp-zoom-1.image">
-<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/33197a69700d4b1fa42086d21956e364~tplv-k3u1fbpfcp-zoom-1.image">
-<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/beca96f53fb541ad946361f986bd4a6c~tplv-k3u1fbpfcp-watermark.image">
-<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e5eb33347e0b4da49759f67c43601410~tplv-k3u1fbpfcp-zoom-1.image">
-<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2272681c45044c77b9d67f62fd628372~tplv-k3u1fbpfcp-zoom-1.image">
-<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/84ede40ea66c4915808bbc3b436742cc~tplv-k3u1fbpfcp-zoom-1.image">
-<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6ff3fe29e49142bba44e9b949598b00a~tplv-k3u1fbpfcp-zoom-1.image">
-<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8cd10b40fc3943b49ca49e382be442aa~tplv-k3u1fbpfcp-zoom-1.image">
-<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/379fcb2762e949beaab3dbe0f65e0204~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/88e8b68394d54c0c958f093127b3ce96~tplv-k3u1fbpfcp-watermark.image?">
 <meta property="article:published_time" content="2022-10-11T02:17:23.000Z">
-<meta property="article:modified_time" content="2022-10-11T03:41:48.983Z">
+<meta property="article:modified_time" content="2022-10-13T03:03:51.854Z">
 <meta property="article:author" content="sweetying">
 <meta property="article:tag" content="原创">
 <meta property="article:tag" content="Android">
 <meta property="article:tag" content="Gradle">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202210111024176.jpeg">
+<meta name="twitter:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/88e8b68394d54c0c958f093127b3ce96~tplv-k3u1fbpfcp-watermark.image?">
   
   
   
@@ -438,7 +418,7 @@
             
               <div class="markdown-body">
                 
-                <p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202210111024176.jpeg" srcset="/img/loading.gif" lazyload alt="town-6467851_1920"></p>
+                <p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/88e8b68394d54c0c958f093127b3ce96~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload></p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>很高兴遇见你~</p>
 <p>关于 Gradle 学习，我所理解的流程如下图：</p>
 <p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c09f872b2165474f81381f51f996cde5~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="Gradle_learning"></p>

@@ -27,25 +27,15 @@
 <meta property="og:site_name" content="sweetying">
 <meta property="og:description" content="前言很高兴遇见你~ 最近我负责的 LiveChat 客服聊天系统到了自研阶段，类似做一个腾讯 IM 通信 SDK。和后台讨论后，确定数据传输方式使用 Protobuf，简单的介绍下自己的一个使用心得 一、Protobuf 介绍Protobuf 全称：Protocol Buffers，是 Google 推出的一种与平台无关、语言无关、可扩展的轻便高效的序列化数据存储格式，类似于我们常用的 xml">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202210111120168.jpeg">
-<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8e6590e6d53f442b96f578cd6b78d726~tplv-k3u1fbpfcp-zoom-1.image">
-<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7e9e549beafa401cad0ea26b1dcda3b5~tplv-k3u1fbpfcp-zoom-1.image">
-<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4e0b7da1f5d0489884a6e361977c1888~tplv-k3u1fbpfcp-zoom-1.image">
-<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b8b17c40fb4545c4ad25fb481a7be618~tplv-k3u1fbpfcp-zoom-1.image">
-<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/700811520b5347c994017a72637f2f3b~tplv-k3u1fbpfcp-zoom-1.image">
-<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3a54b01c63be42c1bcd1ad2038c4495b~tplv-k3u1fbpfcp-zoom-1.image">
-<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/345fc00ef64c48638750c2de5a2d7b0f~tplv-k3u1fbpfcp-zoom-1.image">
-<meta property="og:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202208241633803.png">
-<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9d84f8aace4f4fa2a3bc04b6465d5e9c~tplv-k3u1fbpfcp-zoom-1.image">
-<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/33a15c47616b447191f4f468e4e6d284~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b8ddd1d4e057458ab3c236644e0ae27c~tplv-k3u1fbpfcp-watermark.image?">
 <meta property="article:published_time" content="2022-10-11T02:50:57.000Z">
-<meta property="article:modified_time" content="2022-10-11T03:44:22.279Z">
+<meta property="article:modified_time" content="2022-10-13T03:08:49.295Z">
 <meta property="article:author" content="sweetying">
 <meta property="article:tag" content="原创">
 <meta property="article:tag" content="Android">
 <meta property="article:tag" content="一篇就够">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202210111120168.jpeg">
+<meta name="twitter:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b8ddd1d4e057458ab3c236644e0ae27c~tplv-k3u1fbpfcp-watermark.image?">
   
   
   
@@ -428,7 +418,7 @@
             
               <div class="markdown-body">
                 
-                <p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202210111120168.jpeg" srcset="/img/loading.gif" lazyload alt="aleksey-nemiro-cbtc29sd-m4-unsplash"></p>
+                <p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b8ddd1d4e057458ab3c236644e0ae27c~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload></p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>很高兴遇见你~</p>
 <p>最近我负责的 LiveChat 客服聊天系统到了自研阶段，类似做一个腾讯 IM 通信 SDK。和后台讨论后，确定数据传输方式使用 Protobuf，简单的介绍下自己的一个使用心得</p>
 <h2 id="一、Protobuf-介绍"><a href="#一、Protobuf-介绍" class="headerlink" title="一、Protobuf 介绍"></a>一、Protobuf 介绍</h2><p>Protobuf 全称：Protocol Buffers，是 Google 推出的一种与平台无关、语言无关、可扩展的轻便高效的序列化数据存储格式，类似于我们常用的 xml 和 json。</p>
