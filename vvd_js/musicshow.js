@@ -12,7 +12,7 @@
        			var scroH = $(this).scrollTop();
        			//滚动条的滑动距离大于120，就显示，反之就隐藏
        			if(scroH >= 120){
-       				$("#music_div").attr("style","display:block;position:fixed;bottom:0px;left:30px;");
+       				$("#music_div").attr("style","display:block;position:fixed;z-index:100;bottom:0px;left:30px;");
        			}else if(scroH < 120){
        				$("#music_div").attr("style","display:none;");
        			}
