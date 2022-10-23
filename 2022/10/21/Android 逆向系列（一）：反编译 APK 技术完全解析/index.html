@@ -1,0 +1,1023 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <!--自定义看板娘-->
+    <!--自定义看板娘-->
+    <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+    <script src="/live2d-widget/autoload.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
+<!--   <link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css"> -->
+<!--   <script src="https://fastly.jsdelivr.net/gh/stevenjoezhang/live2d-widget@latest/autoload.js"></script> -->
+
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar.png">
+  <link rel="icon" href="/img/avatar.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="sweetying">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前言很高兴遇见你~ 日常开发中，我们可能需要反编译 apk 去查看或分析一些问题，如： 1、这个 app 效果挺酷的啊，怎么实现的呢？此时你就可以反编译看下它的布局和代码实现 2、这个 app 里面的资源挺多的啊，我想拿过来用，此时你就可以反编译去拿这个 app 里面的资源 3、使用 aop 在一个类里面插入了一些代码，想验证一下，此时你就可以反编译查看是否按照你的预期插入了代码 4、我想改吧改吧">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 逆向系列（一）：反编译 APK 技术完全解析">
+<meta property="og:url" content="https://sweetying520.github.io/2022/10/21/Android%20%E9%80%86%E5%90%91%E7%B3%BB%E5%88%97%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9A%E5%8F%8D%E7%BC%96%E8%AF%91%20APK%20%E6%8A%80%E6%9C%AF%E5%AE%8C%E5%85%A8%E8%A7%A3%E6%9E%90/index.html">
+<meta property="og:site_name" content="sweetying">
+<meta property="og:description" content="前言很高兴遇见你~ 日常开发中，我们可能需要反编译 apk 去查看或分析一些问题，如： 1、这个 app 效果挺酷的啊，怎么实现的呢？此时你就可以反编译看下它的布局和代码实现 2、这个 app 里面的资源挺多的啊，我想拿过来用，此时你就可以反编译去拿这个 app 里面的资源 3、使用 aop 在一个类里面插入了一些代码，想验证一下，此时你就可以反编译查看是否按照你的预期插入了代码 4、我想改吧改吧">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4f3fe2ed61584c35a6b6284902e7f1d1~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/44b5736525c345898c4ab5e7638202ff~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/01ccf592ea8f48f8bcfd793c47a63da2~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3ef9157c45414b0ca8143fee8e98d327~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/cc044f1b08334ca8aa8dcbf285e236d8~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b7fc82cc34d240dfb6a42bd6a9485846~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b2c1a1eabc75446b95c4335552378e7d~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/203c37f04db742c1a732b6ea631e4055~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/80148ce5bee2429ab1d27fa81ac091c9~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f8978eadfcc846b6b4bd6db736906642~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/16c6072a853d4b11bf9a2d7cf7dccb75~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2f640f3207d74456ab42724c37648f02~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9204b93487bf4ec6856e1ca5ab606649~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/43231aff34ed42d3b8b519257f6e1d46~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/33df075c54194c43bd0e2f916fa6bb15~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1ab69073a78e4379ae98cb15688ed95f~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5bd16ed40b3749dd8cc94ace9b82e534~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/96a2e03ca12248fba16164ca98d6e68e~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6c48e47d5faf4f74871f8294dabe67e5~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c11f33feea7046e3bd7a6e35161139c8~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/078b71c3bf9e4c60ba1c591299de9820~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/72cc2408924348e0b86a4613945d4c12~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/80148ce5bee2429ab1d27fa81ac091c9~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b212d00ac7754f7c87d658e472a23200~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/dfaf1d2dfea9478eab100970a4ea9cd9~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ac452017b89b4bc4bb2e79370f98b70f~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/09669596505f4e629bd4a499de3539a2~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/bd2d9d53fd7f4c01bcb739d4fb518a3c~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/933c32ea1cf44f9b939ae59583d076b5~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="article:published_time" content="2022-10-21T07:42:55.000Z">
+<meta property="article:modified_time" content="2022-10-23T03:19:24.757Z">
+<meta property="article:author" content="sweetying">
+<meta property="article:tag" content="原创">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="Android 逆向">
+<meta property="article:tag" content="反编译">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4f3fe2ed61584c35a6b6284902e7f1d1~tplv-k3u1fbpfcp-watermark.image">
+  
+  
+  
+  <title>Android 逆向系列（一）：反编译 APK 技术完全解析 - sweetying</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/iconfont_juejin/iconfont.css">
+<link rel="stylesheet" href="/css/custom.css">
+<link rel="stylesheet" href="/css/fluid-extention.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sweetying520.github.io","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"zN1E017kYhKuj6GqXHJSbGMb-gzGzoHsz","app_key":"JSwY8PjtA131Y78OHn7kKtio","server_url":"https://zn1e017k.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  <div>
+	<div class='real_mask' style="
+		background-color: rgba(0,0,0,0.3);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -777;
+	"></div>
+	<div id="banner_video_insert">
+	</div>
+	<div id='vvd_banner_img'>
+	</div>
+</div>
+<div id="banner"></div>
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>sweetying</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" target="_blank" rel="noopener" href="https://www.foreverblog.cn/go.html">
+                <i class="iconfont icon-rss"></i>
+                虫洞
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://101.43.39.125/HexoFiles/new/bg-trans.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Android 逆向系列（一）：反编译 APK 技术完全解析"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        sweetying
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-10-21 15:42" pubdate>
+          2022年10月21日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          43 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
+
+	<div class="banner" id='banner' >
+
+		<div class="full-bg-img" >
+
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
+
+					function set_video_attr(id){
+
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
+
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
+					}
+
+					$.getJSON('/vvd_js/video_url.json', function(data){
+						if (true){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
+
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
+
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
+							set_video_attr('banner_img_item')
+
+							if (!isMobile) {
+								video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+								document.getElementById("banner_video_insert").innerHTML = video_html_res;
+								set_video_attr('video_item')
+							}
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+			</div>
+		</div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Android 逆向系列（一）：反编译 APK 技术完全解析</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>很高兴遇见你~</p>
+<p>日常开发中，我们可能需要反编译 apk 去查看或分析一些问题，如：</p>
+<p>1、这个 app 效果挺酷的啊，怎么实现的呢？此时你就可以反编译看下它的布局和代码实现</p>
+<p>2、这个 app 里面的资源挺多的啊，我想拿过来用，此时你就可以反编译去拿这个 app 里面的资源</p>
+<p>3、使用 aop 在一个类里面插入了一些代码，想验证一下，此时你就可以反编译查看是否按照你的预期插入了代码</p>
+<p>4、我想改吧改吧这个 app ，例如替换它的 app icon，替换里面的翻译，app 汉化等等，此时你就可以反编译修改，然后打成一个新的 apk 发布（这种大家知道就好，千万别去做啥坏事）</p>
+<p>上面列举的 4 种场景基本可以覆盖我们日常开发中遇到的问题了，接下来我们就正式进入 APK 反编译技术的讲解</p>
+<p><strong>注意</strong>：下面演示均是在 mac 下进行</p>
+<h2 id="一、反编译工具介绍"><a href="#一、反编译工具介绍" class="headerlink" title="一、反编译工具介绍"></a>一、反编译工具介绍</h2><p>如果我们只是需要 app 中的图片资源，可以直接修改 <code>xxx.apk</code>的后缀为 <code>xxx.zip</code>，解压后的文件目录如下：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4f3fe2ed61584c35a6b6284902e7f1d1~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221022210917119.png"></p>
+<p>所有的代码处于 <code>classes.dex</code> 中，图片布局等资源处于 res 目录下。此时你可以直接去 res 目录下复制图片资源使用，但是你去打开 AndroidManifest.xml 文件和 activity_main.xml 文件，会发现看不懂</p>
+<p>AndroidManifest.xml 文件：</p>
+<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/44b5736525c345898c4ab5e7638202ff~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="image-20221022175713114.png" width="50%" />
+
+<p>activity_main.xml 文件：</p>
+<img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/01ccf592ea8f48f8bcfd793c47a63da2~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="image-20221022175816393.png" width="50%" />
+
+<p>就是一推整齐排列的 16 进制数，那如果我想看懂要怎么办呢？</p>
+<p>答：使用 apktool</p>
+<h3 id="1-1、apktool"><a href="#1-1、apktool" class="headerlink" title="1.1、apktool"></a>1.1、apktool</h3><p>作用：反编译 APK 中的资源</p>
+<p>下载链接：<a target="_blank" rel="noopener" href="https://ibotpeaches.github.io/Apktool/install/">https://ibotpeaches.github.io/Apktool/install/</a></p>
+<p>打开下载链接会出现如下界面：</p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3ef9157c45414b0ca8143fee8e98d327~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221021173948270.png"></p>
+<p>mac 建议使用红框中的 Homebrew 去安装，执行 <code>brew install apktool</code> 命令一键安装，它会自动给你配置好环境变量以及增加文件的操作权限</p>
+<p>安装完成后，输入<code>apktool</code>命令 ，如果展示了 apktool 相关信息证明你配置成功了，如下图：</p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/cc044f1b08334ca8aa8dcbf285e236d8~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221021174740419.png"></p>
+<h4 id="1-1-1、apktool-使用"><a href="#1-1-1、apktool-使用" class="headerlink" title="1.1.1、apktool 使用"></a>1.1.1、apktool 使用</h4><p>接下来我们通过 apktool 来反编译 apk 中的资源</p>
+<p>1、先准备一个 apk 文件</p>
+<p>2、执行 <code>apktool d xxx.apk</code> 命令</p>
+<p>其中 d 是 decode 的意思，表示我们要对 xxx.apk 进行解码，我们还可以再加上一些附加参数来控制 decode 的更多行为：</p>
+<blockquote>
+<p>-f ：如果目标文件夹已存在，则强制删除现有文件夹（默认如果目标文件夹已存在，则解码失败）</p>
+<p>-o ：指定解码目标文件夹的名称（默认使用 APK 文件的名字来命名目标文件夹）</p>
+<p>-s ：不反编译dex文件，也就是说 classes.dex 文件会被保留（默认会将 dex 文件解码成 smali 文件）</p>
+<p>-r ：不反编译资源文件，也就是说 resources.arsc 文件会被保留（默认会将 resources.arsc 解码成具体的资源文件）</p>
+</blockquote>
+<p>常用的用法就这么多，上述命令的执行结果如下图所示：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b7fc82cc34d240dfb6a42bd6a9485846~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221022172954424.png"></p>
+<p>这就说明反编译资源成功了</p>
+<p><strong>需要注意的是</strong>：</p>
+<p>1、上述 <code>app-debug.apk</code>，mac 的 terminal 会自动添加 <code>.zip</code> 后缀，大家别给误导了哈</p>
+<p>2、另外生成的文件夹会在 <code>apk-debug.apk.zip</code> 的基础上在增加 <code>.out</code> 后缀：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b2c1a1eabc75446b95c4335552378e7d~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221022173342679.png"></p>
+<p>这种现象和 windows 系统表现不太一样，大家注意一下，如果看着不爽，可以使用上述讲的附加参数<code>-o</code> ，来对输出的文件夹进行重命名</p>
+<p>3、建议大家新建一个文件夹来进行反编译的操作，例如上面我新建了一个 apktool_reverse 的文件夹，然后将 apk 资源放到下面，通过 terminal cd 到这个目录，最后执行解码的命令</p>
+<p>4、如果我们执行解码命令 <code>apktool d xxx.apk</code> 成功后，想添加附加参数继续执行，如：<code>apktool d -s -r xxx.apk</code>，此时会报错：</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/203c37f04db742c1a732b6ea631e4055~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221022174758839.png"></p>
+<p>报错提示我们该文件夹已经存在了，因此在这种文件夹已经存在的情况下，大家应该加上附加参数<code>-f</code>强制删除现有文件夹</p>
+<p>ok，看一下 apktool 反编译后生成的一些具体文件：</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/80148ce5bee2429ab1d27fa81ac091c9~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221022180713615.png"></p>
+<blockquote>
+<p>1、AndroidManifest.xml：经过反编译还原后的 manifest 文件</p>
+<p>2、original 文件夹：存放了未经反编译过、原始的 AndroidManifest.xml 文件</p>
+<p>3、res 文件夹：存放了反编译出来的所有资源</p>
+<p>4、smali 文件夹：存放了反编译出来的所有代码，只不过格式都是<code>.smali</code>类型的</p>
+</blockquote>
+<p>看一眼反编译后的 AndroidManifest.xml 文件和 activity_main.xml 文件</p>
+<p>AndroidManifest.xml 文件：</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f8978eadfcc846b6b4bd6db736906642~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221022180343979.png"></p>
+<p>activity_main.xml 文件：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/16c6072a853d4b11bf9a2d7cf7dccb75~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221022180428331.png"></p>
+<p>已经还原成我们看得懂的文件了，格式差点意思，你可以将内容复制出来放到 AndroidStudio 里面格式化一下就完美了，这样我们就把反编译资源的方法给掌握了</p>
+<p>另外使用 apktool 反编译后的代码处于 smali 文件夹下，且都是<code>.smali</code>格式的，我们简单截取一段 MainActivity.smali 文件的代码：</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2f640f3207d74456ab42724c37648f02~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221022205951161.png"></p>
+<p>嗯，看不懂😂，如果你能看得懂，那么做的事情就多了，你可以随意修改应用程序内的逻辑，将其进行破解发布。</p>
+<p>那怎么才能转换成能看懂的 Java 代码呢？</p>
+<p>答：使用 dex2jar + jd-gui</p>
+<h3 id="1-2、dex2jar"><a href="#1-2、dex2jar" class="headerlink" title="1.2、dex2jar"></a>1.2、dex2jar</h3><p>作用：将 dex 文件转换成 jar 文件</p>
+<p>下载地址：<a target="_blank" rel="noopener" href="https://sourceforge.net/projects/dex2jar/files/">https://sourceforge.net/projects/dex2jar/files/</a></p>
+<h4 id="1-1-1、dex2jar-使用"><a href="#1-1-1、dex2jar-使用" class="headerlink" title="1.1.1、dex2jar 使用"></a>1.1.1、dex2jar 使用</h4><p>将下载的 dex2jar 压缩包解压，可以看到如下内容：</p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9204b93487bf4ec6856e1ca5ab606649~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221021165416847.png"></p>
+<p>在 mac 中使用 <code>d2j-dex2jar.sh</code> 文件就 ok 了</p>
+<p>1、将需要转换的 dex 文件复制到当前 dex2jar 目录：</p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/43231aff34ed42d3b8b519257f6e1d46~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221021165712150.png"></p>
+<p>2、执行如下命令：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">sh d2j-dex2jar.sh classes.dex<br></code></pre></td></tr></table></figure>
+
+<p>此时 terminal 会报错：<strong>Permission denied</strong> </p>
+<p>这是因为文件权限不足导致的，执行如下命令提权即可：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">chmod</span> 777 d2j_invoke.sh<br></code></pre></td></tr></table></figure>
+
+<p>接着在执行上述反编译命令，过程如下：</p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/33df075c54194c43bd0e2f916fa6bb15~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221021170548196.png"></p>
+<p>我们可以看到 dex2jar 多了两个压缩包：</p>
+<img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1ab69073a78e4379ae98cb15688ed95f~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="image-20221021170810169.png" width="30%" />
+
+<p>其中代码都处于 classes-dex2jar.jar 中， dex2jar 已经完成它的使命，接下来我们需要通过 jd-gui 去查看 jar 包下的内容</p>
+<h3 id="1-2、jd-gui"><a href="#1-2、jd-gui" class="headerlink" title="1.2、jd-gui"></a>1.2、jd-gui</h3><p>作用：查看 jar 包里面的具体类容</p>
+<p>下载地址：<a target="_blank" rel="noopener" href="http://java-decompiler.github.io/">http://java-decompiler.github.io/</a></p>
+<p>打开下载链接如下图：</p>
+<img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5bd16ed40b3749dd8cc94ace9b82e534~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="image-20221022212449198.png" width="50%" />
+
+<p>根据自己的操作系统下载不同的压缩包即可，这里我下载的是 <code>jd-gui-osx-1.6.6.tar</code>，解压后你会看到下面 4 个文件：</p>
+<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/96a2e03ca12248fba16164ca98d6e68e~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="image-20221022212625065.png" width="50%" />
+
+<p>双击打开 JD-GUI ，你会发现系统给我们报了个错误：</p>
+<blockquote>
+<p>ERROR launching ‘JD-GUI’</p>
+<p>No suitable Java version found on your system!<br> This program requires Java 1.8+<br> Make sure you install the required Java version.</p>
+</blockquote>
+<p>这是因为 <code>universalJavaApplicationStub.sh</code> 脚本在 Mac Big Sur 及以上版本有兼容性问题，我们需要对这个脚本的内容进行替换</p>
+<p>1、双击 JD-GUI 显示包内容</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6c48e47d5faf4f74871f8294dabe67e5~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221022213637572.png"></p>
+<p>2、根据截图找到 <code>universalJavaApplicationStub.sh</code></p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c11f33feea7046e3bd7a6e35161139c8~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221022213535766.png"></p>
+<p>3、将此文件内容替换为   <a target="_blank" rel="noopener" href="https://github.com/tofi86/universalJavaApplicationStub/blob/v3.0.6/src/universalJavaApplicationStub">https://github.com/tofi86/universalJavaApplicationStub/blob/v3.0.6/src/universalJavaApplicationStub</a> 这个链接中的内容</p>
+<p><strong>注意</strong>：安装之前你要保证系统已经安装了 JDK 1.8 及以上版本</p>
+<p>经过上面 3 步，你就可以正确的打开 JD-GUI 了：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/078b71c3bf9e4c60ba1c591299de9820~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221022214020602.png"></p>
+<p>接着将需要打开的 jar 包给拖进去，查看 MainActivity：</p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/72cc2408924348e0b86a4613945d4c12~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221022214433643.png"></p>
+<p>上述 MainActivity 我使用 AspectJ 在 onCreate 方法中插入了一些代码，效果符合我的预期</p>
+<p>至此，我们就学会了如何反编译代码和资源了，简单的小结一下：</p>
+<p><strong>1、如果要反编译 app 的代码，就使用 dex2jar + jd-gui</strong></p>
+<p><strong>2、如果要反编译 app 的资源，就使用 apktool</strong></p>
+<p>ok，还没结束，现在你还只会我在前言中提到的 1，2，3 点，对于第 4 点：<strong>反编译一个 app，将它打包成一个新的 app</strong> 你还不会，跟着我的步伐继续往下走</p>
+<h2 id="二、基于一个-app-打造一个新的-app"><a href="#二、基于一个-app-打造一个新的-app" class="headerlink" title="二、基于一个 app 打造一个新的 app"></a>二、基于一个 app 打造一个新的 app</h2><p><strong>提醒</strong>：这里大家就站在一个技术的角度去学习，千万别干坏事</p>
+<p>我们基于上述使用 apktool 反编译后的文件夹去做修改，先再看一眼：</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/80148ce5bee2429ab1d27fa81ac091c9~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221022180713615.png"></p>
+<p>未修改前 activity_main.xml 文件的代码如下：</p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b212d00ac7754f7c87d658e472a23200~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221023094920363.png"></p>
+<p>我们这里就简单的对 activity_main.xml 文件进行一些修改然后打包，修改如下：</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/dfaf1d2dfea9478eab100970a4ea9cd9~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221023095336625.png"></p>
+<p>接着使用 apktool 将我们反编译的<code>app-debug.apk.zip.out</code>文件夹重新打包成 apk，使用如下命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">apktool b app-debug.apk.zip.out -o new_app_debug.apk<br></code></pre></td></tr></table></figure>
+
+<p>执行过程如下图：</p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ac452017b89b4bc4bb2e79370f98b70f~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221023100440147.png"></p>
+<p>现在你会发现同级目录有了一个新的 apk 文件：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/09669596505f4e629bd4a499de3539a2~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221023100528479.png"></p>
+<p>结果猴急猴急的拿去安装，你会发现安装报错了：</p>
+<blockquote>
+<p>adb: failed to install xxx&#x2F;new_app_debug.apk: Failure [INSTALL_PARSE_FAILED_NO_CERTIFICATES: Failed to collect certificates from &#x2F;data&#x2F;app&#x2F;vmdl2142334632.tmp&#x2F;base.apk: Attempt to get length of null array]</p>
+</blockquote>
+<p>还是我们高兴的太早了，目前这个新 apk 是不能安装的，因为它还没有进行签名，那么如果这是别人的 app，我们从哪儿去整一个签名文件呢？很显然，拿别人的是不可能，因此我们需要自己去生成，使用 AndroidStudio 可以非常简单的生成一个签名文件，这里就不展开说了，不懂得自己去查一下</p>
+<p>有了签名文件之后再 terminal 执行如下签名命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore 签名文件名 -storepass 签名密码 待签名的APK文件名 签名的别名<br></code></pre></td></tr></table></figure>
+
+<p>其中 jarsigner 命令文件是存放在 JDK 的 bin 目录下，需要将 bin 目录配置在系统的环境变量当中才可以在任何位置执行此命令</p>
+<p>以我的为例：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore certificate -storepass erdai666 new_app_debug.apk key0<br></code></pre></td></tr></table></figure>
+
+<p>如果执行过程中没啥问题，就证明签名成功了，此时我们就可以把它安装到手机上了，不过在此之前，Android 还极度建议我们对签名后的 apk 文件进行一次对齐操作，因为这样可以使得我们的程序在 Android 系统中运行得更快。对齐操作使用的是 zipalign 工具，该工具存放于<code>&lt;Android SDK&gt;/build-tools/&lt;version&gt;</code>目录下，将这个目录配置到系统环境变量当中就可以在任何位置执行此命令了</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">zipalign 4 new_app_debug.apk new_app_debug_aligned.apk<br></code></pre></td></tr></table></figure>
+
+<p>其中 4 是固定的值，后面指定待对齐的 apk 文件名和对齐后的 apk 文件名，运行这段命令之后，会生成一个<code>new_app_debug_aligned.apk</code>文件，如下所示：</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/bd2d9d53fd7f4c01bcb739d4fb518a3c~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221023102830691.png"></p>
+<p>接下来我们把这个签名对齐后的 apk 安装到手机上，效果如下图所示：</p>
+<img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/933c32ea1cf44f9b939ae59583d076b5~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="ezgif.com-gif-maker.gif" width="30%" />
+
+<p>可以看到，当我们打开 app 后，页面的布局变成我们修改后的了，说明我们基于一个 app 打造一个新的 app 成功了</p>
+<h2 id="三、总结"><a href="#三、总结" class="headerlink" title="三、总结"></a>三、总结</h2><p>本篇文章我讲了：</p>
+<p>1、反编译资源，主要通过 apktool</p>
+<p>2、反编译大妈，主要通过 dex2jar + jd-gui</p>
+<p>3、基于一个 app 打造一个新的 app，主要通过 apktool 反编译后，修改 activity_main.xml 文件，然后进行重新打包，签名，对齐，最后安装，展示了预期的效果。当然这里你有能力看懂 <code>.smali</code>格式的代码，那么你可以做的事情就更加多</p>
+<p>好了，本篇文章到这里就结束了，希望能给你带来帮助 🤝</p>
+<p><strong>感谢你阅读这篇文章</strong></p>
+<h3 id="参考和推荐"><a href="#参考和推荐" class="headerlink" title="参考和推荐"></a>参考和推荐</h3><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/guolin_blog/article/details/49738023">Android安全攻防战，反编译与混淆技术完全解析（上）</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.feiyunjs.com/2581.html">MAC下反编译APK的工具ApkTool,dex2jar,JD-GUI安装与使用方法</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/ee2932b46d80">Mac Big Sur 升级后 JD-GUI 无法打开的问题修复</a></p>
+<blockquote>
+<p><strong>你的点赞，评论，是对我巨大的鼓励！</strong></p>
+<p>欢迎关注我的<strong>公众号：</strong>  <a target="_blank" rel="noopener" href="http://m6z.cn/6jwi7b"><strong>sweetying</strong></a> ，文章更新可第一时间收到</p>
+<p>如果<strong>有问题</strong>，公众号内有加我微信的入口，在技术学习、个人成长的道路上，我们一起前进！</p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Android/" class="category-chain-item">Android</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Android/Android-%E9%80%86%E5%90%91/" class="category-chain-item">Android 逆向</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%8E%9F%E5%88%9B/">#原创</a>
+      
+        <a href="/tags/Android/">#Android</a>
+      
+        <a href="/tags/Android-%E9%80%86%E5%90%91/">#Android 逆向</a>
+      
+        <a href="/tags/%E5%8F%8D%E7%BC%96%E8%AF%91/">#反编译</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Android 逆向系列（一）：反编译 APK 技术完全解析</div>
+      <div>https://sweetying520.github.io/2022/10/21/Android 逆向系列（一）：反编译 APK 技术完全解析/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>sweetying</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年10月21日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/10/17/HTML%20%E5%B8%B8%E7%94%A8%E6%A0%87%E7%AD%BE%E5%92%8C%E5%B1%9E%E6%80%A7/" title="HTML 常用标签和属性">
+                        <span class="hidden-mobile">HTML 常用标签和属性</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.4.17/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"zN1E017kYhKuj6GqXHJSbGMb-gzGzoHsz","appKey":"JSwY8PjtA131Y78OHn7kKtio","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <div style="font-size: 0.85rem;"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div> <div style="font-size: 0.85rem;"> <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #d7d8d9;" id="hitokoto">hitokoto</span></a> <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script> </div> <div id="music_div" style="position: fixed; z-index: 100; bottom: 350px; left: 0px;"> <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=100 src="//music.163.com/outchain/player?type=0&id=5426937413&auto=1&height=100"> </iframe> <script src="https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js"></script> <script src="/vvd_js/musicshow.js"></script> </div> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/vvd_js/star.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
