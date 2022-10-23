@@ -4,6 +4,37 @@
   
   
   <entry>
+    <title>Gradle 系列 （五）、Gradle Transform 完全解析</title>
+    <link href="/2022/10/23/Gradle%20%E7%B3%BB%E5%88%97%20%EF%BC%88%E4%BA%94%EF%BC%89%E3%80%81Gradle%20Transform%20%E5%AE%8C%E5%85%A8%E8%A7%A3%E6%9E%90/"/>
+    <url>/2022/10/23/Gradle%20%E7%B3%BB%E5%88%97%20%EF%BC%88%E4%BA%94%EF%BC%89%E3%80%81Gradle%20Transform%20%E5%AE%8C%E5%85%A8%E8%A7%A3%E6%9E%90/</url>
+    
+    <content type="html"><![CDATA[<p>![](.&#x2F;Gradle 系列 （五）、Gradle Transform 完全解析&#x2F;sea.jpeg)</p><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>很高兴遇见你~</p><p>关于 Gradle 学习，我所理解的流程如下图：</p><p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3e010cee57604e179607243e027608d4~tplv-k3u1fbpfcp-zoom-1.image" alt="Gradle_learning"></p><p>在本系列的前 4 篇文章中，我们了解了：</p><p>1、Groovy 语法</p><p>2、Gradle 常用 api，生命周期及 hook 点，Task 定义，依赖与挂接到构建流程的基本操作</p><p>3、自定义 Gradle 插件及实战演练</p><p>还不清楚上面这些知识点的朋友，建议先去阅读我创建的<a href="https://juejin.cn/column/6987218515514097678">Gradle 学习专栏</a></p><p>今天我们主要对 Gradle Transform 进行介绍</p><p><a href="https://github.com/sweetying520/GradleDemo">Github Demo 地址</a> , 大家可以结合 demo 一起看，效果杠杠滴🍺</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Android</category>
+      
+      <category>Gradle</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>原创</tag>
+      
+      <tag>Android</tag>
+      
+      <tag>Gradle</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Android 逆向系列（一）：反编译 APK 技术完全解析</title>
     <link href="/2022/10/21/Android%20%E9%80%86%E5%90%91%E7%B3%BB%E5%88%97%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9A%E5%8F%8D%E7%BC%96%E8%AF%91%20APK%20%E6%8A%80%E6%9C%AF%E5%AE%8C%E5%85%A8%E8%A7%A3%E6%9E%90/"/>
     <url>/2022/10/21/Android%20%E9%80%86%E5%90%91%E7%B3%BB%E5%88%97%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9A%E5%8F%8D%E7%BC%96%E8%AF%91%20APK%20%E6%8A%80%E6%9C%AF%E5%AE%8C%E5%85%A8%E8%A7%A3%E6%9E%90/</url>
