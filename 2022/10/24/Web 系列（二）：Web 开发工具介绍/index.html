@@ -1,0 +1,1199 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <!--自定义看板娘-->
+    <!--自定义看板娘-->
+    <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+    <script src="/live2d-widget/autoload.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
+<!--   <link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css"> -->
+<!--   <script src="https://fastly.jsdelivr.net/gh/stevenjoezhang/live2d-widget@latest/autoload.js"></script> -->
+
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar.png">
+  <link rel="icon" href="/img/avatar.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="sweetying">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前言很高兴遇见你~ 在本系列的上一篇文章中，我们介绍了 HTML 的基础语法，常用标签和属性，最后使用学习到的标签做了一些综合案例，还没有看过上一篇文章的朋友建议先去阅读Web 系列（一）：HTML 常用标签和属性 。 接下来我们介绍 Web 中的开发工具 工欲善其事，必先利其器，一个好的开发工具能让我们事半功倍，提升开发效率，下面介绍的这些工具简直不要太好用，让你有一种能瞬间起飞的感觉😄 一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Web 系列（二）：Web 开发工具介绍">
+<meta property="og:url" content="https://sweetying520.github.io/2022/10/24/Web%20%E7%B3%BB%E5%88%97%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9AWeb%20%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E4%BB%8B%E7%BB%8D/index.html">
+<meta property="og:site_name" content="sweetying">
+<meta property="og:description" content="前言很高兴遇见你~ 在本系列的上一篇文章中，我们介绍了 HTML 的基础语法，常用标签和属性，最后使用学习到的标签做了一些综合案例，还没有看过上一篇文章的朋友建议先去阅读Web 系列（一）：HTML 常用标签和属性 。 接下来我们介绍 Web 中的开发工具 工欲善其事，必先利其器，一个好的开发工具能让我们事半功倍，提升开发效率，下面介绍的这些工具简直不要太好用，让你有一种能瞬间起飞的感觉😄 一">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c1bf5c2229764e99b45835281a0afbda~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="article:published_time" content="2022-10-24T07:53:11.000Z">
+<meta property="article:modified_time" content="2022-10-25T16:08:06.347Z">
+<meta property="article:author" content="sweetying">
+<meta property="article:tag" content="原创">
+<meta property="article:tag" content="Web">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c1bf5c2229764e99b45835281a0afbda~tplv-k3u1fbpfcp-watermark.image?">
+  
+  
+  
+  <title>Web 系列（二）：Web 开发工具介绍 - sweetying</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/iconfont_juejin/iconfont.css">
+<link rel="stylesheet" href="/css/custom.css">
+<link rel="stylesheet" href="/css/fluid-extention.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sweetying520.github.io","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"zN1E017kYhKuj6GqXHJSbGMb-gzGzoHsz","app_key":"JSwY8PjtA131Y78OHn7kKtio","server_url":"https://zn1e017k.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  <div>
+	<div class='real_mask' style="
+		background-color: rgba(0,0,0,0.3);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -777;
+	"></div>
+	<div id="banner_video_insert">
+	</div>
+	<div id='vvd_banner_img'>
+	</div>
+</div>
+<div id="banner"></div>
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>sweetying</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" target="_blank" rel="noopener" href="https://www.foreverblog.cn/go.html">
+                <i class="iconfont icon-rss"></i>
+                虫洞
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://101.43.39.125/HexoFiles/new/bg-trans.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Web 系列（二）：Web 开发工具介绍"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        sweetying
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-10-24 15:53" pubdate>
+          2022年10月24日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          48 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
+
+	<div class="banner" id='banner' >
+
+		<div class="full-bg-img" >
+
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
+
+					function set_video_attr(id){
+
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
+
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
+					}
+
+					$.getJSON('/vvd_js/video_url.json', function(data){
+						if (true){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
+
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
+
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
+							set_video_attr('banner_img_item')
+
+							if (!isMobile) {
+								video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+								document.getElementById("banner_video_insert").innerHTML = video_html_res;
+								set_video_attr('video_item')
+							}
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+			</div>
+		</div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Web 系列（二）：Web 开发工具介绍</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c1bf5c2229764e99b45835281a0afbda~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>很高兴遇见你~</p>
+<p>在本系列的上一篇文章中，我们介绍了 HTML 的基础语法，常用标签和属性，最后使用学习到的标签做了一些综合案例，还没有看过上一篇文章的朋友建议先去阅读<a target="_blank" rel="noopener" href="https://juejin.cn/post/7157713551786934302">Web 系列（一）：HTML 常用标签和属性</a> 。</p>
+<p>接下来我们介绍 Web 中的开发工具</p>
+<p>工欲善其事，必先利其器，一个好的开发工具能让我们事半功倍，提升开发效率，下面介绍的这些工具简直不要太好用，让你有一种能瞬间起飞的感觉😄</p>
+<h2 id="一、Web-编辑器：VS-Code"><a href="#一、Web-编辑器：VS-Code" class="headerlink" title="一、Web 编辑器：VS Code"></a>一、Web 编辑器：VS Code</h2><h3 id="1-1、VS-Code-介绍"><a href="#1-1、VS-Code-介绍" class="headerlink" title="1.1、VS Code 介绍"></a>1.1、VS Code 介绍</h3><p>1、VS Code 全称： Visual Studio Code ，是微软一款开源的、免费的、跨平台的、高性能的、轻量级的代码编辑器，功能非常的强大，是开发 Web 的神兵利器。另外我们还可以使用它进行 Markdown 创作，文本编辑等等</p>
+<p>2、VS Code 的定位是<strong>编辑器</strong>，注意是编辑器，它不是 IDE（Integrated Development Environment，集成开发环境） ，IDE 相对来说是比较重量级的，比如：AndroidStudio，Webstorm（这两款都是基于 IntelliJ IDEA 定制的），性能不好的电脑使用起来会很卡，但是 VS Code 就不会，因为它非常的轻巧，而且它还能给你带来拥有 IDE 的开发体验，爱了</p>
+<p>3、VS Code 拥有功能强大，生态完善的插件系统，一些 IDE 上没有的插件它有，我觉得这一点是它能够爆火的重要原因</p>
+<p>4、VS Code 自带 emmet：支持代码自动补全，快速地生成简单的语法结构。要知道，这个功能在 Sublime Text中，得先安装插件才行</p>
+<p>5、VS Code 自带 HTML，CSS，JavaScript，TypeScript 和 Node.js 的语法支持。也就是说，你在书写这些时，是自带智能提示的。当然，其他的语言，你可以安装相应的<strong>扩展包</strong>插件，也会有智能提示</p>
+<p>6、VS code 跨平台支持，你可以在 MacOS，Windows 和 Linux 等多个平台使用它</p>
+<p>这么好用的一款编辑器，让我们赶紧来使用它吧</p>
+<h3 id="1-2、VS-Code-安装"><a href="#1-2、VS-Code-安装" class="headerlink" title="1.2、VS Code 安装"></a>1.2、VS Code 安装</h3><p>下载链接：<a target="_blank" rel="noopener" href="https://code.visualstudio.com/">https://code.visualstudio.com/</a></p>
+<p>打开下载链接如下图：</p>
+<img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/54ae0143220e4c6a821a745fbdb4328f~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="image-20221024192258131.png" width="100%" />
+
+<p>VS Code 的安装很简单，下载压缩包后，解压你会发现就 VS Code 这一个文件，打开就能用，哈哈，相比 IDE 的安装过程真的是异常简单。前面也说了 VS code  自带 HTML，CSS，JavaScript，TypeScript 和 Node.js 的语法支持，因此你现在可以直接进行 Web 开发了。</p>
+<h3 id="1-3、VS-Code-常用快捷键"><a href="#1-3、VS-Code-常用快捷键" class="headerlink" title="1.3、VS Code 常用快捷键"></a>1.3、VS Code 常用快捷键</h3><p>对快捷键的使用在一定程度上能看出你是否熟悉这款编辑器或 IDE。下面是我在学习实践过程中觉得非常实用的一些快捷键</p>
+<table>
+<thead>
+<tr>
+<th>Mac 快捷键</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Cmd + Shift + P</td>
+<td>显示命令面板</td>
+</tr>
+<tr>
+<td>Cmd + B</td>
+<td>显示&#x2F;隐藏侧边栏</td>
+</tr>
+<tr>
+<td>Cmd + J</td>
+<td>显示&#x2F;隐藏控制台</td>
+</tr>
+<tr>
+<td>Cmd + \</td>
+<td>新开一个编辑器</td>
+</tr>
+<tr>
+<td>Cmd + 1、2</td>
+<td>切换 1、2 编辑器</td>
+</tr>
+<tr>
+<td>Cmd + N</td>
+<td>新建一个文件</td>
+</tr>
+<tr>
+<td>Cmd + Shift + N</td>
+<td>新开一个 VS Code</td>
+</tr>
+<tr>
+<td>Cmd + W</td>
+<td>关闭当前文件</td>
+</tr>
+<tr>
+<td>Cmd + +</td>
+<td>放大工作区（包括代码字体，左侧导航栏）</td>
+</tr>
+<tr>
+<td>Cmd + -</td>
+<td>缩小工作区（包括代码字体，左侧导航栏）</td>
+</tr>
+<tr>
+<td>Cmd + Option + 左右方向键</td>
+<td>在多个文件之间切换</td>
+</tr>
+<tr>
+<td>Option +  左右方向键</td>
+<td>在单词之间移动光标</td>
+</tr>
+<tr>
+<td>Cmd +  左右方向键</td>
+<td>在整行之间移动光标</td>
+</tr>
+<tr>
+<td>Option + Shift +  左右方向键</td>
+<td>在单词之间移动光标并复制</td>
+</tr>
+<tr>
+<td>Cmd + Shift +  左右方向键</td>
+<td>在整行之间移动光标并复制</td>
+</tr>
+<tr>
+<td>Cmd + Enter</td>
+<td>在当前行下方新增一行</td>
+</tr>
+<tr>
+<td>Cmd + Shift + Enter</td>
+<td>在当前行上方新增一行</td>
+</tr>
+<tr>
+<td>Option + 上&#x2F;下方向键</td>
+<td>将代码向上&#x2F;下移动</td>
+</tr>
+<tr>
+<td>Option + Shift + 上&#x2F;下方向键</td>
+<td>将代码向上&#x2F;下复制一行</td>
+</tr>
+<tr>
+<td>Cmd + Shift + Backspace</td>
+<td>删除光标之前的整行内容</td>
+</tr>
+<tr>
+<td>Cmd + &#x2F;</td>
+<td>添加注释</td>
+</tr>
+<tr>
+<td>Option + Shift + F</td>
+<td>代码格式化</td>
+</tr>
+<tr>
+<td>Cmd + Shift + F</td>
+<td>全局搜索代码</td>
+</tr>
+<tr>
+<td>Cmd + F</td>
+<td>当前文件内搜索</td>
+</tr>
+</tbody></table>
+<p>另外一个好用的点：将光标点击到某一行的任意位置，默认就是选中整行，此时可以直接复制或剪切</p>
+<h3 id="1-4、VS-Code-常见快捷操作"><a href="#1-4、VS-Code-常见快捷操作" class="headerlink" title="1.4、VS Code 常见快捷操作"></a>1.4、VS Code 常见快捷操作</h3><h4 id="1-4-1、输入-或-html-5-生成-HTML-骨架"><a href="#1-4-1、输入-或-html-5-生成-HTML-骨架" class="headerlink" title="1.4.1、输入 ! 或 html:5 生成 HTML 骨架"></a>1.4.1、输入 <code>!</code> 或 <code>html:5</code> 生成 HTML 骨架</h4><p>如下图：</p>
+<img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6791b139377d47a980e1abd0e7a8d760~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="ezgif.com-gif-maker.gif" width="100%" />
+
+<h4 id="1-4-2、使用-code-命令启动-VS-Code"><a href="#1-4-2、使用-code-命令启动-VS-Code" class="headerlink" title="1.4.2、使用 code 命令启动 VS Code"></a>1.4.2、使用 code 命令启动 VS Code</h4><p>1、使用快捷键 <code>Cmd + Shift + P</code>打开命令面板，输入 code ，如下图：</p>
+<img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/09c411934064413d90334f4707f25641~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="image-20221025170748336.png" width="50%" />
+
+<p>选择第一项：Install ‘code’ command in PATH ，这样 code 命令就被添加到了系统环境变量，接下来就可以在任意位置使用 code 命令了</p>
+<p>2、code 命令使用</p>
+<blockquote>
+<p>1、在 Terminal 输入 <code>code</code> 即可启动 VS Code</p>
+<p>2、在 Terminal 输入 <code>code pathName/fileName</code>即可通过 VS Code 打开指定目录&#x2F;指定文件</p>
+</blockquote>
+<p>效果展示：</p>
+<img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/072b16b67ecd41f88f438c8249497a24~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="ezgif.com-gif-maker (1).gif" width="100%" />
+
+<h3 id="1-5、VS-Code-常见配置"><a href="#1-5、VS-Code-常见配置" class="headerlink" title="1.5、VS Code 常见配置"></a>1.5、VS Code 常见配置</h3><h4 id="1-5-1、git-版本管理"><a href="#1-5-1、git-版本管理" class="headerlink" title="1.5.1、git 版本管理"></a>1.5.1、git 版本管理</h4><p>VS Code 自带了 Git 版本管理，如下图：</p>
+<img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/cee62d8059574ee8b79886b2cc1ece29~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="image-20221025191932575.png" width="50%" />
+
+<p>此时在配合 <code>Gitlens</code>插件，直接起飞</p>
+<h4 id="1-5-2、Emmet-in-VS-Code"><a href="#1-5-2、Emmet-in-VS-Code" class="headerlink" title="1.5.2、Emmet in VS Code"></a>1.5.2、Emmet in VS Code</h4><p>Emmet 能辅助我们快速的去生成一些语法，例如我们要实现如下的有序列表：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">ol</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>111<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>111<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>111<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>111<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>111<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>111<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">ol</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>我们只需要在 VS Code 中输入 <code>ol&gt;li&#123;111&#125;*6</code>即可自动生成</p>
+<p>效果展示：</p>
+<img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/07ab9667f4c54d6f94546d69385f2983~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="ezgif.com-gif-maker (2).gif" width="100%" />
+
+<h3 id="1-6、VS-Code-常用插件"><a href="#1-6、VS-Code-常用插件" class="headerlink" title="1.6、VS Code 常用插件"></a>1.6、VS Code 常用插件</h3><p>VS Code 的插件管理如下图：</p>
+<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/bebe391bfe3f47df8aa440115bb1eb6e~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="image-20221025194519856.png" width="50%" />
+
+<p>在应用商店中搜索你要安装的插件安装即可，下面推荐我觉得非常好用的插件给你们</p>
+<h4 id="1-6-1、Chinese-Simplified-简体中文-Language-Pack-for-Visual-Studio-Code"><a href="#1-6-1、Chinese-Simplified-简体中文-Language-Pack-for-Visual-Studio-Code" class="headerlink" title="1.6.1、Chinese (Simplified) (简体中文) Language Pack for Visual Studio Code"></a>1.6.1、Chinese (Simplified) (简体中文) Language Pack for Visual Studio Code</h4><p>让你的 VS Code 显示为简体中文语言</p>
+<h4 id="1-6-2、Live-Server"><a href="#1-6-2、Live-Server" class="headerlink" title="1.6.2、Live Server"></a>1.6.2、Live Server</h4><p>在本地启动一个服务器，代码写完后可实现热更新，实时的在网页中看到运行效果，真的很好用</p>
+<p>使用方式：将写好的代码，右键选择 Open with Live Server （当然你也可以使用快捷键）打开即可，后续更新代码保存即可预览</p>
+<p>效果展示：</p>
+<img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/51d3f61a0008457b8383ae0fe8fd7ec0~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="ezgif.com-gif-maker (3).gif" width="100%" />
+
+<h4 id="1-6-3、Auto-Rename-Tag"><a href="#1-6-3、Auto-Rename-Tag" class="headerlink" title="1.6.3、Auto Rename Tag"></a>1.6.3、Auto Rename Tag</h4><p>自动对标签重命名</p>
+<p>效果展示：</p>
+<img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8314f422fcb54a57b923b158cb13139b~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="ezgif.com-gif-maker (4).gif" width="100%" />
+
+<h4 id="1-6-4、htmltagwrap"><a href="#1-6-4、htmltagwrap" class="headerlink" title="1.6.4、htmltagwrap"></a>1.6.4、htmltagwrap</h4><p>快速的对一段内容进行标签包裹</p>
+<p>使用方式：选择一段内容，使用快捷键 <code>Option + W</code> ，即可实现标签包裹</p>
+<p>效果展示：</p>
+<img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/79716b5c59bc4810821355040a370d06~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="ezgif.com-gif-maker (5).gif" width="100%" />
+
+<h4 id="1-6-5、Gitlens"><a href="#1-6-5、Gitlens" class="headerlink" title="1.6.5、Gitlens"></a>1.6.5、Gitlens</h4><p>它是 VS Code 中非常好用的 Git 管理插件，码农必备</p>
+<p>GitLens 在 Git 管理上有很多强大的功能，比如：</p>
+<blockquote>
+<p>1、将光标放置在代码的当前行，可以看到这样代码的提交者是谁，以及提交时间。这一点，是 GitLens 最便捷的功能。</p>
+<p>2、查看某个 commit 的代码改动记录</p>
+<p>3、查看不同的分支</p>
+<p>4、可以将两个 commit 进行代码对比</p>
+<p>5、甚至可以将两个 branch 分支进行整体的代码对比。这一点，简直是 GitLens 最强大的功能。当我们在不同分支 review 代码的时候，就可以用到这一招</p>
+</blockquote>
+<p>打开 VS Code 的 Git 管理，未安装 Gitlens 时是这样的：</p>
+<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/13952e74e02c49e294c8d5960421c216~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="image-20221025202301457.png" width="50%" />
+
+<p>安装后是这样的：</p>
+<img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7f0c9e3c4b7149a19e243da2edd4840b~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="image-20221025202352760.png" width="50%" />
+
+<p>可以看到下面多了很多选项，这些都是 Gitlens 的功能</p>
+<h4 id="1-6-6、Image-Preview"><a href="#1-6-6、Image-Preview" class="headerlink" title="1.6.6、Image Preview"></a>1.6.6、Image Preview</h4><p>图片预览，当鼠标移动到图片 url 上的时候，会自动显示图片的预览和图片尺寸</p>
+<p>效果展示：</p>
+<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d080471e2b0047cba53496b52e072ae3~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="ezgif.com-gif-maker (6).gif" width="100%" />
+
+<p>ok，好用的插件就推荐这么多</p>
+<h3 id="1-7、VS-Code-配置云同步"><a href="#1-7、VS-Code-配置云同步" class="headerlink" title="1.7、VS Code 配置云同步"></a>1.7、VS Code 配置云同步</h3><p>1、使用快捷键 <code>Cmd + Shift + P</code>打开命令面板，输入设置：</p>
+<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5828d9a68a8b4d58985cabb0505ed78a~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="image-20221025203732645.png" width="50%" />
+
+<p>选择第一项：设置同步: 打开…</p>
+<p>2、选择需要同步的配置</p>
+<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b6f11137a057462f87faaf0fb072680b~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="image-20221025203828081.png" width="50%" />
+
+<p>3、通过 Microsoft 或者 GitHub 账号登录。 上图中，点击<code>登录并打开</code>，会弹出如下界面：</p>
+<img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/19d11934d79c43548722f9285e424ca5~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="image-20221025203901427.png" width="50%" />
+
+<p>4、登录成功并授权，如果收到如下提示，则证明你已经开启了云同步</p>
+<img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5f4f5ef37c1442298962f350fdc840f3~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="image-20221025204213860.png" width="50%" />
+
+<p>5、此时你换另外一台电脑，登录相同的账号，即可完成 VS Code 配置云同步</p>
+<h2 id="二、Web-浏览器：Chrome"><a href="#二、Web-浏览器：Chrome" class="headerlink" title="二、Web 浏览器：Chrome"></a>二、Web 浏览器：Chrome</h2><p>我认为 Chrome 是世界上最好的浏览器，没有之一，使用的人非常多，尤其是程序员。简单的介绍一下它的优势：</p>
+<p>1、界面简洁，清爽干净，没有广告，加载速度快</p>
+<p>2、插件资源丰富，生态完善</p>
+<p>3、全面支持 HTML5 以及兼容问题。前端程序员之所以那么喜欢 chrome，就是因为它兼容起来最简单，而且 HTML5 和 CSS3 可以给用户带来更高层次的视觉和体验</p>
+<p>4、开发者工具好用，方便调试</p>
+<h3 id="2-1、Chrome-快捷键"><a href="#2-1、Chrome-快捷键" class="headerlink" title="2.1、Chrome 快捷键"></a>2.1、Chrome 快捷键</h3><p>掌握好 Chrome 快捷键，让你对 Chrome 爱不释手</p>
+<table>
+<thead>
+<tr>
+<th>Mac Chrome 快捷键</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Cmd + N</td>
+<td>打开新窗口</td>
+</tr>
+<tr>
+<td>Cmd + Shift + N</td>
+<td>在无痕模式下打开新窗口</td>
+</tr>
+<tr>
+<td>Cmd + T</td>
+<td>打开新标签页，并跳转到新标签页</td>
+</tr>
+<tr>
+<td>Cmd + Option + 左右箭头</td>
+<td>切换左右标签页</td>
+</tr>
+<tr>
+<td>Cmd + 1～8</td>
+<td>切换 1～8 标签页</td>
+</tr>
+<tr>
+<td>Cmd + 9</td>
+<td>切换到最后一个标签页</td>
+</tr>
+<tr>
+<td>Cmd + W</td>
+<td>关闭当前标签页</td>
+</tr>
+<tr>
+<td>Cmd + M</td>
+<td>最小化窗口</td>
+</tr>
+<tr>
+<td>Cmd + H</td>
+<td>隐藏 Chrome 浏览器</td>
+</tr>
+<tr>
+<td>Cmd + Q</td>
+<td>退出 Chrome 浏览器</td>
+</tr>
+<tr>
+<td>Cmd + Shift + B</td>
+<td>显示或隐藏书签栏</td>
+</tr>
+<tr>
+<td>Cmd + Option + B</td>
+<td>打开书签管理器</td>
+</tr>
+<tr>
+<td>Cmd + ,</td>
+<td>打开设置页</td>
+</tr>
+<tr>
+<td>Cmd + Y</td>
+<td>在新标签页打开历史记录</td>
+</tr>
+<tr>
+<td>Cmd + Shift + J</td>
+<td>在新标签页打开下载记录</td>
+</tr>
+<tr>
+<td>Cmd + F</td>
+<td>在当前网页打开搜索栏</td>
+</tr>
+<tr>
+<td>Cmd + Option + i 或 Fn + F12</td>
+<td>打开开发者工具</td>
+</tr>
+<tr>
+<td>Cmd + Shift + Backspace</td>
+<td>打开<code>清除浏览数据选项</code></td>
+</tr>
+<tr>
+<td>Cmd + Enter</td>
+<td>在新的标签页打开网址</td>
+</tr>
+<tr>
+<td>Cmd + L</td>
+<td>跳转到地址栏</td>
+</tr>
+<tr>
+<td>Cmd + Shift + R</td>
+<td>重新加载当前网页</td>
+</tr>
+<tr>
+<td>Cmd + O</td>
+<td>从本地选择文件用 Chrome 打开</td>
+</tr>
+<tr>
+<td>Cmd + Option + U</td>
+<td>显示当前网页不可修改的 HTML 源代码</td>
+</tr>
+<tr>
+<td>Cmd + Option + J</td>
+<td>打开 JavaScript 控制台</td>
+</tr>
+<tr>
+<td>Cmd + D</td>
+<td>将当前网页保存为书签</td>
+</tr>
+<tr>
+<td>Cmd + Ctrl + F</td>
+<td>开启或关闭全屏模式</td>
+</tr>
+<tr>
+<td>Cmd + +</td>
+<td>放大网页内容</td>
+</tr>
+<tr>
+<td>Cmd + -</td>
+<td>缩小网页内容</td>
+</tr>
+<tr>
+<td>Cmd + 0</td>
+<td>将网页内容恢复默认大小</td>
+</tr>
+<tr>
+<td>Cmd + Option + F</td>
+<td>使用 Google 进行搜索</td>
+</tr>
+<tr>
+<td>Cmd + Shift + H</td>
+<td>在当前标签页中打开主页</td>
+</tr>
+<tr>
+<td>Cmd + Shift + T</td>
+<td>恢复上一个被关闭的标签页</td>
+</tr>
+</tbody></table>
+<h3 id="2-2、Chrome-常用插件"><a href="#2-2、Chrome-常用插件" class="headerlink" title="2.2、Chrome 常用插件"></a>2.2、Chrome 常用插件</h3><p>掌握好下面这些插件，让你的 Chrome 浏览器变为浏览神器</p>
+<h4 id="2-2-1、AdBlock"><a href="#2-2-1、AdBlock" class="headerlink" title="2.2.1、AdBlock"></a>2.2.1、AdBlock</h4><p>链接：<a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/adblock-%E2%80%94-best-ad-blocker/gighmmpiobklfepjocnamgkkbiglidom?utm_source=chrome-ntp-icon">https://chrome.google.com/webstore/detail/adblock-%E2%80%94-best-ad-blocker/gighmmpiobklfepjocnamgkkbiglidom?utm_source=chrome-ntp-icon</a></p>
+<p>屏蔽网页广告的神器，如果存在漏网之鱼，也可手动添加到屏蔽列表，还你一个干净的网络环境</p>
+<h4 id="2-2-2、OneTab"><a href="#2-2-2、OneTab" class="headerlink" title="2.2.2、OneTab"></a>2.2.2、OneTab</h4><p>链接：<a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/onetab/chphlpgkkbolifaimnlloiipkdnihall?utm_source=chrome-ntp-icon">https://chrome.google.com/webstore/detail/onetab/chphlpgkkbolifaimnlloiipkdnihall?utm_source=chrome-ntp-icon</a></p>
+<p>将打开的诸多网页合并在一个页面</p>
+<h4 id="2-2-3、Octotree-GitHub-code-tree"><a href="#2-2-3、Octotree-GitHub-code-tree" class="headerlink" title="2.2.3、Octotree - GitHub code tree"></a>2.2.3、Octotree - GitHub code tree</h4><p>链接：<a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/octotree-github-code-tree/bkhaagjahfmjljalopjnoealnfndnagc?utm_source=chrome-ntp-icon">https://chrome.google.com/webstore/detail/octotree-github-code-tree/bkhaagjahfmjljalopjnoealnfndnagc?utm_source=chrome-ntp-icon</a></p>
+<p>让你像在 IDE 中浏览 Github 上的代码，非常实用</p>
+<h4 id="2-2-4、GitZip-for-github"><a href="#2-2-4、GitZip-for-github" class="headerlink" title="2.2.4、GitZip for github"></a>2.2.4、GitZip for github</h4><p>链接：<a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/gitzip-for-github/ffabmkklhbepgcgfonabamgnfafbdlkn?utm_source=chrome-ntp-icon">https://chrome.google.com/webstore/detail/gitzip-for-github/ffabmkklhbepgcgfonabamgnfafbdlkn?utm_source=chrome-ntp-icon</a></p>
+<p>让你可以下载 Github 上的某个文件夹或文件</p>
+<h4 id="2-2-5、Google-翻译"><a href="#2-2-5、Google-翻译" class="headerlink" title="2.2.5、Google 翻译"></a>2.2.5、Google 翻译</h4><p>链接：<a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/gitzip-for-github/ffabmkklhbepgcgfonabamgnfafbdlkn?utm_source=chrome-ntp-icon">https://chrome.google.com/webstore/detail/gitzip-for-github/ffabmkklhbepgcgfonabamgnfafbdlkn?utm_source=chrome-ntp-icon</a></p>
+<p>Google 翻译功能非常强大，极力推荐</p>
+<h4 id="2-2-6、稀土掘金"><a href="#2-2-6、稀土掘金" class="headerlink" title="2.2.6、稀土掘金"></a>2.2.6、稀土掘金</h4><p>链接：<a target="_blank" rel="noopener" href="https://reurl.cc/eO0jdb">https://reurl.cc/eO0jdb</a></p>
+<p>掘金的网页插件，里面还有很多实用的工具，非常赞</p>
+<h4 id="2-2-7、Evernote-Web-Clipper"><a href="#2-2-7、Evernote-Web-Clipper" class="headerlink" title="2.2.7、Evernote Web Clipper"></a>2.2.7、Evernote Web Clipper</h4><p>链接：<a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/evernote-web-clipper/pioclpoplcdbaefihamjohnefbikjilc?utm_source=chrome-ntp-icon">https://chrome.google.com/webstore/detail/evernote-web-clipper/pioclpoplcdbaefihamjohnefbikjilc?utm_source=chrome-ntp-icon</a></p>
+<p>插件版印象笔记，当你想保存一个网页的时候，用它吧</p>
+<h4 id="2-2-8、Infinity-New-Tab-Pro"><a href="#2-2-8、Infinity-New-Tab-Pro" class="headerlink" title="2.2.8、Infinity New Tab (Pro)"></a>2.2.8、Infinity New Tab (Pro)</h4><p>链接：<a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/infinity-new-tab-pro/nnnkddnnlpamobajfibfdgfnbcnkgngh?utm_source=chrome-ntp-icon">https://chrome.google.com/webstore/detail/infinity-new-tab-pro/nnnkddnnlpamobajfibfdgfnbcnkgngh?utm_source=chrome-ntp-icon</a></p>
+<p>美观实用的新建标签页，不过我还是更喜欢稀土掘金</p>
+<h2 id="三、Web-文档笔记：Markdown-语法-and-Typora"><a href="#三、Web-文档笔记：Markdown-语法-and-Typora" class="headerlink" title="三、Web 文档笔记：Markdown 语法 and Typora"></a>三、Web 文档笔记：Markdown 语法 and Typora</h2><p>我认为 Typora 是非常好用的写作 app，搭配上 Markdown 语法，简直不要太爽，我平时写博客都是用的它。</p>
+<h3 id="3-1、Markdown-语法介绍"><a href="#3-1、Markdown-语法介绍" class="headerlink" title="3.1、Markdown 语法介绍"></a>3.1、Markdown 语法介绍</h3><h3 id="3-2、Typora"><a href="#3-2、Typora" class="headerlink" title="3.2、Typora"></a>3.2、Typora</h3><h4 id="3-2-1、Typora-showtime"><a href="#3-2-1、Typora-showtime" class="headerlink" title="3.2.1、Typora showtime"></a>3.2.1、Typora showtime</h4><h4 id="3-2-2、Typora-快捷键"><a href="#3-2-2、Typora-快捷键" class="headerlink" title="3.2.2、Typora 快捷键"></a>3.2.2、Typora 快捷键</h4><h4 id="3-2-3、其他细节"><a href="#3-2-3、其他细节" class="headerlink" title="3.2.3、其他细节"></a>3.2.3、其他细节</h4><h2 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h2><p>本篇文章主要介绍了 Web 开发中一些非常好用的开发工具：</p>
+<p>1、VS Code：最适合 Web 开发的编辑器</p>
+<p>2、Chrome：最适合 Web 开发的浏览器</p>
+<p>3、Markdown 语法 + Typora：最适合写作的黄金组合</p>
+<p>好了，本篇文章到这里就结束了，希望能给你带来帮助 🤝</p>
+<p><strong>感谢你阅读这篇文章</strong></p>
+<h3 id="参考和推荐"><a href="#参考和推荐" class="headerlink" title="参考和推荐"></a>参考和推荐</h3><p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903826063884296#heading-98">第一次使用VS Code时你应该知道的一切配置</a></p>
+<blockquote>
+<p><strong>你的点赞，评论，是对我巨大的鼓励！</strong></p>
+<p>欢迎关注我的<strong>公众号：</strong>  <a target="_blank" rel="noopener" href="http://m6z.cn/6jwi7b"><strong>sweetying</strong></a> ，文章更新可第一时间收到</p>
+<p>如果<strong>有问题</strong>，公众号内有加我微信的入口，在技术学习、个人成长的道路上，我们一起前进！</p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Web/" class="category-chain-item">Web</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Web/Web-%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/" class="category-chain-item">Web 快速入门</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%8E%9F%E5%88%9B/">#原创</a>
+      
+        <a href="/tags/Web/">#Web</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Web 系列（二）：Web 开发工具介绍</div>
+      <div>https://sweetying520.github.io/2022/10/24/Web 系列（二）：Web 开发工具介绍/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>sweetying</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年10月24日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/10/23/Gradle%20%E7%B3%BB%E5%88%97%20%EF%BC%88%E4%BA%94%EF%BC%89%E3%80%81Gradle%20Transform%20%E5%AE%8C%E5%85%A8%E8%A7%A3%E6%9E%90/" title="Gradle 系列 （五）、Gradle Transform 完全解析">
+                        <span class="hidden-mobile">Gradle 系列 （五）、Gradle Transform 完全解析</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.4.17/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"zN1E017kYhKuj6GqXHJSbGMb-gzGzoHsz","appKey":"JSwY8PjtA131Y78OHn7kKtio","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <div style="font-size: 0.85rem;"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div> <div style="font-size: 0.85rem;"> <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #d7d8d9;" id="hitokoto">hitokoto</span></a> <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script> </div> <div id="music_div" style="position: fixed; z-index: 100; bottom: 350px; left: 0px;"> <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=100 src="//music.163.com/outchain/player?type=0&id=5426937413&auto=1&height=100"> </iframe> <script src="https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js"></script> <script src="/vvd_js/musicshow.js"></script> </div> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/vvd_js/star.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
