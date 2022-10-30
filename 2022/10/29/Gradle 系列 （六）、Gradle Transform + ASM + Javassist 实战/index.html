@@ -1,0 +1,1155 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <!--自定义看板娘-->
+    <!--自定义看板娘-->
+    <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+    <script src="/live2d-widget/autoload.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
+<!--   <link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css"> -->
+<!--   <script src="https://fastly.jsdelivr.net/gh/stevenjoezhang/live2d-widget@latest/autoload.js"></script> -->
+
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar.png">
+  <link rel="icon" href="/img/avatar.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="sweetying">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前言很高兴遇见你~ 关于 Gradle 学习，我所理解的流程如下图：   在本系列的上一篇文章中，我们介绍了：  1、什么是 Gradle Transform？ 2、自定义 Gradle Transform 流程 3、Gradle Transform 数据流程以及核心 Api 分析 4、Gradle Gransform 的增量与并发并封装了一套自定义模版，简化我们自定义 Gradle Trans">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Gradle 系列 （六）、Gradle Transform + ASM + Javassist 实战">
+<meta property="og:url" content="https://sweetying520.github.io/2022/10/29/Gradle%20%E7%B3%BB%E5%88%97%20%EF%BC%88%E5%85%AD%EF%BC%89%E3%80%81Gradle%20Transform%20+%20ASM%20+%20Javassist%20%E5%AE%9E%E6%88%98/index.html">
+<meta property="og:site_name" content="sweetying">
+<meta property="og:description" content="前言很高兴遇见你~ 关于 Gradle 学习，我所理解的流程如下图：   在本系列的上一篇文章中，我们介绍了：  1、什么是 Gradle Transform？ 2、自定义 Gradle Transform 流程 3、Gradle Transform 数据流程以及核心 Api 分析 4、Gradle Gransform 的增量与并发并封装了一套自定义模版，简化我们自定义 Gradle Trans">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/51a02cee6298479d923bc32aa75d897a~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="article:published_time" content="2022-10-29T09:12:06.000Z">
+<meta property="article:modified_time" content="2022-10-30T13:32:29.487Z">
+<meta property="article:author" content="sweetying">
+<meta property="article:tag" content="原创">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="Gradle">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/51a02cee6298479d923bc32aa75d897a~tplv-k3u1fbpfcp-watermark.image?">
+  
+  
+  
+  <title>Gradle 系列 （六）、Gradle Transform + ASM + Javassist 实战 - sweetying</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/iconfont_juejin/iconfont.css">
+<link rel="stylesheet" href="/css/custom.css">
+<link rel="stylesheet" href="/css/fluid-extention.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sweetying520.github.io","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"zN1E017kYhKuj6GqXHJSbGMb-gzGzoHsz","app_key":"JSwY8PjtA131Y78OHn7kKtio","server_url":"https://zn1e017k.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  <div>
+	<div class='real_mask' style="
+		background-color: rgba(0,0,0,0.3);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -777;
+	"></div>
+	<div id="banner_video_insert">
+	</div>
+	<div id='vvd_banner_img'>
+	</div>
+</div>
+<div id="banner"></div>
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>sweetying</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" target="_blank" rel="noopener" href="https://www.foreverblog.cn/go.html">
+                <i class="iconfont icon-rss"></i>
+                虫洞
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://101.43.39.125/HexoFiles/new/bg-trans.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Gradle 系列 （六）、Gradle Transform + ASM + Javassist 实战"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        sweetying
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-10-29 17:12" pubdate>
+          2022年10月29日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          28k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          233 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
+
+	<div class="banner" id='banner' >
+
+		<div class="full-bg-img" >
+
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
+
+					function set_video_attr(id){
+
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
+
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
+					}
+
+					$.getJSON('/vvd_js/video_url.json', function(data){
+						if (true){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
+
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
+
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
+							set_video_attr('banner_img_item')
+
+							if (!isMobile) {
+								video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+								document.getElementById("banner_video_insert").innerHTML = video_html_res;
+								set_video_attr('video_item')
+							}
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+			</div>
+		</div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Gradle 系列 （六）、Gradle Transform + ASM + Javassist 实战</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/51a02cee6298479d923bc32aa75d897a~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload></p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>很高兴遇见你~</p>
+<p>关于 Gradle 学习，我所理解的流程如下图：</p>
+<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3e010cee57604e179607243e027608d4~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="Gradle_learning" width="100%" />
+
+<p>在本系列的上一篇文章中，我们介绍了：</p>
+<blockquote>
+<p>1、什么是 Gradle Transform？</p>
+<p>2、自定义 Gradle Transform 流程</p>
+<p>3、Gradle Transform 数据流程以及核心 Api 分析</p>
+<p>4、Gradle Gransform 的增量与并发并封装了一套自定义模版，简化我们自定义 Gradle Transform 的使用</p>
+</blockquote>
+<p>还没有看过上一篇文章的朋友，建议先去阅读<a target="_blank" rel="noopener" href="https://juejin.cn/post/7159841721856032804">Gradle 系列 （五）、自定义 Gradle Transform</a>，接下来我们介绍 Gradle Transform + ASM + Javassist 的实战应用</p>
+<h1 id="回顾"><a href="#回顾" class="headerlink" title="回顾"></a>回顾</h1><p>上一篇文章我们在前言中留了几个问题：</p>
+<p>1、为了对 app 性能做一个全面的评估，我们需要做 UI，内存，网络等方面的性能监控，如何做?</p>
+<p>2、发现某个第三方库有 bug ，用起来不爽，但又不想拿它的源码修改在重新编译，有什么好的办法？</p>
+<p>3、我想在不修改源码的情况下，统计某个方法的耗时，对某个方法做埋点，怎么做？</p>
+<p>1 是需要通过 Gradle Transform 去做一个 APM 框架，这个写起来篇幅会过长，后续专门开文章去讲。</p>
+<p>我们主要解决 2，3 这两个问题，在此之前先简单学习点 ASM 和 Javassist 的知识</p>
+<h1 id="一、ASM-筑基"><a href="#一、ASM-筑基" class="headerlink" title="一、ASM 筑基"></a>一、ASM 筑基</h1><h2 id="1-1、ASM-介绍"><a href="#1-1、ASM-介绍" class="headerlink" title="1.1、ASM 介绍"></a>1.1、ASM 介绍</h2><p>ASM 是一个 Java 字节码操作框架。它能被用来动态生成字节码或者对现有的类进行增强。ASM 可以直接生成二进制 class 文件，也可以在类被加载入 Java 虚拟机之前动态改变类行为。比如方法执行前后插入代码，添加成员变量，修改父类，添加接口等等</p>
+<h2 id="1-2、ASM-Api"><a href="#1-2、ASM-Api" class="headerlink" title="1.2、ASM Api"></a>1.2、ASM Api</h2><p>首先先引入 ASM 相关的 Gradle 远程依赖：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-comment">//asm</span><br>implementation <span class="hljs-string">&#x27;org.ow2.asm:asm:9.2&#x27;</span><br>implementation <span class="hljs-string">&#x27;org.ow2.asm:asm-util:9.2&#x27;</span><br>implementation <span class="hljs-string">&#x27;org.ow2.asm:asm-commons:9.2&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p>ASM 的 Api 有两种使用方式：</p>
+<blockquote>
+<p>1、Tree Api ：树形模式</p>
+<p>2、Visitor Api ：访问者模式</p>
+</blockquote>
+<p>Tree Api 会将 class 文件的结构读取到内存，构建一个树形结构，在处理 Method，Field 等元素时，会到树形结构中定位到某个元素进行操作，然后把操作在写入 class 文件，最终达到修改字节码的目的。一般比较适合处理复杂的场景</p>
+<h3 id="1-2-1、Visitor-Api：访问者模式"><a href="#1-2-1、Visitor-Api：访问者模式" class="headerlink" title="1.2.1、Visitor Api：访问者模式"></a>1.2.1、Visitor Api：访问者模式</h3><p>Visitor Api 则是通过接口的方式，分离<strong>读 class</strong> 和<strong>写 class</strong> 的逻辑，一般通过 ClassReader 读取 class ，然后 ClassReader 通过 ClassVisitor 抽象类（ClassWriter 是它的具体实现类），将 class 的每个细节按顺序传递给 ClassVisitor（ClassVisitor 中有许多 visitXXX 方法），这个过程就像 ClassReader 带着 ClassVisitor 游览了 class 的每一个指令，有了这些信息，就可以操作这个 class 了</p>
+<p>这种方式比较适合处理一些简单的场景，如：<strong>出于某个目的，寻找 class 文件中的一个 hook 点进行字节码修改</strong>。我们就可以使用这种方式</p>
+<h4 id="1-2-1-1、ClassVisitor"><a href="#1-2-1-1、ClassVisitor" class="headerlink" title="1.2.1.1、ClassVisitor"></a>1.2.1.1、ClassVisitor</h4><p>ClassVisitor 是一个抽象类，主要用于接收 ClassReader 传递过来的每一个字节码指令，常用的实现类有：ClassWriter。</p>
+<h5 id="1-2-1-1-1、ClassVisitor-构造方法"><a href="#1-2-1-1-1、ClassVisitor-构造方法" class="headerlink" title="1.2.1.1.1、ClassVisitor 构造方法"></a>1.2.1.1.1、ClassVisitor 构造方法</h5><p>ClassVisitor 构造方法主要有两个：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-title function_">ClassVisitor</span><span class="hljs-params">(<span class="hljs-keyword">final</span> <span class="hljs-type">int</span> api)</span> &#123;<br>   <span class="hljs-built_in">this</span>(api, <span class="hljs-literal">null</span>);<br> &#125;<br><br><br><span class="hljs-keyword">public</span> <span class="hljs-title function_">ClassVisitor</span><span class="hljs-params">(<span class="hljs-keyword">final</span> <span class="hljs-type">int</span> api, <span class="hljs-keyword">final</span> ClassVisitor classVisitor)</span>&#123;<br>   <span class="hljs-comment">//...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>我们可以使用：</p>
+<blockquote>
+<p>1、传入 ASM 的 Api 版本去构建它：Opcodes.ASM4, Opcodes.ASM5, Opcodes.ASM6 or Opcodes.ASM7</p>
+<p>2、传入 ASM 的 Api  版本和 ClassVisitor 的实现类如：ClassWriter 去构建它</p>
+</blockquote>
+<h5 id="1-2-1-1-2、ClassVisitor-visitXXX-系列方法"><a href="#1-2-1-1-2、ClassVisitor-visitXXX-系列方法" class="headerlink" title="1.2.1.1.2、ClassVisitor visitXXX 系列方法"></a>1.2.1.1.2、ClassVisitor visitXXX 系列方法</h5><p>它还有一系列 visitXXX 方法，列举常用的几个：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ClassVisitor</span> &#123;<br>  <span class="hljs-comment">//...</span><br>  <br>  <span class="hljs-comment">//一开始调用</span><br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">visit</span><span class="hljs-params">(</span><br><span class="hljs-params">      <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> version,</span><br><span class="hljs-params">      <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> access,</span><br><span class="hljs-params">      <span class="hljs-keyword">final</span> String name,//类名，例如：com.dream.androidutil.StringUtils =&gt; com/dream/androidutil/StringUtils</span><br><span class="hljs-params">      <span class="hljs-keyword">final</span> String signature,//泛型</span><br><span class="hljs-params">      <span class="hljs-keyword">final</span> String superName,//父类名</span><br><span class="hljs-params">      <span class="hljs-keyword">final</span> String[] interfaces)</span> &#123;<span class="hljs-comment">//实现的接口</span><br>  &#125;<br><br>  <span class="hljs-comment">//访问注解</span><br>  <span class="hljs-keyword">public</span> AnnotationVisitor <span class="hljs-title function_">visitAnnotation</span><span class="hljs-params">(</span><br><span class="hljs-params">    //注解名称，例如：com.dream.customannotation.CostTime =&gt; Lcom/dream/customannotation/CostTime;</span><br><span class="hljs-params">    <span class="hljs-keyword">final</span> String descriptor,</span><br><span class="hljs-params">    <span class="hljs-keyword">final</span> <span class="hljs-type">boolean</span> visible)</span> &#123;<br>    <span class="hljs-comment">//...</span><br>  &#125;<br><br>  <span class="hljs-comment">//访问方法</span><br>  <span class="hljs-keyword">public</span> MethodVisitor <span class="hljs-title function_">visitMethod</span><span class="hljs-params">(</span><br><span class="hljs-params">      <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> access,</span><br><span class="hljs-params">      <span class="hljs-keyword">final</span> String name,//方法名，例如：getCharArray</span><br><span class="hljs-params">      <span class="hljs-keyword">final</span> String descriptor,//方法签名，简单来说就是方法参数和返回值的特定字符串</span><br><span class="hljs-params">      <span class="hljs-keyword">final</span> String signature,//泛型</span><br><span class="hljs-params">      <span class="hljs-keyword">final</span> String[] exceptions)</span> &#123;<br>    <span class="hljs-keyword">if</span> (cv != <span class="hljs-literal">null</span>) &#123;<br>      <span class="hljs-keyword">return</span> cv.visitMethod(access, name, descriptor, signature, exceptions);<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>  &#125;<br><br>  <span class="hljs-comment">//访问结束时调用</span><br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">visitEnd</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-keyword">if</span> (cv != <span class="hljs-literal">null</span>) &#123;<br>      cv.visitEnd();<br>    &#125;<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h5 id="1-2-1-1-3、ClassVisitor-visitXXX-方法调用顺序"><a href="#1-2-1-1-3、ClassVisitor-visitXXX-方法调用顺序" class="headerlink" title="1.2.1.1.3、ClassVisitor visitXXX 方法调用顺序"></a>1.2.1.1.3、ClassVisitor visitXXX 方法调用顺序</h5><p>上述方法的调用遵循一定的顺序，下面列举的是所有 visitXXX 方法的调用顺序：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs java">visit<br>[visitSource][visitModule][visitNestHost][visitPermittedSubclass][visitOuterClass]<br>(<br> visitAnnotation |<br> visitTypeAnnotation |<br> visitAttribute<br>)*<br>(<br> visitNestMember |<br> visitInnerClass |<br> visitRecordComponent |<br> visitField |<br> visitMethod<br>)* <br>visitEnd<br></code></pre></td></tr></table></figure>
+
+<p>其中，涉及到一些符号，它们的含义如下：</p>
+<blockquote>
+<p><code>[]</code> ：表示最多调用一次，可以不调用，但最多调用一次。</p>
+<p><code>() 和 |</code> ：表示在多个方法之间，可以选择任意一个，并且多个方法之间不分前后顺序</p>
+<p><code>*</code> ： 表示方法可以调用0次或多次。</p>
+</blockquote>
+<p>简化一下，如下示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java">visit<br>(<br> visitAnnotation |<br>)* <br>(<br> visitField |<br> visitMethod<br>)* <br>visitEnd<br></code></pre></td></tr></table></figure>
+
+<p>解释说明：上述代码会先调用<code>visit</code>方法，接着调用<code>visitAnnotation</code> 方法，然后在调用<code>visitField</code>或<code>visitMethod</code>方法，最后调用<code>visitEnd</code>方法</p>
+<h4 id="1-2-1-2、ClassReader"><a href="#1-2-1-2、ClassReader" class="headerlink" title="1.2.1.2、ClassReader"></a>1.2.1.2、ClassReader</h4><p>ClassReader 主要用于读取 class 文件，并把每个字节码指令传递给 ClassVisitor 的 visitXXX 方法</p>
+<h5 id="1-2-1-2-1、ClassReader-构造方法"><a href="#1-2-1-2-1、ClassReader-构造方法" class="headerlink" title="1.2.1.2.1、ClassReader 构造方法"></a>1.2.1.2.1、ClassReader 构造方法</h5><p>如下图：</p>
+<img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d2a50d01c481464fb01503d80c236749~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="image-20221030123617942.png" width="50%" />
+
+<p>我们可以使用：</p>
+<blockquote>
+<p>1、ByteArray（字节数组）</p>
+<p>2、inputStream（输入六），</p>
+<p>3、className（String 的 类名称）</p>
+</blockquote>
+<p>等来构建它</p>
+<h5 id="1-2-1-2-2、ClassReader-方法"><a href="#1-2-1-2-2、ClassReader-方法" class="headerlink" title="1.2.1.2.2、ClassReader 方法"></a>1.2.1.2.2、ClassReader 方法</h5><p>ClassReader 提供了一系列 get 方法获取类信息：</p>
+<img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/edec8136dcf845d2b940f0b403bbcec4~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="image-20221030124122636.png" width="50%" />
+
+<p>不过，它最重要的方法还是 accept 方法：</p>
+<img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e53c68de33dd4752afe8dffaab0e3796~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="image-20221030124229333.png" width="50%" />
+
+<p>accept 可以接收一个 ClassVisitor 和一个 parsingOptions。parsingOptions 取值如下：</p>
+<blockquote>
+<p>0：会生成所有的ASM代码，包括调试信息、frame信息和代码信息。</p>
+<p>ClassReader.SKIP_CODE：会忽略代码信息，例如：会忽略对于 MethodVisitor.visitXxxInsn() 方法的调用</p>
+<p>ClassReader.SKIP_DEBUG：会忽略调试信息，例如：会忽略对于MethodVisitor.visitParameter()、MethodVisitor.visitLineNumber()等方法的调用。</p>
+<p>ClassReader.SKIP_FRAMES：会忽略 frame 信息，例如：会忽略对于MethodVisitor.visitFrame()方法的调用。</p>
+<p>ClassReader.EXPAND_FRAMES：会对frame信息进行扩展，例如：会对 MethodVisitor.visitFrame() 方法的参数有影响。</p>
+</blockquote>
+<p><strong>Tips</strong>:  推荐使用<code>ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES</code>，因为使用这样的一个值，可以生成最少的 ASM 代码，但是又能实现完整的功能</p>
+<p>接收后便开始读取数据。当满足一定条件时，就会触发 ClassVisitor 下的 visitXXX 方法。如下示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.dream.gradletransformdemo;<br><br><span class="hljs-keyword">import</span> org.objectweb.asm.ClassReader;<br><span class="hljs-keyword">import</span> org.objectweb.asm.ClassVisitor;<br><span class="hljs-keyword">import</span> org.objectweb.asm.MethodVisitor;<br><span class="hljs-keyword">import</span> org.objectweb.asm.Opcodes;<br><span class="hljs-keyword">import</span> java.io.IOException;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Test</span> &#123;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] var0)</span> <span class="hljs-keyword">throws</span> IOException &#123;<br>        <span class="hljs-type">ClassReader</span> <span class="hljs-variable">cr</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ClassReader</span>(<span class="hljs-string">&quot;java.util.ArrayList&quot;</span>);<br>        cr.accept(<span class="hljs-keyword">new</span> <span class="hljs-title class_">MyClassVisitor</span>(Opcodes.ASM7),ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES);<br>    &#125;<br><br>    <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyClassVisitor</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">ClassVisitor</span> &#123;<br><br>        <span class="hljs-keyword">public</span> <span class="hljs-title function_">MyClassVisitor</span><span class="hljs-params">(<span class="hljs-type">int</span> api)</span> &#123;<br>            <span class="hljs-built_in">super</span>(api);<br>        &#125;<br><br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-keyword">public</span> MethodVisitor <span class="hljs-title function_">visitMethod</span><span class="hljs-params">(<span class="hljs-type">int</span> access, String name, String descriptor, String signature, String[] exceptions)</span> &#123;<br>            System.out.println(<span class="hljs-string">&quot;visitMethod: &quot;</span> + <span class="hljs-string">&quot;access=&gt;&quot;</span> + access + <span class="hljs-string">&quot; name=&gt;&quot;</span> + name<br>                    + <span class="hljs-string">&quot; descriptor=&gt;&quot;</span> + descriptor);<br>            <span class="hljs-keyword">return</span> <span class="hljs-built_in">super</span>.visitMethod(access, name, descriptor, signature, exceptions);<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>我们继承了ClassVisitor 类并重写了visitMethod 方法。还记得之前所说的吗？ClassVistor 定义了在读取 class 时会触发的 visitXXX 方法。通过 accept 方法，建立了 ClassVisitor 与 ClassReader 之间的连接。因此，当 ClassReader 访问对象的方法时，它将触发ClassVisitor 内的 visitMethod 方法，这时由于我们在 visitMethod 下添加了一条打印语句，因此会打印如下信息：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//打印结果，因为 ArrayList 方法众多，简单截取看几个常用的</span><br><span class="hljs-comment">//...</span><br><span class="hljs-comment">//&lt;init&gt; 对应的就是 ArrayList 的构造方法，我们可以看到有三个</span><br>visitMethod: access=&gt;<span class="hljs-number">1</span> name=&gt;&lt;init&gt; descriptor=&gt;(I)V<br>visitMethod: access=&gt;<span class="hljs-number">1</span> name=&gt;&lt;init&gt; descriptor=&gt;()V<br>visitMethod: access=&gt;<span class="hljs-number">1</span> name=&gt;&lt;init&gt; descriptor=&gt;(Ljava/util/Collection;)V<br><span class="hljs-comment">//ArrayList get 方法</span><br>visitMethod: access=&gt;<span class="hljs-number">1</span> name=&gt;get descriptor=&gt;(I)Ljava/lang/Object;<br><span class="hljs-comment">//ArrayList set 方法</span><br>visitMethod: access=&gt;<span class="hljs-number">1</span> name=&gt;set descriptor=&gt;(ILjava/lang/Object;)Ljava/lang/Object;<br><span class="hljs-comment">//ArrayList add 方法，有 3 个</span><br>visitMethod: access=&gt;<span class="hljs-number">2</span> name=&gt;add descriptor=&gt;(Ljava/lang/Object;[Ljava/lang/Object;I)V<br>visitMethod: access=&gt;<span class="hljs-number">1</span> name=&gt;add descriptor=&gt;(Ljava/lang/Object;)Z<br>visitMethod: access=&gt;<span class="hljs-number">1</span> name=&gt;add descriptor=&gt;(ILjava/lang/Object;)V<br><span class="hljs-comment">//ArrayList remove 方法                                                                                                      </span><br>visitMethod: access=&gt;<span class="hljs-number">1</span> name=&gt;remove descriptor=&gt;(I)Ljava/lang/Object;<br>visitMethod: access=&gt;<span class="hljs-number">1</span> name=&gt;remove descriptor=&gt;(Ljava/lang/Object;)Z                                                                                                      <br><span class="hljs-comment">//...                                                                                                       </span><br></code></pre></td></tr></table></figure>
+
+<h5 id="1-2-1-2-3、字段解析"><a href="#1-2-1-2-3、字段解析" class="headerlink" title="1.2.1.2.3、字段解析"></a>1.2.1.2.3、字段解析</h5><p>上述打印结果：</p>
+<p><code>&lt;init&gt;</code> ：表示一个类构造函数的名字</p>
+<p><code>access</code> ：方法的访问控制符的定义</p>
+<p><code>name</code> ：方法名</p>
+<p><code>descriptor</code> ：方法签名，简单来说就是方法参数和返回值的特定字符串</p>
+<p>我们挑两个 descriptor 进行解析：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//1、() 里面的表示参数</span><br><span class="hljs-comment">//2、I 表示 int，</span><br><span class="hljs-comment">//3、如果不是基础类型，需要写完整包名，同时以 L 打头，例如 Object 对应：Ljava/lang/Object;</span><br><span class="hljs-comment">//4、V 表示 void</span><br><span class="hljs-comment">//因此我们可以知道这个 descriptor ：接收两个参数：int，Object ，返回值为：void</span><br>descriptor=&gt;(ILjava/lang/Object;)V<br>  <br><span class="hljs-comment">//1、() 里面的表示参数，() 外面的表示返回值</span><br><span class="hljs-comment">//2、如果是特定的类，需要写完整包名，同时以 L 打头，例如 Object 对应：Ljava/lang/Object;</span><br><span class="hljs-comment">//4、Z 表示 boolean</span><br><span class="hljs-comment">//因此我们可以知道这个 descriptor ：接收一个参数：Object ，返回值为：boolean</span><br>descriptor=&gt;(Ljava/lang/Object;)Z<br></code></pre></td></tr></table></figure>
+
+<p><strong>注意 () 里面的参数</strong>：</p>
+<p>1、没有的话就什么都不写</p>
+<p>2、有的话，如果不是基础类型，要是以 L 打头的类名（包含包名）</p>
+<p>3、对于数组以 [ 打头，</p>
+<p>4、如果不是基础类型，多个参数之间用分号；进行分隔，即便只有一个参数，也要写分号</p>
+<p>类型对应表：</p>
+<table>
+<thead>
+<tr>
+<th>Type Descriptor</th>
+<th>Java Type</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Z</td>
+<td>boolean</td>
+</tr>
+<tr>
+<td>C</td>
+<td>char</td>
+</tr>
+<tr>
+<td>B</td>
+<td>byte</td>
+</tr>
+<tr>
+<td>S</td>
+<td>short</td>
+</tr>
+<tr>
+<td>I</td>
+<td>int</td>
+</tr>
+<tr>
+<td>F</td>
+<td>float</td>
+</tr>
+<tr>
+<td>J</td>
+<td>long</td>
+</tr>
+<tr>
+<td>D</td>
+<td>double</td>
+</tr>
+<tr>
+<td>Ljava&#x2F;lang&#x2F;Object;</td>
+<td>Object</td>
+</tr>
+<tr>
+<td><code>[I</code></td>
+<td><code>int[]</code></td>
+</tr>
+<tr>
+<td><code>[[Ljava/lang/Object</code></td>
+<td><code>Object[][]</code></td>
+</tr>
+</tbody></table>
+<h4 id="1-2-1-3、ClassWriter"><a href="#1-2-1-3、ClassWriter" class="headerlink" title="1.2.1.3、ClassWriter"></a>1.2.1.3、ClassWriter</h4><p>ClassWriter 的父类是 ClassVisitor ，因此继承了 ClassVisitor 的 visitXXX 系列方法，主要用于字节码的写入</p>
+<h5 id="1-2-1-3-1、ClassWriter-构造方法"><a href="#1-2-1-3-1、ClassWriter-构造方法" class="headerlink" title="1.2.1.3.1、ClassWriter 构造方法"></a>1.2.1.3.1、ClassWriter 构造方法</h5><p>ClassWriter 的构造方法有两个：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-title function_">ClassWriter</span><span class="hljs-params">(<span class="hljs-keyword">final</span> <span class="hljs-type">int</span> flags)</span> &#123;<br>  <span class="hljs-built_in">this</span>(<span class="hljs-literal">null</span>, flags);<br>&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-title function_">ClassWriter</span><span class="hljs-params">(<span class="hljs-keyword">final</span> ClassReader classReader, <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> flags)</span> &#123;<br>  <span class="hljs-comment">//...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>我们可以使用：</p>
+<blockquote>
+<p>1、flags </p>
+<p>2、classReader + flags</p>
+</blockquote>
+<p>来构建它，其中 flags 的取值如下：</p>
+<blockquote>
+<p>0 ：ASM 不会自动计算 max stacks 和 max locals，也不会自动计算 stack map frames</p>
+<p>ClassWriter.COMPUTE_MAXS ：ASM 会自动计算 max stacks 和 max locals，但不会自动计算 stack map frames</p>
+<p>ClassWriter.COMPUTE_FRAMES ：ASM 会自动计算 max stacks 和 max locals，也会自动计算 stack map frames</p>
+</blockquote>
+<p><strong>Tips</strong>： 建议使用 ClassWriter.COMPUTE_FRAMES，计算速度快，执行效率高</p>
+<h5 id="1-2-1-3-2、toByteArray-方法"><a href="#1-2-1-3-2、toByteArray-方法" class="headerlink" title="1.2.1.3.2、toByteArray 方法"></a>1.2.1.3.2、toByteArray 方法</h5><p>这个方法的作用是将我们之前对 class 的修改（visitXXX 内部修改字节码）转换成 byte 数组，然后通过输出流写入到文件，这样就达到了修改字节码的目的</p>
+<p>ok，ASM 的知识点就介绍这么多，接下来我们看下 Javassist</p>
+<h1 id="二、Javassist-筑基"><a href="#二、Javassist-筑基" class="headerlink" title="二、Javassist 筑基"></a>二、Javassist 筑基</h1><p>简单介绍下 Javassist，因为它和 Java 的反射 Api 很像，上手简单一些，大家直接代码中去感受一下，写了详细的注释</p>
+<p>首先先添加 Javassist Gradle 远程依赖：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs groovy">implementation <span class="hljs-string">&#x27;org.javassist:javassist:3.29.2-GA&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="2-1、使用-Javassist-生成-class-文件"><a href="#2-1、使用-Javassist-生成-class-文件" class="headerlink" title="2.1、使用 Javassist 生成 class 文件"></a>2.1、使用 Javassist 生成 class 文件</h2><p>1、首先提供一个待生成的 class 文件模版，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.dream.gradletransformdemo;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Person</span> &#123;<br>    <span class="hljs-comment">//私有属性 name，初始值：erdai</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-type">String</span> <span class="hljs-variable">name</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;erdai&quot;</span>;<br><br>    <span class="hljs-comment">//name get 方法</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setName</span><span class="hljs-params">(String var1)</span> &#123;<br>        <span class="hljs-built_in">this</span>.name = var1;<br>    &#125;<br><br>    <span class="hljs-comment">//name set 方法</span><br>    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">getName</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.name;<br>    &#125;<br>		<br>    <span class="hljs-comment">//无参构造方法，方法体：this.name = &quot;xiaoming&quot;;</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">Person</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-built_in">this</span>.name = <span class="hljs-string">&quot;xiaoming&quot;</span>;<br>    &#125;<br><br>    <span class="hljs-comment">//一个参数的构造方法，方法提：this.name = var1;</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">Person</span><span class="hljs-params">(String var1)</span> &#123;<br>        <span class="hljs-built_in">this</span>.name = var1;<br>    &#125;<br><br>    <span class="hljs-comment">//普通方法：printName，方法提：System.out.println(this.name);</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">printName</span><span class="hljs-params">()</span> &#123;<br>        System.out.println(<span class="hljs-built_in">this</span>.name);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>2、编写 Javassist 代码生成 Person.class 文件</p>
+<p>Javassist 生成 .class 文件和 JavaPoet 生成 .java 文件非常类似，如果你熟悉 JavaPoet 的话，下面生成过程将会变得非常简单</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">TestCreateClass</span> &#123;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 创建一个 Person.class 文件</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> CtClass <span class="hljs-title function_">createPersonClass</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>        <span class="hljs-type">ClassPool</span> <span class="hljs-variable">pool</span> <span class="hljs-operator">=</span> ClassPool.getDefault();<br><br>        <span class="hljs-comment">// 1. 创建一个空类：Person ，包名：com.dream.gradletransformdemo</span><br>        <span class="hljs-type">CtClass</span> <span class="hljs-variable">cc</span> <span class="hljs-operator">=</span> pool.makeClass(<span class="hljs-string">&quot;com.dream.gradletransformdemo.Person&quot;</span>);<br><br>        <span class="hljs-comment">// 2. 新增一个字段 private String name;</span><br>        <span class="hljs-comment">// 字段名为 name</span><br>        <span class="hljs-type">CtField</span> <span class="hljs-variable">param</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">CtField</span>(pool.get(<span class="hljs-string">&quot;java.lang.String&quot;</span>), <span class="hljs-string">&quot;name&quot;</span>, cc);<br>        <span class="hljs-comment">// 访问级别是 private</span><br>        param.setModifiers(Modifier.PRIVATE);<br>        <span class="hljs-comment">// 初始值是 &quot;erdai&quot;</span><br>        cc.addField(param, CtField.Initializer.constant(<span class="hljs-string">&quot;erdai&quot;</span>));<br><br>        <span class="hljs-comment">// 3. 生成 setter、getter 方法</span><br>        cc.addMethod(CtNewMethod.setter(<span class="hljs-string">&quot;setName&quot;</span>, param));<br>      	cc.addMethod(CtNewMethod.getter(<span class="hljs-string">&quot;getName&quot;</span>, param));<br>    <br>        <span class="hljs-comment">// 4. 添加无参的构造函数</span><br>        <span class="hljs-type">CtConstructor</span> <span class="hljs-variable">cons</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">CtConstructor</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">CtClass</span>[]&#123;&#125;, cc);<br>      	<span class="hljs-comment">//方法体：this.name = &quot;xiaoming&quot;;</span><br>        cons.setBody(<span class="hljs-string">&quot;&#123;name = \&quot;xiaoming\&quot;;&#125;&quot;</span>);<br>        cc.addConstructor(cons);<br><br>        <span class="hljs-comment">// 5. 添加有参的构造函数</span><br>        cons = <span class="hljs-keyword">new</span> <span class="hljs-title class_">CtConstructor</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">CtClass</span>[]&#123;pool.get(<span class="hljs-string">&quot;java.lang.String&quot;</span>)&#125;, cc);<br>        <span class="hljs-comment">// 方法提：this.name = var1; </span><br>      	<span class="hljs-comment">//$0=this \$1,$2,$3... 代表方法参数</span><br>        cons.setBody(<span class="hljs-string">&quot;&#123;$0.name = $1;&#125;&quot;</span>);<br>        cc.addConstructor(cons);<br><br>        <span class="hljs-comment">// 6. 创建一个名为 printName 的方法，无参数，无返回值，输出 name 值</span><br>        <span class="hljs-type">CtMethod</span> <span class="hljs-variable">ctMethod</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">CtMethod</span>(CtClass.voidType, <span class="hljs-string">&quot;printName&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">CtClass</span>[]&#123;&#125;, cc);<br>        ctMethod.setModifiers(Modifier.PUBLIC);<br>        ctMethod.setBody(<span class="hljs-string">&quot;&#123;System.out.println(this.name);&#125;&quot;</span>);<br>        cc.addMethod(ctMethod);<br><br>        <span class="hljs-comment">// 将 Person.class 文件输出到如下文件夹</span><br>        cc.writeFile(<span class="hljs-string">&quot;/Users/zhouying/AndroidStudioProjects/MixDemo/GradleTransformDemo/app/src/main/java/&quot;</span>);<br>      	<span class="hljs-keyword">return</span> cc;<br>    &#125;<br><br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            createPersonClass();<br>        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>            e.printStackTrace();<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="2-2、使用-Javassist-调用生成的类对象"><a href="#2-2、使用-Javassist-调用生成的类对象" class="headerlink" title="2.2、使用 Javassist 调用生成的类对象"></a>2.2、使用 Javassist 调用生成的类对象</h2><p>主要有三种方式：</p>
+<blockquote>
+<p>1、通过生成类时创建的 CtClass 实例对象获取 Class 对象，然后通过反射调用</p>
+<p>2、通过读取生成类的位置生成  CtClass 实例对象，在通过 CtClass 实例对象获取 Class 对象，然后通过反射调用</p>
+<p>3、通过定义一个新接口的方式</p>
+</blockquote>
+<p>以上面生成的类为例，我们来调用一下它</p>
+<p>1、通过生成类时创建的 CtClass 实例对象获取 Class 对象，然后通过反射调用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">TestCreateClass</span> &#123;<br><br>    <span class="hljs-comment">//...</span><br><br>    <span class="hljs-comment">//修改 main 方法</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-type">CtClass</span> <span class="hljs-variable">ctClass</span> <span class="hljs-operator">=</span> createPersonClass();<br>            <span class="hljs-comment">//将 ctClass 转换成 Class 对象，这样我们就可以愉快的使用反射拉</span><br>            Class&lt;?&gt; clazz = ctClass.toClass();<br>            <span class="hljs-type">Object</span> <span class="hljs-variable">o</span> <span class="hljs-operator">=</span> clazz.newInstance();<br>            <span class="hljs-comment">//调用 Person 的 set 方法将 name 设为：erdai666</span><br>            <span class="hljs-type">Method</span> <span class="hljs-variable">setNameMethod</span> <span class="hljs-operator">=</span> clazz.getDeclaredMethod(<span class="hljs-string">&quot;setName&quot;</span>,String.class);<br>            setNameMethod.invoke(o,<span class="hljs-string">&quot;erdai666&quot;</span>);<br>            <span class="hljs-comment">//调用 printName 方法打印出来</span><br>            <span class="hljs-type">Method</span> <span class="hljs-variable">printNameMethod</span> <span class="hljs-operator">=</span> clazz.getDeclaredMethod(<span class="hljs-string">&quot;printName&quot;</span>);<br>            printNameMethod.invoke(o);<br>        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>            e.printStackTrace();<br>        &#125;<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//运行后，打印结果</span><br>erdai666<br></code></pre></td></tr></table></figure>
+
+<p>2、通过读取生成类的位置生成  CtClass 实例对象，在通过 CtClass 实例对象获取 Class 对象，然后通过反射调用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">TestCreateClass</span> &#123;<br>  	<br>    <span class="hljs-comment">//...</span><br><br>    <span class="hljs-comment">//修改 main 方法</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-type">ClassPool</span> <span class="hljs-variable">classPool</span> <span class="hljs-operator">=</span> ClassPool.getDefault();<br>            <span class="hljs-comment">//通过生成类的绝对位置构建 CtClass 实例对象</span><br>            classPool.appendClassPath<br>                    (<span class="hljs-string">&quot;/Users/zhouying/AndroidStudioProjects/MixDemo/GradleTransformDemo/app/src/main/java/&quot;</span>);<br>            <span class="hljs-type">CtClass</span> <span class="hljs-variable">ctClass</span> <span class="hljs-operator">=</span> classPool.get(<span class="hljs-string">&quot;com.dream.gradletransformdemo.Person&quot;</span>);<br>            <span class="hljs-comment">//将 ctClass 转换成 Class 对象，这样我们就可以愉快的使用反射拉</span><br>            Class&lt;?&gt; clazz = ctClass.toClass();<br>            <span class="hljs-type">Object</span> <span class="hljs-variable">o</span> <span class="hljs-operator">=</span> clazz.newInstance();<br>            <span class="hljs-comment">//调用 Person 的 set 方法将 name 设为：erdai666</span><br>            <span class="hljs-type">Method</span> <span class="hljs-variable">setNameMethod</span> <span class="hljs-operator">=</span> clazz.getDeclaredMethod(<span class="hljs-string">&quot;setName&quot;</span>,String.class);<br>            setNameMethod.invoke(o,<span class="hljs-string">&quot;erdai666&quot;</span>);<br>            <span class="hljs-comment">//调用 printName 方法打印出来</span><br>            <span class="hljs-type">Method</span> <span class="hljs-variable">printNameMethod</span> <span class="hljs-operator">=</span> clazz.getDeclaredMethod(<span class="hljs-string">&quot;printName&quot;</span>);<br>            printNameMethod.invoke(o);<br>        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>            e.printStackTrace();<br>        &#125;<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//运行后，打印结果</span><br>erdai666<br></code></pre></td></tr></table></figure>
+
+<p>3、通过定义一个新接口的方式</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">IPerson</span>&#123;<br>    <span class="hljs-keyword">void</span> <span class="hljs-title function_">setName</span><span class="hljs-params">(String name)</span>;<br><br>    String <span class="hljs-title function_">getName</span><span class="hljs-params">()</span>;<br><br>    <span class="hljs-keyword">void</span> <span class="hljs-title function_">printName</span><span class="hljs-params">()</span>;<br>&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">TestCreateClass</span> &#123;<br><br>    <span class="hljs-comment">//...</span><br><br>    <span class="hljs-comment">//修改 main 方法</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-type">ClassPool</span> <span class="hljs-variable">classPool</span> <span class="hljs-operator">=</span> ClassPool.getDefault();<br>            <span class="hljs-comment">//通过生成类的绝对位置构建 CtClass 实例对象</span><br>           classPool.appendClassPath<br>                    (<span class="hljs-string">&quot;/Users/zhouying/AndroidStudioProjects/MixDemo/GradleTransformDemo/app/src/main/java/&quot;</span>);<br>            <span class="hljs-comment">//获取接口</span><br>            <span class="hljs-type">CtClass</span> <span class="hljs-variable">iPersonCtClass</span> <span class="hljs-operator">=</span> classPool.get(<span class="hljs-string">&quot;com.dream.gradletransformdemo.IPerson&quot;</span>);<br>            <span class="hljs-comment">//获取生成的类 Person</span><br>            <span class="hljs-type">CtClass</span> <span class="hljs-variable">personCtClass</span> <span class="hljs-operator">=</span> classPool.get(<span class="hljs-string">&quot;com.dream.gradletransformdemo.Person&quot;</span>);<br>            <span class="hljs-comment">//让 Person 实现 IPerson 接口</span><br>            personCtClass.setInterfaces(<span class="hljs-keyword">new</span> <span class="hljs-title class_">CtClass</span>[]&#123;iPersonCtClass&#125;);<br><br>            <span class="hljs-comment">//接下俩就可以通过接口进行调用了</span><br>            <span class="hljs-type">IPerson</span> <span class="hljs-variable">person</span> <span class="hljs-operator">=</span> (IPerson) personCtClass.toClass().newInstance();<br>            person.setName(<span class="hljs-string">&quot;erdai666&quot;</span>);<br>            person.printName();<br>        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>            e.printStackTrace();<br>        &#125;<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//运行后，打印结果</span><br>erdai666<br></code></pre></td></tr></table></figure>
+
+<h2 id="2-3、Javassist-修改现有的类对象"><a href="#2-3、Javassist-修改现有的类对象" class="headerlink" title="2.3、Javassist 修改现有的类对象"></a>2.3、Javassist 修改现有的类对象</h2><p>一般我们会使用这种方式结合 Gradle Transform 实现对现有类的插桩</p>
+<p>1、首先我们先创建一个 PersonService.java 的文件，内容如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.dream.gradletransformdemo;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">PersonService</span> &#123;<br>    <br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">getPerson</span><span class="hljs-params">()</span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;get Person&quot;</span>);<br>    &#125;<br>    <br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">personFly</span><span class="hljs-params">()</span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;I believe i can fly...&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>2、接下来使用 Javassist 对它进行修改</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">TestUpdatePersonService</span> &#123;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-type">ClassPool</span> <span class="hljs-variable">pool</span> <span class="hljs-operator">=</span> ClassPool.getDefault();<br>            <span class="hljs-type">CtClass</span> <span class="hljs-variable">ctClass</span> <span class="hljs-operator">=</span> pool.get(<span class="hljs-string">&quot;com.dream.gradletransformdemo.PersonService&quot;</span>);<br><br>            <span class="hljs-type">CtMethod</span> <span class="hljs-variable">personFly</span> <span class="hljs-operator">=</span> ctClass.getDeclaredMethod(<span class="hljs-string">&quot;personFly&quot;</span>);<br>            <span class="hljs-comment">//在 personFly 方法的前后插入代码</span><br>            <span class="hljs-comment">//多行语句写法：</span><br>            <span class="hljs-comment">//&quot;&#123;System.out.println(\&quot;起飞之前准备降落伞\&quot;);System.out.println(\&quot;起飞之前准备降落伞111\&quot;);&#125;&quot;</span><br>            personFly.insertBefore(<span class="hljs-string">&quot;System.out.println(\&quot;起飞之前准备降落伞\&quot;);&quot;</span>);<br>            personFly.insertAfter(<span class="hljs-string">&quot;System.out.println(\&quot;成功落地...\&quot;);&quot;</span>);<br><br>            <span class="hljs-comment">//新增一个方法</span><br>            <span class="hljs-type">CtMethod</span> <span class="hljs-variable">ctMethod</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">CtMethod</span>(CtClass.voidType,<span class="hljs-string">&quot;joinFriend&quot;</span>,<span class="hljs-keyword">new</span> <span class="hljs-title class_">CtClass</span>[]&#123;&#125;,ctClass);<br>            ctMethod.setModifiers(Modifier.PUBLIC);<br>            ctMethod.setBody(<span class="hljs-string">&quot;System.out.println(\&quot;I want to be your friend\&quot;);&quot;</span>);<br>            ctClass.addMethod(ctMethod);<br><br>            <span class="hljs-comment">//获取类对象，接下来就可以愉快的使用反射了</span><br>            Class&lt;?&gt; clazz = ctClass.toClass();<br>            <span class="hljs-type">Object</span> <span class="hljs-variable">o</span> <span class="hljs-operator">=</span> clazz.newInstance();<br>            <span class="hljs-comment">//调用 personFly 方法</span><br>            <span class="hljs-type">Method</span> <span class="hljs-variable">personFlyMethod</span> <span class="hljs-operator">=</span> clazz.getDeclaredMethod(<span class="hljs-string">&quot;personFly&quot;</span>);<br>            personFlyMethod.invoke(o);<br>            <span class="hljs-comment">//调用 joinFriend 方法</span><br>            <span class="hljs-type">Method</span> <span class="hljs-variable">joinFriendMethod</span> <span class="hljs-operator">=</span> clazz.getDeclaredMethod(<span class="hljs-string">&quot;joinFriend&quot;</span>);<br>            joinFriendMethod.invoke(o);<br>        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>            e.printStackTrace();<br>        &#125;<br><br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//运行后，打印结果</span><br>起飞之前准备降落伞<br>I believe i can fly...<br>成功落地...<br>I want to be your friend<br></code></pre></td></tr></table></figure>
+
+<p>需要<strong>注意</strong>的是： <strong>上面的<code>insertBefore</code>，<code>insertAfter</code>，<code>setBody</code>中的语句，如果你是单行语句可以直接用双引号，但是有多行语句的情况下，你需要将多行语句用<code>&#123;&#125;</code>括起来。Javassist 只接受单个语句或用大括号括起来的语句块</strong></p>
+<p>接下来我们进入实战环节</p>
+<h1 id="三、Gradle-Transform-Javassist-实战"><a href="#三、Gradle-Transform-Javassist-实战" class="headerlink" title="三、Gradle Transform + Javassist 实战"></a>三、Gradle Transform + Javassist 实战</h1><p>首先看下我们要解决的第一个问题：<strong>发现某个第三方库有 bug ，用起来不爽，但又不想拿它的源码修改在重新编译，有什么好的办法？</strong></p>
+<p>我的思路：<strong>使用 Gradle Transform + Javassit 修改库里面方法的内部实现</strong>，等于没说，😄，我们来实操一下</p>
+<p>首先引入一个我准备好的第三方库：</p>
+<p>在项目的根 build.gradle 加入 Jitpack 仓库：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs groovy">allprojects &#123;<br>    repositories &#123;<br>     	<span class="hljs-comment">//...</span><br>        maven &#123; url <span class="hljs-string">&#x27;https://jitpack.io&#x27;</span> &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>在 app 的 build.gradle 中添加如下依赖：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs groovy">implementation <span class="hljs-string">&#x27;com.github.sweetying520:AndroidUtils:1.0.7&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p>ok，接着我们看下这个库中 StringUtils 的源码：</p>
+<img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1befbd2f80a84595b2e841f8cfb451e5~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="image-20221030154505788.png" width="50%" />
+
+<p>嗯，就两个简单的工具类，我们在 MainActivity 中使用一下：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">class</span> <span class="hljs-title class_">MainActivity</span> : <span class="hljs-type">AppCompatActivity</span>() &#123;<br><br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onCreate</span><span class="hljs-params">(savedInstanceState: <span class="hljs-type">Bundle</span>?)</span></span> &#123;<br>        <span class="hljs-keyword">super</span>.onCreate(savedInstanceState)<br>        setContentView(R.layout.activity_main)<br>	<br>        StringUtils.getCharArray(<span class="hljs-literal">null</span>)<br>        StringUtils.getLength(<span class="hljs-literal">null</span>)<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>运行项目，你会发现 Crash 了，查看 Log 日志发现是空指针异常</p>
+<p>检查第三方库发现这两个方法没有做空判断，传 null，程序肯定就 Crash 了，我们肯定不能允许这种事情发生，当然你可以直接修改源码后重新发布，但是这种方式太简单了，学习我们就应该不断的去挑战自己，想一些创新的思路，今天我们就站在修改字节码的角度去修复它</p>
+<p>自定义一个 Transform 继承我们上篇文章写的 Transform 模版，使用 Javassist 进行插桩，代码如下：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">class</span> <span class="hljs-title class_">FixThirdLibTransform</span> : <span class="hljs-type">BaseCustomTransform</span>(<span class="hljs-literal">true</span>) &#123;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 获取 Transform 名称</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">getName</span><span class="hljs-params">()</span></span>: String &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;FixThirdLibTransform&quot;</span><br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 只处理 StringUtils.class 文件，其他的都给过滤掉</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">classFilter</span><span class="hljs-params">(className: <span class="hljs-type">String</span>)</span></span> = className.endsWith(<span class="hljs-string">&quot;StringUtils.class&quot;</span>)<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 用于过滤 Variant，返回 false 表示 Variant 不执行该 Transform</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Incubating</span><br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">applyToVariant</span><span class="hljs-params">(variant: <span class="hljs-type">VariantInfo</span>?)</span></span>: <span class="hljs-built_in">Boolean</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;debug&quot;</span> == variant?.buildTypeName<br>    &#125;<br><br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 通过此方法进行字节码插桩</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">provideFunction</span><span class="hljs-params">()</span></span> = &#123; input: InputStream, output: OutputStream -&gt;<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-keyword">val</span> classPool = ClassPool.getDefault()<br>            <span class="hljs-keyword">val</span> makeClass = classPool.makeClass(input)<br>            <span class="hljs-comment">//对 StringUtils 的 getLength 进行插桩</span><br>            <span class="hljs-keyword">val</span> getLengthMethod = makeClass.getDeclaredMethod(<span class="hljs-string">&quot;getLength&quot;</span>)<br>            getLengthMethod.insertBefore(<span class="hljs-string">&quot;&#123;System.out.println(\&quot;Hello getLength bug修复了..\&quot;);if($1==null)return 0;&#125;&quot;</span>)<br><br>            <span class="hljs-comment">//对 StringUtils 的 getCharArray 进行插桩</span><br>            <span class="hljs-keyword">val</span> getCharArrayMethod = makeClass.getDeclaredMethod(<span class="hljs-string">&quot;getCharArray&quot;</span>)<br>            getCharArrayMethod.insertBefore(<span class="hljs-string">&quot;&#123;System.out.println(\&quot;Hello getCharArray bug修复了..\&quot;);if($1==null)return new char[0];&#125;&quot;</span>)<br><br>            <span class="hljs-comment">//打印 log，此 log 是 BaseCustomTransform 里面的</span><br>            log(<span class="hljs-string">&quot;插桩的类名：<span class="hljs-subst">$&#123;makeClass.name&#125;</span>&quot;</span>)<br>            makeClass.declaredMethods.forEach &#123;<br>                log(<span class="hljs-string">&quot;插桩的方法名：<span class="hljs-variable">$it</span>&quot;</span>)<br>            &#125;<br>            output.write(makeClass.toBytecode())<br>            makeClass.detach()<br>        &#125; <span class="hljs-keyword">catch</span> (e: Exception) &#123;<br>            e.printStackTrace()<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>在 CustomTransformPlugin 进行插件的注册：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">class</span> <span class="hljs-title class_">CustomTransformPlugin</span>: <span class="hljs-type">Plugin</span>&lt;<span class="hljs-type">Project</span>&gt; &#123;<br><br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">apply</span><span class="hljs-params">(project: <span class="hljs-type">Project</span>)</span></span> &#123;<br>      	<span class="hljs-comment">//...</span><br>       	<br>        <span class="hljs-comment">// 1、获取 Android 扩展</span><br>        <span class="hljs-keyword">val</span> androidExtension = project.extensions.getByType(AppExtension::<span class="hljs-keyword">class</span>.java)<br>        <span class="hljs-comment">// 2、注册 Transform</span><br>      	<span class="hljs-comment">//...</span><br>        androidExtension.registerTransform(FixThirdLibTransform())<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>发布一个新的插件版本，修改根 build.gradle 插件的版本，同步后重新运行 app，效果验证：</p>
+<p>1、先看一眼我们自定义 Transform 里面的 log 打印，符合预期：</p>
+<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f84bd3d6347245369c016fd7418c651b~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="image-20221030173819432.png" width="100%" />
+
+<p>2、在看下 app 效果，没有奔溃，符合预期</p>
+<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a798524ab25a492288337456e8eb9a02~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="ezgif.com-gif-maker.gif" width="30%" />
+
+<p>3、最后看一眼我们插桩的 log 日志，符合预期</p>
+<img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/af1c491bb74f48af80b65c185a78a7a9~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="image-20221030174041379.png" width="100%" />
+
+<h1 id="四、Gradle-Transform-ASM-实战"><a href="#四、Gradle-Transform-ASM-实战" class="headerlink" title="四、Gradle Transform + ASM 实战"></a>四、Gradle Transform + ASM 实战</h1><p>接下来我们使用 Gradle Transform + ASM 解决第二个问题：<strong>我想在不修改源码的情况下，统计某个方法的耗时，对某个方法做埋点，怎么做？</strong></p>
+<p>就以 MainActivity 的 onCreate 方法为例子，我们统计一下 onCreate 方法的耗时</p>
+<p>1、首先需要大家先安装一个插件：<strong>ASM Bytecode Viewer Support Kotlin</strong> ，这个插件能帮助我们快速的进行 ASM 字节码插桩的操作</p>
+<p>打开 MainActivity ，看一眼 onCreate 方法插桩之前的代码：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">class</span> <span class="hljs-title class_">MainActivity</span> : <span class="hljs-type">AppCompatActivity</span>() &#123;<br><br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onCreate</span><span class="hljs-params">(savedInstanceState: <span class="hljs-type">Bundle</span>?)</span></span> &#123;<br>        <span class="hljs-keyword">super</span>.onCreate(savedInstanceState)<br>        setContentView(R.layout.activity_main)<br>	<br>        StringUtils.getCharArray(<span class="hljs-literal">null</span>)<br>        StringUtils.getLength(<span class="hljs-literal">null</span>)<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>右键选择：ASM Bytecode Viewer</p>
+<img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/df6fe59775e646dd9282725e0144b751~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="image-20221030175737613.png" width="50%" />
+
+<p>会生成如下代码，选择 ASMified ，就可以看到 ASM 字节码了</p>
+<img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/75d6b802f5f34e22a0ad8512c8006fd9~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="image-20221030175957430.png" width="100%" />
+
+<p><strong>注意</strong>：我们要操作的是 ASM 字节码，而非 Java 字节码，其实二者非常接近，只不过 ASM 字节码是用 Java 代码的形式来描述的</p>
+<p>2、修改 MainActivity onCreate 方法代码</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">class</span> <span class="hljs-title class_">MainActivity</span> : <span class="hljs-type">AppCompatActivity</span>() &#123;<br><br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onCreate</span><span class="hljs-params">(savedInstanceState: <span class="hljs-type">Bundle</span>?)</span></span> &#123;<br>        <span class="hljs-keyword">val</span> startTime = SystemClock.elapsedRealtime()<br>        Log.d(<span class="hljs-string">&quot;erdai&quot;</span>, <span class="hljs-string">&quot;onCreate startTime: <span class="hljs-variable">$startTime</span>&quot;</span>)<br>        <span class="hljs-keyword">super</span>.onCreate(savedInstanceState)<br>        setContentView(R.layout.activity_main)<br><br>        StringUtils.getCharArray(<span class="hljs-literal">null</span>)<br>        StringUtils.getLength(<span class="hljs-literal">null</span>)<br>        <span class="hljs-keyword">val</span> endTime = SystemClock.elapsedRealtime()<br>        Log.d(<span class="hljs-string">&quot;erdai&quot;</span>, <span class="hljs-string">&quot;onCreate endTime: <span class="hljs-variable">$endTime</span>&quot;</span>)<br>        <span class="hljs-keyword">val</span> cost = endTime - startTime<br>        Log.d(<span class="hljs-string">&quot;erdai&quot;</span>, <span class="hljs-string">&quot;onCreate 耗时: <span class="hljs-variable">$cost</span>&quot;</span>)<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>重新查看 ASM 字节码，然后点击：Show differences ，就会出来前后两次代码的对比，绿色部分代码就是我们要添加的</p>
+<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/169a930b56804175b10662a27cebbab5~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="image-20221030181005402.png" width="100%" />
+
+<p>3、创建一个 Transform 继承 BaseTransform ，编写 ASM 代码：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">class</span> <span class="hljs-title class_">CostTimeTransform</span>: <span class="hljs-type">BaseCustomTransform</span>(<span class="hljs-literal">true</span>) &#123;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 获取 Transform 名称</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">getName</span><span class="hljs-params">()</span></span>: String &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;CostTimeTransform&quot;</span><br>    &#125;<br>  <br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 过滤只统计以 Activity.class 结尾的文件</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">classFilter</span><span class="hljs-params">(className: <span class="hljs-type">String</span>)</span></span> = className.endsWith(<span class="hljs-string">&quot;Activity.class&quot;</span>)<br>    <br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 用于过滤 Variant，返回 false 表示 Variant 不执行该 Transform</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Incubating</span><br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">applyToVariant</span><span class="hljs-params">(variant: <span class="hljs-type">VariantInfo</span>?)</span></span>: <span class="hljs-built_in">Boolean</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;debug&quot;</span> == variant?.buildTypeName<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 通过此方法进行字节码插桩</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">provideFunction</span><span class="hljs-params">()</span></span> = &#123; input: InputStream,output: OutputStream -&gt;<br>        <span class="hljs-comment">//使用 input 输入流构建 ClassReader</span><br>        <span class="hljs-keyword">val</span> reader = ClassReader(input)<br>        <span class="hljs-comment">//使用 ClassReader 和 flags 构建 ClassWriter</span><br>        <span class="hljs-keyword">val</span> writer = ClassWriter(reader, ClassWriter.COMPUTE_FRAMES)<br>        <span class="hljs-comment">//使用 ClassWriter 构建我们自定义的 ClassVisitor</span><br>        <span class="hljs-keyword">val</span> visitor = CostTimeClassVisitor(writer)<br>        <span class="hljs-comment">//最后通过 ClassReader 的 accept 将每一条字节码指令传递给 ClassVisitor</span><br>        reader.accept(visitor, ClassReader.SKIP_DEBUG or  ClassReader.SKIP_FRAMES)<br>        <span class="hljs-comment">//将修改后的字节码文件转换成字节数组</span><br>        <span class="hljs-keyword">val</span> byteArray = writer.toByteArray()<br>        <span class="hljs-comment">//最后通过输出流修改文件，这样就实现了字节码的插桩</span><br>        output.write(byteArray)<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>4、核心逻辑的处理是在我们自定义的 ClassVisitor 中：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">package</span> com.dream.customtransformplugin<br><br><span class="hljs-keyword">import</span> org.objectweb.asm.*<br><span class="hljs-keyword">import</span> org.objectweb.asm.commons.AdviceAdapter<br><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">CostTimeClassVisitor</span>(nextVisitor: ClassVisitor) : ClassVisitor(Opcodes.ASM6,nextVisitor) &#123;<br><br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">visitMethod</span><span class="hljs-params">(</span></span><br><span class="hljs-params"><span class="hljs-function">        access: <span class="hljs-type">Int</span>,</span></span><br><span class="hljs-params"><span class="hljs-function">        name: <span class="hljs-type">String</span>?,</span></span><br><span class="hljs-params"><span class="hljs-function">        descriptor: <span class="hljs-type">String</span>?,</span></span><br><span class="hljs-params"><span class="hljs-function">        signature: <span class="hljs-type">String</span>?,</span></span><br><span class="hljs-params"><span class="hljs-function">        exceptions: <span class="hljs-type">Array</span>&lt;<span class="hljs-type">out</span> <span class="hljs-type">String</span>&gt;?</span></span><br><span class="hljs-params"><span class="hljs-function">    )</span></span>: MethodVisitor &#123;<br>        <span class="hljs-keyword">val</span> visitor = <span class="hljs-keyword">super</span>.visitMethod(access, name, descriptor, signature, exceptions)<br>        <span class="hljs-comment">// AdviceAdapter 是 MethodVisitor 的子类，使用 AdviceAdapter 可以更方便的修改方法的字节码。</span><br>        <span class="hljs-comment">// AdviceAdapter其中几个重要方法如下：</span><br>        <span class="hljs-comment">// void visitCode()：表示 ASM 开始扫描这个方法</span><br>        <span class="hljs-comment">// void onMethodEnter()：进入这个方法</span><br>        <span class="hljs-comment">// void onMethodExit()：即将从这个方法出去</span><br>        <span class="hljs-comment">// void onVisitEnd()：表示方法扫描完毕</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">object</span> : AdviceAdapter(Opcodes.ASM6, visitor, access, name, descriptor) &#123;<br><br>            <span class="hljs-comment">//在原方法代码的前面插入代码</span><br>            <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onMethodEnter</span><span class="hljs-params">()</span></span> &#123;<br>                visitMethodInsn(INVOKESTATIC, <span class="hljs-string">&quot;android/os/SystemClock&quot;</span>, <span class="hljs-string">&quot;elapsedRealtime&quot;</span>, <span class="hljs-string">&quot;()J&quot;</span>, <span class="hljs-literal">false</span>)<br>                visitVarInsn(LSTORE, <span class="hljs-number">2</span>)<br>                visitLdcInsn(<span class="hljs-string">&quot;erdai&quot;</span>)<br>                visitTypeInsn(NEW, <span class="hljs-string">&quot;java/lang/StringBuilder&quot;</span>)<br>                visitInsn(DUP)<br>                visitMethodInsn(INVOKESPECIAL, <span class="hljs-string">&quot;java/lang/StringBuilder&quot;</span>, <span class="hljs-string">&quot;&lt;init&gt;&quot;</span>, <span class="hljs-string">&quot;()V&quot;</span>, <span class="hljs-literal">false</span>)<br>                visitLdcInsn(<span class="hljs-string">&quot;onCreate startTime: &quot;</span>)<br>                visitMethodInsn(INVOKEVIRTUAL, <span class="hljs-string">&quot;java/lang/StringBuilder&quot;</span>, <span class="hljs-string">&quot;append&quot;</span>, <span class="hljs-string">&quot;(Ljava/lang/String;)Ljava/lang/StringBuilder;&quot;</span>, <span class="hljs-literal">false</span>)<br>                visitVarInsn(LLOAD, <span class="hljs-number">2</span>)<br>                visitMethodInsn(INVOKEVIRTUAL, <span class="hljs-string">&quot;java/lang/StringBuilder&quot;</span>, <span class="hljs-string">&quot;append&quot;</span>, <span class="hljs-string">&quot;(J)Ljava/lang/StringBuilder;&quot;</span>, <span class="hljs-literal">false</span>)<br>                visitMethodInsn(INVOKEVIRTUAL, <span class="hljs-string">&quot;java/lang/StringBuilder&quot;</span>, <span class="hljs-string">&quot;toString&quot;</span>, <span class="hljs-string">&quot;()Ljava/lang/String;&quot;</span>, <span class="hljs-literal">false</span>)<br>                visitMethodInsn(INVOKESTATIC, <span class="hljs-string">&quot;android/util/Log&quot;</span>, <span class="hljs-string">&quot;d&quot;</span>, <span class="hljs-string">&quot;(Ljava/lang/String;Ljava/lang/String;)I&quot;</span>, <span class="hljs-literal">false</span>)<br>                visitInsn(POP)<br>            &#125;<br><br>            <span class="hljs-comment">//在原方法代码的后面插入代码</span><br>            <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onMethodExit</span><span class="hljs-params">(opcode: <span class="hljs-type">Int</span>)</span></span> &#123;<br>                visitMethodInsn(INVOKESTATIC, <span class="hljs-string">&quot;android/os/SystemClock&quot;</span>, <span class="hljs-string">&quot;elapsedRealtime&quot;</span>, <span class="hljs-string">&quot;()J&quot;</span>, <span class="hljs-literal">false</span>)<br>                visitVarInsn(LSTORE, <span class="hljs-number">4</span>)<br>                visitLdcInsn(<span class="hljs-string">&quot;erdai&quot;</span>)<br>                visitTypeInsn(NEW, <span class="hljs-string">&quot;java/lang/StringBuilder&quot;</span>)<br>                visitInsn(DUP)<br>                visitMethodInsn(INVOKESPECIAL, <span class="hljs-string">&quot;java/lang/StringBuilder&quot;</span>, <span class="hljs-string">&quot;&lt;init&gt;&quot;</span>, <span class="hljs-string">&quot;()V&quot;</span>, <span class="hljs-literal">false</span>)<br>                visitLdcInsn(<span class="hljs-string">&quot;onCreate endTime: &quot;</span>)<br>                visitMethodInsn(INVOKEVIRTUAL, <span class="hljs-string">&quot;java/lang/StringBuilder&quot;</span>, <span class="hljs-string">&quot;append&quot;</span>, <span class="hljs-string">&quot;(Ljava/lang/String;)Ljava/lang/StringBuilder;&quot;</span>, <span class="hljs-literal">false</span>)<br>                visitVarInsn(LLOAD, <span class="hljs-number">4</span>)<br>                visitMethodInsn(INVOKEVIRTUAL, <span class="hljs-string">&quot;java/lang/StringBuilder&quot;</span>, <span class="hljs-string">&quot;append&quot;</span>, <span class="hljs-string">&quot;(J)Ljava/lang/StringBuilder;&quot;</span>, <span class="hljs-literal">false</span>)<br>                visitMethodInsn(INVOKEVIRTUAL, <span class="hljs-string">&quot;java/lang/StringBuilder&quot;</span>, <span class="hljs-string">&quot;toString&quot;</span>, <span class="hljs-string">&quot;()Ljava/lang/String;&quot;</span>, <span class="hljs-literal">false</span>)<br>                visitMethodInsn(INVOKESTATIC, <span class="hljs-string">&quot;android/util/Log&quot;</span>, <span class="hljs-string">&quot;d&quot;</span>, <span class="hljs-string">&quot;(Ljava/lang/String;Ljava/lang/String;)I&quot;</span>, <span class="hljs-literal">false</span>)<br>                visitInsn(POP)<br>                visitVarInsn(LLOAD, <span class="hljs-number">4</span>)<br>                visitVarInsn(LLOAD, <span class="hljs-number">2</span>)<br>                visitInsn(LSUB)<br>                visitVarInsn(LSTORE, <span class="hljs-number">6</span>)<br>                visitLdcInsn(<span class="hljs-string">&quot;erdai&quot;</span>)<br>                visitTypeInsn(NEW, <span class="hljs-string">&quot;java/lang/StringBuilder&quot;</span>)<br>                visitInsn(DUP)<br>                visitMethodInsn(INVOKESPECIAL, <span class="hljs-string">&quot;java/lang/StringBuilder&quot;</span>, <span class="hljs-string">&quot;&lt;init&gt;&quot;</span>, <span class="hljs-string">&quot;()V&quot;</span>, <span class="hljs-literal">false</span>)<br>                visitLdcInsn(<span class="hljs-string">&quot;onCreate \u8017\u65f6: &quot;</span>)<br>                visitMethodInsn(INVOKEVIRTUAL, <span class="hljs-string">&quot;java/lang/StringBuilder&quot;</span>, <span class="hljs-string">&quot;append&quot;</span>, <span class="hljs-string">&quot;(Ljava/lang/String;)Ljava/lang/StringBuilder;&quot;</span>, <span class="hljs-literal">false</span>)<br>                visitVarInsn(LLOAD, <span class="hljs-number">6</span>)<br>                visitMethodInsn(INVOKEVIRTUAL, <span class="hljs-string">&quot;java/lang/StringBuilder&quot;</span>, <span class="hljs-string">&quot;append&quot;</span>, <span class="hljs-string">&quot;(J)Ljava/lang/StringBuilder;&quot;</span>, <span class="hljs-literal">false</span>)<br>                visitMethodInsn(INVOKEVIRTUAL, <span class="hljs-string">&quot;java/lang/StringBuilder&quot;</span>, <span class="hljs-string">&quot;toString&quot;</span>, <span class="hljs-string">&quot;()Ljava/lang/String;&quot;</span>, <span class="hljs-literal">false</span>)<br>                visitMethodInsn(INVOKESTATIC, <span class="hljs-string">&quot;android/util/Log&quot;</span>, <span class="hljs-string">&quot;d&quot;</span>, <span class="hljs-string">&quot;(Ljava/lang/String;Ljava/lang/String;)I&quot;</span>, <span class="hljs-literal">false</span>)<br>                visitInsn(POP)<br>            &#125;<br>        &#125;<br></code></pre></td></tr></table></figure>
+
+<p>这样我们在 Activity 中插入方法的耗时就已经完成了，但是会面临一个问题：<strong>刚说的 Activity 是所有的 Activity 包括系统的</strong>，<strong>方法是所有的方法</strong> ，这种效果肯定不是我想要的，而且还可能会出问题，因此我们这里可以加一个自定义注解去控制一下，只统计添加了注解方法的耗时</p>
+<p>5、在主工程中创建一个自定义注解</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">package</span> com.dream.gradletransformdemo.<span class="hljs-keyword">annotation</span>;<br><br><span class="hljs-keyword">import</span> java.lang.<span class="hljs-keyword">annotation</span>.ElementType;<br><span class="hljs-keyword">import</span> java.lang.<span class="hljs-keyword">annotation</span>.Retention;<br><span class="hljs-keyword">import</span> java.lang.<span class="hljs-keyword">annotation</span>.RetentionPolicy;<br><span class="hljs-keyword">import</span> java.lang.<span class="hljs-keyword">annotation</span>.Target;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 自定义方法耗时注解</span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@Target(ElementType.METHOD)</span><br><span class="hljs-meta">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> CostTime &#123;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>6、接着对 CostTimeClassVisitor 代码进行修改：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">class</span> <span class="hljs-title class_">CostTimeClassVisitor</span>(nextVisitor: ClassVisitor) : ClassVisitor(Opcodes.ASM6,nextVisitor) &#123;<br>    <span class="hljs-comment">//是否需要被 hook</span><br>    <span class="hljs-keyword">var</span> isHook = <span class="hljs-literal">false</span><br><br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">visitMethod</span><span class="hljs-params">(</span></span><br><span class="hljs-params"><span class="hljs-function">        access: <span class="hljs-type">Int</span>,</span></span><br><span class="hljs-params"><span class="hljs-function">        name: <span class="hljs-type">String</span>?,</span></span><br><span class="hljs-params"><span class="hljs-function">        descriptor: <span class="hljs-type">String</span>?,</span></span><br><span class="hljs-params"><span class="hljs-function">        signature: <span class="hljs-type">String</span>?,</span></span><br><span class="hljs-params"><span class="hljs-function">        exceptions: <span class="hljs-type">Array</span>&lt;<span class="hljs-type">out</span> <span class="hljs-type">String</span>&gt;?</span></span><br><span class="hljs-params"><span class="hljs-function">    )</span></span>: MethodVisitor &#123;<br>        <span class="hljs-keyword">val</span> visitor = <span class="hljs-keyword">super</span>.visitMethod(access, name, descriptor, signature, exceptions)<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">object</span> : AdviceAdapter(Opcodes.ASM6, visitor, access, name, descriptor) &#123;<br>						<br>            <span class="hljs-comment">/**</span><br><span class="hljs-comment">             * 访问自定义注解</span><br><span class="hljs-comment">             */</span><br>            <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">visitAnnotation</span><span class="hljs-params">(descriptor: <span class="hljs-type">String</span>, visible: <span class="hljs-type">Boolean</span>)</span></span>: AnnotationVisitor? &#123;<br>              	<span class="hljs-comment">//如果添加了自定义注解，则进行 hook</span><br>                <span class="hljs-keyword">if</span> (<span class="hljs-string">&quot;Lcom/dream/gradletransformdemo/annotation/CostTime;&quot;</span> == descriptor) &#123;<br>                    isHook = <span class="hljs-literal">true</span><br>                &#125;<br>                <span class="hljs-keyword">return</span> <span class="hljs-keyword">super</span>.visitAnnotation(descriptor, visible)<br>            &#125;<br><br>            <span class="hljs-comment">//在原方法代码的前面插入代码</span><br>            <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onMethodEnter</span><span class="hljs-params">()</span></span> &#123;<br>                <span class="hljs-keyword">if</span>(!isHook)<span class="hljs-keyword">return</span><br>              	<span class="hljs-comment">//...</span><br>                <br>            &#125;<br><br>            <span class="hljs-comment">//在原方法代码的后面插入代码</span><br>            <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onMethodExit</span><span class="hljs-params">(opcode: <span class="hljs-type">Int</span>)</span></span> &#123;<br>                <span class="hljs-keyword">if</span>(!isHook)<span class="hljs-keyword">return</span><br>                <span class="hljs-comment">//...</span><br>            &#125;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>ok，至此，我们自定义 Gradle Transform 就编写完成了</p>
+<p>在 CustomTransformPlugin 进行插件的注册：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">class</span> <span class="hljs-title class_">CustomTransformPlugin</span>: <span class="hljs-type">Plugin</span>&lt;<span class="hljs-type">Project</span>&gt; &#123;<br><br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">apply</span><span class="hljs-params">(project: <span class="hljs-type">Project</span>)</span></span> &#123;<br>      	<span class="hljs-comment">//...</span><br>       	<br>        <span class="hljs-comment">// 1、获取 Android 扩展</span><br>        <span class="hljs-keyword">val</span> androidExtension = project.extensions.getByType(AppExtension::<span class="hljs-keyword">class</span>.java)<br>        <span class="hljs-comment">// 2、注册 Transform</span><br>      	<span class="hljs-comment">//...</span><br>        androidExtension.registerTransform(CostTimeTransform())<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>发布一个新的插件版本，修改根 build.gradle 插件的版本，同步后重新运行 app，效果验证：</p>
+<p>1、看控制台 log 日志打印，符合预期：</p>
+<img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1faec719787f48329555ab8e45a92273~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="image-20221030194559152.png" width="100%" />
+
+<p>2、接着通过反编译工具看下我们插桩后的 MainActivity ，符合预期：</p>
+<img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4cf0cb63fd5c45d2bb412beb15614b0c~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="image-20221030194522742.png" width="50%" />
+
+<h1 id="五、AGP-8-0-版本关于-Gradle-Transform-的替换方案"><a href="#五、AGP-8-0-版本关于-Gradle-Transform-的替换方案" class="headerlink" title="五、AGP 8.0 版本关于 Gradle Transform 的替换方案"></a>五、AGP 8.0 版本关于 Gradle Transform 的替换方案</h1><p>Google 在 AGP 8.0 会将 Gradle Transform 给移除，因此如果项目升级了 AGP 8.0，就需要做好 Gradle Transform 的兼容。</p>
+<p><code>Gradle Transform</code>被废弃之后，它的代替品是<code>Transform Action</code>，<code>Transform API</code>是由<code>AGP</code>提供的，而<code>Transform Action</code>则是由Gradle 提供。不光是 <code>AGP</code> 需要 <code>Transform</code>，<code>Java</code> 也需要，所以由 <code>Gradle</code> 来提供统一的 <code>Transform API</code> 也合情合理，关于 <code>Transform Action</code>不打算介绍，有兴趣的可以去看这篇文章<a target="_blank" rel="noopener" href="https://juejin.cn/post/7131889789787176974">Transform 被废弃，TransformAction 了解一下~</a></p>
+<p>我们主要介绍一下 AGP 给我们提供的 <code>AsmClassVisitorFactory</code></p>
+<h2 id="5-1、AsmClassVisitorFactory-介绍"><a href="#5-1、AsmClassVisitorFactory-介绍" class="headerlink" title="5.1、AsmClassVisitorFactory 介绍"></a>5.1、AsmClassVisitorFactory 介绍</h2><p>1、AsmClassVisitorFactory 就好比我们之前写的自定义 Transform 模版，只不过现在是由官方提供了，里面做了大量的封装：输入文件遍历、加解压、增量，并发等，简化我们的一个使用。根据官方的说法，AsmClassVisitoFactory 会带来约18%的性能提升，同时可以减少约 5 倍代码。</p>
+<p>2、另外从命名也可以看出，Google 更加推荐我们使用 ASM 进行字节码的插桩</p>
+<h2 id="5-2、AsmClassVisitorFactory-使用"><a href="#5-2、AsmClassVisitorFactory-使用" class="headerlink" title="5.2、AsmClassVisitorFactory 使用"></a>5.2、AsmClassVisitorFactory 使用</h2><p>接下来我们就替换一下 Gradle Transform + ASM 的实现方案，使用 AsmClassVisitorFactory 真的是非常简单：</p>
+<p>1、自定义一个抽象类继承 AsmClassVisitorFactory，然后 createClassVisitor 方法返回之前写的 CostTimeClassVisitor 即可</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">package</span> com.dream.customtransformplugin.foragp8<br><br><span class="hljs-keyword">import</span> com.android.build.api.instrumentation.*<br><span class="hljs-keyword">import</span> com.dream.customtransformplugin.costtime.CostTimeClassVisitor<br><span class="hljs-keyword">import</span> org.objectweb.asm.ClassVisitor<br><br><br><span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">CostTimeASMFactory</span>: <span class="hljs-type">AsmClassVisitorFactory</span>&lt;<span class="hljs-type">InstrumentationParameters.None</span>&gt; &#123;<br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">createClassVisitor</span><span class="hljs-params">(</span></span><br><span class="hljs-params"><span class="hljs-function">        classContext: <span class="hljs-type">ClassContext</span>,</span></span><br><span class="hljs-params"><span class="hljs-function">        nextClassVisitor: <span class="hljs-type">ClassVisitor</span></span></span><br><span class="hljs-params"><span class="hljs-function">    )</span></span>: ClassVisitor &#123;<br>        <span class="hljs-keyword">return</span> CostTimeClassVisitor(nextClassVisitor)<br>    &#125;<br><br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">isInstrumentable</span><span class="hljs-params">(classData: <span class="hljs-type">ClassData</span>)</span></span>: <span class="hljs-built_in">Boolean</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>2、接下来在 CustomTransformPlugin 进行注册，注册使用了一种新的方式：</p>
+<img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/840a846b0a0d4bf890c504f8105021d2~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="image-20221030202421200.png" width="100%" />
+
+<p>3、发布一个新的插件版本，修改根 build.gradle 插件的版本，同步后重新运行 app，效果是一样的</p>
+<p>一些不同点：</p>
+<p>1、编译任务的 Task 名称变了：</p>
+<img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b93abc01ba554764aed034bda62ceba5~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="image-20221030202805807.png" width="100%" />
+
+<p>2、我们编译生成的中间产物有了 Asm 相关的文件夹，方便我们一个效果的验证</p>
+<img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d19e57f5e4664c1bae1a6f48f15e4edb~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="image-20221030203100651.png" width="50%" />
+
+<p><strong>需要注意的是</strong>： Kotlin 文件看不到插桩的代码，淦😯</p>
+<h1 id="六、总结"><a href="#六、总结" class="headerlink" title="六、总结"></a>六、总结</h1><p>本篇文章我们介绍了：</p>
+<p>1、ASM Visitor Api 中的几个核心类：</p>
+<blockquote>
+<p>1、ClassVisitor</p>
+<p>2、ClassReader</p>
+<p>3、ClassWriter</p>
+</blockquote>
+<p>2、Javassist 相关语法，使用起来接近原生的反射 Api ，比较容易上手</p>
+<p>3、自定义 GradleTransform + Javassist 实现了修改第三方库的源码</p>
+<p>4、自定义 GradleTransform + ASM 实现了 MainActivity onCreate 方法耗时的统计</p>
+<p>5、介绍了 AGP 8.0 Gradle Transform 被移除后使用 AsmClassVisitorFactory 进行适配，过程非常简单</p>
+<p>好了，本篇文章到这里就结束了，希望能给你带来帮助 🤝</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/sweetying520/GradleTransformDemo">Github Demo 地址</a> , 大家可以结合 demo 一起看，效果杠杠滴🍺</p>
+<p><strong>感谢你阅读这篇文章</strong></p>
+<h2 id="参考和推荐"><a href="#参考和推荐" class="headerlink" title="参考和推荐"></a>参考和推荐</h2><p><a target="_blank" rel="noopener" href="https://rebooters.github.io/2020/01/04/Gradle-Transform-ASM-%E6%8E%A2%E7%B4%A2/">Gradle Transform + ASM 探索</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/7131889789787176974">Transform 被废弃，TransformAction 了解一下~</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/7105925343680135198#heading-2">Transform 被废弃，ASM 如何适配?</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/7078681608206680094#heading-3">javassist详解</a></p>
+<blockquote>
+<p><strong>你的点赞，评论，是对我巨大的鼓励！</strong></p>
+<p>欢迎关注我的<strong>公众号：</strong>  <a href="https://link.juejin.cn/?target=http://m6z.cn/6jwi7b" title="http://m6z.cn/6jwi7b"><strong>sweetying</strong></a> ，文章更新可第一时间收到</p>
+<p>如果<strong>有问题</strong>，公众号内有加我微信的入口，在技术学习、个人成长的道路上，我们一起前进！</p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Android/" class="category-chain-item">Android</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Android/Gradle/" class="category-chain-item">Gradle</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%8E%9F%E5%88%9B/">#原创</a>
+      
+        <a href="/tags/Android/">#Android</a>
+      
+        <a href="/tags/Gradle/">#Gradle</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Gradle 系列 （六）、Gradle Transform + ASM + Javassist 实战</div>
+      <div>https://sweetying520.github.io/2022/10/29/Gradle 系列 （六）、Gradle Transform + ASM + Javassist 实战/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>sweetying</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年10月29日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/10/26/Web%20%E7%B3%BB%E5%88%97%EF%BC%88%E4%B8%89%EF%BC%89%EF%BC%9ACSS%20%E7%AD%91%E5%9F%BA%E4%B8%8A%E7%AF%87/" title="Web 系列（三）：CSS 筑基上篇">
+                        <span class="hidden-mobile">Web 系列（三）：CSS 筑基上篇</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.4.17/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"zN1E017kYhKuj6GqXHJSbGMb-gzGzoHsz","appKey":"JSwY8PjtA131Y78OHn7kKtio","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <div style="font-size: 0.85rem;"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div> <div style="font-size: 0.85rem;"> <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #d7d8d9;" id="hitokoto">hitokoto</span></a> <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script> </div> <div id="music_div" style="position: fixed; z-index: 100; bottom: 350px; left: 0px;"> <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=100 src="//music.163.com/outchain/player?type=0&id=5426937413&auto=0&height=100"> </iframe> <script src="https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js"></script> <script src="/vvd_js/musicshow.js"></script> </div> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/vvd_js/star.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
