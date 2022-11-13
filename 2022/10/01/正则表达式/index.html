@@ -24,27 +24,25 @@
   <meta name="author" content="sweetying">
   <meta name="keywords" content="">
   
-    <meta name="description" content="前言很高兴遇见你~ 在本系列的上一篇文章中，我们讲了：  1、使用 apktool 反编译 app 中的资源 2、使用 dex2jar + jd-gui 反编译 app 中的代码 3、基于一个 app 打造一个新的 app，主要通过 apktool 反编译后，修改资源，然后进行重新打包，签名，对齐，最后安装展示了预期的效果。当然这里你有能力看懂 .smali格式的代码，那么你可以做的事情就更加多">
+    <meta name="description" content="前言很高兴遇见你~ 正则表达式在日常开发中经常会用到，下面总结一些常用的分享给大家 测试工具：https:&#x2F;&#x2F;regex101.com&#x2F; 一、限定符? ：表示一个字符需要出现 0 次或者 1 次 1used? : d 可有可无  * : 匹配 0 个或多个字符 123456ab*c : b可以有0个或者多个  acabcabbbbbbc  + : 匹配出现一次及以上的字符 1234ab+c : b">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Android 逆向系列（二）：Android 混淆技术完全解析">
-<meta property="og:url" content="https://sweetying520.github.io/2022/10/30/Android%20%E9%80%86%E5%90%91%E7%B3%BB%E5%88%97%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9AAndroid%20%E6%B7%B7%E6%B7%86%E6%8A%80%E6%9C%AF%E5%AE%8C%E5%85%A8%E8%A7%A3%E6%9E%90/index.html">
+<meta property="og:title" content="正则表达式">
+<meta property="og:url" content="https://sweetying520.github.io/2022/10/01/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/index.html">
 <meta property="og:site_name" content="sweetying">
-<meta property="og:description" content="前言很高兴遇见你~ 在本系列的上一篇文章中，我们讲了：  1、使用 apktool 反编译 app 中的资源 2、使用 dex2jar + jd-gui 反编译 app 中的代码 3、基于一个 app 打造一个新的 app，主要通过 apktool 反编译后，修改资源，然后进行重新打包，签名，对齐，最后安装展示了预期的效果。当然这里你有能力看懂 .smali格式的代码，那么你可以做的事情就更加多">
+<meta property="og:description" content="前言很高兴遇见你~ 正则表达式在日常开发中经常会用到，下面总结一些常用的分享给大家 测试工具：https:&#x2F;&#x2F;regex101.com&#x2F; 一、限定符? ：表示一个字符需要出现 0 次或者 1 次 1used? : d 可有可无  * : 匹配 0 个或多个字符 123456ab*c : b可以有0个或者多个  acabcabbbbbbc  + : 匹配出现一次及以上的字符 1234ab+c : b">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3ab04bb7513747959b3401bd60266181~tplv-k3u1fbpfcp-watermark.image?">
-<meta property="article:published_time" content="2022-10-30T15:53:23.000Z">
-<meta property="article:modified_time" content="2022-10-30T16:02:43.533Z">
+<meta property="og:image" content="https://sweetying520.github.io/Library/Application%20Support/typora-user-images/image-20221031192203905.png">
+<meta property="article:published_time" content="2022-10-01T09:46:43.000Z">
+<meta property="article:modified_time" content="2022-11-13T03:54:35.430Z">
 <meta property="article:author" content="sweetying">
 <meta property="article:tag" content="原创">
-<meta property="article:tag" content="Android">
-<meta property="article:tag" content="Android 逆向">
-<meta property="article:tag" content="反编译">
+<meta property="article:tag" content="正则表达式">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3ab04bb7513747959b3401bd60266181~tplv-k3u1fbpfcp-watermark.image?">
+<meta name="twitter:image" content="https://sweetying520.github.io/Library/Application%20Support/typora-user-images/image-20221031192203905.png">
   
   
   
-  <title>Android 逆向系列（二）：Android 混淆技术完全解析 - sweetying</title>
+  <title>正则表达式 - sweetying</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -269,7 +267,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Android 逆向系列（二）：Android 混淆技术完全解析"></span>
+            <span id="subtitle" data-typed-text="正则表达式"></span>
           
         </div>
 
@@ -285,8 +283,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-10-30 23:53" pubdate>
-          2022年10月30日 晚上
+        <time datetime="2022-10-01 17:46" pubdate>
+          2022年10月1日 下午
         </time>
       </span>
     
@@ -297,7 +295,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          266 字
+          1.1k 字
         
       </span>
     
@@ -308,7 +306,7 @@
         
         
         
-          3 分钟
+          9 分钟
         
       </span>
     
@@ -419,21 +417,104 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Android 逆向系列（二）：Android 混淆技术完全解析</h1>
+            <h1 style="display: none">正则表达式</h1>
             
             
               <div class="markdown-body">
                 
-                <p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3ab04bb7513747959b3401bd60266181~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload></p>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>很高兴遇见你~</p>
-<p>在本系列的上一篇文章中，我们讲了：</p>
+                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>很高兴遇见你~</p>
+<p>正则表达式在日常开发中经常会用到，下面总结一些常用的分享给大家</p>
+<p>测试工具：<a target="_blank" rel="noopener" href="https://regex101.com/">https://regex101.com/</a></p>
+<h2 id="一、限定符"><a href="#一、限定符" class="headerlink" title="一、限定符"></a>一、限定符</h2><p>? ：表示一个字符需要出现 0 次或者 1 次</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">used? : d 可有可无<br></code></pre></td></tr></table></figure>
+
+<p><code>*</code> : 匹配 0 个或多个字符</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java">ab*c : b可以有<span class="hljs-number">0</span>个或者多个<br>  <br>ac<br>abc<br>abbbbbbc<br><br></code></pre></td></tr></table></figure>
+
+<p><code>+</code> : 匹配出现一次及以上的字符</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java">ab+c : b可以有一个或以上<br>  <br>abc<br>abbbbbbc<br></code></pre></td></tr></table></figure>
+
+<p>{n} ：精确匹配，出现 n 次的字符</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">ab&#123;<span class="hljs-number">6</span>&#125;c ：精确匹配出现 <span class="hljs-number">6</span> 次的字符<br><br>abbbbbbc<br></code></pre></td></tr></table></figure>
+
+<p>{n,m} : 匹配出现 n-m 次的字符</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java">ab&#123;<span class="hljs-number">1</span>,<span class="hljs-number">6</span>&#125;c ：匹配出现 <span class="hljs-number">1</span>-<span class="hljs-number">6</span> 次的字符<br><br>abc<br>abbbbbbc<br></code></pre></td></tr></table></figure>
+
+<p>{n,} ：出现 n 次及以上</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">ab&#123;<span class="hljs-number">2</span>,&#125;c ：匹配出现 <span class="hljs-number">2</span> 次及以上的字符<br>  <br>abbbbbbc<br></code></pre></td></tr></table></figure>
+
+<p>| ：或运算符</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java">a (cat|dog) ：a 后面拼接 cat 或 dog<br>  <br>a cat<br>a dog<br></code></pre></td></tr></table></figure>
+
+<p>[] ：匹配由中括号里面构成的内容</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java">[abc]+ : 匹配 abc 构成的单词，至少出现一次或多次<br>[a-zA-Z0-<span class="hljs-number">9</span>]+ : 匹配 a-z A-Z <span class="hljs-number">0</span>-<span class="hljs-number">9</span> 构成的单词，至少出现一次或多次<br></code></pre></td></tr></table></figure>
+
+<p>^ : 表示取反</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">[^<span class="hljs-number">0</span>-<span class="hljs-number">9</span>]+ : 不取 <span class="hljs-number">0</span>-<span class="hljs-number">9</span> 的字符：非数字字符<br></code></pre></td></tr></table></figure>
+
+<h2 id="二、元字符"><a href="#二、元字符" class="headerlink" title="二、元字符"></a>二、元字符</h2><table>
+<thead>
+<tr>
+<th>元字符</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>\d</td>
+<td>数字字符</td>
+</tr>
+<tr>
+<td>\w</td>
+<td>单词字符（英文、数字及下划线）</td>
+</tr>
+<tr>
+<td>\s</td>
+<td>空白符（包含Tab和换行符）</td>
+</tr>
+<tr>
+<td>\D</td>
+<td>非数字字符</td>
+</tr>
+<tr>
+<td>\W</td>
+<td>非单词字符</td>
+</tr>
+<tr>
+<td>\S</td>
+<td>非空白字符</td>
+</tr>
+<tr>
+<td>.</td>
+<td>任意字符（不包含换行符）</td>
+</tr>
+<tr>
+<td>^</td>
+<td>匹配行首 ^a：只会去匹配行首的 a</td>
+</tr>
+<tr>
+<td>$</td>
+<td>匹配行尾 a$：只会去匹配行尾的 a</td>
+</tr>
+<tr>
+<td>\b</td>
+<td>代表单词字符的边界</td>
+</tr>
+</tbody></table>
+<h2 id="三、贪婪去懒惰匹配"><a href="#三、贪婪去懒惰匹配" class="headerlink" title="三、贪婪去懒惰匹配"></a>三、贪婪去懒惰匹配</h2><p>在表达式后面加<code>?</code></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-comment">&lt;!-- 匹配下面内容中的 html 标签 --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">b</span>&gt;</span>This is a sample text<span class="hljs-tag">&lt;/<span class="hljs-name">b</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br><span class="hljs-comment">&lt;!-- 如果我们这么写，则会去匹配所有字符 --&gt;</span><br>&lt;.+&gt; : 会匹配所有的字符<br><br>解决方法：将贪婪匹配转换成懒惰匹配：&lt;.+?&gt;<br></code></pre></td></tr></table></figure>
+
+<h2 id="四、实战演练"><a href="#四、实战演练" class="headerlink" title="四、实战演练"></a>四、实战演练</h2><p>实例一：匹配 16 进制颜色</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java">#[a-fA-F0-<span class="hljs-number">9</span>]&#123;<span class="hljs-number">6</span>&#125;\b<br><br><br>#ffffff<br>#ffaaff<br>#aabbcc<br>#<span class="hljs-number">000000</span><br><br></code></pre></td></tr></table></figure>
+
+<h2 id="五、总结"><a href="#五、总结" class="headerlink" title="五、总结"></a>五、总结</h2><p>最后用一张图对我们上面讲的内容进行一个归纳总结：</p>
+<p><img src="/../../../Library/Application%20Support/typora-user-images/image-20221031192203905.png" srcset="/img/loading.gif" lazyload alt="image-20221031192203905"></p>
+<p>好了，本篇文章到这里就结束了，希望能给你带来帮助 🤝</p>
+<p><strong>感谢你阅读这篇文章</strong></p>
 <blockquote>
-<p>1、使用 apktool 反编译 app 中的资源</p>
-<p>2、使用 dex2jar + jd-gui 反编译 app 中的代码</p>
-<p>3、基于一个 app 打造一个新的 app，主要通过 apktool 反编译后，修改资源，然后进行重新打包，签名，对齐，最后安装展示了预期的效果。当然这里你有能力看懂 <code>.smali</code>格式的代码，那么你可以做的事情就更加多</p>
+<p><strong>你的点赞，评论，是对我巨大的鼓励！</strong></p>
+<p>欢迎关注我的<strong>公众号：</strong>  <a target="_blank" rel="noopener" href="http://m6z.cn/6jwi7b"><strong>sweetying</strong></a> ，文章更新可第一时间收到</p>
+<p>如果<strong>有问题</strong>，公众号内有加我微信的入口，在技术学习、个人成长的道路上，我们一起前进！</p>
 </blockquote>
-<p>还没有看过上一篇的朋友，建议先去阅读<a target="_blank" rel="noopener" href="https://juejin.cn/post/7158107697907236878">Android 逆向系列（一）：反编译 APK 技术完全解析</a> </p>
-<p>你能攻击我的 app，那我肯定有防守的策略，接下来我们介绍一下 Android 中的混淆技术</p>
 
                 
               </div>
@@ -442,45 +523,13 @@
             <div>
               <div class="post-metas my-3">
   
-    <div class="post-meta mr-3 d-flex align-items-center">
-      <i class="iconfont icon-category"></i>
-      
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/Android/" class="category-chain-item">Android</a>
-  
-  
-    <span>></span>
-    
-  <a href="/categories/Android/Android-%E9%80%86%E5%90%91/" class="category-chain-item">Android 逆向</a>
-  
-  
-
-  
-
-      </span>
-    
-  
-</span>
-
-    </div>
-  
   
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
         <a href="/tags/%E5%8E%9F%E5%88%9B/">#原创</a>
       
-        <a href="/tags/Android/">#Android</a>
-      
-        <a href="/tags/Android-%E9%80%86%E5%90%91/">#Android 逆向</a>
-      
-        <a href="/tags/%E5%8F%8D%E7%BC%96%E8%AF%91/">#反编译</a>
+        <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">#正则表达式</a>
       
     </div>
   
@@ -492,8 +541,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Android 逆向系列（二）：Android 混淆技术完全解析</div>
-      <div>https://sweetying520.github.io/2022/10/30/Android 逆向系列（二）：Android 混淆技术完全解析/</div>
+      <div>正则表达式</div>
+      <div>https://sweetying520.github.io/2022/10/01/正则表达式/</div>
     </div>
     <div class="license-meta">
       
@@ -505,7 +554,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年10月30日</div>
+          <div>2022年10月1日</div>
         </div>
       
       
@@ -535,9 +584,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/10/31/%E4%B8%80%E7%AF%87%E5%B0%B1%E5%A4%9F%E7%B3%BB%E5%88%97%EF%BC%9AJava%20%E5%85%AD%E5%A4%A7%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E5%92%8C%E5%B8%B8%E7%94%A8%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" title="一篇就够系列：Java 六大设计原则和常用设计模式 审核中">
+                      <a href="/2022/10/10/Flutter%20%E7%B3%BB%E5%88%97%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9ADart%20%E8%AF%AD%E6%B3%95%E7%AD%91%E5%9F%BA/" title="Flutter 系列（二）：Dart 语法筑基">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">一篇就够系列：Java 六大设计原则和常用设计模式 审核中</span>
+                        <span class="hidden-mobile">Flutter 系列（二）：Dart 语法筑基</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -545,8 +594,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/10/29/Gradle%20%E7%B3%BB%E5%88%97%20%EF%BC%88%E5%85%AD%EF%BC%89%E3%80%81Gradle%20Transform%20+%20ASM%20+%20Javassist%20%E5%AE%9E%E6%88%98/" title="Gradle 系列 （六）、Gradle Transform + ASM + Javassist 实战">
-                        <span class="hidden-mobile">Gradle 系列 （六）、Gradle Transform + ASM + Javassist 实战</span>
+                      <a href="/2022/09/05/Flutter%E7%B3%BB%E5%88%97%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9A%E8%BF%90%E8%A1%8C%E4%BD%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AAFlutter%E5%BA%94%E7%94%A8/" title="Flutter系列（一）：运行你的第一个Flutter应用">
+                        <span class="hidden-mobile">Flutter系列（一）：运行你的第一个Flutter应用</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
