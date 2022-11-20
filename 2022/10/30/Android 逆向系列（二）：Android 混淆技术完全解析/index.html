@@ -26,25 +26,25 @@
   
     <meta name="description" content="前言很高兴遇见你~ 在本系列的上一篇文章中，我们讲了：  1、使用 apktool 反编译 app 中的资源 2、使用 dex2jar + jd-gui 反编译 app 中的代码 3、基于一个 app 打造一个新的 app，主要通过 apktool 反编译后，修改资源，然后进行重新打包，签名，对齐，最后安装展示了预期的效果。当然这里你有能力看懂 .smali格式的代码，那么你可以做的事情就更加多">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Android 逆向系列（二）：Android 混淆技术完全解析">
+<meta property="og:title" content="Android 逆向系列（二）：Android APK 代码混淆">
 <meta property="og:url" content="https://sweetying520.github.io/2022/10/30/Android%20%E9%80%86%E5%90%91%E7%B3%BB%E5%88%97%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9AAndroid%20%E6%B7%B7%E6%B7%86%E6%8A%80%E6%9C%AF%E5%AE%8C%E5%85%A8%E8%A7%A3%E6%9E%90/index.html">
 <meta property="og:site_name" content="sweetying">
 <meta property="og:description" content="前言很高兴遇见你~ 在本系列的上一篇文章中，我们讲了：  1、使用 apktool 反编译 app 中的资源 2、使用 dex2jar + jd-gui 反编译 app 中的代码 3、基于一个 app 打造一个新的 app，主要通过 apktool 反编译后，修改资源，然后进行重新打包，签名，对齐，最后安装展示了预期的效果。当然这里你有能力看懂 .smali格式的代码，那么你可以做的事情就更加多">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3ab04bb7513747959b3401bd60266181~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/69c11cc1dd28438fa71cc271ea2c4911~tplv-k3u1fbpfcp-watermark.image?">
 <meta property="article:published_time" content="2022-10-30T15:53:23.000Z">
-<meta property="article:modified_time" content="2022-10-30T16:02:43.533Z">
+<meta property="article:modified_time" content="2022-11-20T13:19:53.791Z">
 <meta property="article:author" content="sweetying">
 <meta property="article:tag" content="原创">
 <meta property="article:tag" content="Android">
 <meta property="article:tag" content="Android 逆向">
 <meta property="article:tag" content="反编译">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3ab04bb7513747959b3401bd60266181~tplv-k3u1fbpfcp-watermark.image?">
+<meta name="twitter:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/69c11cc1dd28438fa71cc271ea2c4911~tplv-k3u1fbpfcp-watermark.image?">
   
   
   
-  <title>Android 逆向系列（二）：Android 混淆技术完全解析 - sweetying</title>
+  <title>Android 逆向系列（二）：Android APK 代码混淆 - sweetying</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -269,7 +269,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Android 逆向系列（二）：Android 混淆技术完全解析"></span>
+            <span id="subtitle" data-typed-text="Android 逆向系列（二）：Android APK 代码混淆"></span>
           
         </div>
 
@@ -297,7 +297,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          266 字
+          15k 字
         
       </span>
     
@@ -308,7 +308,7 @@
         
         
         
-          3 分钟
+          130 分钟
         
       </span>
     
@@ -419,12 +419,12 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Android 逆向系列（二）：Android 混淆技术完全解析</h1>
+            <h1 style="display: none">Android 逆向系列（二）：Android APK 代码混淆</h1>
             
             
               <div class="markdown-body">
                 
-                <p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3ab04bb7513747959b3401bd60266181~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload></p>
+                <p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/69c11cc1dd28438fa71cc271ea2c4911~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload></p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>很高兴遇见你~</p>
 <p>在本系列的上一篇文章中，我们讲了：</p>
 <blockquote>
@@ -434,6 +434,240 @@
 </blockquote>
 <p>还没有看过上一篇的朋友，建议先去阅读<a target="_blank" rel="noopener" href="https://juejin.cn/post/7158107697907236878">Android 逆向系列（一）：反编译 APK 技术完全解析</a> </p>
 <p>你能攻击我的 app，那我肯定有防守的策略，接下来我们介绍一下 Android 中的混淆技术</p>
+<p><strong>注意</strong>：下面演示均是在 mac 下进行</p>
+<h2 id="一、jadx-介绍"><a href="#一、jadx-介绍" class="headerlink" title="一、jadx 介绍"></a>一、jadx 介绍</h2><p>在此之前，我想介绍另外一款反编译工具：jadx，它相当于是 apktool + dex2jar + jd-gui 的结合体，既能反编译代码也能反编译资源，关键使用起来还特别简单，你只需要将文件拖进来即可，一定程度上提高了我们的开发效率</p>
+<p>Github 地址：<a target="_blank" rel="noopener" href="https://github.com/skylot/jadx">https://github.com/skylot/jadx</a></p>
+<h3 id="1-1、jadx-特点"><a href="#1-1、jadx-特点" class="headerlink" title="1.1、jadx 特点"></a>1.1、jadx 特点</h3><p>1、能将 APK，AAR，JAR，DEX，AAB，ZIP 等文件中的代码反编译为 Java 类</p>
+<p>2、能反编译 APK，AAR，AAB，ZIP 中的资源</p>
+<h3 id="1-2、jadx-安装"><a href="#1-2、jadx-安装" class="headerlink" title="1.2、jadx 安装"></a>1.2、jadx 安装</h3><p>1、安装 jadx，推荐使用 brew 去安装，执行如下命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">brew install jadx<br></code></pre></td></tr></table></figure>
+
+<p>使用 brew 安装的好处就是 mac 会给你自动配置好环境变量，你只需要专注软件的使用即可，等待安装完成在验证一下</p>
+<p>2、jadx 验证</p>
+<p>在 Terminal 输入如下命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">jadx --version<br></code></pre></td></tr></table></figure>
+
+<p>如果打印出了版本号就证明安装成功了：</p>
+<img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8831a8a770834ae98472734f8f1969c1~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="image-20221120114904120.png" width="100%" />
+
+<h3 id="1-3、jadx-使用"><a href="#1-3、jadx-使用" class="headerlink" title="1.3、jadx 使用"></a>1.3、jadx 使用</h3><p>这里我们直接使用 jadx 提供的可视化界面进行操作</p>
+<p>1、在 Terminal 输入如下命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">jadx-gui<br></code></pre></td></tr></table></figure>
+
+<p>此时就会打开 jadx 的可视化界面了：</p>
+<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a4df163ef7494b80885ba67ae8d8a599~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="image-20221120115550128.png" width="100%" />
+
+<p>2、将你需要反编译的文件拖入即可查看反编译的代码和资源了，如下图：</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3fd5fe17d996473db829353c8219072b~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221120120509515.png"></p>
+<h2 id="二、混淆-APK-代码"><a href="#二、混淆-APK-代码" class="headerlink" title="二、混淆 APK 代码"></a>二、混淆 APK 代码</h2><h3 id="2-1、准备工作"><a href="#2-1、准备工作" class="headerlink" title="2.1、准备工作"></a>2.1、准备工作</h3><p>首先我们先做一些准备工作</p>
+<p>1、添加一些类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//1、新建 Utils.java 文件，创建 Utils 类</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Utils</span> &#123;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">methodNormal</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-type">String</span> <span class="hljs-variable">logMessage</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;this is normal method&quot;</span>;<br>        logMessage = logMessage.toLowerCase();<br>        System.out.println(logMessage);<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">methodUnused</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-type">String</span> <span class="hljs-variable">logMessage</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;this is unused method&quot;</span>;<br>        logMessage = logMessage.toLowerCase();<br>        System.out.println(logMessage);<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//2、新建 NativeUtils.java 文件，创建 NativeUtils 类</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">NativeUtils</span> &#123;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">native</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">methodNative</span><span class="hljs-params">()</span>;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">methodNotNative</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-type">String</span> <span class="hljs-variable">logMessage</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;this is not native method&quot;</span>;<br>        logMessage = logMessage.toLowerCase();<br>        System.out.println(logMessage);<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//3、新建 MyFragment.java 文件，创建 MyFragment 类</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyFragment</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Fragment</span> &#123;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-type">String</span> <span class="hljs-variable">toastTips</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;toast in MyFragment&quot;</span>;<br><br>    <span class="hljs-meta">@Nullable</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> View <span class="hljs-title function_">onCreateView</span><span class="hljs-params">(<span class="hljs-meta">@NonNull</span> LayoutInflater inflater, <span class="hljs-meta">@Nullable</span> ViewGroup container, <span class="hljs-meta">@Nullable</span> Bundle savedInstanceState)</span> &#123;<br>        <span class="hljs-type">View</span> <span class="hljs-variable">rootView</span> <span class="hljs-operator">=</span> inflater.inflate(R.layout.fragment_layout,container,<span class="hljs-literal">false</span>);<br>        methodWithGlobalVariable();<br>        methodWithLocalVariable();<br>        <span class="hljs-keyword">return</span> rootView;<br>    &#125;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">methodWithGlobalVariable</span><span class="hljs-params">()</span> &#123;<br>        Toast.makeText(getActivity(), toastTips, Toast.LENGTH_SHORT).show();<br>    &#125;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">methodWithLocalVariable</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-type">String</span> <span class="hljs-variable">logMessage</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;log in MyFragment&quot;</span>;<br>        logMessage = logMessage.toLowerCase();<br>        System.out.println(logMessage);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>2、接着在 MainActivity 中进行引用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MainActivity</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">AppCompatActivity</span> &#123;<br><br>    <span class="hljs-type">String</span> <span class="hljs-variable">toastTips</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;toast in MainActivity&quot;</span>;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">onCreate</span><span class="hljs-params">(Bundle savedInstanceState)</span> &#123;<br>        <span class="hljs-built_in">super</span>.onCreate(savedInstanceState);<br>        setContentView(R.layout.activity_main);<br>        getSupportFragmentManager().beginTransaction().add(R.id.flFragmentContainer,<span class="hljs-keyword">new</span> <span class="hljs-title class_">MyFragment</span>()).commit();<br>        <span class="hljs-comment">//1、Utils 下的方法调用</span><br>        <span class="hljs-type">Utils</span> <span class="hljs-variable">utils</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Utils</span>();<br>        utils.methodNormal();<br>        <span class="hljs-comment">//2、NativeUtils 下的方法调用</span><br>        <span class="hljs-keyword">try</span> &#123;<br>            NativeUtils.methodNative();<br>            NativeUtils.methodNotNative();<br>        &#125; <span class="hljs-keyword">catch</span> (Throwable e) &#123;<br>            e.printStackTrace();<br>        &#125;<br>        <span class="hljs-comment">//3、第三方库下工具类的方法调用</span><br>        <span class="hljs-type">int</span> <span class="hljs-variable">result</span> <span class="hljs-operator">=</span> StringUtils.getLength(<span class="hljs-string">&quot;erdai666&quot;</span>);<br>        System.out.println(result);<br>        <span class="hljs-comment">//4、MainActivity 下的 methodWithGlobalVariable 方法调用</span><br>        methodWithGlobalVariable();<br>        <span class="hljs-comment">//5、MainActivity 下的 methodWithLocalVariable 方法调用</span><br>        methodWithLocalVariable();<br>    &#125;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">methodWithGlobalVariable</span><span class="hljs-params">()</span> &#123;<br>        Toast.makeText(<span class="hljs-built_in">this</span>, toastTips, Toast.LENGTH_SHORT).show();<br>    &#125;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">methodWithLocalVariable</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-type">String</span> <span class="hljs-variable">logMessage</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;log in MainActivity&quot;</span>;<br>        logMessage = logMessage.toLowerCase();<br>        System.out.println(logMessage);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>好的，到这里准备工作已经基本完成，接下来我们对 APK 中的代码进行混淆</p>
+<h3 id="2-2、开启混淆打-APK-包"><a href="#2-2、开启混淆打-APK-包" class="headerlink" title="2.2、开启混淆打 APK 包"></a>2.2、开启混淆打 APK 包</h3><p>1、在 app 的 build.gradle 文件中的 android 闭包下 的 release 闭包中开启代码混淆：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs groovy">android &#123;<br>    buildTypes &#123;<br>        release &#123;<br>            <span class="hljs-comment">//开启代码混淆</span><br>            minifyEnabled <span class="hljs-literal">true</span><br>            proguardFiles getDefaultProguardFile(<span class="hljs-string">&#x27;proguard-android-optimize.txt&#x27;</span>), <span class="hljs-string">&#x27;proguard-rules.pro&#x27;</span><br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>上述我们仅是把 minifyEnabled 改为 true 即开启了代码混淆，非常的简单</p>
+<p><strong>另外需要注意</strong>： 这里是在 release 闭包内进行配置的，因此只有打出正式版的 APK 才会进行混淆，debug 版的 APK 是不会混淆的。当然这也是非常合理的，因为 debug 版的 APK 文件我们只会用来内部测试，不用担心被人破解。</p>
+<p>2、接下来打一个正式的 APK 包</p>
+<blockquote>
+<p> 1、在 Android Studio 导航栏中点击 Build -&gt; Generate Signed Bundle or APK，选择 APK</p>
+<p> 2、然后选择签名文件并输入密码，如果没有签名文件就创建一个</p>
+<p> 3、点击 next 选择打 release 包，最终点击 Finish 完成打包</p>
+<p> 4、生成的 APK 会自动存放在 app&#x2F;release&#x2F; 目录下</p>
+</blockquote>
+<p><strong>Tips</strong>： 我们可以在 app 的 build.gradle 文件中添加签名文件配置，后续就可以直接通过 <code>./gradlew assembleRelease</code> 命令或者 AndroidStudio 右侧的 Gradle 可视化界面去操作：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs groovy">android &#123;<br>    <span class="hljs-comment">//1、声明签名文件</span><br>    signingConfigs&#123;<br>        release&#123;<br>            storeFile file(<span class="hljs-string">&#x27;../Certificate&#x27;</span>)<br>            storePassword <span class="hljs-string">&#x27;erdai666&#x27;</span><br>            keyAlias <span class="hljs-string">&#x27;key0&#x27;</span><br>            keyPassword <span class="hljs-string">&#x27;erdai666&#x27;</span><br>        &#125;<br>    &#125;<br><br>    buildTypes &#123;<br>        release &#123;<br>            minifyEnabled <span class="hljs-literal">true</span><br>            proguardFiles getDefaultProguardFile(<span class="hljs-string">&#x27;proguard-android-optimize.txt&#x27;</span>), <span class="hljs-string">&#x27;proguard-rules.pro&#x27;</span><br>            <span class="hljs-comment">//2、配置签名文件</span><br>            signingConfig signingConfigs.release<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>需要注意</strong>：</p>
+<p>1、使用 AndroidStudio 导航栏 Generate Signed Bundle or APK 方式生成的 APK 在：app&#x2F;release&#x2F; 目录下</p>
+<p>2、使用 <code>./gradlew assembleRelease</code> 命令或者 AndroidStudio 右侧的 Gradle 可视化界生成的 APK 在：app&#x2F;build&#x2F;outputs&#x2F;apk&#x2F; 目录下</p>
+<p>3、接着使用 jadx 打开当前 APK，如下图所示：</p>
+<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b4daa87636c443a7b303d7c420d92a9a~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="image-20221120155231247.png" width="50%" />
+
+<p>很明显我们代码混淆的功能已经生效了。</p>
+<h3 id="2-3、混淆文件介绍"><a href="#2-3、混淆文件介绍" class="headerlink" title="2.3、混淆文件介绍"></a>2.3、混淆文件介绍</h3><p>下面我们尝试来阅读一下混淆后之前准备的那些类：</p>
+<p><strong>MainActivity</strong>：</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/16c051e4dff4455594ed988b047da110~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221120155602155.png"></p>
+<p>可以看到：</p>
+<p>1、MyFragment 被混淆了</p>
+<p>2、Utils 下的方法调用：直接是把方法里面的内容拷贝到了方法的调用处</p>
+<p>3、NativeUtils 下的方法调用：1、Native 方法还是正常的调用 2、非 Native 方法则是把方法里面的内容拷贝到了方法的调用处</p>
+<p>4、第三方库下工具类的方法调用：直接是将方法的结果填充到了调用处</p>
+<p>5、MainActivity 中的成员方法：直接是把成员方法里面的内容拷贝到了方法的调用处</p>
+<p>6、MainActivity 类名是没有混淆的，onCreate 方法也没有被混淆，但定义的成员变量，局部变量被混淆了</p>
+<p><strong>Utils</strong>：</p>
+<p>Utils 类直接没有了</p>
+<p><strong>NativeUtils</strong>：</p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/da03c226d69248e6a7ac1c21d8ab5dd0~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221120161144262.png"></p>
+<p>可以看到：</p>
+<p>1、NativeUtils 类名没有被混淆，其中声明成 native 的方法也没有被混淆</p>
+<p>2、非 Native 方法直接没有了，方法的内容拷贝到了方法的调用处</p>
+<p><strong>MyFragment</strong>：</p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c7f414c7031f4e0f91f9b2d2fdc777c0~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221120161641862.png"></p>
+<p>可以看到：</p>
+<p>1、所有的方法名，成员变量，局部变量都被混淆了</p>
+<p>2、MyFragment 中的成员方法：直接是把成员方法里面的内容拷贝到了方法的调用处</p>
+<p>接下来在<strong>分析一下上面的混淆结果</strong>：</p>
+<blockquote>
+<p>1、Utils 直接没有了，因为它被调用的方法内容直接拷贝到了方法的调用处。另外一个方法没有被调用，会被认为是多余的代码，在打包的时候就给移除掉了，不仅仅是方法，没有调用的资源同样会被移除，这样的好处是可以减少 APK 的体积</p>
+<p>2、NativeUtils 类名没有被混淆，这是由于它有一个声明成 native 的方法。只要一个类中有存在 native 方法，它的类名就不会被混淆，native 方法的方法名也不会被混淆，因为 C 或 C++ 代码要通过<code>包名+类名+方法名来</code>进行交互。 但是类中别的代码还是会被混淆，它的非 Native 方法直接没有了，因为方法里面的内容拷贝到了方法的调用处</p>
+<p>3、MyFragment 是混淆的比较彻底的，基本没有任何保留，连生命周期方法也被混淆了，Fragment 怎么说也算是一个系统组件吧，搞的一点面子都没有😂</p>
+<p>4、MainActivity 的保留程度就比 MyFragment 好多了，至少像类名，生命周期方法都没有被混淆，这是因为：<strong>凡是需要在 AndroidManifest.xml 中注册的所有类的类名以及从父类重写的方法名都不会被混淆。</strong>  因此，除了 Activity 之外，这份规则同样适用于：Service，BroadcastReceiver 和 ContentProvider</p>
+<p>5、引入的第三方库也被混淆了，上述可以看到直接是把方法调用的结果给填充了进来</p>
+</blockquote>
+<h3 id="2-4、默认混淆规则介绍"><a href="#2-4、默认混淆规则介绍" class="headerlink" title="2.4、默认混淆规则介绍"></a>2.4、默认混淆规则介绍</h3><p>那么这些混淆规则是在哪里定义的呢？其实就是刚才在 build.gradle 的 release 闭包下配置的 proguard-android-optimize.txt 文件，这个文件存放于<code>Android SDK/tools/proguard/</code>目录下：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e9ca083fd88548ffb04ade1b3aab721d~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221120165304203.png"></p>
+<p>看一眼它的具体内容：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><code class="hljs xml"># This is a configuration file for ProGuard.<br># http://proguard.sourceforge.net/index.html#manual/usage.html<br>#<br># This file is no longer maintained and is not used by new (2.2+) versions of the<br># Android plugin for Gradle. Instead, the Android plugin for Gradle generates the<br># default rules at build time and stores them in the build directory.<br><br># Optimizations: If you don&#x27;t want to optimize, use the<br># proguard-android.txt configuration file instead of this one, which<br># turns off the optimization flags.  Adding optimization introduces<br># certain risks, since for example not all optimizations performed by<br># ProGuard works on all versions of Dalvik.  The following flags turn<br># off various optimizations known to have issues, but the list may not<br># be complete or up to date. (The &quot;arithmetic&quot; optimization can be<br># used if you are only targeting Android 2.0 or later.)  Make sure you<br># test thoroughly if you go this route.<br>-optimizations !code/simplification/arithmetic,!code/simplification/cast,!field/*,!class/merging/*<br>-optimizationpasses 5<br>-allowaccessmodification<br>-dontpreverify<br><br># The remainder of this file is identical to the non-optimized version<br># of the Proguard configuration file (except that the other file has<br># flags to turn off optimization).<br><br>-dontusemixedcaseclassnames<br>-dontskipnonpubliclibraryclasses<br>-verbose<br><br>-keepattributes *Annotation*<br>-keep public class com.google.vending.licensing.ILicensingService<br>-keep public class com.android.vending.licensing.ILicensingService<br><br># For native methods, see http://proguard.sourceforge.net/manual/examples.html#native<br>-keepclasseswithmembernames class * &#123;<br>    native <span class="hljs-tag">&lt;<span class="hljs-name">methods</span>&gt;</span>;<br>&#125;<br><br># keep setters in Views so that animations can still work.<br># see http://proguard.sourceforge.net/manual/examples.html#beans<br>-keepclassmembers public class * extends android.view.View &#123;<br>   void set*(***);<br>   *** get*();<br>&#125;<br><br># We want to keep methods in Activity that could be used in the XML attribute onClick<br>-keepclassmembers class * extends android.app.Activity &#123;<br>   public void *(android.view.View);<br>&#125;<br><br># For enumeration classes, see http://proguard.sourceforge.net/manual/examples.html#enumerations<br>-keepclassmembers enum * &#123;<br>    public static **[] values();<br>    public static ** valueOf(java.lang.String);<br>&#125;<br><br>-keepclassmembers class * implements android.os.Parcelable &#123;<br>  public static final android.os.Parcelable$Creator CREATOR;<br>&#125;<br><br>-keepclassmembers class **.R$* &#123;<br>    public static <span class="hljs-tag">&lt;<span class="hljs-name">fields</span>&gt;</span>;<br>&#125;<br><br># The support library contains references to newer platform versions.<br># Don&#x27;t warn about those in case this app is linking against an older<br># platform version.  We know about them, and they are safe.<br>-dontwarn android.support.**<br><br># Understand the @Keep support annotation.<br>-keep class android.support.annotation.Keep<br><br>-keep @android.support.annotation.Keep class * &#123;*;&#125;<br><br>-keepclasseswithmembers class * &#123;<br>    @android.support.annotation.Keep <span class="hljs-tag">&lt;<span class="hljs-name">methods</span>&gt;</span>;<br>&#125;<br><br>-keepclasseswithmembers class * &#123;<br>    @android.support.annotation.Keep <span class="hljs-tag">&lt;<span class="hljs-name">fields</span>&gt;</span>;<br>&#125;<br><br>-keepclasseswithmembers class * &#123;<br>    @android.support.annotation.Keep <span class="hljs-tag">&lt;<span class="hljs-name">init</span>&gt;</span>(...);<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>这个就是默认的混淆配置文件了，我们来逐行解释一下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><code class="hljs xml"># 启动优化相关的一些配置<br># 指定更精细级别的优化<br>-optimizations !code/simplification/arithmetic,!code/simplification/cast,!field/*,!class/merging/*<br># 表示对代码优化的次数，一般为 5<br>-optimizationpasses 5<br># 允许改变作用域<br>-allowaccessmodification<br># 关闭预验证<br>-dontpreverify<br><br># 表示混淆时不使用大小写混合类名<br>-dontusemixedcaseclassnames<br><br># 表示不跳过 library 中的非 public 类<br>-dontskipnonpubliclibraryclasses<br><br># 表示打印混淆的详细信息<br>-verbose<br><br>#表示对注解中的参数进行保留<br>-keepattributes *Annotation*<br><br># 表示不混淆如下声明的两个类，这两个类基本上也用不上，是接入 Google 原生的一些服务时使用的<br>-keep public class com.google.vending.licensing.ILicensingService<br>-keep public class com.android.vending.licensing.ILicensingService<br><br># 表示不混淆任何包含 native 方法的类名以及 native 方法名，这个和刚才验证的结果是一致的<br>-keepclasseswithmembernames class * &#123;<br>    native <span class="hljs-tag">&lt;<span class="hljs-name">methods</span>&gt;</span>;<br>&#125;<br>      <br># 表示不混淆 View 中的 setXXX() 和 getXXX() 方法，因为属性动画需要有相应的 setter 和 getter 方法实现<br>-keepclassmembers public class * extends android.view.View &#123;<br>   void set*(***);<br>   *** get*();<br>&#125;<br>      <br># 表示不混淆 Activity 中参数是 View 的方法，因为有这么一种用法，在 XML 中配置 android:onClick=&quot;btnClick&quot; 属性，混淆就找<br># 不到了<br>-keepclassmembers class * extends android.app.Activity &#123;<br>   public void *(android.view.View);<br>&#125;<br>      <br># 表示不混淆枚举的 values() 和 valueOf() 方法<br>-keepclassmembers enum * &#123;<br>    public static **[] values();<br>    public static ** valueOf(java.lang.String);<br>&#125;<br>      <br># 表示不混淆 Parcelable 实现类中的 CREATOR 字段，毫无疑问，CREATOR 字段是绝对不能改变的，包括大小写都不能变，不然整个<br># Parcelable 工作机制都会失效<br>-keepclassmembers class * implements android.os.Parcelable &#123;<br>  public static final android.os.Parcelable$Creator CREATOR;<br>&#125;<br>      <br># 表示不混淆 R 文件中的所有静态字段，我们都知道 R 文件是通过字段来记录每个资源 id ，字段名如果被混淆，id 就找不到了<br>-keepclassmembers class **.R$* &#123;<br>    public static <span class="hljs-tag">&lt;<span class="hljs-name">fields</span>&gt;</span>;<br>&#125;<br>      <br># 表示对 android.support 包下的代码不警告，因为 support 包中的所有代码都在兼容性上做了足够的判断，因此不用担心代码会出问题<br># 所以直接忽略警告就可以了<br>-dontwarn android.support.**<br>      <br># 表示不混淆 android.support.annotation.Keep 这个注解类的所有东西<br>-keep class android.support.annotation.Keep<br>      <br># 表示不混淆使用了 class android.support.Keep 注解的类的所有东西<br>-keep @android.support.annotation.Keep class * &#123;*;&#125;<br>      <br># 表示不混淆类名和类中使用了 class android.support.Keep 注解的方法<br>-keepclasseswithmembers class * &#123;<br>    @android.support.annotation.Keep <span class="hljs-tag">&lt;<span class="hljs-name">methods</span>&gt;</span>;<br>&#125;<br>      <br># 表示不混淆类名和类中使用了 class android.support.Keep 注解的属性<br>-keepclasseswithmembers class * &#123;<br>    @android.support.annotation.Keep <span class="hljs-tag">&lt;<span class="hljs-name">fields</span>&gt;</span>;<br>&#125;<br>      <br># 表示不混淆类名和类中使用了 class android.support.Keep 注解的构造方法<br>-keepclasseswithmembers class * &#123;<br>    @android.support.annotation.Keep <span class="hljs-tag">&lt;<span class="hljs-name">init</span>&gt;</span>(...);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="2-4-1、proguard-android-optimize-txt-和-proguard-android-txt-区别"><a href="#2-4-1、proguard-android-optimize-txt-和-proguard-android-txt-区别" class="headerlink" title="2.4.1、proguard-android-optimize.txt 和 proguard-android.txt 区别"></a>2.4.1、proguard-android-optimize.txt 和 proguard-android.txt 区别</h4><p>之前一些 AGP 老版本，我们新建工程默认使用的是：proguard-android.txt，那么它和 proguard-android-optimize.txt 有啥区别呢？</p>
+<p>从字面的维度看，就多了一个 optimize（优化）这个单词，实际就是多了优化这一部分，proguard-android-optimize.txt 相对于 proguard-android.txt 开启了优化相关的配置：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs xml"># proguard-android-optimize.txt 新增了以下优化规则<br>-optimizations !code/simplification/arithmetic,!code/simplification/cast,!field/*,!class/merging/*<br>-optimizationpasses 5<br>-allowaccessmodification<br>-dontpreverify<br><br># proguard-android-optimize.txt 删除了关闭优化指令的配置<br># -dontoptimize<br></code></pre></td></tr></table></figure>
+
+<p>好了，上述就是 proguard-android-optimize.txt 文件中所有的默认配置，而我们混淆代码也是按照这些配置的规则来进行混淆的。经过上面的讲解，相信大家对这些配置的内容基本都能理解了。不过 Proguard 语法中还真有几处非常难理解的地方，下面和大家分享一下这些难懂的语法部分</p>
+<h3 id="2-5、Proguard-疑难语法介绍"><a href="#2-5、Proguard-疑难语法介绍" class="headerlink" title="2.5、Proguard 疑难语法介绍"></a>2.5、Proguard 疑难语法介绍</h3><p>Proguard 中一共有三组六个 keep 关键字，很多人搞不清楚他们的区别，我们通过一个表格直观的来看一下：</p>
+<table>
+<thead>
+<tr>
+<th>关键字</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>keep</td>
+<td>保留类和类中的成员不被混淆或移除</td>
+</tr>
+<tr>
+<td>keepnames</td>
+<td>在 keep 的基础上，如果成员没有被引用，则会被移除</td>
+</tr>
+<tr>
+<td>keepclassmembers</td>
+<td>保留类成员不被混淆或移除</td>
+</tr>
+<tr>
+<td>keepclassmembernames</td>
+<td>在 keepclassmembers 基础上，如果成员没有被引用，则会被移除</td>
+</tr>
+<tr>
+<td>keepclasseswithmembers</td>
+<td>保留类和类中的成员不被混淆或移除，前提是类中的成员必须存在，否则还是会被混淆</td>
+</tr>
+<tr>
+<td>keepclasseswithmembernames</td>
+<td>在 keepclasseswithmembers 基础上，如果成员没有被引用，则会被移除</td>
+</tr>
+</tbody></table>
+<p>除此之外，Proguard 的通配符也比较让人难懂，proguard-android-optimize.txt 中就使用到了很多通配符，我们来看一下它们之间的区别：</p>
+<table>
+<thead>
+<tr>
+<th>通配符</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>&lt;field&gt;</code></td>
+<td>匹配类中所有的字段</td>
+</tr>
+<tr>
+<td><code>&lt;method&gt;</code></td>
+<td>匹配类中所有的方法</td>
+</tr>
+<tr>
+<td><code>init</code></td>
+<td>匹配类中所有的构造方法</td>
+</tr>
+<tr>
+<td><code>*</code></td>
+<td>匹配任意长度字符，但不包含分隔符<code>.</code>，例如我们完成类名是：com.dream.androidreversedemo.MainActivity，使用 com.* 或者 com.dream.* 是无法匹配的，因为 * 无法匹配报名中的分隔符，正确的匹配方式是<code>com.dream.*.*</code>或者<code>com.dream.androidreversedemo.*</code></td>
+</tr>
+<tr>
+<td><code>**</code></td>
+<td>匹配任意长度字符，包含分隔符<code>.</code>，上面匹配规则我们可以使用<code>com.**</code>或者<code>com.dream.**</code>来进行匹配</td>
+</tr>
+<tr>
+<td><code>***</code></td>
+<td>匹配任意参数类型。例如<code>void set*(***)</code>就能匹配传入任意的参数类型，<code>***get(*)</code>就能匹配任意返回值的类型</td>
+</tr>
+<tr>
+<td><code>...</code></td>
+<td>匹配任意长度的任意类型参数，例如<code>void test(...)</code>就能匹配<code>void test(String str)</code>或者<code>void test(int a,double b)</code>这些方法</td>
+</tr>
+</tbody></table>
+<p>ok，学习了疑难语法，下面我们来一道练习题🤔：保留实现了 com.dream.test.BaseJsonData 接口的类的所有信息不被混淆？</p>
+<p>一个清晰的思路很重要，仔细分析一下：</p>
+<p>1、首先我们要保证  com.dream.test.BaseJsonData 接口不被混淆</p>
+<p>2、然后保证实现 com.dream.test.BaseJsonData 接口的类不被混淆</p>
+<p>3、最后就是匹配类中所有的成员不被混淆，可以使用通配符 *</p>
+<p>我们可以这么写：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs xml"># 保证  com.dream.test.BaseJsonData 接口不被混淆<br>-keep class com.dream.test.BaseJsonData<br># 保证实现 com.dream.test.BaseJsonData 接口的类不被混淆<br># 匹配类中所有的成员不被混淆，可以使用通配符 *<br>-keep class * implements com.dream.test.BaseJsonData&#123;<br>    *;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="2-6、自定义混淆规则"><a href="#2-6、自定义混淆规则" class="headerlink" title="2.6、自定义混淆规则"></a>2.6、自定义混淆规则</h3><p>回到项目中，刚才打出的 APK 虽然已经成功混淆了，但是混淆的规则是按照 proguard-android-optimize.txt 中默认的规则来的，当然我们可以修改 proguard-android-optimize.txt 中的规则，但是这样做会对本机上所有项目的混淆规则都生效，那么有没有什么好的办法只针对当前项目做混淆规则修改呢？</p>
+<p>答：对 proguard-rules.pro 文件进行自定义混淆规则编写</p>
+<p>可以看到 android 闭包下 release 闭包的配置，实际上配置了两个混淆文件，一个就是我们前面介绍的默认混淆规则，另外一个就是自定义混淆规则：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs groovy">android &#123;<br>  <br>    buildTypes &#123;<br>        release &#123;<br>            minifyEnabled <span class="hljs-literal">true</span><br>            <span class="hljs-comment">//proguard-android-optimize.txt：默认混淆规则 proguard-rules.pro：自定义混淆规则</span><br>            proguardFiles getDefaultProguardFile(<span class="hljs-string">&#x27;proguard-android-optimize.txt&#x27;</span>), <span class="hljs-string">&#x27;proguard-rules.pro&#x27;</span><br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>proguard-rules.pro 文件位于 app 目录下，接下来我们就使用刚才学习的 Proguard 相关知识对混淆规则做修改吧</p>
+<p>这里先列出我们要实现的目标：</p>
+<blockquote>
+<p>1、对 MyFragment 类进行完全保留，不混淆其任何信息</p>
+<p>2、对 MainActivity 类进行完全保留，不混淆其任何信息</p>
+<p>3、对 Utils 中的方法进行保留，防止其被混淆或移除</p>
+<p>4、对 NativeUtils 中的非 Native 方法进行保留，防止其被混淆或移除</p>
+<p>5、对第三方库进行保留，防止其被混淆或移除</p>
+</blockquote>
+<p>实现如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs xml"># 对 MyFragment 类进行完全保留，不混淆其任何信息<br>-keep class com.dream.androidreversedemo.MyFragment&#123;<br>    *;<br>&#125;<br><br># 对 MainActivity 类进行完全保留，不混淆其任何信息<br>-keep class com.dream.androidreversedemo.MainActivity&#123;<br>    *;<br>&#125;<br><br># 对 Utils 中的方法进行保留，防止其被混淆或移除<br>-keep class com.dream.androidreversedemo.Utils&#123;<br>    *;<br>&#125;<br><br># 对 NativeUtils 中的非 Native 方法进行保留，防止其被移除<br>-keepclassmembers class com.dream.androidreversedemo.NativeUtils&#123;<br>    public static void methodNotNative();<br>&#125;<br><br># 对第三方库进行保留，防止其被混淆或移除<br>-keep class com.dream.androidutils.*&#123;<br>    *;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>编写好了自定义规则，现在我们重新打一个正式版的 APK 文件，然后在反编译看效果：</p>
+<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f7a87902aa31488d9d01e1fc9eeaa552~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="image-20221120195728116.png" width="50%" />
+
+<p>可以看到我们自己编写的类和引入的第三方库中所有的的代码都被保留了下来，不管是包名，类名都没有被混淆</p>
+<p>接着看一下具体的类：</p>
+<p><strong>MainActivity</strong>：</p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4fb1c093c5794a58a63bd24788e2ee7c~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221120200151678.png"></p>
+<p><strong>Utils</strong>：</p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ab38bf1f159b4da88ef917cbc6086bd9~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221120200226987.png"></p>
+<p><strong>NativeUtils</strong>：</p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/55307b4e2dd945a6ac308e8466845557~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221120200312209.png"></p>
+<p><strong>MyFragment</strong>：</p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/99172c118699411eabb91fdc4d1fd9ce~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221120200408565.png"></p>
+<p>可以看到，上面的这些类基本上按照我们的要求保留了下来</p>
+<p>ok，经过上面的例子，相信大家已经对 Proguard 的用法有相当不错的理解了，那么根据自己的业务需求去编写混淆配置相信也不是什么难事了吧？</p>
+<p>关于混淆 APK 代码就讲这么多，如果你还想了解更多关于 Proguard 的用法，可以参考这篇文章：<a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903457380384782">https://juejin.cn/post/6844903457380384782</a></p>
+<h2 id="三、总结"><a href="#三、总结" class="headerlink" title="三、总结"></a>三、总结</h2><p>本篇文章我们主要介绍了：</p>
+<p>1、反编译工具 jadx 的安装与使用</p>
+<blockquote>
+<p>jadx 相当于是 apktool + dex2jar + jd-gui 的结合体，既能反编译代码也能反编译资源，一定程度上提高了我们的开发效率</p>
+</blockquote>
+<p>2、混淆 APK 代码</p>
+<blockquote>
+<p>1、准备了一些类（自定义编写的类，第三方库的类）用于混淆后的效果验证</p>
+<p>2、在 app -&gt; build.gradle -&gt; android 闭包 -&gt; release 闭包将 minifyEnabled 设为 true 开启代码混淆</p>
+<p>3、使用 AndroidStudio 导航栏上 Generate Signed Bundle or APK 的方式打 release 包</p>
+<p>4、在 app 的 build.gradle 文件中配置签名文件，方便后续使用 gradle 命令或 gradle 可视化界面打包</p>
+<p>5、逐行介绍了默认混淆规则文件 proguard-android-optimize.txt 中的配置</p>
+<p>6、Proguard 疑难语法介绍</p>
+<p>7、自定义混淆规则保留类（自定义编写的类，第三方库的类）不被混淆</p>
+</blockquote>
+<p>好了，本篇文章到这里就结束了，希望能给你带来帮助 🤝</p>
+<p><strong>感谢你阅读这篇文章</strong></p>
+<h3 id="参考和推荐"><a href="#参考和推荐" class="headerlink" title="参考和推荐"></a>参考和推荐</h3><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/guolin_blog/article/details/50451259?spm=1001.2014.3001.5501">Android安全攻防战，反编译与混淆技术完全解析（下）</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903457380384782">深入学习ProGuard之：ProGuard简介与android的应用</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/skylot/jadx">jadx github</a></p>
+<blockquote>
+<p><strong>你的点赞，评论，是对我巨大的鼓励！</strong></p>
+<p>欢迎关注我的<strong>公众号：</strong>  <a target="_blank" rel="noopener" href="http://m6z.cn/6jwi7b"><strong>sweetying</strong></a> ，文章更新可第一时间收到</p>
+<p>如果<strong>有问题</strong>，公众号内有加我微信的入口，在技术学习、个人成长的道路上，我们一起前进！</p>
+</blockquote>
 
                 
               </div>
@@ -492,7 +726,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Android 逆向系列（二）：Android 混淆技术完全解析</div>
+      <div>Android 逆向系列（二）：Android APK 代码混淆</div>
       <div>https://sweetying520.github.io/2022/10/30/Android 逆向系列（二）：Android 混淆技术完全解析/</div>
     </div>
     <div class="license-meta">
