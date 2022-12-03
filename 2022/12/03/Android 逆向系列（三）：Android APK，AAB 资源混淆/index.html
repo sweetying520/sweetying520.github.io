@@ -1,0 +1,1003 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <!--自定义看板娘-->
+    <!--自定义看板娘-->
+    <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+    <script src="/live2d-widget/autoload.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
+<!--   <link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css"> -->
+<!--   <script src="https://fastly.jsdelivr.net/gh/stevenjoezhang/live2d-widget@latest/autoload.js"></script> -->
+
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar.png">
+  <link rel="icon" href="/img/avatar.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="sweetying">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前言很高兴遇见你~ 在本系列的上一篇文章中，我们讲了： 1、反编译工具 jadx 的安装与使用  jadx 相当于是 apktool + dex2jar + jd-gui 的结合体，既能反编译代码也能反编译资源，一定程度上提高了我们的开发效率  2、混淆 APK 代码  1、准备了一些类（自定义编写的类，第三方库的类）用于混淆后的效果验证 2、在 app -&gt; build.gradle -">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 逆向系列（三）：Android APK，AAB 资源混淆">
+<meta property="og:url" content="https://sweetying520.github.io/2022/12/03/Android%20%E9%80%86%E5%90%91%E7%B3%BB%E5%88%97%EF%BC%88%E4%B8%89%EF%BC%89%EF%BC%9AAndroid%20APK%EF%BC%8CAAB%20%E8%B5%84%E6%BA%90%E6%B7%B7%E6%B7%86/index.html">
+<meta property="og:site_name" content="sweetying">
+<meta property="og:description" content="前言很高兴遇见你~ 在本系列的上一篇文章中，我们讲了： 1、反编译工具 jadx 的安装与使用  jadx 相当于是 apktool + dex2jar + jd-gui 的结合体，既能反编译代码也能反编译资源，一定程度上提高了我们的开发效率  2、混淆 APK 代码  1、准备了一些类（自定义编写的类，第三方库的类）用于混淆后的效果验证 2、在 app -&gt; build.gradle -">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/fdec2a9e1e244b4cb7345f9bafc0a5e2~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="article:published_time" content="2022-12-03T02:22:00.000Z">
+<meta property="article:modified_time" content="2022-12-03T16:10:08.648Z">
+<meta property="article:author" content="sweetying">
+<meta property="article:tag" content="原创">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="Android 逆向">
+<meta property="article:tag" content="反编译">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/fdec2a9e1e244b4cb7345f9bafc0a5e2~tplv-k3u1fbpfcp-watermark.image?">
+  
+  
+  
+  <title>Android 逆向系列（三）：Android APK，AAB 资源混淆 - sweetying</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/iconfont_juejin/iconfont.css">
+<link rel="stylesheet" href="/css/custom.css">
+<link rel="stylesheet" href="/css/fluid-extention.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sweetying520.github.io","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"zN1E017kYhKuj6GqXHJSbGMb-gzGzoHsz","app_key":"JSwY8PjtA131Y78OHn7kKtio","server_url":"https://zn1e017k.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  <div>
+	<div class='real_mask' style="
+		background-color: rgba(0,0,0,0.3);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -777;
+	"></div>
+	<div id="banner_video_insert">
+	</div>
+	<div id='vvd_banner_img'>
+	</div>
+</div>
+<div id="banner"></div>
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>sweetying</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" target="_blank" rel="noopener" href="https://www.foreverblog.cn/go.html">
+                <i class="iconfont icon-rss"></i>
+                虫洞
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://101.43.39.125/HexoFiles/new/bg-trans.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Android 逆向系列（三）：Android APK，AAB 资源混淆"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        sweetying
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-12-03 10:22" pubdate>
+          2022年12月3日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          7.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          65 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
+
+	<div class="banner" id='banner' >
+
+		<div class="full-bg-img" >
+
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
+
+					function set_video_attr(id){
+
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
+
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
+					}
+
+					$.getJSON('/vvd_js/video_url.json', function(data){
+						if (true){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
+
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
+
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
+							set_video_attr('banner_img_item')
+
+							if (!isMobile) {
+								video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+								document.getElementById("banner_video_insert").innerHTML = video_html_res;
+								set_video_attr('video_item')
+							}
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+			</div>
+		</div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Android 逆向系列（三）：Android APK，AAB 资源混淆</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/fdec2a9e1e244b4cb7345f9bafc0a5e2~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>很高兴遇见你~</p>
+<p>在本系列的上一篇文章中，我们讲了：</p>
+<p>1、反编译工具 jadx 的安装与使用</p>
+<blockquote>
+<p>jadx 相当于是 apktool + dex2jar + jd-gui 的结合体，既能反编译代码也能反编译资源，一定程度上提高了我们的开发效率</p>
+</blockquote>
+<p>2、混淆 APK 代码</p>
+<blockquote>
+<p>1、准备了一些类（自定义编写的类，第三方库的类）用于混淆后的效果验证</p>
+<p>2、在 app -&gt; build.gradle -&gt; android 闭包 -&gt; release 闭包将 minifyEnabled 设为 true 开启代码混淆</p>
+<p>3、使用 AndroidStudio 导航栏上 Generate Signed Bundle or APK 的方式打 release 包</p>
+<p>4、在 app 的 build.gradle 文件中配置签名文件，方便后续使用 gradle 命令或 gradle 可视化界面打包</p>
+<p>5、逐行介绍了默认混淆规则文件 proguard-android-optimize.txt 中的配置</p>
+<p>6、Proguard 疑难语法介绍</p>
+<p>7、自定义混淆规则保留类（自定义编写的类，第三方库的类）不被混淆</p>
+</blockquote>
+<p>还没有看过上一篇的朋友，建议先去阅读<a target="_blank" rel="noopener" href="https://juejin.cn/post/7168086915445424136">Android 逆向系列（二）：Android APK 代码混淆</a> </p>
+<p>接下来我们介绍一下 APK，AAB 资源混淆</p>
+<p><strong>注意</strong>：</p>
+<p>1、下面演示均是在 mac 下进行</p>
+<p>2、AndroidStudio 版本：Android Studio Dolphin | 2021.3.1 Patch 1</p>
+<p>3、AGP 版本：7.3.1</p>
+<p>4、Gradle 版本：7.4</p>
+<h2 id="一、APK-资源混淆"><a href="#一、APK-资源混淆" class="headerlink" title="一、APK 资源混淆"></a>一、APK 资源混淆</h2><p>上篇文章我们对 APK 的代码进行了混淆，但是 APK 资源还是暴露在他人面前：</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9e0df929225d433b94b18a6f934fd048~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221203180325392.png"></p>
+<p>可以看到：<strong>资源文件可读性很强，我们可以很轻松的去找到想要的资源</strong></p>
+<p>针对这种情况，可以对 APK 的资源进行混淆。那要如何混淆呢？🤔️</p>
+<p>答：使用微信开源的 AndResGuard 框架进行混淆</p>
+<h3 id="1-1、AndResGuard-介绍"><a href="#1-1、AndResGuard-介绍" class="headerlink" title="1.1、AndResGuard 介绍"></a>1.1、AndResGuard 介绍</h3><p>Github 地址：<a target="_blank" rel="noopener" href="https://github.com/shwenzhang/AndResGuard">https://github.com/shwenzhang/AndResGuard</a></p>
+<p>1）、AndResGuard 是微信开源的一个资源混淆框架，工作方式类似于我们前面所讲的 APK 代码混淆。</p>
+<p>2）、它会对我们的文件进行重命名，例如：activity_main.xml &#x3D;&gt; a.xml，在一定程度上增加了别人窃取你资源的难度，另一方面减小了包体积</p>
+<h3 id="1-2、AndResGuard-使用"><a href="#1-2、AndResGuard-使用" class="headerlink" title="1.2、AndResGuard 使用"></a>1.2、AndResGuard 使用</h3><p>1、在项目的根 build.gradle 添加如下配置：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-comment">//一、如果是 AGP 7.0 以下，使用如下配置：</span><br>buildscript &#123;<br>    repositories &#123;<br>      	<span class="hljs-comment">//添加仓库地址：jcenter 在阿里云的镜像仓库</span><br>        maven &#123;<br>            url <span class="hljs-string">&#x27;https://maven.aliyun.com/repository/jcenter&#x27;</span><br>        &#125;<br>    &#125;<br><br>    dependencies &#123;<br>        <span class="hljs-comment">//添加 AndResGuard 依赖</span><br>        classpath <span class="hljs-string">&#x27;com.tencent.mm:AndResGuard-gradle-plugin:1.2.21&#x27;</span><br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//二、如果是 AGP 7.0 以上，使用如下配置：</span><br><span class="hljs-comment">//第一步</span><br>buildscript &#123;<br>    repositories &#123;<br>      	mavenCentral()<br>    &#125;<br><br>    dependencies &#123;<br>        <span class="hljs-comment">//添加兼容 AGP 7.0 的 AndResGuard 依赖</span><br>      	<span class="hljs-comment">//Github：https://github.com/Leon406/AndResGuard</span><br>        classpath <span class="hljs-string">&#x27;io.github.leon406:AndResGuard-gradle-plugin:1.2.22.6&#x27;</span><br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//第二步：在 gradle.properties 添加如下配置</span><br><span class="hljs-comment">//关闭系统自带的资源压缩</span><br>android.enableResourceOptimizations=<span class="hljs-literal">false</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong> </p>
+<blockquote>
+<p>1、由于 jcenter 彻底关服，它里面所有的库都访问不了了，因此上面我们添加了 jcenter 在阿里云的镜像仓库</p>
+<p>2、腾讯的 AndResGuard 未做 AGP 7.0 兼容，如果要在 AGP 7.0 上使用，请使用上述配置二</p>
+</blockquote>
+<p>2、在 app 的 build.gradle 中添加相关配置</p>
+<p>建议新建一个 gradle 脚本文件，然后在 app 的 build.gradle 中引入该 gradle 脚本，如下图：</p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/45304d4b9f544a45a5088fb3b2a7bc5f~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221203114342414.png"></p>
+<p>3、接着我们对 andresguard.gradle 进行配置，里面写了详细的注释</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><code class="hljs groovy">apply <span class="hljs-attr">plugin:</span> <span class="hljs-string">&#x27;AndResGuard&#x27;</span><br><br>andResGuard &#123;<br><br>    <span class="hljs-comment">//1、启用签名。为 true 时，需要配置 signConfig</span><br>    useSign = <span class="hljs-literal">true</span><br>    <span class="hljs-comment">//2、keepRoot 为 true 时，会 keep 住所有资源的原始路径，只混淆资源的名字</span><br>  	<span class="hljs-comment">//实际测试 keepRoot 为 true 和 false 没啥区别</span><br>    keepRoot = <span class="hljs-literal">true</span><br>    <span class="hljs-comment">//3、白名单，指定不被混淆的资源文件，支持通配符，【+】代表 1 个或多个，【?】代表 0 个或 1 个，【*】代表 0 个或多个</span><br>    whiteList = [<br>           <span class="hljs-string">&quot;R.mipmap.ic_launcher&quot;</span><br>    ]<br>    <span class="hljs-comment">//4、配置需要压缩的文件的匹配规则，一般这里不需要动。支持 ? + * 通配符</span><br>    compressFilePattern = [<br>            <span class="hljs-string">&quot;*.png&quot;</span>,<br>            <span class="hljs-string">&quot;*.jpg&quot;</span>,<br>            <span class="hljs-string">&quot;*.jpeg&quot;</span>,<br>            <span class="hljs-string">&quot;*.gif&quot;</span>,<br>    ]<br><br>    <span class="hljs-comment">//5、配置7zip，只需设置 artifact 或 path；支持同时设置，但此时以 path 的值为优先</span><br>    <span class="hljs-comment">//    sevenzip &#123;</span><br>    <span class="hljs-comment">//        //artifact = &#x27;com.tencent.mm:SevenZip:1.2.21&#x27;</span><br>    <span class="hljs-comment">//        //path = &quot;/usr/local/bin/7za&quot;</span><br>    <span class="hljs-comment">//    &#125;</span><br><br>    <span class="hljs-comment">//6、用于 keep 住资源路径的 mapping 文件所在路径不被混淆</span><br>    <span class="hljs-comment">//mappingFile = file(&quot;./resource_mapping.txt&quot;)</span><br><br>    <span class="hljs-comment">//7、启用 7zip 压缩。为true时，useSign 必须为 true</span><br>    <span class="hljs-comment">//use7zip = false</span><br><br>    <span class="hljs-comment">//8、设置这个值，会把 arsc name 列混淆成相同的名字，减少 string 常量池的大小</span><br>    <span class="hljs-comment">//fixedResName = &quot;arg&quot;</span><br><br>    <span class="hljs-comment">//9、为 true 时会合并所有哈希值相同的资源，但请不要过度依赖这个功能去除去冗余资源</span><br>    <span class="hljs-comment">//mergeDuplicatedRes = true</span><br><br>    <span class="hljs-comment">//10、可选，指定生成的apk的保存路径</span><br>    <span class="hljs-comment">// finalApkBackupPath = &quot;$&#123;project.rootDir&#125;/final.apk&quot;</span><br><br>    <span class="hljs-comment">//11、可选: 指定v1签名时生成jar文件的摘要算法，默认值为“SHA-1”</span><br>    <span class="hljs-comment">// digestalg = &quot;SHA-256&quot;</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>4、同步一下项目，就可以进行 resguard 打包了，方式有二：</p>
+<p>1）、使用 Gradle 可视化界面执行相应的任务进行打包：</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d4b07280cd244865b90f6cd201a5a054~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221203192409739.png"></p>
+<p>如果想打 debug 包，则执行 resguardDebug 。</p>
+<p>如果想打 release 包，则执行 resguardRelease 。</p>
+<p>2）、使用 Gradle 命令进行打包</p>
+<p>在 Terminal 执行如下命令：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-comment">//打 debug 包</span><br>./gradlew resguardDebug<br><br><span class="hljs-comment">//打 release 包</span><br>./gradlew resguardRelease<br></code></pre></td></tr></table></figure>
+
+<p>5、这里我们打 release 包，等待任务执行完成，我们可以在 app的<code>/build/output/apk/release/AndResGuard_&#123;apk_name&#125;/</code>文件夹中找到混淆后的Apk，如下图：</p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/79cd2ae85777427eac1a4b8bcc83e1a2~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221203193101190.png"></p>
+<p>其中：</p>
+<p>1、<strong>app-release_aligned_signed.apk</strong>：为进行对齐混淆并签名过的 apk</p>
+<p>2、<strong>app-release_aligned_unsigned.apk</strong>：为进行对齐混淆但未签名过的 apk</p>
+<p>3、<strong>app-release_unsigned.apk</strong>：为进行混淆但未签名过的apk</p>
+<p>2，3 两个包因为没有签名是不能进行安装的，只有 1 能安装</p>
+<p>6、效果展示</p>
+<p>这里我们主要对 1 进行反编译查看，如下图：</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3cdcbdcb42274027891216206a02f61c~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221203193839353.png"></p>
+<p>可以看到资源文件按照预期效果混淆了。</p>
+<p>另外我们配置的白名单资源没有被混淆，如下图：</p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/77f7c94e682b4fe99359f2b493cb7757~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221203194509171.png"></p>
+<p>至此，AndResGuard 混淆 APK 资源就介绍完了，如果有疑问，可以参考我的 demo 工程。</p>
+<p>接下来我们介绍一下混淆 AAB 资源，在此之前，我们应该先了解一下 AAB 是什么？</p>
+<h2 id="二、AAB-介绍"><a href="#二、AAB-介绍" class="headerlink" title="二、AAB 介绍"></a>二、AAB 介绍</h2><p>上传过应用到 GooglePlay 的同学肯定知道，现在 GooglePlay 强制要求我们上传 .aab 格式的文件，那你心中是否会有一些疑问呢？</p>
+<p>什么是 AAB？AAB 和 APK 有啥区别？</p>
+<h3 id="2-1、什么是-AAB？"><a href="#2-1、什么是-AAB？" class="headerlink" title="2.1、什么是 AAB？"></a>2.1、什么是 AAB？</h3><p>AAB 即 Android App Bundle ，它是 Google 推出的 APK 动态打包，动态组件化的技术，通过一个 .aab 后缀的 bundle 文件组装一个最适合你手机机型的 APK 来为你的设备安装</p>
+<p>简介：<a target="_blank" rel="noopener" href="https://developer.android.com/guide/app-bundle">Android app bundle</a></p>
+<p><strong>Tips：.aab 是一种压缩包的格式（只用于上传 GooglePlay），最终用户下载的时候会通过用户手机机型配置的不同，生成一个最适合该配置的 APK，用户最终安装和下载的是 APK 文件</strong></p>
+<h3 id="2-2、AAB-和-APK-区别？"><a href="#2-2、AAB-和-APK-区别？" class="headerlink" title="2.2、AAB 和 APK 区别？"></a>2.2、AAB 和 APK 区别？</h3><p><code>*.aab</code> 和 <code>*.apk</code> 文件的结构对比如下图所示：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2ef765c4dee14a68b639744e7fe13e32~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>从图中可以看出，<code>*.aab</code> 和 <code>*.apk</code> 文件结构明显不同，<code>*.aab</code> 文件中的资源索引文件为 <code>resources.pb</code>，而 <code>*.apk</code> 文件中的资源索引文件为 <code>resources.arsc</code> 文件，二者的结构不同，解析自然也不相同，并且 <code>*.aab</code> 中的文件包含 <code>dynamic feature</code> 目录，所以 <code>*.aab</code> 中需要混淆更多的文件内容。</p>
+<h3 id="2-3、AAB-打包实践"><a href="#2-3、AAB-打包实践" class="headerlink" title="2.3、AAB 打包实践"></a>2.3、AAB 打包实践</h3><h4 id="2-3-1、使用-AndroidStudio-打-AAB-包"><a href="#2-3-1、使用-AndroidStudio-打-AAB-包" class="headerlink" title="2.3.1、使用 AndroidStudio 打 AAB 包"></a>2.3.1、使用 AndroidStudio 打 AAB 包</h4><p>之前我们介绍了如何使用 AndroidStudio 打一个 APK 包，接下来我们介绍一下如何打 AAB 包，流程其实差不多。</p>
+<p>1、选择 AndroidStudio 工具栏的 build，点击 Generate Singed Bundle or Apk</p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7a5b4931f0dd434690566213a09b2663~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221203203338084.png"></p>
+<p>然后选择 Android App Bundle，点击 next</p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/fe5a3157610c4efbb0beebda117125be~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221203203522968.png"></p>
+<p>2、选择签名文件，如果没有则新建一个，我这里已经有了：</p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f9effe525137416bb33b6606709bc500~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221203203733628.png"></p>
+<p>点击 next</p>
+<p>3、选择打 release 包：</p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a5c616e6622649cebced015db22e2b92~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221203203933035.png"></p>
+<p>点击 finish</p>
+<p>经过上面 3 步，如果没啥问题，我们就能成功打一个 AAB 包，如下图：</p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f1dcb65e42bb4fc2aa8a3f2caea8e0d5~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221203204127859.png"></p>
+<p>在 app&#x2F;release&#x2F; 目录下生成了一个 app-release.aab 文件</p>
+<h4 id="2-3-2、将-AAB-安装到手机"><a href="#2-3-2、将-AAB-安装到手机" class="headerlink" title="2.3.2、将 AAB 安装到手机"></a>2.3.2、将 AAB 安装到手机</h4><p>AAB 已经有了，接下来我们就把它安装到手机上。</p>
+<p>我们知道 APK 能直接安装到手机上，但是 AAB 不行，那如果我将 AAB 转成 APK 然后安装到手机是否可行呢？实践一下。</p>
+<p>1、下载 bundletool 工具</p>
+<p>要想将 AAB 转成 APK ，这里我们需要借助 Google 提供的 bundletool 工具</p>
+<p>下载链接：<a target="_blank" rel="noopener" href="https://github.com/google/bundletool/releases">https://github.com/google/bundletool/releases</a></p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/df991f5799734e458bfa242fe8be8bde~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221203205358585.png"></p>
+<p>2、然后通过 <code>bundletool</code> 将 aab 转为一组 apk，也就是 apks，使用如下命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs shell">java -jar [ bundletool 文件] build-apks --bundle [ aab 文件] --output [ apks 文件]<br> --ks=[签名文件]<br> --ks-pass=[pass:签名密码]<br> --ks-key-alias=[别名]<br> --key-pass=[pass:别名密码]<br></code></pre></td></tr></table></figure>
+
+<p>以我的为例：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">java -jar bundletool-all-1.13.1.jar build-apks --bundle=app-release.aab --output=app-output.apks --ks=Certificate --ks-pass=pass:erdai666 --ks-key-alias=key0 --key-pass=pass:erdai666<br></code></pre></td></tr></table></figure>
+
+<p>生成的文件如下：</p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3b1eab6c7fa04fd48847db3bf1e612b7~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221203210544108.png"></p>
+<p>3、使用 bundletool 将生成的 app-output.apks 安装到手机，执行如下命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">java -jar [ bundletool 文件] install-apks --apks=[ apks 文件]<br></code></pre></td></tr></table></figure>
+
+<p>以我的为例：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">java -jar bundletool-all-1.13.1.jar install-apks --apks=app-output.apks<br></code></pre></td></tr></table></figure>
+
+<p>如果没啥问题，你的手机将会收到一个安装的提示，如下图：</p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ade54f0f72d14c58ba125480b9b05dd3~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221203211406390.png"></p>
+<p>点击安装即可</p>
+<h2 id="三、AAB-资源混淆"><a href="#三、AAB-资源混淆" class="headerlink" title="三、AAB 资源混淆"></a>三、AAB 资源混淆</h2><p>上述 AAB 资源是没有经过混淆的，我们把它拖入 jadx-gui 即可验证这一点：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d167dae22b1342a1960717a06ecc61f0~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221203211756626.png"></p>
+<p>接下来我们使用字节开源的 AabResGuard 框架对 AAB 资源进行混淆。</p>
+<h3 id="3-1、AabResGuard-使用"><a href="#3-1、AabResGuard-使用" class="headerlink" title="3.1、AabResGuard 使用"></a>3.1、AabResGuard 使用</h3><p>Github 地址：<a target="_blank" rel="noopener" href="https://github.com/bytedance/AabResGuard">https://github.com/bytedance/AabResGuard</a></p>
+<p>AabResGuard 和我们上面介绍的 AndResGuard 原理很类似，只不过一个是针对 AAB ，一个是针对 APK。</p>
+<p>它的使用有两种方式：</p>
+<p>1、Gradle Plugin</p>
+<p>2、命令行支持</p>
+<h4 id="3-1-1、Gradle-Plugin"><a href="#3-1-1、Gradle-Plugin" class="headerlink" title="3.1.1、Gradle Plugin"></a>3.1.1、Gradle Plugin</h4><p><strong>注意： aabresguard-plugin 只发布了 0.1.8 版本，0.1.8 版本依赖的 Kotlin 插件的版本为：1.3.61，而 AGP 7.x 版本支持的 Kotlin 插件版本为：1.5.20 或者更高，因此如果你使用了 AGP 7.x 的版本，建议使用方式二去对 aab 进行资源混淆</strong></p>
+<p>1、在项目的根 build.gradle 添加如下配置：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs groovy">buildscript &#123;<br>    repositories &#123;<br>      	mavenCentral()<br>    &#125;<br><br>    dependencies &#123;<br>        classpath <span class="hljs-string">&quot;com.bytedance.android:aabresguard-plugin:0.1.8&quot;</span><br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>2、在 app 的 build.gradle 中添加相关配置</p>
+<p>建议新建一个 gradle 脚本文件，然后在 app 的 build.gradle 中引入该 gradle 脚本，如下图：</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/927458573d7b4017878a0cf5ea2bc9e8~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221203215616463.png"></p>
+<p>3、接着我们对 aabresguard.gradle 进行配置，里面写了详细的注释</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs groovy">apply <span class="hljs-attr">plugin:</span> <span class="hljs-string">&quot;com.bytedance.android.aabResGuard&quot;</span><br><br>aabResGuard &#123;<br>    whiteList = [ <span class="hljs-comment">// 白名单规则</span><br>                  <span class="hljs-string">&quot;R.mipmap.ic_launcher&quot;</span><br>    ]<br>    obfuscatedBundleFileName = <span class="hljs-string">&quot;duplicated-app.aab&quot;</span> <span class="hljs-comment">// 混淆后的文件名称，必须以 `.aab` 结尾</span><br>    mergeDuplicatedRes = <span class="hljs-literal">true</span> <span class="hljs-comment">// 是否允许去除重复资源</span><br>    enableFilterFiles = <span class="hljs-literal">true</span> <span class="hljs-comment">// 是否允许过滤文件</span><br>    filterList = [ <span class="hljs-comment">// 文件过滤规则</span><br>                   <span class="hljs-string">&quot;*/arm64-v8a/*&quot;</span>,<br>                   <span class="hljs-string">&quot;META-INF/*&quot;</span><br>    ]<br>    enableFilterStrings = <span class="hljs-literal">false</span> <span class="hljs-comment">// 过滤文案</span><br>    <span class="hljs-comment">//mappingFile = file(&quot;mapping.txt&quot;).toPath() // 用于增量混淆的 mapping 文件</span><br>    <span class="hljs-comment">//unusedStringPath = file(&quot;unused.txt&quot;).toPath() // 过滤文案列表路径 默认在mapping同目录查找</span><br>    <span class="hljs-comment">//languageWhiteList = [&quot;en&quot;, &quot;zh&quot;] // 保留en,en-xx,zh,zh-xx等语言，其余均删除</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>4、同步一下项目，使用如下命令进行混淆</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">./gradlew clean :app:bundleRelease --stacktrace <br></code></pre></td></tr></table></figure>
+
+<p>5、通过执行 gradle Task 获取混淆后的 bundle 文件路径</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-keyword">def</span> aabResGuardPlugin = project.tasks.getByName(<span class="hljs-string">&quot;aabresguard$&#123;VARIANT_NAME&#125;&quot;</span>)<br>Path bundlePath = aabResGuardPlugin.getObfuscatedBundlePath()<br></code></pre></td></tr></table></figure>
+
+<h3 id="3-1-2、命令行支持"><a href="#3-1-2、命令行支持" class="headerlink" title="3.1.2、命令行支持"></a>3.1.2、命令行支持</h3><p>AabResGuard 提供了 jar 包，我们可以使用命令直接执行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">java -jar [AabResGuard Jar 文件] obfuscate-bundle --bundle=[未资源混淆的 aab] --output=[资源混淆后的 aab] --merge-duplicated-res=true --storeFile=[签名文件] --storePassword=[签名密码] --keyAlias=[别名] --keyPassword=[别名密码]<br></code></pre></td></tr></table></figure>
+
+<p>以我的为例：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">java -jar AabResGuard-0.1.9.jar obfuscate-bundle --bundle=app-release.aab --output=obfuscated.aab --merge-duplicated-res=true --storeFile=Certificate --storePassword=erdai666 --keyAlias=key0 --keyPassword=erdai666<br></code></pre></td></tr></table></figure>
+
+<p>经过上面的操作，aab 资源混淆的效果和之前 apk 资源混淆的效果是一样的，这里就不再进行效果验证了</p>
+<h2 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h2><p>本篇文章我们介绍了：</p>
+<p>1、使用 AndResGuard 对 APK 进行资源混淆，需要注意的是：</p>
+<blockquote>
+<p>腾讯提供的 AndResGuard 不兼容 AGP 7.x ，因此如果在 AGP 7.x 中需使用兼容 AndResGuard 的方案去处理</p>
+</blockquote>
+<p>2、什么是 AAB</p>
+<blockquote>
+<p>AAB 是 Google 推出的一种动态打包技术，它会根据用户手机的机型动态下发最合适的 APK 进行安装</p>
+</blockquote>
+<p>3、AAB 和 APK 的区别</p>
+<blockquote>
+<p>1、AAB 的资源索引文件为 .pb 格式，APK 的资源索引文件为 .arsc 格式</p>
+<p>2、AAB 中包含了 dynamic feture 模块，APK 中没有</p>
+</blockquote>
+<p>4、通过 AndroidStudio 打 AAB 包并安装到手机上</p>
+<p>5、通过字节提供的 AabResGuard 对 AAB 进行资源混淆</p>
+<p>好了，本篇文章到这里就结束了，希望能给你带来帮助 🤝</p>
+<p><strong>感谢你阅读这篇文章</strong></p>
+<h3 id="参考和推荐"><a href="#参考和推荐" class="headerlink" title="参考和推荐"></a>参考和推荐</h3><p><a target="_blank" rel="noopener" href="https://github.com/shwenzhang/AndResGuard">AndResGuard</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Leon406/AndResGuard">AndResGuard 7.0 适配</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/bytedance/AabResGuard">AabResGuard</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904038618628109">开源 | AabResGuard: AAB 资源混淆工具</a></p>
+<blockquote>
+<p><strong>你的点赞，评论，是对我巨大的鼓励！</strong></p>
+<p>欢迎关注我的<strong>公众号：</strong>  <a target="_blank" rel="noopener" href="http://m6z.cn/6jwi7b"><strong>sweetying</strong></a> ，文章更新可第一时间收到</p>
+<p>如果<strong>有问题</strong>，公众号内有加我微信的入口，在技术学习、个人成长的道路上，我们一起前进！</p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Android/" class="category-chain-item">Android</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Android/Android-%E9%80%86%E5%90%91/" class="category-chain-item">Android 逆向</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%8E%9F%E5%88%9B/">#原创</a>
+      
+        <a href="/tags/Android/">#Android</a>
+      
+        <a href="/tags/Android-%E9%80%86%E5%90%91/">#Android 逆向</a>
+      
+        <a href="/tags/%E5%8F%8D%E7%BC%96%E8%AF%91/">#反编译</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Android 逆向系列（三）：Android APK，AAB 资源混淆</div>
+      <div>https://sweetying520.github.io/2022/12/03/Android 逆向系列（三）：Android APK，AAB 资源混淆/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>sweetying</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年12月3日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/11/27/flutter9/" title="Flutter 项目开发及技术选型">
+                        <span class="hidden-mobile">Flutter 项目开发及技术选型</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.4.17/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"zN1E017kYhKuj6GqXHJSbGMb-gzGzoHsz","appKey":"JSwY8PjtA131Y78OHn7kKtio","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <div style="font-size: 0.85rem;"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div> <div style="font-size: 0.85rem;"> <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #d7d8d9;" id="hitokoto">hitokoto</span></a> <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script> </div> <div id="music_div" style="position: fixed; z-index: 100; bottom: 350px; left: 0px;"> <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=100 src="//music.163.com/outchain/player?type=0&id=5426937413&auto=0&height=100"> </iframe> <script src="https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js"></script> <script src="/vvd_js/musicshow.js"></script> </div> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/vvd_js/star.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
