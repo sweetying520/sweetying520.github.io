@@ -24,26 +24,30 @@
   <meta name="author" content="sweetying">
   <meta name="keywords" content="">
   
-    <meta name="description" content="一、选择排序选择排序是一种更加简单直观的排序方法 需求： 排序前：{4,6,8,7,9,2,10,1} 排序后：{1,2,4,5,7,8,9,10} 排序原理： 1、每一次在遍历过程中，都假定第一个索引处的元素是最小值，和其他索引处的值依次进行比较，如果当前索引处的值大于其他某个索引处的值，则假定其他某个索引处的值为最小值，最后可以找到最小值所在的索引。 2、交换第一个索引处和最小值所在的索引处的">
+    <meta name="description" content="一、数据结构1.1、什么是数据结构？简单理解：数据结构就是把数据元素按照一定的关系组织起来的集合，用来组织和存储元素 1.2、数据结构分类？传统意义上，我们可以把数组结构分为： 1、逻辑结构 2、物理结构 两大类。 1.2.1、逻辑结构逻辑结构是从具体问题中抽象出来的模型，是抽象意义上的结构，按照对象中数据元素之间的相互关系分类，也是我们后面课题中需要关注和讨论的问题 逻辑结构主要分为 4 类：">
 <meta property="og:type" content="article">
-<meta property="og:title" content="选择排序和插入排序">
-<meta property="og:url" content="https://sweetying520.github.io/2022/08/02/%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F%E5%92%8C%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/index.html">
+<meta property="og:title" content="数据结构和算法概述（一）">
+<meta property="og:url" content="https://sweetying520.github.io/2022/07/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95%E6%A6%82%E8%BF%B0%EF%BC%88%E4%B8%80%EF%BC%89/index.html">
 <meta property="og:site_name" content="sweetying">
-<meta property="og:description" content="一、选择排序选择排序是一种更加简单直观的排序方法 需求： 排序前：{4,6,8,7,9,2,10,1} 排序后：{1,2,4,5,7,8,9,10} 排序原理： 1、每一次在遍历过程中，都假定第一个索引处的元素是最小值，和其他索引处的值依次进行比较，如果当前索引处的值大于其他某个索引处的值，则假定其他某个索引处的值为最小值，最后可以找到最小值所在的索引。 2、交换第一个索引处和最小值所在的索引处的">
+<meta property="og:description" content="一、数据结构1.1、什么是数据结构？简单理解：数据结构就是把数据元素按照一定的关系组织起来的集合，用来组织和存储元素 1.2、数据结构分类？传统意义上，我们可以把数组结构分为： 1、逻辑结构 2、物理结构 两大类。 1.2.1、逻辑结构逻辑结构是从具体问题中抽象出来的模型，是抽象意义上的结构，按照对象中数据元素之间的相互关系分类，也是我们后面课题中需要关注和讨论的问题 逻辑结构主要分为 4 类：">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e88a04b53dac49d2abf44ca108326dc0~tplv-k3u1fbpfcp-watermark.image">
-<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/791f691a1ac24c0c9e5ec089675c46ce~tplv-k3u1fbpfcp-watermark.image">
-<meta property="article:published_time" content="2022-08-02T02:42:57.000Z">
-<meta property="article:modified_time" content="2022-12-03T15:31:12.515Z">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f4b265f8ec5645b693b75c55a55167eb~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/386218d5dc3b4112878a98b9e62d169f~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1a722a53e6bd4101acaa6422c312ec90~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5837b908d40c48c28dc60e1ca1eba9bf~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/89600981f67d46a0b712248498e32483~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f5d9073ffd7a41dba5ba3ed9a7d5b43f~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="article:published_time" content="2022-07-30T02:42:57.000Z">
+<meta property="article:modified_time" content="2022-12-04T11:56:35.396Z">
 <meta property="article:author" content="sweetying">
 <meta property="article:tag" content="原创">
 <meta property="article:tag" content="数据结构和算法">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e88a04b53dac49d2abf44ca108326dc0~tplv-k3u1fbpfcp-watermark.image">
+<meta name="twitter:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f4b265f8ec5645b693b75c55a55167eb~tplv-k3u1fbpfcp-zoom-1.image">
   
   
   
-  <title>选择排序和插入排序 - sweetying</title>
+  <title>数据结构和算法概述（一） - sweetying</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -268,7 +272,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="选择排序和插入排序"></span>
+            <span id="subtitle" data-typed-text="数据结构和算法概述（一）"></span>
           
         </div>
 
@@ -284,8 +288,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-08-02 10:42" pubdate>
-          2022年8月2日 上午
+        <time datetime="2022-07-30 10:42" pubdate>
+          2022年7月30日 上午
         </time>
       </span>
     
@@ -296,7 +300,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3k 字
+          2.3k 字
         
       </span>
     
@@ -307,7 +311,7 @@
         
         
         
-          26 分钟
+          19 分钟
         
       </span>
     
@@ -418,57 +422,107 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">选择排序和插入排序</h1>
+            <h1 style="display: none">数据结构和算法概述（一）</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="一、选择排序"><a href="#一、选择排序" class="headerlink" title="一、选择排序"></a>一、选择排序</h2><p>选择排序是一种更加简单直观的排序方法</p>
-<p>需求：</p>
-<p>排序前：{4,6,8,7,9,2,10,1}</p>
-<p>排序后：{1,2,4,5,7,8,9,10}</p>
-<p><strong>排序原理：</strong></p>
-<p>1、每一次在遍历过程中，都假定第一个索引处的元素是最小值，和其他索引处的值依次进行比较，如果当前索引处的值大于其他某个索引处的值，则假定其他某个索引处的值为最小值，最后可以找到最小值所在的索引。</p>
-<p>2、交换第一个索引处和最小值所在的索引处的值 </p>
-<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e88a04b53dac49d2abf44ca108326dc0~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221203224040214.png"></p>
-<p>了解了原理，接下来我们通过代码实现一下它：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//1、编写一个选择排序的类</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Selection</span>&#123;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">sort</span><span class="hljs-params">(Comparable[] a)</span>&#123;<br>        <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> <span class="hljs-variable">length</span> <span class="hljs-operator">=</span> a.length;<br>        <span class="hljs-comment">//外层循环需要执行 length - 1 次</span><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; length - <span class="hljs-number">1</span>; i++) &#123;<br>            <span class="hljs-comment">//声明一个最小索引，用于和 i 位置处的元素进行交换</span><br>            <span class="hljs-type">int</span> <span class="hljs-variable">minIndex</span> <span class="hljs-operator">=</span> i;<br>            <span class="hljs-comment">//外层循环每执行一次，内层循环需执行 length - i 次来确定最小索引</span><br>            <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> <span class="hljs-variable">j</span> <span class="hljs-operator">=</span> i + <span class="hljs-number">1</span>; j &lt; length; j++)&#123;<br>                <span class="hljs-comment">//如果前一个数大于后一个数，则使用 minIndex 记录较小值的索引</span><br>                <span class="hljs-keyword">if</span>(greater(a[minIndex],a[j]))&#123;<br>                    minIndex = j;<br>                &#125;<br>            &#125;<br>            <span class="hljs-comment">//交换 minIndex 和 i 位置元素的值</span><br>            exchange(a,i,minIndex);<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 比较两个数的大小</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">greater</span><span class="hljs-params">(Comparable c1,Comparable c2)</span>&#123;<br>        <span class="hljs-keyword">return</span> c1.compareTo(c2) &gt; <span class="hljs-number">0</span>;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 交换 i，j 位置的值</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">exchange</span><span class="hljs-params">(Comparable[] a,<span class="hljs-type">int</span> i,<span class="hljs-type">int</span> j)</span>&#123;<br>        <span class="hljs-type">Comparable</span> <span class="hljs-variable">temp</span> <span class="hljs-operator">=</span> a[i];<br>        a[i] = a[j];<br>        a[j] = temp;<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//2、测试</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Test</span> &#123;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>       Integer[] intArray = &#123;<span class="hljs-number">4</span>,<span class="hljs-number">6</span>,<span class="hljs-number">8</span>,<span class="hljs-number">7</span>,<span class="hljs-number">9</span>,<span class="hljs-number">2</span>,<span class="hljs-number">10</span>,<span class="hljs-number">1</span>&#125;;<br>       Selection.sort(intArray);<br>       System.out.println(Arrays.toString(intArray));<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//打印结果</span><br>[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">4</span>, <span class="hljs-number">6</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>, <span class="hljs-number">9</span>, <span class="hljs-number">10</span>]<br></code></pre></td></tr></table></figure>
+                <h2 id="一、数据结构"><a href="#一、数据结构" class="headerlink" title="一、数据结构"></a>一、数据结构</h2><h3 id="1-1、什么是数据结构？"><a href="#1-1、什么是数据结构？" class="headerlink" title="1.1、什么是数据结构？"></a>1.1、什么是数据结构？</h3><p>简单理解：数据结构就是把数据元素按照一定的关系组织起来的集合，用来组织和存储元素</p>
+<h3 id="1-2、数据结构分类？"><a href="#1-2、数据结构分类？" class="headerlink" title="1.2、数据结构分类？"></a>1.2、数据结构分类？</h3><p>传统意义上，我们可以把数组结构分为：</p>
+<p>1、逻辑结构</p>
+<p>2、物理结构</p>
+<p>两大类。</p>
+<h4 id="1-2-1、逻辑结构"><a href="#1-2-1、逻辑结构" class="headerlink" title="1.2.1、逻辑结构"></a>1.2.1、逻辑结构</h4><p>逻辑结构是从具体问题中抽象出来的模型，是抽象意义上的结构，按照对象中数据元素之间的相互关系分类，也是我们后面课题中需要关注和讨论的问题</p>
+<p>逻辑结构主要分为 4 类：</p>
+<p>1、集合结构</p>
+<p>2、线性结构</p>
+<p>3、树形结构</p>
+<p>4、图形结构</p>
+<h5 id="1-2-1-1、集合结构"><a href="#1-2-1-1、集合结构" class="headerlink" title="1.2.1.1、集合结构"></a>1.2.1.1、集合结构</h5><p>1）、集合结构中数据元素除了属于同一个集合外，他们之间没有任何其他的关系，如图 1-1：</p>
+<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f4b265f8ec5645b693b75c55a55167eb~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="img" width="50%" />
 
-<p><strong>选择排序的时间复杂度分析：</strong></p>
-<p>选择排序使用了双层 for 循环，其中外层循环完成了数据交换，内层循环完成了数据比较，所以我们分别统计数据交换次数和数据比较次数：</p>
-<p>数据比较次数：</p>
-<p>1 + 2 + 3 + 4… + (N - 2) + (N - 1) &#x3D; N^2&#x2F;2 - N&#x2F;2</p>
-<p>数据交换次数：</p>
-<p>N - 1</p>
-<p>时间复杂度：N^2&#x2F;2 - N&#x2F;2 + (N - 1) &#x3D; N^2&#x2F;2 + N&#x2F;2 - 1</p>
-<p>根据大 O 表示法推导，保留最高阶项，去除常数因子，时间复杂度为：O(N^2)</p>
-<h2 id="二、插入排序"><a href="#二、插入排序" class="headerlink" title="二、插入排序"></a>二、插入排序</h2><p>插入排序（Insertion sort）是一种简单直观且稳定的排序算法</p>
-<p>插入排序的工作方式非常像人们排序一手扑克牌一样，开始时，我们左手为空并且桌子上的牌面朝下。然后，我们每次从桌子上拿走一张牌并将它插入左手中正确的位置。为了找到一张牌的正确位置，我们从右到左将它与已在手中的每张牌进行比较。</p>
-<p><strong>需求：</strong></p>
-<p>排序前：{4,3,2,10,12,1,5,6}</p>
-<p>排序后：{1,2,3,4,5,6,10,12}</p>
-<p><strong>排序原理：</strong></p>
-<p>1、把所有的元素分为两组，已经排序的和未排序的。</p>
-<p>2、找到未排序组中的第一个元素，向已经排序的组中进行插入。</p>
-<p>3、倒序遍历已经排序的元素，依次和待插入的元素进行比较，直到找到一个元素小于等于待插入元素，那么就把待插入元素放到这个位置，其他的元素向后移动一位。</p>
-<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/791f691a1ac24c0c9e5ec089675c46ce~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221203230655885.png"></p>
-<p>了解了原理，接下来我们通过代码实现一下它：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//1、编写一个插入排序的类</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Insertion</span>&#123;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">sort</span><span class="hljs-params">(Comparable[] a)</span>&#123;<br>        <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> <span class="hljs-variable">length</span> <span class="hljs-operator">=</span> a.length;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">1</span>; i &lt; length; i++) &#123;<br>            <span class="hljs-comment">//当前元素 a[i] ，依次和 i 前面的元素比较，找到一个小于等于 a[i] 的元素时，进行交换</span><br>            <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> <span class="hljs-variable">j</span> <span class="hljs-operator">=</span> i; j &gt; <span class="hljs-number">0</span>; j--)&#123;<br>                <span class="hljs-keyword">if</span>(greater(a[j-<span class="hljs-number">1</span>],a[j]))&#123;<br>                    <span class="hljs-comment">//交换元素</span><br>                    exchange(a,j-<span class="hljs-number">1</span>,j);<br>                &#125;<span class="hljs-keyword">else</span>&#123;<br>                    <span class="hljs-comment">//找到了该元素，结束内层 for 循环</span><br>                    <span class="hljs-keyword">break</span>;<br>                &#125;<br>            &#125;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 比较两个数的大小</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">greater</span><span class="hljs-params">(Comparable c1,Comparable c2)</span>&#123;<br>        <span class="hljs-keyword">return</span> c1.compareTo(c2) &gt; <span class="hljs-number">0</span>;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 交换 i，j 位置的值</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">exchange</span><span class="hljs-params">(Comparable[] a,<span class="hljs-type">int</span> i,<span class="hljs-type">int</span> j)</span>&#123;<br>        <span class="hljs-type">Comparable</span> <span class="hljs-variable">temp</span> <span class="hljs-operator">=</span> a[i];<br>        a[i] = a[j];<br>        a[j] = temp;<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//2、测试</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Test</span> &#123;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>       Integer[] intArray = &#123;<span class="hljs-number">4</span>,<span class="hljs-number">3</span>,<span class="hljs-number">2</span>,<span class="hljs-number">10</span>,<span class="hljs-number">12</span>,<span class="hljs-number">1</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>&#125;;<br>       Insertion.sort(intArray);<br>       System.out.println(Arrays.toString(intArray));<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//打印结果</span><br>[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">10</span>, <span class="hljs-number">12</span>]<br></code></pre></td></tr></table></figure>
+<h5 id="1-2-1-2、线性结构"><a href="#1-2-1-2、线性结构" class="headerlink" title="1.2.1.2、线性结构"></a>1.2.1.2、线性结构</h5><p>1）、线性结构中的数据元素之间存在一对一的关系，如图 1-2：</p>
+<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/386218d5dc3b4112878a98b9e62d169f~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="img" width="50%" />
 
-<p><strong>插入排序时间复杂度分析：</strong></p>
-<p>插入排序使用了双层 for 循环，其中内层循环的循环体是真正完成排序的代码，所以，我们分析插入排序的时间复杂度，主要分析一下内层循环体的执行次数即可。</p>
-<p>最坏情况，也就是待排序的数组元素为 {12,10,6,5,4,3,2,1}，那么：</p>
-<p>比较的次数为：</p>
-<p>1 + 2 + 3 + …(N - 2) + (N - 1) &#x3D; N^2 &#x2F; 2 - N &#x2F; 2</p>
-<p>交换的次数：</p>
-<p>1 + 2 + 3 + …(N - 2) + (N - 1) &#x3D; N^2 &#x2F; 2 - N &#x2F; 2</p>
-<p>总执行次数：</p>
-<p>N^2 &#x2F; 2 - N &#x2F; 2 + N^2 &#x2F; 2 - N &#x2F; 2 &#x3D; N^2 - N</p>
-<p>根据大 O 表示法推导，保留最高阶项，时间复杂度为：O(N^2)</p>
+<h5 id="1-2-1-3、树形结构"><a href="#1-2-1-3、树形结构" class="headerlink" title="1.2.1.3、树形结构"></a>1.2.1.3、树形结构</h5><p>1）、树形结构中的数据元素之间存在一对多的层次关系，如图 1-3：</p>
+<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1a722a53e6bd4101acaa6422c312ec90~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="img" width="50%" />
+
+<h5 id="1-2-1-4、图形结构"><a href="#1-2-1-4、图形结构" class="headerlink" title="1.2.1.4、图形结构"></a>1.2.1.4、图形结构</h5><p>1）、图形结构的数据元素是多对多的关系，如图 1-4：</p>
+<img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5837b908d40c48c28dc60e1ca1eba9bf~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="image-20221130111522689.png" width="50%" />
+
+<h4 id="1-2-2、物理结构"><a href="#1-2-2、物理结构" class="headerlink" title="1.2.2、物理结构"></a>1.2.2、物理结构</h4><p>逻辑结构在计算机中真正的表示方式称为物理结构，常用的物理结构有：</p>
+<p>1、顺序存储结构</p>
+<p>2、链式存储结构</p>
+<h5 id="1-2-2-1、顺序存储结构"><a href="#1-2-2-1、顺序存储结构" class="headerlink" title="1.2.2.1、顺序存储结构"></a>1.2.2.1、顺序存储结构</h5><p>如图 1-5：</p>
+<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/89600981f67d46a0b712248498e32483~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="image-20221130112553076.png" width="100%" />
+
+<p>1）、把数据元素放到连续的存储单元里面，其数据间的逻辑关系和物理关系是一致的，比如我们常用的数组就是顺序存储结构。</p>
+<p>2）、顺序存储结构存在一定的弊端，就像生活中排队时也会有人插队，也有可能有人突然离开，这个时候整个结构都处于变化中，此时就需要链式存储结构。</p>
+<h5 id="1-2-2-2、链式存储结构"><a href="#1-2-2-2、链式存储结构" class="headerlink" title="1.2.2.2、链式存储结构"></a>1.2.2.2、链式存储结构</h5><p>如图 1-6：</p>
+<img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f5d9073ffd7a41dba5ba3ed9a7d5b43f~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="image-20221130112723346.png" width="100%" />
+
+<p>1）、把数据元素放在任意的存储单元里面，这组存储单元可以是连续的，也可以是不连续的。此时，数据元素之间并不能反映元素间的逻辑关系。</p>
+<p>2）、因此在链式存储结构中引进了一个指针存放数据元素的地址，这样通过地址就可以找到相关联数据元素的位置</p>
+<h2 id="二、算法"><a href="#二、算法" class="headerlink" title="二、算法"></a>二、算法</h2><h3 id="1-1、什么是算法？"><a href="#1-1、什么是算法？" class="headerlink" title="1.1、什么是算法？"></a>1.1、什么是算法？</h3><p>简单理解：根据一定的条件，对一些数据进行计算，得到需要的结果</p>
+<h3 id="1-2、算法初体验"><a href="#1-2、算法初体验" class="headerlink" title="1.2、算法初体验"></a>1.2、算法初体验</h3><p>一个优秀的算法追求两个目标：</p>
+<p>1、花最少的时间完成需求（时间复杂度最小）</p>
+<p>2、花最小的内存空间完成需求（空间复杂度最小）</p>
+<h4 id="1-2-1、计算-1-到-100-的和"><a href="#1-2-1、计算-1-到-100-的和" class="headerlink" title="1.2.1、计算 1 到 100 的和"></a>1.2.1、计算 1 到 100 的和</h4><p><strong>解法一：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Sum</span>&#123;<br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span>&#123;<br>    <span class="hljs-type">int</span> <span class="hljs-variable">sum</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br>    <span class="hljs-type">int</span> <span class="hljs-variable">n</span> <span class="hljs-operator">=</span> <span class="hljs-number">100</span>;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">1</span>; i &lt;= n; i++)&#123;<br>      sum += i;<br>    &#125;<br>    System.out.println(sum);<br>  &#125;<br>&#125;<br><span class="hljs-comment">//打印结果</span><br><span class="hljs-number">100</span><br></code></pre></td></tr></table></figure>
+
+<p>上述代码：</p>
+<p>1、定义了两个整型变量</p>
+<p>2、for 循环 100 次加法运算</p>
+<p>3、打印结果到控制台</p>
+<p><strong>解法二：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Sum</span>&#123;<br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span>&#123;<br>    <span class="hljs-type">int</span> <span class="hljs-variable">sum</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br>    <span class="hljs-type">int</span> <span class="hljs-variable">n</span> <span class="hljs-operator">=</span> <span class="hljs-number">100</span>;<br>    sum = (n + <span class="hljs-number">1</span>)*n / <span class="hljs-number">2</span>;<br>    System.out.println(sum);<br>  &#125;<br>&#125;<br><span class="hljs-comment">//打印结果</span><br><span class="hljs-number">100</span><br></code></pre></td></tr></table></figure>
+
+<p>上述代码：</p>
+<p>1、定义了两个整型变量</p>
+<p>2、执行一次加法运算，一次乘法运算，一次除法运算，总共 3 次运算</p>
+<p>3、打印结果到控制台</p>
+<p><strong>解法一和解法二对比：很明显解法二花费的时间更少</strong></p>
+<h4 id="1-2-2、计算-10-的阶乘"><a href="#1-2-2、计算-10-的阶乘" class="headerlink" title="1.2.2、计算 10 的阶乘"></a>1.2.2、计算 10 的阶乘</h4><p><strong>解法一：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Factorial</span>&#123;<br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span>&#123;<br>    <span class="hljs-type">long</span> <span class="hljs-variable">result</span> <span class="hljs-operator">=</span> func1(<span class="hljs-number">10</span>);<br>    System.out.println(result);<br>  &#125;<br>  <br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-type">long</span> <span class="hljs-title function_">func1</span><span class="hljs-params">(<span class="hljs-type">long</span> n)</span>&#123;<br>    <span class="hljs-keyword">if</span>(n == <span class="hljs-number">1</span>)&#123;<br>      <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br>    <span class="hljs-keyword">return</span> n*func1(n-<span class="hljs-number">1</span>);<br>  &#125;<br>&#125;<br><br><span class="hljs-comment">//打印结果</span><br><span class="hljs-number">3628800</span><br></code></pre></td></tr></table></figure>
+
+<p>上述代码：</p>
+<p>使用递归完成需求，func1 方法会执行 10 次，并且第一次未执行完毕，又会调用第二次，第二次未执行完毕，又会调用第三次…最终最多的时候，需要在同时开辟 10 块内存分别去执行 10 个 func1 方法</p>
+<p><strong>解法二：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Factorial</span>&#123;<br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span>&#123;<br>    <span class="hljs-type">long</span> <span class="hljs-variable">result</span> <span class="hljs-operator">=</span> func2(<span class="hljs-number">10</span>);<br>    System.out.println(result);<br>  &#125;<br>  <br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-type">long</span> <span class="hljs-title function_">func2</span><span class="hljs-params">(<span class="hljs-type">long</span> n)</span>&#123;<br>    <span class="hljs-type">int</span> <span class="hljs-variable">result</span> <span class="hljs-operator">=</span> <span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">1</span>; i &lt;= n; i++)&#123;<br>      result *= i;<br>    &#125;<br>    <span class="hljs-keyword">return</span> result;<br>  &#125;<br>&#125;<br><br><span class="hljs-comment">//打印结果</span><br><span class="hljs-number">3628800</span><br></code></pre></td></tr></table></figure>
+
+<p>上述代码：</p>
+<p>使用 for 循环完成需求，func2 方法只会执行一次，最终，只需要开辟一块内存执行 func2 方法即可</p>
+<p><strong>解法一和解法二对比：很明显解法二占用的内存空间更小</strong></p>
 <h2 id="三、总结"><a href="#三、总结" class="headerlink" title="三、总结"></a>三、总结</h2><p>本篇文章我们介绍了：</p>
-<p>1、选择排序原理，实际案例编写，以及时间复杂度分析</p>
-<p>2、插入排序原理，实际案例编写，以及时间复杂度分析</p>
-<p>好了，本篇文章到这里就结束了，感谢你的阅读🤝</p>
+<p>1、数据结构</p>
+<blockquote>
+<p>数据结构就是把元素按照一定的关系组织起来的集合，用于组织和存储数据</p>
+</blockquote>
+<p>2、数据结构分类</p>
+<blockquote>
+<p>1、逻辑结构：</p>
+<blockquote>
+<p>1、集合结构</p>
+<p>2、线性结构</p>
+<p>3、树形结构</p>
+<p>4、图形结构</p>
+</blockquote>
+<p>2、物理结构</p>
+<blockquote>
+<p>1、顺序存储结构</p>
+<p>2、链式存储结构</p>
+</blockquote>
+</blockquote>
+<p>3、算法</p>
+<blockquote>
+<p>根据一定的条件，对一些数据进行计算，得到需要的结果</p>
+</blockquote>
+<p>4、举了算法的两个例子</p>
+<blockquote>
+<p>1、计算 1 到 100 的和，对比时间复杂度</p>
+<p>2、计算 10 的阶乘，对比空间复杂度</p>
+</blockquote>
+<p>本篇文章到这里就结束了，感谢你的阅读🤝</p>
 
                 
               </div>
@@ -489,13 +543,6 @@
         
   <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/" class="category-chain-item">数据结构和算法</a>
   
-  
-    <span>></span>
-    
-  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95/" class="category-chain-item">算法</a>
-  
-  
-
   
 
       </span>
@@ -523,8 +570,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>选择排序和插入排序</div>
-      <div>https://sweetying520.github.io/2022/08/02/选择排序和插入排序/</div>
+      <div>数据结构和算法概述（一）</div>
+      <div>https://sweetying520.github.io/2022/07/30/数据结构和算法概述（一）/</div>
     </div>
     <div class="license-meta">
       
@@ -536,7 +583,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年8月2日</div>
+          <div>2022年7月30日</div>
         </div>
       
       
@@ -566,21 +613,15 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/09/05/Flutter%E7%B3%BB%E5%88%97%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9A%E8%BF%90%E8%A1%8C%E4%BD%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AAFlutter%E5%BA%94%E7%94%A8/" title="Flutter系列（一）：运行你的第一个Flutter应用">
+                      <a href="/2022/07/31/%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90%EF%BC%88%E4%BA%8C%EF%BC%89/" title="算法分析（二）">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Flutter系列（一）：运行你的第一个Flutter应用</span>
+                        <span class="hidden-mobile">算法分析（二）</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
                   </article>
                   <article class="post-next col-6">
                     
-                    
-                      <a href="/2022/08/01/%E7%AE%80%E5%8D%95%E6%8E%92%E5%BA%8F%E5%92%8C%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/" title="简单排序和冒泡排序">
-                        <span class="hidden-mobile">简单排序和冒泡排序</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
                     
                   </article>
                 </div>

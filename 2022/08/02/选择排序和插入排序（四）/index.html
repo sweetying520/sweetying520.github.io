@@ -24,25 +24,26 @@
   <meta name="author" content="sweetying">
   <meta name="keywords" content="">
   
-    <meta name="description" content="一、简单排序在我们的程序中，排序是非常常见的一种需求，提供一些数据元素，把这些数据元素按照一定的规则进行排序，比如查询一些商品，按照商品的价格进行排序，再比如比较学生，按照学生的年龄进行排序等等。 1.1、Comparable 接口介绍1）、Comparable 是 Java 给我们提供的一个用于定义排序规则的接口。 2）、Comparable接口中只有一个方法：punblic int compa">
+    <meta name="description" content="一、选择排序选择排序是一种更加简单直观的排序方法 需求： 排序前：{4,6,8,7,9,2,10,1} 排序后：{1,2,4,5,7,8,9,10} 排序原理： 1、每一次在遍历过程中，都假定第一个索引处的元素是最小值，和其他索引处的值依次进行比较，如果当前索引处的值大于其他某个索引处的值，则假定其他某个索引处的值为最小值，最后可以找到最小值所在的索引。 2、交换第一个索引处和最小值所在的索引处的">
 <meta property="og:type" content="article">
-<meta property="og:title" content="简单排序和冒泡排序">
-<meta property="og:url" content="https://sweetying520.github.io/2022/08/01/%E7%AE%80%E5%8D%95%E6%8E%92%E5%BA%8F%E5%92%8C%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/index.html">
+<meta property="og:title" content="选择排序和插入排序（四）">
+<meta property="og:url" content="https://sweetying520.github.io/2022/08/02/%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F%E5%92%8C%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F%EF%BC%88%E5%9B%9B%EF%BC%89/index.html">
 <meta property="og:site_name" content="sweetying">
-<meta property="og:description" content="一、简单排序在我们的程序中，排序是非常常见的一种需求，提供一些数据元素，把这些数据元素按照一定的规则进行排序，比如查询一些商品，按照商品的价格进行排序，再比如比较学生，按照学生的年龄进行排序等等。 1.1、Comparable 接口介绍1）、Comparable 是 Java 给我们提供的一个用于定义排序规则的接口。 2）、Comparable接口中只有一个方法：punblic int compa">
+<meta property="og:description" content="一、选择排序选择排序是一种更加简单直观的排序方法 需求： 排序前：{4,6,8,7,9,2,10,1} 排序后：{1,2,4,5,7,8,9,10} 排序原理： 1、每一次在遍历过程中，都假定第一个索引处的元素是最小值，和其他索引处的值依次进行比较，如果当前索引处的值大于其他某个索引处的值，则假定其他某个索引处的值为最小值，最后可以找到最小值所在的索引。 2、交换第一个索引处和最小值所在的索引处的">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0dc376a55d324a14a11c559ae259f881~tplv-k3u1fbpfcp-watermark.image">
-<meta property="article:published_time" content="2022-08-01T02:42:57.000Z">
-<meta property="article:modified_time" content="2022-12-02T15:45:21.557Z">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e88a04b53dac49d2abf44ca108326dc0~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/791f691a1ac24c0c9e5ec089675c46ce~tplv-k3u1fbpfcp-watermark.image">
+<meta property="article:published_time" content="2022-08-02T02:42:57.000Z">
+<meta property="article:modified_time" content="2022-12-04T11:56:35.402Z">
 <meta property="article:author" content="sweetying">
 <meta property="article:tag" content="原创">
 <meta property="article:tag" content="数据结构和算法">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0dc376a55d324a14a11c559ae259f881~tplv-k3u1fbpfcp-watermark.image">
+<meta name="twitter:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e88a04b53dac49d2abf44ca108326dc0~tplv-k3u1fbpfcp-watermark.image">
   
   
   
-  <title>简单排序和冒泡排序 - sweetying</title>
+  <title>选择排序和插入排序（四） - sweetying</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -267,7 +268,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="简单排序和冒泡排序"></span>
+            <span id="subtitle" data-typed-text="选择排序和插入排序（四）"></span>
           
         </div>
 
@@ -283,8 +284,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-08-01 10:42" pubdate>
-          2022年8月1日 上午
+        <time datetime="2022-08-02 10:42" pubdate>
+          2022年8月2日 上午
         </time>
       </span>
     
@@ -295,7 +296,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.8k 字
+          3k 字
         
       </span>
     
@@ -306,7 +307,7 @@
         
         
         
-          23 分钟
+          26 分钟
         
       </span>
     
@@ -417,38 +418,56 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">简单排序和冒泡排序</h1>
+            <h1 style="display: none">选择排序和插入排序（四）</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="一、简单排序"><a href="#一、简单排序" class="headerlink" title="一、简单排序"></a>一、简单排序</h2><p>在我们的程序中，排序是非常常见的一种需求，提供一些数据元素，把这些数据元素按照一定的规则进行排序，比如查询一些商品，按照商品的价格进行排序，再比如比较学生，按照学生的年龄进行排序等等。</p>
-<h3 id="1-1、Comparable-接口介绍"><a href="#1-1、Comparable-接口介绍" class="headerlink" title="1.1、Comparable 接口介绍"></a>1.1、Comparable 接口介绍</h3><p>1）、Comparable 是 Java 给我们提供的一个用于定义排序规则的接口。</p>
-<p>2）、Comparable接口中只有一个方法：<code>punblic int comparTo(Object obj)</code> ，obj 为要比较的对象。</p>
-<p>3）、compareTo 方法中，将当前对象和 obj 这个对象进行比较，如果大于返回 1，等于返回 0，小于返回 -1，(此处的 1 也可以是正整数，-1 也可以是负整数）。</p>
-<h3 id="1-2、实际案例"><a href="#1-2、实际案例" class="headerlink" title="1.2、实际案例"></a>1.2、实际案例</h3><p>在这里我们以案例的形式进行一个简单的实践：</p>
-<p>1、定义一个学生类 Student ，他有年龄 age 和姓名 username 两个属性，并通过 Comparable 接口提供比较规则。</p>
-<p>2、定义一个测试类 Test，在测试类中定义测试方法<code>Comparable getMax(Comparable c1,Comparable c2)</code>完成测试</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//1、定义学生类</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Student</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Comparable</span>&lt;Student&gt;&#123;<br>    <span class="hljs-keyword">private</span> String username;<br>    <span class="hljs-keyword">private</span> <span class="hljs-type">int</span> age;<br><br>    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">getUsername</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-keyword">return</span> username;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setUsername</span><span class="hljs-params">(String username)</span>&#123;<br>        <span class="hljs-built_in">this</span>.username = username;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">getAge</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-keyword">return</span> age;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setAge</span><span class="hljs-params">(<span class="hljs-type">int</span> age)</span>&#123;<br>        <span class="hljs-built_in">this</span>.age = age;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">toString</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;Student&#123;username=&quot;</span> + username + <span class="hljs-string">&quot;,age=&quot;</span> + age + <span class="hljs-string">&quot;&#125;&quot;</span>;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">compareTo</span><span class="hljs-params">(Student o)</span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.getAge() - o.getAge();<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//2、定义测试类并进行测试</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Test</span> &#123;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Comparable <span class="hljs-title function_">getMax</span><span class="hljs-params">(Comparable c1,Comparable c2)</span>&#123;<br>        <span class="hljs-type">int</span> <span class="hljs-variable">result</span> <span class="hljs-operator">=</span> c1.compareTo(c2);<br>        <span class="hljs-keyword">if</span>(result &gt;= <span class="hljs-number">0</span>)&#123;<br>            <span class="hljs-keyword">return</span> c1;<br>        &#125;<span class="hljs-keyword">else</span>&#123;<br>            <span class="hljs-keyword">return</span> c2;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-type">Student</span> <span class="hljs-variable">s1</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Student</span>();<br>        s1.setUsername(<span class="hljs-string">&quot;张三&quot;</span>);<br>        s1.setAge(<span class="hljs-number">18</span>);<br><br>        <span class="hljs-type">Student</span> <span class="hljs-variable">s2</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Student</span>();<br>        s2.setUsername(<span class="hljs-string">&quot;李四&quot;</span>);<br>        s2.setAge(<span class="hljs-number">20</span>);<br><br>        <span class="hljs-keyword">final</span> <span class="hljs-type">Comparable</span> <span class="hljs-variable">max</span> <span class="hljs-operator">=</span> getMax(s1, s2);<br>        System.out.println(max);<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//打印结果</span><br>Student&#123;username=李四,age=<span class="hljs-number">20</span>&#125;<br></code></pre></td></tr></table></figure>
+                <h2 id="一、选择排序"><a href="#一、选择排序" class="headerlink" title="一、选择排序"></a>一、选择排序</h2><p>选择排序是一种更加简单直观的排序方法</p>
+<p>需求：</p>
+<p>排序前：{4,6,8,7,9,2,10,1}</p>
+<p>排序后：{1,2,4,5,7,8,9,10}</p>
+<p><strong>排序原理：</strong></p>
+<p>1、每一次在遍历过程中，都假定第一个索引处的元素是最小值，和其他索引处的值依次进行比较，如果当前索引处的值大于其他某个索引处的值，则假定其他某个索引处的值为最小值，最后可以找到最小值所在的索引。</p>
+<p>2、交换第一个索引处和最小值所在的索引处的值 </p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e88a04b53dac49d2abf44ca108326dc0~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221203224040214.png"></p>
+<p>了解了原理，接下来我们通过代码实现一下它：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//1、编写一个选择排序的类</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Selection</span>&#123;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">sort</span><span class="hljs-params">(Comparable[] a)</span>&#123;<br>        <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> <span class="hljs-variable">length</span> <span class="hljs-operator">=</span> a.length;<br>        <span class="hljs-comment">//外层循环需要执行 length - 1 次</span><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; length - <span class="hljs-number">1</span>; i++) &#123;<br>            <span class="hljs-comment">//声明一个最小索引，用于和 i 位置处的元素进行交换</span><br>            <span class="hljs-type">int</span> <span class="hljs-variable">minIndex</span> <span class="hljs-operator">=</span> i;<br>            <span class="hljs-comment">//外层循环每执行一次，内层循环需执行 length - i 次来确定最小索引</span><br>            <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> <span class="hljs-variable">j</span> <span class="hljs-operator">=</span> i + <span class="hljs-number">1</span>; j &lt; length; j++)&#123;<br>                <span class="hljs-comment">//如果前一个数大于后一个数，则使用 minIndex 记录较小值的索引</span><br>                <span class="hljs-keyword">if</span>(greater(a[minIndex],a[j]))&#123;<br>                    minIndex = j;<br>                &#125;<br>            &#125;<br>            <span class="hljs-comment">//交换 minIndex 和 i 位置元素的值</span><br>            exchange(a,i,minIndex);<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 比较两个数的大小</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">greater</span><span class="hljs-params">(Comparable c1,Comparable c2)</span>&#123;<br>        <span class="hljs-keyword">return</span> c1.compareTo(c2) &gt; <span class="hljs-number">0</span>;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 交换 i，j 位置的值</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">exchange</span><span class="hljs-params">(Comparable[] a,<span class="hljs-type">int</span> i,<span class="hljs-type">int</span> j)</span>&#123;<br>        <span class="hljs-type">Comparable</span> <span class="hljs-variable">temp</span> <span class="hljs-operator">=</span> a[i];<br>        a[i] = a[j];<br>        a[j] = temp;<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//2、测试</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Test</span> &#123;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>       Integer[] intArray = &#123;<span class="hljs-number">4</span>,<span class="hljs-number">6</span>,<span class="hljs-number">8</span>,<span class="hljs-number">7</span>,<span class="hljs-number">9</span>,<span class="hljs-number">2</span>,<span class="hljs-number">10</span>,<span class="hljs-number">1</span>&#125;;<br>       Selection.sort(intArray);<br>       System.out.println(Arrays.toString(intArray));<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//打印结果</span><br>[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">4</span>, <span class="hljs-number">6</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>, <span class="hljs-number">9</span>, <span class="hljs-number">10</span>]<br></code></pre></td></tr></table></figure>
 
-<p>上述代码我们使用 Comparable 接口定义了学生的比较规则，获取年龄较大的学生</p>
-<h2 id="二、冒泡排序"><a href="#二、冒泡排序" class="headerlink" title="二、冒泡排序"></a>二、冒泡排序</h2><p>1）、冒泡排序（Bubble Sort）是计算机科学领域一种较为简单的排序算法</p>
-<p>2）、冒泡排序的原理：</p>
-<blockquote>
-<p>1、比较相邻的元素，如果前一个元素比后一个元素大，就交换这两个元素的位置。</p>
-<p>2、对每一个相邻元素做同样的工作，从开始第一对元素到结尾的最后一对元素，最终最后位置的元素就是最大值。</p>
-</blockquote>
-<p>如下图：</p>
-<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0dc376a55d324a14a11c559ae259f881~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221202230958882.png"></p>
-<p><strong>实际案例：</strong></p>
-<p>排序前：{4,5,6,3,2,1}</p>
-<p>排序后：{1,2,3,4,5,6}</p>
-<p>我们使用冒泡排序实现一下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//1、编写一个冒泡排序的类</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Bubble</span>&#123;<br>    <br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">sort</span><span class="hljs-params">(Comparable[] a)</span>&#123;<br>        <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> <span class="hljs-variable">length</span> <span class="hljs-operator">=</span> a.length;<br>        <span class="hljs-comment">//外层循环需要执行 length - 1 次</span><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> length - <span class="hljs-number">1</span>; i &gt; <span class="hljs-number">0</span>; i--)&#123;<br>            <span class="hljs-comment">//外层循环每执行一次，内层循环需执行 i 次比较来将最大数放到最后面</span><br>            <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> <span class="hljs-variable">j</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; j &lt; i; j++)&#123;<br>                <span class="hljs-comment">//如果前一个数大于后一个数，则进行交换</span><br>                <span class="hljs-keyword">if</span>(greater(a[j],a[j+<span class="hljs-number">1</span>]))&#123;<br>                    exchange(a,j,j+<span class="hljs-number">1</span>);<br>                &#125;<br>            &#125;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 比较两个数的大小</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">greater</span><span class="hljs-params">(Comparable c1,Comparable c2)</span>&#123;<br>        <span class="hljs-keyword">return</span> c1.compareTo(c2) &gt; <span class="hljs-number">0</span>;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 交换 i，j 位置的值</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">exchange</span><span class="hljs-params">(Comparable[] a,<span class="hljs-type">int</span> i,<span class="hljs-type">int</span> j)</span>&#123;<br>        <span class="hljs-type">Comparable</span> <span class="hljs-variable">temp</span> <span class="hljs-operator">=</span> a[i];<br>        a[i] = a[j];<br>        a[j] = temp;<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//2、测试</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Test</span> &#123;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>       Integer[] intArray = &#123;<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>,<span class="hljs-number">3</span>,<span class="hljs-number">2</span>,<span class="hljs-number">1</span>&#125;;<br>       Bubble.sort(intArray);<br>       System.out.println(Arrays.toString(intArray));<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//打印结果</span><br>[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>]<br></code></pre></td></tr></table></figure>
+<p><strong>选择排序的时间复杂度分析：</strong></p>
+<p>选择排序使用了双层 for 循环，其中外层循环完成了数据交换，内层循环完成了数据比较，所以我们分别统计数据交换次数和数据比较次数：</p>
+<p>数据比较次数：</p>
+<p>1 + 2 + 3 + 4… + (N - 2) + (N - 1) &#x3D; N^2&#x2F;2 - N&#x2F;2</p>
+<p>数据交换次数：</p>
+<p>N - 1</p>
+<p>时间复杂度：N^2&#x2F;2 - N&#x2F;2 + (N - 1) &#x3D; N^2&#x2F;2 + N&#x2F;2 - 1</p>
+<p>根据大 O 表示法推导，保留最高阶项，去除常数因子，时间复杂度为：O(N^2)</p>
+<h2 id="二、插入排序"><a href="#二、插入排序" class="headerlink" title="二、插入排序"></a>二、插入排序</h2><p>插入排序（Insertion sort）是一种简单直观且稳定的排序算法</p>
+<p>插入排序的工作方式非常像人们排序一手扑克牌一样，开始时，我们左手为空并且桌子上的牌面朝下。然后，我们每次从桌子上拿走一张牌并将它插入左手中正确的位置。为了找到一张牌的正确位置，我们从右到左将它与已在手中的每张牌进行比较。</p>
+<p><strong>需求：</strong></p>
+<p>排序前：{4,3,2,10,12,1,5,6}</p>
+<p>排序后：{1,2,3,4,5,6,10,12}</p>
+<p><strong>排序原理：</strong></p>
+<p>1、把所有的元素分为两组，已经排序的和未排序的。</p>
+<p>2、找到未排序组中的第一个元素，向已经排序的组中进行插入。</p>
+<p>3、倒序遍历已经排序的元素，依次和待插入的元素进行比较，直到找到一个元素小于等于待插入元素，那么就把待插入元素放到这个位置，其他的元素向后移动一位。</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/791f691a1ac24c0c9e5ec089675c46ce~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221203230655885.png"></p>
+<p>了解了原理，接下来我们通过代码实现一下它：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//1、编写一个插入排序的类</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Insertion</span>&#123;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">sort</span><span class="hljs-params">(Comparable[] a)</span>&#123;<br>        <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> <span class="hljs-variable">length</span> <span class="hljs-operator">=</span> a.length;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">1</span>; i &lt; length; i++) &#123;<br>            <span class="hljs-comment">//当前元素 a[i] ，依次和 i 前面的元素比较，找到一个小于等于 a[i] 的元素时，进行交换</span><br>            <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> <span class="hljs-variable">j</span> <span class="hljs-operator">=</span> i; j &gt; <span class="hljs-number">0</span>; j--)&#123;<br>                <span class="hljs-keyword">if</span>(greater(a[j-<span class="hljs-number">1</span>],a[j]))&#123;<br>                    <span class="hljs-comment">//交换元素</span><br>                    exchange(a,j-<span class="hljs-number">1</span>,j);<br>                &#125;<span class="hljs-keyword">else</span>&#123;<br>                    <span class="hljs-comment">//找到了该元素，结束内层 for 循环</span><br>                    <span class="hljs-keyword">break</span>;<br>                &#125;<br>            &#125;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 比较两个数的大小</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">greater</span><span class="hljs-params">(Comparable c1,Comparable c2)</span>&#123;<br>        <span class="hljs-keyword">return</span> c1.compareTo(c2) &gt; <span class="hljs-number">0</span>;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 交换 i，j 位置的值</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">exchange</span><span class="hljs-params">(Comparable[] a,<span class="hljs-type">int</span> i,<span class="hljs-type">int</span> j)</span>&#123;<br>        <span class="hljs-type">Comparable</span> <span class="hljs-variable">temp</span> <span class="hljs-operator">=</span> a[i];<br>        a[i] = a[j];<br>        a[j] = temp;<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//2、测试</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Test</span> &#123;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>       Integer[] intArray = &#123;<span class="hljs-number">4</span>,<span class="hljs-number">3</span>,<span class="hljs-number">2</span>,<span class="hljs-number">10</span>,<span class="hljs-number">12</span>,<span class="hljs-number">1</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>&#125;;<br>       Insertion.sort(intArray);<br>       System.out.println(Arrays.toString(intArray));<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//打印结果</span><br>[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">10</span>, <span class="hljs-number">12</span>]<br></code></pre></td></tr></table></figure>
 
+<p><strong>插入排序时间复杂度分析：</strong></p>
+<p>插入排序使用了双层 for 循环，其中内层循环的循环体是真正完成排序的代码，所以，我们分析插入排序的时间复杂度，主要分析一下内层循环体的执行次数即可。</p>
+<p>最坏情况，也就是待排序的数组元素为 {12,10,6,5,4,3,2,1}，那么：</p>
+<p>比较的次数为：</p>
+<p>1 + 2 + 3 + …(N - 2) + (N - 1) &#x3D; N^2 &#x2F; 2 - N &#x2F; 2</p>
+<p>交换的次数：</p>
+<p>1 + 2 + 3 + …(N - 2) + (N - 1) &#x3D; N^2 &#x2F; 2 - N &#x2F; 2</p>
+<p>总执行次数：</p>
+<p>N^2 &#x2F; 2 - N &#x2F; 2 + N^2 &#x2F; 2 - N &#x2F; 2 &#x3D; N^2 - N</p>
+<p>根据大 O 表示法推导，保留最高阶项，时间复杂度为：O(N^2)</p>
 <h2 id="三、总结"><a href="#三、总结" class="headerlink" title="三、总结"></a>三、总结</h2><p>本篇文章我们介绍了：</p>
-<p>1、Comparable 接口：主要用于定义排序的规则。并编写了实际案例</p>
-<p>2、介绍了冒泡排序的原理，并使用冒泡排序算法对我们的数组进行从小到大的升序排序</p>
+<p>1、选择排序原理，实际案例编写，以及时间复杂度分析</p>
+<p>2、插入排序原理，实际案例编写，以及时间复杂度分析</p>
 <p>好了，本篇文章到这里就结束了，感谢你的阅读🤝</p>
 
                 
@@ -504,8 +523,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>简单排序和冒泡排序</div>
-      <div>https://sweetying520.github.io/2022/08/01/简单排序和冒泡排序/</div>
+      <div>选择排序和插入排序（四）</div>
+      <div>https://sweetying520.github.io/2022/08/02/选择排序和插入排序（四）/</div>
     </div>
     <div class="license-meta">
       
@@ -517,7 +536,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年8月1日</div>
+          <div>2022年8月2日</div>
         </div>
       
       
@@ -547,9 +566,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/08/02/%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F%E5%92%8C%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/" title="选择排序和插入排序">
+                      <a href="/2022/09/05/Flutter%E7%B3%BB%E5%88%97%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9A%E8%BF%90%E8%A1%8C%E4%BD%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AAFlutter%E5%BA%94%E7%94%A8/" title="Flutter系列（一）：运行你的第一个Flutter应用">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">选择排序和插入排序</span>
+                        <span class="hidden-mobile">Flutter系列（一）：运行你的第一个Flutter应用</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -557,8 +576,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/07/31/%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90/" title="算法分析">
-                        <span class="hidden-mobile">算法分析</span>
+                      <a href="/2022/08/01/%E7%AE%80%E5%8D%95%E6%8E%92%E5%BA%8F%E5%92%8C%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F%EF%BC%88%E4%B8%89%EF%BC%89/" title="简单排序和冒泡排序（三）">
+                        <span class="hidden-mobile">简单排序和冒泡排序（三）</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
