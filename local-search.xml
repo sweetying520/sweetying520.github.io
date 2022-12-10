@@ -15,7 +15,7 @@
       
       <category>Android</category>
       
-      <category>一篇就够</category>
+      <category>App 黑白化</category>
       
     </categories>
     
@@ -26,7 +26,7 @@
       
       <tag>Android</tag>
       
-      <tag>一篇就够</tag>
+      <tag>App 黑白化</tag>
       
     </tags>
     
@@ -1234,6 +1234,35 @@
       <tag>原创</tag>
       
       <tag>Flutter</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>无重复字符的最长子串（十一）</title>
+    <link href="/2022/08/09/%E6%97%A0%E9%87%8D%E5%A4%8D%E5%AD%97%E7%AC%A6%E7%9A%84%E6%9C%80%E9%95%BF%E5%AD%90%E4%B8%B2%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89/"/>
+    <url>/2022/08/09/%E6%97%A0%E9%87%8D%E5%A4%8D%E5%AD%97%E7%AC%A6%E7%9A%84%E6%9C%80%E9%95%BF%E5%AD%90%E4%B8%B2%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89/</url>
+    
+    <content type="html"><![CDATA[<h2 id="一、题目描述"><a href="#一、题目描述" class="headerlink" title="一、题目描述"></a>一、题目描述</h2><p>这是 LeetCode 热题 HOT 100 上第三题：<a href="https://leetcode.cn/problems/add-two-numbers/?favorite=2cktkvj">无重复字符的最长子串</a>，难度为 <strong>中等</strong>。</p><p>Tag：「哈希表」、「数组」、「滑动窗口」</p><p>给定一个字符串 <code>s</code> ，请你找出其中不含有重复字符的 <strong>最长子串</strong> 的长度。</p><p>示例 1：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">输入: s = <span class="hljs-string">&quot;abcabcbb&quot;</span><br>输出: <span class="hljs-number">3</span> <br>解释: 因为无重复字符的最长子串是 <span class="hljs-string">&quot;abc&quot;</span>，所以其长度为 <span class="hljs-number">3</span>。<br></code></pre></td></tr></table></figure><p>示例 2：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">输入: s = <span class="hljs-string">&quot;bbbbb&quot;</span><br>输出: <span class="hljs-number">1</span><br>解释: 因为无重复字符的最长子串是 <span class="hljs-string">&quot;b&quot;</span>，所以其长度为 <span class="hljs-number">1</span>。<br></code></pre></td></tr></table></figure><p>示例 3：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java">输入: s = <span class="hljs-string">&quot;pwwkew&quot;</span><br>输出: <span class="hljs-number">3</span><br>解释: 因为无重复字符的最长子串是 <span class="hljs-string">&quot;wke&quot;</span>，所以其长度为 <span class="hljs-number">3</span>。<br>     请注意，你的答案必须是 子串 的长度，<span class="hljs-string">&quot;pwke&quot;</span> 是一个子序列，不是子串。<br></code></pre></td></tr></table></figure><p><strong>提示：</strong></p><p>1、<code>0 &lt;= s.length &lt;= 5 * 104</code></p><p>2、<code>s</code> 由英文字母、数字、符号和空格组成</p><h2 id="二、解题思路"><a href="#二、解题思路" class="headerlink" title="二、解题思路"></a>二、解题思路</h2><p>暴力解法时间复杂度较高，会达到 O(n^2)，故而采取滑动窗口的方法降低时间复杂度</p><p>什么是滑动窗口？</p><p>其实就是一个队列,比如下图中的 dvdf，进入这个队列（窗口）为 dv 满足题目要求，当再进入 d，队列变成了 dvd，这时候不满足要求。所以，我们要移动这个队列！</p><p>如何移动？</p><p>我们只要把队列的左边的元素移出就行了，直到满足题目要求！</p><p>一直维持这样的队列，找出队列出现最长的长度时候，求出解！</p><p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/312210235a104de9ac6697fe0fd332df~tplv-k3u1fbpfcp-watermark.image" alt="image-20221210215201969.png"></p><p>代码：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">lengthOfLongestSubstring</span><span class="hljs-params">(String s)</span> &#123;<br>        <span class="hljs-keyword">if</span> (s.length()==<span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>      <span class="hljs-comment">//定义一个 map 存储，其中 key 值为字符，value 值为字符位置 +1，加 1 表示从字符位置后一个才开//始不重复</span><br>        HashMap&lt;Character, Integer&gt; map = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;Character, Integer&gt;();<br>        <span class="hljs-type">int</span> <span class="hljs-variable">max</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br>        <span class="hljs-type">int</span> <span class="hljs-variable">left</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> <span class="hljs-variable">right</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; right &lt; s.length(); right++)&#123;<br>            <span class="hljs-comment">//如果存在相同的 key ，则 left 往右移动</span><br>            <span class="hljs-keyword">if</span>(map.containsKey(s.charAt(right)))&#123;<br>                left = Math.max(left,map.get(s.charAt(right)) + <span class="hljs-number">1</span>);<br>            &#125;<br>            map.put(s.charAt(right),right);<br>            <span class="hljs-comment">//每次比较并获取最大无重复字符子串</span><br>            max = Math.max(max,right-left+<span class="hljs-number">1</span>);<br>        &#125;<br>        <span class="hljs-keyword">return</span> max;<br>        <br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure><p>时间复杂度和空间复杂度分析：</p><p>时间复杂度：O(n)，其中 n 是字符串的长度。左指针和右指针分别会遍历整个字符串一次</p><p>空间复杂度：O(|Σ|)，其中 Σ 表示字符集（即字符串中可以出现的字符），|Σ| 表示字符集的大小。在本题中没有明确说明字符集，因此可以默认为所有 ASCII 码在 [0, 128) 内的字符，即 |Σ| &#x3D; 128。我们需要用到哈希集合来存储出现过的字符，而字符最多有 |Σ| 个，因此空间复杂度为 O(|Σ|)。</p><h2 id="三、总结"><a href="#三、总结" class="headerlink" title="三、总结"></a>三、总结</h2><p>本道算法题难度中等，主要考察了我们对滑动窗口的掌握，定义好左右指针，结合 map 在合适的时候移动指针，并能轻松的解决该题</p><p>好了，本篇文章到这里就结束了，感谢你的阅读🤝</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>数据结构和算法</category>
+      
+      <category>算法</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>原创</tag>
+      
+      <tag>数据结构和算法</tag>
       
     </tags>
     
