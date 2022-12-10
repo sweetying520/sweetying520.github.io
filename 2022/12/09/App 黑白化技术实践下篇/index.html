@@ -1,0 +1,943 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <!--自定义看板娘-->
+    <!--自定义看板娘-->
+    <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+    <script src="/live2d-widget/autoload.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
+<!--   <link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css"> -->
+<!--   <script src="https://fastly.jsdelivr.net/gh/stevenjoezhang/live2d-widget@latest/autoload.js"></script> -->
+
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar.png">
+  <link rel="icon" href="/img/avatar.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="sweetying">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前言很高兴遇见你~ 在App 黑白化技术实践上篇这篇文章，我们介绍了： 1、App 黑白化实现原理：将 Paint 的饱和度设置为 0，然后进行 View 的绘制 2、App 黑白化两种方案实践：  1、对页面的 DecorView 进行黑白化设置 2、替换页面的内容栏 FramLaout 为黑白化 FrameLayout  3、分析了 App 黑白化两种方案存在的一些问题  1、方案一：Dia">
+<meta property="og:type" content="article">
+<meta property="og:title" content="App 黑白化技术实践下篇">
+<meta property="og:url" content="https://sweetying520.github.io/2022/12/09/App%20%E9%BB%91%E7%99%BD%E5%8C%96%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5%E4%B8%8B%E7%AF%87/index.html">
+<meta property="og:site_name" content="sweetying">
+<meta property="og:description" content="前言很高兴遇见你~ 在App 黑白化技术实践上篇这篇文章，我们介绍了： 1、App 黑白化实现原理：将 Paint 的饱和度设置为 0，然后进行 View 的绘制 2、App 黑白化两种方案实践：  1、对页面的 DecorView 进行黑白化设置 2、替换页面的内容栏 FramLaout 为黑白化 FrameLayout  3、分析了 App 黑白化两种方案存在的一些问题  1、方案一：Dia">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e55fa56181124b82b4b58ff6815cf745~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="article:published_time" content="2022-12-09T07:57:18.000Z">
+<meta property="article:modified_time" content="2022-12-10T14:21:19.035Z">
+<meta property="article:author" content="sweetying">
+<meta property="article:tag" content="原创">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="App 黑白化">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e55fa56181124b82b4b58ff6815cf745~tplv-k3u1fbpfcp-watermark.image?">
+  
+  
+  
+  <title>App 黑白化技术实践下篇 - sweetying</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/iconfont_juejin/iconfont.css">
+<link rel="stylesheet" href="/css/custom.css">
+<link rel="stylesheet" href="/css/fluid-extention.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sweetying520.github.io","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"zN1E017kYhKuj6GqXHJSbGMb-gzGzoHsz","app_key":"JSwY8PjtA131Y78OHn7kKtio","server_url":"https://zn1e017k.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  <div>
+	<div class='real_mask' style="
+		background-color: rgba(0,0,0,0.3);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -777;
+	"></div>
+	<div id="banner_video_insert">
+	</div>
+	<div id='vvd_banner_img'>
+	</div>
+</div>
+<div id="banner"></div>
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>sweetying</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" target="_blank" rel="noopener" href="https://www.foreverblog.cn/go.html">
+                <i class="iconfont icon-rss"></i>
+                虫洞
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://101.43.39.125/HexoFiles/new/bg-trans.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="App 黑白化技术实践下篇"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        sweetying
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-12-09 15:57" pubdate>
+          2022年12月9日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          7.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          63 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
+
+	<div class="banner" id='banner' >
+
+		<div class="full-bg-img" >
+
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
+
+					function set_video_attr(id){
+
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
+
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
+					}
+
+					$.getJSON('/vvd_js/video_url.json', function(data){
+						if (true){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
+
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
+
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
+							set_video_attr('banner_img_item')
+
+							if (!isMobile) {
+								video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+								document.getElementById("banner_video_insert").innerHTML = video_html_res;
+								set_video_attr('video_item')
+							}
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+			</div>
+		</div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">App 黑白化技术实践下篇</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e55fa56181124b82b4b58ff6815cf745~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>很高兴遇见你~</p>
+<p>在<a target="_blank" rel="noopener" href="https://juejin.cn/post/7174768835927965733">App 黑白化技术实践上篇</a>这篇文章，我们介绍了：</p>
+<p>1、App 黑白化实现原理：将 Paint 的饱和度设置为 0，然后进行 View 的绘制</p>
+<p>2、App 黑白化两种方案实践：</p>
+<blockquote>
+<p>1、对页面的 DecorView 进行黑白化设置</p>
+<p>2、替换页面的内容栏 FramLaout 为黑白化 FrameLayout</p>
+</blockquote>
+<p>3、分析了 App 黑白化两种方案存在的一些问题</p>
+<blockquote>
+<p>1、方案一：Dialog，PopupWindow 黑白化不生效</p>
+<p>2、方案二：Dialog 黑白化生效，PopupWindow 黑白化不生效</p>
+</blockquote>
+<p>4、给出了 App 黑白化两种方案出现问题的原因以及新的思路</p>
+<p>还没有看过的朋友，建议先去阅读一下。</p>
+<p>回顾一下我们说的新思路：</p>
+<p>App 中 Window 的添加最终都会走到 WindowManagerGlobal 的 addView 方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//WindowManagerGlobal#addView</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">addView</span><span class="hljs-params">(View view, ViewGroup.LayoutParams params,</span><br><span class="hljs-params">        Display display, Window parentWindow)</span> &#123;<br>        <span class="hljs-comment">//...</span><br>	<span class="hljs-keyword">synchronized</span> (mLock) &#123;<br><br>        <span class="hljs-comment">// 将 view 添加到 mViews，mViews 是一个 ArrayList 集合</span><br>        mViews.add(view);<br>       	<br><br>        <span class="hljs-comment">// 最后通过 viewRootImpl 来添加 window</span><br>        <span class="hljs-keyword">try</span> &#123;<br>            root.setView(view, wparams, panelParentView);<br>        &#125; <br>    &#125;  <br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>WindowManagerGlobal 是一个全局单例，其中 mViews 是一个集合，App 中所有的 Window 在添加的时候都会被它给存起来。</p>
+<p>那我们就可以通过 Hook 拿到 mViews 中所有的 View 然后进行黑白化设置，这样不管是 Activity，Dialog，PopupWindow 还是其他一些 Window 组件，都会变成黑白化。具体一点就是：</p>
+<blockquote>
+<p>1、Hook WindowManagerGlobal 中的 mViews ，将其改成可感知数据的 ArrayList 集合</p>
+<p>2、监听 mViews 的 add 操作，然后对 View 进行黑白化设置</p>
+</blockquote>
+<p>在此之前，你需要明白：</p>
+<blockquote>
+<p>1、什么是 Hook？</p>
+<p>2、怎么进行 Hook？</p>
+</blockquote>
+<p>才能完成上述操作</p>
+<h2 id="一、Hook-介绍"><a href="#一、Hook-介绍" class="headerlink" title="一、Hook 介绍"></a>一、Hook 介绍</h2><h3 id="1-1、什么是-Hook？"><a href="#1-1、什么是-Hook？" class="headerlink" title="1.1、什么是 Hook？"></a>1.1、什么是 Hook？</h3><p>简单理解：<strong>Hook 就是使用代理对象对原始对象进行劫持，插入一段我们自己的逻辑，实现偷梁换柱</strong></p>
+<p>正常调用：</p>
+<img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/339acb0bbac3470faed0fd5a1f3e49de~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="image-20221210162609850.png" width="50%" />
+
+<p>Hook 调用：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3e2d4eb88cb6417eb8862a075fde4ed5~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221210162658307.png"></p>
+<h3 id="1-2、怎么进行-Hook？"><a href="#1-2、怎么进行-Hook？" class="headerlink" title="1.2、怎么进行 Hook？"></a>1.2、怎么进行 Hook？</h3><p>Hook 通常是有固定套路的：</p>
+<blockquote>
+<p>1、确认 Hook 点（被劫持的原始对象我们称之为 Hook 点）</p>
+<p>2、定义代理类</p>
+<p>3、使用代理对象替换 Hook 点</p>
+</blockquote>
+<p>说起来有点抽象，下面我就手把手带领大家进行 Hook 实践。</p>
+<h3 id="1-3、Hook-实践"><a href="#1-3、Hook-实践" class="headerlink" title="1.3、Hook 实践"></a>1.3、Hook 实践</h3><p>如下例子：</p>
+<p>MainActivity 中，我们给 btnHook 设置了点击事件并进行了 Log 打印，现在要求在不改动这个点击事件的情况下，弹出 Toast 并显示：erdai666。</p>
+<p>如何做到？</p>
+<p>我们是不是就要对<code>btnHook.setOnClickListener</code>的点击事件（OnClickListener）进行 Hook</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">class</span> <span class="hljs-title class_">MainActivity</span>: <span class="hljs-type">BaseActivity</span>() &#123;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">val</span> btnHook <span class="hljs-keyword">by</span> lazy &#123;<br>        findViewById&lt;Button&gt;(R.id.btnHook)<br>    &#125;<br><br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">getLayoutId</span><span class="hljs-params">()</span></span>: <span class="hljs-built_in">Int</span> &#123;<br>        <span class="hljs-keyword">return</span> R.layout.activity_main<br>    &#125;<br><br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">initView</span><span class="hljs-params">()</span></span> &#123;<br>        btnHook.setOnClickListener&#123;<br>            Log.d(<span class="hljs-string">&quot;MainActivity&quot;</span>, <span class="hljs-string">&quot;Hello&quot;</span>)<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>按照上面的固定套路：</p>
+<h4 id="1-3-1、确认-Hook-点"><a href="#1-3-1、确认-Hook-点" class="headerlink" title="1.3.1、确认 Hook 点"></a>1.3.1、确认 Hook 点</h4><p>跟一下<code>btnHook.setOnClickListener</code>的源码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//1、btnHook.setOnClickListener =&gt; View#setOnClickListener</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setOnClickListener</span><span class="hljs-params">(<span class="hljs-meta">@Nullable</span> OnClickListener l)</span> &#123;<br>    <span class="hljs-keyword">if</span> (!isClickable()) &#123;<br>        setClickable(<span class="hljs-literal">true</span>);<br>    &#125;<br>    getListenerInfo().mOnClickListener = l;<br>&#125;<br><br><span class="hljs-comment">//2、getListenerInfo().mOnClickListener =&gt; ListenerInfo#mOnClickListener</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">View</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Drawable</span>.Callback,... &#123;<br>  	<span class="hljs-comment">//...</span><br>  <br>  	<span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ListenerInfo</span> &#123;<br>      	<span class="hljs-comment">//...</span><br>        <span class="hljs-keyword">public</span> OnClickListener mOnClickListener;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>上述代码我们可以知道：</p>
+<p>1、当我们进入<code>btnHook.setOnClickListener</code> ，发现 OnClickListener 对象被赋值给了<code>getListenerInfo().mOnClickListener</code></p>
+<p>2、getListenerInfo() 是一个 ListenerInfo 对象，ListenerInfo 是 View 中的一个静态内部类，它持有了 OnClickListener 对象</p>
+<p>那么现在我们就可以确认 Hook 点：<strong>View 中 ListenerInfo 中的 OnClickListener 对象</strong></p>
+<h4 id="1-3-2、定义代理类"><a href="#1-3-2、定义代理类" class="headerlink" title="1.3.2、定义代理类"></a>1.3.2、定义代理类</h4><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">class</span> <span class="hljs-title class_">ProxyClickListener</span>(<span class="hljs-keyword">var</span> context: Context,<span class="hljs-keyword">var</span> clickListener: View.OnClickListener) <br>: View.OnClickListener &#123;<br>    <br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onClick</span><span class="hljs-params">(v: <span class="hljs-type">View</span>?)</span></span> &#123;<br>        Toast.makeText(context,<span class="hljs-string">&quot;erdai666&quot;</span>,Toast.LENGTH_SHORT).show()<br>        clickListener.onClick(v)<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>代理类逻辑很简单：就是在 OnClickListener 的基础上添加了我们自己的 Toast 提示</p>
+<p><strong>Tips：</strong> 如果 Hook 点是接口，我们可以使用 JDK 的动态代理，如果动态代理不清楚的可以看我这篇文章，详细介绍了 Java 六大设计原则和 24 种设计模式：<a target="_blank" rel="noopener" href="https://juejin.cn/post/7160363585028227086">“一篇就够”系列：Java 六大设计原则和常用设计模式</a></p>
+<h4 id="1-3-3、使用代理对象替换-Hook-点"><a href="#1-3-3、使用代理对象替换-Hook-点" class="headerlink" title="1.3.3、使用代理对象替换 Hook 点"></a>1.3.3、使用代理对象替换 Hook 点</h4><p>替换过程我们需要使用到反射，如果反射不清楚，可以看我这篇文章：<a target="_blank" rel="noopener" href="https://juejin.cn/post/6977679823132950536">Android APT 系列 （一）：APT 筑基之反射</a></p>
+<p>理一理替换的思路：</p>
+<p>我们的目标是对 View 中 ListenerInfo 中的 OnClickListener 对象进行替换，因此要通过反射拿到这个对象，细节拆分：</p>
+<blockquote>
+<p>1、拿到当前 View 对象的 ListenerInfo 对象</p>
+<p>2、通过 ListenerInfo 对象在拿到  OnClickListener 对象</p>
+</blockquote>
+<p>拿到  OnClickListener 对象后，创建代理对象，然后对当前  OnClickListener 对象进行替换即可</p>
+<p>新建一个 HookSetOnClickListenerHelper 类对上面的思路进行实践：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">object</span> HookSetOnClickListenerHelper &#123;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * context：上下文</span><br><span class="hljs-comment">     * view：当前 view 对象</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">hook</span><span class="hljs-params">(context: <span class="hljs-type">Context</span>,view: <span class="hljs-type">View</span>)</span></span>&#123;<br>        <span class="hljs-comment">//一、拿到当前 View 对象的 ListenerInfo 对象</span><br>        <span class="hljs-keyword">val</span> getListenerInfoMethod = View::<span class="hljs-keyword">class</span>.java.getDeclaredMethod(<span class="hljs-string">&quot;getListenerInfo&quot;</span>)<br>        <span class="hljs-comment">//破坏封装，让我们能访问 private 修饰的成员</span><br>        getListenerInfoMethod.isAccessible = <span class="hljs-literal">true</span><br>        <span class="hljs-keyword">val</span> listenerInfo = getListenerInfoMethod.invoke(view)<br><br>        <span class="hljs-comment">//二、通过 ListenerInfo 对象在拿到 OnClickListener 对象</span><br>        <span class="hljs-comment">//android.view.View$ListenerInfo 这种是内部类的写法</span><br>        <span class="hljs-keyword">val</span> mOnClickListenerFiled = Class.forName(<span class="hljs-string">&quot;android.view.View\$ListenerInfo&quot;</span>).getDeclaredField(<span class="hljs-string">&quot;mOnClickListener&quot;</span>)<br>        <span class="hljs-keyword">val</span> mOnClickListener = mOnClickListenerFiled.<span class="hljs-keyword">get</span>(listenerInfo) <span class="hljs-keyword">as</span> View.OnClickListener<br><br>        <span class="hljs-comment">//三、创建代理对象</span><br>        <span class="hljs-comment">//1、法一</span><br>        <span class="hljs-keyword">val</span> proxyClickListener = ProxyClickListener(context,mOnClickListener)<br><br>        <span class="hljs-comment">//2、法二：因为 OnClickListener 是一个接口，我们可以使用 JDK 动态代理</span><br><span class="hljs-comment">//        val proxyClickListener = Proxy.newProxyInstance(</span><br><span class="hljs-comment">//            context.classLoader,</span><br><span class="hljs-comment">//            arrayOf(View.OnClickListener::class.java)</span><br><span class="hljs-comment">//        ) &#123; proxy, method, args -&gt;</span><br><span class="hljs-comment">//            Toast.makeText(context, &quot;erdai666&quot;, Toast.LENGTH_SHORT).show()</span><br><span class="hljs-comment">//            method?.invoke(mOnClickListener, *args)</span><br><span class="hljs-comment">//        &#125;</span><br>        <br><br>        <span class="hljs-comment">//四、使用代理对象替换原始对象</span><br>        mOnClickListenerFiled.<span class="hljs-keyword">set</span>(listenerInfo,proxyClickListener)<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>ok，接下来修改 MainActivity：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">class</span> <span class="hljs-title class_">MainActivity</span>: <span class="hljs-type">BaseActivity</span>() &#123;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">val</span> btnHook <span class="hljs-keyword">by</span> lazy &#123;<br>        findViewById&lt;Button&gt;(R.id.btnHook)<br>    &#125;<br><br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">getLayoutId</span><span class="hljs-params">()</span></span>: <span class="hljs-built_in">Int</span> &#123;<br>        <span class="hljs-keyword">return</span> R.layout.activity_main<br>    &#125;<br><br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">initView</span><span class="hljs-params">()</span></span> &#123;<br>        btnHook.setOnClickListener&#123;<br>            Log.d(<span class="hljs-string">&quot;MainActivity&quot;</span>, <span class="hljs-string">&quot;Hello&quot;</span>)<br>        &#125;<br>      	<span class="hljs-comment">//Hook</span><br>        HookSetOnClickListenerHelper.hook(<span class="hljs-keyword">this</span>,btnHook)<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>运行 App，效果如下：</p>
+<img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c484ff858a854e899070c64db3ab9aa1~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="image-20221210182733451.png" width="30%" />
+
+<p>了解了 Hook，接下来我们就 Hook WindowManagerGlobal 中的 mViews 实现 App 黑白化</p>
+<h2 id="二、Hook-WindowManagerGlobal-中-mViews-实现-App-黑白化"><a href="#二、Hook-WindowManagerGlobal-中-mViews-实现-App-黑白化" class="headerlink" title="二、Hook WindowManagerGlobal 中 mViews 实现 App 黑白化"></a>二、Hook WindowManagerGlobal 中 mViews 实现 App 黑白化</h2><p>我们的思路很明确：</p>
+<p>1、Hook WindowManagerGlobal 中的 mViews ，将其改成可感知数据的 ArrayList 集合</p>
+<p>2、监听 mViews 的 add 操作，然后对 View 进行黑白化设置</p>
+<p>代码实现，写了详细的注释：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-comment">//1、新建 mViews 对象的代理类：可感知数据的 ArrayList 集合</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">ObservableArrayList</span>&lt;<span class="hljs-type">T</span>&gt;(<span class="hljs-keyword">private</span> <span class="hljs-keyword">val</span> onListAddListener: OnListAddListener&lt;T&gt;?) :<br>    ArrayList&lt;T&gt;() &#123;<br><br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">add</span><span class="hljs-params">(element: <span class="hljs-type">T</span>)</span></span>: <span class="hljs-built_in">Boolean</span> &#123;<br>        <span class="hljs-keyword">val</span> isAdd = <span class="hljs-keyword">super</span>.add(element)<br>        onListAddListener?.add(<span class="hljs-keyword">this</span>, size - <span class="hljs-number">1</span>)<br>        <span class="hljs-keyword">return</span> isAdd<br>    &#125;<br><br>    <span class="hljs-comment">//监听器：监听 ArrayList add 操作</span><br>    <span class="hljs-keyword">interface</span> <span class="hljs-title class_">OnListAddListener</span>&lt;<span class="hljs-type">T</span>&gt; &#123;<br>        <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">add</span><span class="hljs-params">(list: <span class="hljs-type">ArrayList</span>&lt;<span class="hljs-type">T</span>&gt;, index: <span class="hljs-type">Int</span>)</span></span><br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//2、新建一个 GlobalGray 编写 Hook 逻辑</span><br><span class="hljs-keyword">object</span> GlobalGray &#123;<br><br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">hook</span><span class="hljs-params">()</span></span>&#123;<br>        <span class="hljs-comment">//一、获取 WindowManagerGlobal 对象</span><br>        <span class="hljs-keyword">val</span> windowManagerGlobalClass = Class.forName(<span class="hljs-string">&quot;android.view.WindowManagerGlobal&quot;</span>)<br>        <span class="hljs-keyword">val</span> getInstanceStaticMethod = windowManagerGlobalClass.getDeclaredMethod(<span class="hljs-string">&quot;getInstance&quot;</span>)<br>        <span class="hljs-keyword">val</span> windowManagerGlobal = getInstanceStaticMethod.invoke(windowManagerGlobalClass)<br><br>        <span class="hljs-comment">//二、获取 WindowManagerGlobal 中的 mViews</span><br>        <span class="hljs-keyword">val</span> mViewsField = windowManagerGlobalClass.getDeclaredField(<span class="hljs-string">&quot;mViews&quot;</span>)<br>        mViewsField.isAccessible = <span class="hljs-literal">true</span><br>        <span class="hljs-keyword">val</span> mViews = mViewsField.<span class="hljs-keyword">get</span>(windowManagerGlobal) <span class="hljs-keyword">as</span> ArrayList&lt;View&gt;<br><br>        <span class="hljs-comment">//三、创建代理类对象</span><br>        <span class="hljs-comment">//创建饱和度为 0 的画笔</span><br>        <span class="hljs-keyword">val</span> paint = Paint()<br>        <span class="hljs-keyword">val</span> cm = ColorMatrix()<br>        cm.setSaturation(<span class="hljs-number">0f</span>)<br>        paint.colorFilter = ColorMatrixColorFilter(cm)<br><br>        <span class="hljs-keyword">val</span> proxyArrayList = ObservableArrayList(<span class="hljs-keyword">object</span> : ObservableArrayList.OnListAddListener&lt;Any&gt;&#123;<br>            <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">add</span><span class="hljs-params">(list: <span class="hljs-type">ArrayList</span>&lt;<span class="hljs-type">Any</span>&gt;, index: <span class="hljs-type">Int</span>)</span></span> &#123;<br>                <span class="hljs-keyword">val</span> view = list[index] <span class="hljs-keyword">as</span> View<br>                view.setLayerType(View.LAYER_TYPE_HARDWARE,paint)<br>            &#125;<br>        &#125;)<br>        <span class="hljs-comment">//将原有的数据添加到代理 ArrayList</span><br>        proxyArrayList.addAll(mViews)<br><br>        <span class="hljs-comment">//四、使用代理对象替换原始对象</span><br>        mViewsField.<span class="hljs-keyword">set</span>(windowManagerGlobal,proxyArrayList)<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>Hook 逻辑写好了，我们测试一下，在 Applicaton 里面添加 Hook 的逻辑：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">class</span> <span class="hljs-title class_">MyApp</span>: <span class="hljs-type">Application</span>() &#123;<br><br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onCreate</span><span class="hljs-params">()</span></span> &#123;<br>        <span class="hljs-keyword">super</span>.onCreate()<br>      	<span class="hljs-comment">//Hook 全局 App 黑白化</span><br>        GlobalGray.hook()<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>运行 App ，效果验证：</p>
+<img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6553c3c2766c42c0bb2545b9f15340a7~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="ezgif.com-gif-maker.gif" width="30%" />
+
+<h3 id="2-1、关于视频"><a href="#2-1、关于视频" class="headerlink" title="2.1、关于视频"></a>2.1、关于视频</h3><p>我们这种方案只是针对 WindowManagerGlobal addView 过程中的所有 View 实现黑白化，如果不是这个范畴的则实现不了，例如：SurfaceView</p>
+<p>1、对于普通的 View，Android 中的窗口界面包括多个 View 组成的 View Hierachy 的树形结构，只有最顶层的 DecorView才对 WMS 可见，这个 DecorView 在 WMS 中有一个对应的 WindowState，此时 APP 请求创建 Surface 时，会在SurfaceFlinger 内部建立对应的 Layer。</p>
+<p>2、而对于 SurfaceView 它自带一个Surface，这个 Surface 在 WMS 有自己对应的 WindowState，在 SurfaceFlinger 中有自己对应的 Layer。</p>
+<p>3、SurfaceView 从 App 端看它仍然在 View hierachy 结构中，但在 WMS 和 SurfaceFlinger 中它与宿主窗口是分离的。因此 SurfaceView 的 Surface 的渲染可以放到单独线程去做，不会影响主线程对事件的响应。</p>
+<p>因此如果你视频播放使用的是 SurfaceView ，则这种方案实现不了黑白化，你需要针对 SurfaceView 单独去处理.</p>
+<h2 id="三、总结"><a href="#三、总结" class="headerlink" title="三、总结"></a>三、总结</h2><p>本篇文章我们介绍了：</p>
+<p>1、Android 高级必备 Hook ，并带领大家手把手对 Hook 进行了实践</p>
+<p>2、Hook 是有固定套路的：</p>
+<blockquote>
+<p>1、确认 Hook 点</p>
+<p>2、定义代理类</p>
+<p>3、使用代理对象替换 Hook 点</p>
+</blockquote>
+<p>掌握这个套路，我们就能很轻松的去进行 Hook</p>
+<p>3、通过 Hook WindowManagerGlobal 的 mViews 实现 App 全局黑白化</p>
+<p>4、如果你视频播放使用的是 SurfaceView ，则这种方案实现不了黑白化，你需要针对 SurfaceView 单独去处理</p>
+<p>好了，本篇文章到这里就结束了，希望能给你带来帮助 🤝</p>
+<p><strong>感谢你阅读这篇文章</strong></p>
+<blockquote>
+<p><strong>你的点赞，评论，是对我巨大的鼓励！</strong></p>
+<p>欢迎关注我的<strong>公众号：</strong>  <a target="_blank" rel="noopener" href="http://m6z.cn/6jwi7b"><strong>sweetying</strong></a> ，文章更新可第一时间收到</p>
+<p>如果<strong>有问题</strong>，公众号内有加我微信的入口，在技术学习、个人成长的道路上，我们一起前进！</p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Android/" class="category-chain-item">Android</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Android/App-%E9%BB%91%E7%99%BD%E5%8C%96/" class="category-chain-item">App 黑白化</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%8E%9F%E5%88%9B/">#原创</a>
+      
+        <a href="/tags/Android/">#Android</a>
+      
+        <a href="/tags/App-%E9%BB%91%E7%99%BD%E5%8C%96/">#App 黑白化</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>App 黑白化技术实践下篇</div>
+      <div>https://sweetying520.github.io/2022/12/09/App 黑白化技术实践下篇/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>sweetying</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年12月9日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/12/07/App%20%E9%BB%91%E7%99%BD%E5%8C%96%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5%E4%B8%8A%E7%AF%87/" title="App 黑白化技术实践上篇">
+                        <span class="hidden-mobile">App 黑白化技术实践上篇</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.4.17/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"zN1E017kYhKuj6GqXHJSbGMb-gzGzoHsz","appKey":"JSwY8PjtA131Y78OHn7kKtio","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <div style="font-size: 0.85rem;"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div> <div style="font-size: 0.85rem;"> <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #d7d8d9;" id="hitokoto">hitokoto</span></a> <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script> </div> <div id="music_div" style="position: fixed; z-index: 100; bottom: 350px; left: 0px;"> <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=100 src="//music.163.com/outchain/player?type=0&id=5426937413&auto=0&height=100"> </iframe> <script src="https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js"></script> <script src="/vvd_js/musicshow.js"></script> </div> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/vvd_js/star.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
