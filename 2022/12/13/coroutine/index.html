@@ -24,25 +24,21 @@
   <meta name="author" content="sweetying">
   <meta name="keywords" content="">
   
-    <meta name="description" content="一、题目描述这是 LeetCode 热题 HOT 100 上第三题：无重复字符的最长子串，难度为 中等。 Tag：「哈希表」、「数组」、「滑动窗口」 给定一个字符串 s ，请你找出其中不含有重复字符的 最长子串 的长度。 示例 1： 123输入: s &#x3D; &quot;abcabcbb&quot;输出: 3 解释: 因为无重复字符的最长子串是 &quot;abc&quot;，所以其长度为 3。  示">
+    <meta name="description" content="源代码： 1234567891011121314151617181920212223242526class CoroutineActivity : AppCompatActivity() &amp;#123;    override fun onCreate(savedInstanceState: Bundle?) &amp;#123;        super.onCreate(savedInstanceSta">
 <meta property="og:type" content="article">
-<meta property="og:title" content="无重复字符的最长子串（十一）">
-<meta property="og:url" content="https://sweetying520.github.io/2022/08/09/%E6%97%A0%E9%87%8D%E5%A4%8D%E5%AD%97%E7%AC%A6%E7%9A%84%E6%9C%80%E9%95%BF%E5%AD%90%E4%B8%B2%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89/index.html">
+<meta property="og:title" content="coroutine">
+<meta property="og:url" content="https://sweetying520.github.io/2022/12/13/coroutine/index.html">
 <meta property="og:site_name" content="sweetying">
-<meta property="og:description" content="一、题目描述这是 LeetCode 热题 HOT 100 上第三题：无重复字符的最长子串，难度为 中等。 Tag：「哈希表」、「数组」、「滑动窗口」 给定一个字符串 s ，请你找出其中不含有重复字符的 最长子串 的长度。 示例 1： 123输入: s &#x3D; &quot;abcabcbb&quot;输出: 3 解释: 因为无重复字符的最长子串是 &quot;abc&quot;，所以其长度为 3。  示">
+<meta property="og:description" content="源代码： 1234567891011121314151617181920212223242526class CoroutineActivity : AppCompatActivity() &amp;#123;    override fun onCreate(savedInstanceState: Bundle?) &amp;#123;        super.onCreate(savedInstanceSta">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/312210235a104de9ac6697fe0fd332df~tplv-k3u1fbpfcp-watermark.image">
-<meta property="article:published_time" content="2022-08-09T02:42:57.000Z">
-<meta property="article:modified_time" content="2022-12-13T12:25:29.798Z">
+<meta property="article:published_time" content="2022-12-13T02:29:25.000Z">
+<meta property="article:modified_time" content="2022-12-13T12:21:07.862Z">
 <meta property="article:author" content="sweetying">
-<meta property="article:tag" content="原创">
-<meta property="article:tag" content="数据结构和算法">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/312210235a104de9ac6697fe0fd332df~tplv-k3u1fbpfcp-watermark.image">
   
   
   
-  <title>无重复字符的最长子串（十一） - sweetying</title>
+  <title>coroutine - sweetying</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -267,7 +263,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="无重复字符的最长子串（十一）"></span>
+            <span id="subtitle" data-typed-text="coroutine"></span>
           
         </div>
 
@@ -283,8 +279,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-08-09 10:42" pubdate>
-          2022年8月9日 上午
+        <time datetime="2022-12-13 10:29" pubdate>
+          2022年12月13日 上午
         </time>
       </span>
     
@@ -295,7 +291,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.4k 字
+          3k 字
         
       </span>
     
@@ -306,7 +302,7 @@
         
         
         
-          13 分钟
+          25 分钟
         
       </span>
     
@@ -417,41 +413,24 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">无重复字符的最长子串（十一）</h1>
+            <h1 style="display: none">coroutine</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="一、题目描述"><a href="#一、题目描述" class="headerlink" title="一、题目描述"></a>一、题目描述</h2><p>这是 LeetCode 热题 HOT 100 上第三题：<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/add-two-numbers/?favorite=2cktkvj">无重复字符的最长子串</a>，难度为 <strong>中等</strong>。</p>
-<p>Tag：「哈希表」、「数组」、「滑动窗口」</p>
-<p>给定一个字符串 <code>s</code> ，请你找出其中不含有重复字符的 <strong>最长子串</strong> 的长度。</p>
-<p>示例 1：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">输入: s = <span class="hljs-string">&quot;abcabcbb&quot;</span><br>输出: <span class="hljs-number">3</span> <br>解释: 因为无重复字符的最长子串是 <span class="hljs-string">&quot;abc&quot;</span>，所以其长度为 <span class="hljs-number">3</span>。<br></code></pre></td></tr></table></figure>
+                <p>源代码：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">class</span> <span class="hljs-title class_">CoroutineActivity</span> : <span class="hljs-type">AppCompatActivity</span>() &#123;<br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onCreate</span><span class="hljs-params">(savedInstanceState: <span class="hljs-type">Bundle</span>?)</span></span> &#123;<br>        <span class="hljs-keyword">super</span>.onCreate(savedInstanceState)<br>        setContentView(R.layout.activity_coroutine)<br><br>        startCoroutine()<br>    &#125;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">startCoroutine</span><span class="hljs-params">()</span></span> &#123;<br>        <span class="hljs-keyword">val</span> funTest: <span class="hljs-keyword">suspend</span> CoroutineScope.() -&gt; <span class="hljs-built_in">Unit</span> = &#123;<br>            println(<span class="hljs-string">&quot;funTest&quot;</span>)<br>            suspendFun1()<br>            suspendFun2()<br>        &#125;<br><br>        GlobalScope.launch(Dispatchers.Default, block = funTest)<br>    &#125;<br><br>    <span class="hljs-keyword">suspend</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">suspendFun1</span><span class="hljs-params">()</span></span>&#123;<br>        println(<span class="hljs-string">&quot;suspendFun1&quot;</span>)<br>    &#125;<br><br>    <span class="hljs-keyword">suspend</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">suspendFun2</span><span class="hljs-params">()</span></span>&#123;<br>        println(<span class="hljs-string">&quot;suspendFun2&quot;</span>)<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p>示例 2：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">输入: s = <span class="hljs-string">&quot;bbbbb&quot;</span><br>输出: <span class="hljs-number">1</span><br>解释: 因为无重复字符的最长子串是 <span class="hljs-string">&quot;b&quot;</span>，所以其长度为 <span class="hljs-number">1</span>。<br></code></pre></td></tr></table></figure>
+<p>反编译后的代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">CoroutineActivity</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">AppCompatActivity</span> &#123;<br>   <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">onCreate</span><span class="hljs-params">(<span class="hljs-meta">@Nullable</span> Bundle savedInstanceState)</span> &#123;<br>      <span class="hljs-built_in">super</span>.onCreate(savedInstanceState);<br>      <span class="hljs-built_in">this</span>.setContentView(<span class="hljs-number">1300001</span>);<br>      <span class="hljs-built_in">this</span>.startCoroutine();<br>   &#125;<br><br>   <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">startCoroutine</span><span class="hljs-params">()</span> &#123;<br>      <span class="hljs-type">Function2</span> <span class="hljs-variable">funTest</span> <span class="hljs-operator">=</span> (Function2)(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Function2</span>((Continuation)<span class="hljs-literal">null</span>) &#123;<br>        <span class="hljs-comment">//当前状态机：默认为 0</span><br>         <span class="hljs-type">int</span> label;<br><br>         <span class="hljs-comment">//协程体被转换成 invokeSuspend 函数的调用</span><br>         <span class="hljs-meta">@Nullable</span><br>         <span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> Object <span class="hljs-title function_">invokeSuspend</span><span class="hljs-params">(<span class="hljs-meta">@NotNull</span> Object $result)</span> &#123;<br>            <span class="hljs-type">Object</span> <span class="hljs-variable">var3</span> <span class="hljs-operator">=</span> IntrinsicsKt.getCOROUTINE_SUSPENDED();<br>            CoroutineActivity var10000;<br>            <span class="hljs-keyword">switch</span>(<span class="hljs-built_in">this</span>.label) &#123;<br>            <span class="hljs-keyword">case</span> <span class="hljs-number">0</span>:<br>               ResultKt.throwOnFailure($result);<br>               <span class="hljs-type">String</span> <span class="hljs-variable">var2</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;funTest&quot;</span>;<br>               System.out.println(var2);<br>               var10000 = CoroutineActivity.<span class="hljs-built_in">this</span>;<br>               <span class="hljs-comment">//状态机状态设置为 1</span><br>               <span class="hljs-built_in">this</span>.label = <span class="hljs-number">1</span>;<br>               <span class="hljs-comment">//suspendFun1 函数调用</span><br>               <span class="hljs-keyword">if</span> (var10000.suspendFun1(<span class="hljs-built_in">this</span>) == var3) &#123;<br>                  <span class="hljs-keyword">return</span> var3;<br>               &#125;<br>               <span class="hljs-keyword">break</span>;<br>            <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:<br>               <span class="hljs-comment">//异常处理</span><br>               ResultKt.throwOnFailure($result);<br>               <span class="hljs-keyword">break</span>;<br>            <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>:<br>                <span class="hljs-comment">//异常处理</span><br>               ResultKt.throwOnFailure($result);<br>               <span class="hljs-keyword">return</span> Unit.INSTANCE;<br>            <span class="hljs-keyword">default</span>:<br>               <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">IllegalStateException</span>(<span class="hljs-string">&quot;call to &#x27;resume&#x27; before &#x27;invoke&#x27; with coroutine&quot;</span>);<br>            &#125;<br><br>            var10000 = CoroutineActivity.<span class="hljs-built_in">this</span>;<br>           	<span class="hljs-comment">//状态机状态设置为 2</span><br>            <span class="hljs-built_in">this</span>.label = <span class="hljs-number">2</span>;<br>           	<span class="hljs-comment">//suspendFun2 函数调用</span><br>            <span class="hljs-keyword">if</span> (var10000.suspendFun2(<span class="hljs-built_in">this</span>) == var3) &#123;<br>               <span class="hljs-keyword">return</span> var3;<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>               <span class="hljs-keyword">return</span> Unit.INSTANCE;<br>            &#125;<br>         &#125;<br><br>         <span class="hljs-comment">//创建 Continuation</span><br>         <span class="hljs-meta">@NotNull</span> <br>         <span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> Continuation <span class="hljs-title function_">create</span><span class="hljs-params">(<span class="hljs-meta">@Nullable</span> Object value, <span class="hljs-meta">@NotNull</span> Continuation completion)</span> &#123;<br>            Intrinsics.checkNotNullParameter(completion, <span class="hljs-string">&quot;completion&quot;</span>);<br>            <span class="hljs-type">Function2</span> <span class="hljs-variable">var3</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> &lt;anonymous constructor&gt;(completion);<br>            <span class="hljs-keyword">return</span> var3;<br>         &#125;<br>				<br>         <span class="hljs-comment">//实际是调用 invokeSuspend</span><br>         <span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> Object <span class="hljs-title function_">invoke</span><span class="hljs-params">(Object var1, Object var2)</span> &#123;<br>            <span class="hljs-keyword">return</span> ((&lt;undefinedtype&gt;)<span class="hljs-built_in">this</span>.create(var1, (Continuation)var2)).invokeSuspend(Unit.INSTANCE);<br>         &#125;<br>      &#125;);<br>      BuildersKt.launch$<span class="hljs-keyword">default</span>((CoroutineScope)GlobalScope.INSTANCE, (CoroutineContext)Dispatchers.getDefault(), (CoroutineStart)<span class="hljs-literal">null</span>, funTest, <span class="hljs-number">2</span>, (Object)<span class="hljs-literal">null</span>);<br>   &#125;<br><br>   <span class="hljs-meta">@Nullable</span><br>   <span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> Object <span class="hljs-title function_">suspendFun1</span><span class="hljs-params">(<span class="hljs-meta">@NotNull</span> Continuation $completion)</span> &#123;<br>      <span class="hljs-type">String</span> <span class="hljs-variable">var2</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;suspendFun1&quot;</span>;<br>      System.out.println(var2);<br>      <span class="hljs-keyword">return</span> Unit.INSTANCE;<br>   &#125;<br><br>   <span class="hljs-meta">@Nullable</span><br>   <span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> Object <span class="hljs-title function_">suspendFun2</span><span class="hljs-params">(<span class="hljs-meta">@NotNull</span> Continuation $completion)</span> &#123;<br>      <span class="hljs-type">String</span> <span class="hljs-variable">var2</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;suspendFun2&quot;</span>;<br>      System.out.println(var2);<br>      <span class="hljs-keyword">return</span> Unit.INSTANCE;<br>   &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p>示例 3：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java">输入: s = <span class="hljs-string">&quot;pwwkew&quot;</span><br>输出: <span class="hljs-number">3</span><br>解释: 因为无重复字符的最长子串是 <span class="hljs-string">&quot;wke&quot;</span>，所以其长度为 <span class="hljs-number">3</span>。<br>     请注意，你的答案必须是 子串 的长度，<span class="hljs-string">&quot;pwke&quot;</span> 是一个子序列，不是子串。<br></code></pre></td></tr></table></figure>
-
-<p><strong>提示：</strong></p>
-<p>1、<code>0 &lt;= s.length &lt;= 5 * 104</code></p>
-<p>2、<code>s</code> 由英文字母、数字、符号和空格组成</p>
-<h2 id="二、解题思路"><a href="#二、解题思路" class="headerlink" title="二、解题思路"></a>二、解题思路</h2><p>暴力解法时间复杂度较高，会达到 O(n^2)，故而采取滑动窗口的方法降低时间复杂度</p>
-<p>什么是滑动窗口？</p>
-<p>其实就是一个队列,比如下图中的 dvdf，进入这个队列（窗口）为 dv 满足题目要求，当再进入 d，队列变成了 dvd，这时候不满足要求。所以，我们要移动这个队列！</p>
-<p>如何移动？</p>
-<p>我们只要把队列的左边的元素移出就行了，直到满足题目要求！</p>
-<p>一直维持这样的队列，找出队列出现最长的长度时候，求出解！</p>
-<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/312210235a104de9ac6697fe0fd332df~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221210215201969.png"></p>
-<p>代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">lengthOfLongestSubstring</span><span class="hljs-params">(String s)</span> &#123;<br>        <span class="hljs-keyword">if</span> (s.length()==<span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>      	<span class="hljs-comment">//定义一个 map 存储，其中 key 值为字符，value 值为字符位置 +1，加 1 表示从字符位置后一个才开				//始不重复</span><br>        HashMap&lt;Character, Integer&gt; map = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;Character, Integer&gt;();<br>        <span class="hljs-type">int</span> <span class="hljs-variable">max</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br>        <span class="hljs-type">int</span> <span class="hljs-variable">left</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> <span class="hljs-variable">right</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; right &lt; s.length(); right++)&#123;<br>            <span class="hljs-comment">//如果存在相同的 key ，则 left 往右移动</span><br>            <span class="hljs-keyword">if</span>(map.containsKey(s.charAt(right)))&#123;<br>                left = Math.max(left,map.get(s.charAt(right)) + <span class="hljs-number">1</span>);<br>            &#125;<br>            map.put(s.charAt(right),right);<br>            <span class="hljs-comment">//每次比较并获取最大无重复字符子串</span><br>            max = Math.max(max,right-left+<span class="hljs-number">1</span>);<br>        &#125;<br>        <span class="hljs-keyword">return</span> max;<br>        <br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>时间复杂度和空间复杂度分析：</p>
-<p>时间复杂度：O(n)，其中 n 是字符串的长度。左指针和右指针分别会遍历整个字符串一次</p>
-<p>空间复杂度：O(|Σ|)，其中 Σ 表示字符集（即字符串中可以出现的字符），|Σ| 表示字符集的大小。在本题中没有明确说明字符集，因此可以默认为所有 ASCII 码在 [0, 128) 内的字符，即 |Σ| &#x3D; 128。我们需要用到哈希集合来存储出现过的字符，而字符最多有 |Σ| 个，因此空间复杂度为 O(|Σ|)。</p>
-<h2 id="三、总结"><a href="#三、总结" class="headerlink" title="三、总结"></a>三、总结</h2><p>本道算法题难度中等，主要考察了我们对滑动窗口的掌握，定义好左右指针，结合 map 在合适的时候移动指针，并能轻松的解决该题</p>
-<p>好了，本篇文章到这里就结束了，感谢你的阅读🤝</p>
+<p>上述代码：</p>
+<p>1、funTest 协程体两个重要方法：</p>
+<blockquote>
+<p>invokeSuspend</p>
+<p>create</p>
+</blockquote>
+<p>2、suspendFun1，suspendFun2 方法多了一个 Contination 参数，这也是普通函数无法调起挂机函数的原因</p>
 
                 
               </div>
@@ -460,43 +439,6 @@
             <div>
               <div class="post-metas my-3">
   
-    <div class="post-meta mr-3 d-flex align-items-center">
-      <i class="iconfont icon-category"></i>
-      
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/" class="category-chain-item">数据结构和算法</a>
-  
-  
-    <span>></span>
-    
-  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95/" class="category-chain-item">算法</a>
-  
-  
-
-  
-
-      </span>
-    
-  
-</span>
-
-    </div>
-  
-  
-    <div class="post-meta">
-      <i class="iconfont icon-tags"></i>
-      
-        <a href="/tags/%E5%8E%9F%E5%88%9B/">#原创</a>
-      
-        <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/">#数据结构和算法</a>
-      
-    </div>
   
 </div>
 
@@ -506,8 +448,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>无重复字符的最长子串（十一）</div>
-      <div>https://sweetying520.github.io/2022/08/09/无重复字符的最长子串（十一）/</div>
+      <div>coroutine</div>
+      <div>https://sweetying520.github.io/2022/12/13/coroutine/</div>
     </div>
     <div class="license-meta">
       
@@ -519,7 +461,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年8月9日</div>
+          <div>2022年12月13日</div>
         </div>
       
       
@@ -549,18 +491,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/08/10/%E6%A0%88%EF%BC%88%E5%8D%81%E4%BA%8C%EF%BC%89/" title="栈（十二）">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">栈（十二）</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/08/08/%E4%B8%A4%E6%95%B0%E7%9B%B8%E5%8A%A0%EF%BC%88%E5%8D%81%EF%BC%89/" title="两数相加（十）">
-                        <span class="hidden-mobile">两数相加（十）</span>
+                      <a href="/2022/12/09/App%20%E9%BB%91%E7%99%BD%E5%8C%96%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5%E4%B8%8B%E7%AF%87/" title="App 黑白化技术实践下篇">
+                        <span class="hidden-mobile">App 黑白化技术实践下篇</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
