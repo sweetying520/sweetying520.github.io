@@ -1286,6 +1286,35 @@
   
   
   <entry>
+    <title>买卖股票的最佳时机（十五）</title>
+    <link href="/2022/08/13/%E4%B9%B0%E5%8D%96%E8%82%A1%E7%A5%A8%E7%9A%84%E6%9C%80%E4%BD%B3%E6%97%B6%E6%9C%BA%EF%BC%88%E5%8D%81%E4%BA%94%EF%BC%89/"/>
+    <url>/2022/08/13/%E4%B9%B0%E5%8D%96%E8%82%A1%E7%A5%A8%E7%9A%84%E6%9C%80%E4%BD%B3%E6%97%B6%E6%9C%BA%EF%BC%88%E5%8D%81%E4%BA%94%EF%BC%89/</url>
+    
+    <content type="html"><![CDATA[<h2 id="一、题目描述"><a href="#一、题目描述" class="headerlink" title="一、题目描述"></a>一、题目描述</h2><p>这是 LeetCode 热题 HOT 100 上第二十一题：<a href="https://leetcode.cn/problems/best-time-to-buy-and-sell-stock/?favorite=2cktkvj">买卖股票的最佳时机</a>，难度为 <strong>简单</strong>。</p><p>Tag：「数组」、「贪心算法」</p><p>给定一个数组 <code>prices</code> ，它的第 <code>i</code> 个元素 <code>prices[i]</code> 表示一支给定股票第 <code>i</code> 天的价格。</p><p>你只能选择 <strong>某一天</strong> 买入这只股票，并选择在 <strong>未来的某一个不同的日子</strong> 卖出该股票。设计一个算法来计算你所能获取的最大利润。</p><p>返回你可以从这笔交易中获取的最大利润。如果你不能获取任何利润，返回 <code>0</code> 。</p><p>示例 1：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java">输入： [<span class="hljs-number">7</span>,<span class="hljs-number">1</span>,<span class="hljs-number">5</span>,<span class="hljs-number">3</span>,<span class="hljs-number">6</span>,<span class="hljs-number">4</span>]<br>输出： <span class="hljs-number">5</span><br>解释： 在第 <span class="hljs-number">2</span> 天（股票价格 = <span class="hljs-number">1</span>）的时候买入，在第 <span class="hljs-number">5</span> 天（股票价格 = <span class="hljs-number">6</span>）的时候卖出，最大利润 = <span class="hljs-number">6</span>-<span class="hljs-number">1</span> = <span class="hljs-number">5</span> 。<br>      注意利润不能是 <span class="hljs-number">7</span>-<span class="hljs-number">1</span> = <span class="hljs-number">6</span>, 因为卖出价格需要大于买入价格；同时，你不能在买入前卖出股票。<br></code></pre></td></tr></table></figure><p>示例 2：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">输入： prices = [<span class="hljs-number">7</span>,<span class="hljs-number">6</span>,<span class="hljs-number">4</span>,<span class="hljs-number">3</span>,<span class="hljs-number">1</span>]<br>输出： <span class="hljs-number">0</span><br>解释： 在这种情况下, 没有交易完成, 所以最大利润为 <span class="hljs-number">0</span>。<br></code></pre></td></tr></table></figure><p><strong>提示：</strong></p><p>1、<code>1 &lt;= prices.length &lt;= 105</code></p><p>2、<code>0 &lt;= prices[i] &lt;= 104</code></p><h2 id="二、解题思路"><a href="#二、解题思路" class="headerlink" title="二、解题思路"></a>二、解题思路</h2><p>1、这道题使用贪心算法能够快速的计算出结果</p><p>2、贪心算法是指：在对问题求解时，总是做出在当前看来是最好的选择。也就是说，不从整体最优上加以考虑，算法得到的是在某种意义上的局部最优解。</p><p>那么这道题使用贪心算法：只要是上涨的我们就要计算他们的差值进行累加，不需要再找开始上涨的最小值和最大值。为什么能这样计算，我举个例子。</p><p>比如 a&lt;b&lt;c&lt;d，因为从 a 到 d 一直是上涨的，那么最大值和最小值的差值就是 d-a，也可以写成(b-a)+(c-b)+(d-c)，搞懂了这个公式所有的一切都明白了。如果还不明白，可以想象成数组中前一个值减去后一个值，构成一个新的数组，我们只需要计算这个新数组中正数的和即可，如下图：</p><p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/cdc8d48b597342008d6bd9dab7cf6586~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p><p>这里只需要计算新数组中正数的和，也就是<code>4+3=7</code></p><p>代码实现：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">maxProfit</span><span class="hljs-params">(<span class="hljs-type">int</span>[] prices)</span> &#123;<br>    <span class="hljs-type">int</span> <span class="hljs-variable">total</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; prices.length - <span class="hljs-number">1</span>; i++) &#123;<br>        <span class="hljs-comment">//原数组中如果后一个减去前一个是正数，说明是上涨的，</span><br>        <span class="hljs-comment">//我们就要累加，否则就不累加</span><br>        total += Math.max(prices[i + <span class="hljs-number">1</span>] - prices[i], <span class="hljs-number">0</span>);<br>    &#125;<br>    <span class="hljs-keyword">return</span> total;<br>&#125;<br></code></pre></td></tr></table></figure><p>时间复杂度和空间复杂度分析：</p><p>时间复杂度：O(n)，n 表示 prices 的长度，最多执行 n-1 次，去掉常数项，最终时间复杂度为：O(n)</p><p>空间复杂度：O(1)，这里我们仅使用到常数个变量</p><h2 id="三、总结"><a href="#三、总结" class="headerlink" title="三、总结"></a>三、总结</h2><p>本道算法题难度为简单，我们使用贪心算法快速的得到了答案</p><p>好了，本篇文章到这里就结束了，感谢你的阅读🤝</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>数据结构和算法</category>
+      
+      <category>算法</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>原创</tag>
+      
+      <tag>数据结构和算法</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>合并两个有序链表（十四）</title>
     <link href="/2022/08/12/%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8%EF%BC%88%E5%8D%81%E5%9B%9B%EF%BC%89/"/>
     <url>/2022/08/12/%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8%EF%BC%88%E5%8D%81%E5%9B%9B%EF%BC%89/</url>
