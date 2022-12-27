@@ -24,21 +24,25 @@
   <meta name="author" content="sweetying">
   <meta name="keywords" content="">
   
-    <meta name="description" content="源代码： 1234567891011121314151617181920212223242526class CoroutineActivity : AppCompatActivity() &amp;#123;    override fun onCreate(savedInstanceState: Bundle?) &amp;#123;        super.onCreate(savedInstanceSta">
+    <meta name="description" content="前言很高兴遇见你～ 2022 年，是被疫情笼罩的一年，疫情反反复复，整得很是忧愁。以前大街上车水马龙，灯红酒绿，好是一个热闹，现在大家出来走的少了，没事就待在家，店铺该关门的关门，该倒闭的倒闭，前后对比好是一个萧条。好在今年年底疫情放开了，不用多久我们又可以看到以前的那种景象了，但在此之前大家要注意好防护哦。 2022 年，对于我来说是开心远大于烦恼的一年，回忆起这一年发生的点点滴滴，着实令我感到">
 <meta property="og:type" content="article">
-<meta property="og:title" content="coroutine">
-<meta property="og:url" content="https://sweetying520.github.io/2022/12/13/coroutine/index.html">
+<meta property="og:title" content="2022 开心大于烦恼">
+<meta property="og:url" content="https://sweetying520.github.io/2022/09/24/2022final/index.html">
 <meta property="og:site_name" content="sweetying">
-<meta property="og:description" content="源代码： 1234567891011121314151617181920212223242526class CoroutineActivity : AppCompatActivity() &amp;#123;    override fun onCreate(savedInstanceState: Bundle?) &amp;#123;        super.onCreate(savedInstanceSta">
+<meta property="og:description" content="前言很高兴遇见你～ 2022 年，是被疫情笼罩的一年，疫情反反复复，整得很是忧愁。以前大街上车水马龙，灯红酒绿，好是一个热闹，现在大家出来走的少了，没事就待在家，店铺该关门的关门，该倒闭的倒闭，前后对比好是一个萧条。好在今年年底疫情放开了，不用多久我们又可以看到以前的那种景象了，但在此之前大家要注意好防护哦。 2022 年，对于我来说是开心远大于烦恼的一年，回忆起这一年发生的点点滴滴，着实令我感到">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-12-13T02:29:25.000Z">
-<meta property="article:modified_time" content="2022-12-13T12:21:07.862Z">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/443d7f62e7b446518364d7b6a188bae8~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="article:published_time" content="2022-09-24T10:15:32.000Z">
+<meta property="article:modified_time" content="2022-12-27T03:07:34.835Z">
 <meta property="article:author" content="sweetying">
+<meta property="article:tag" content="原创">
+<meta property="article:tag" content="年终总结">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/443d7f62e7b446518364d7b6a188bae8~tplv-k3u1fbpfcp-watermark.image?">
   
   
   
-  <title>coroutine - sweetying</title>
+  <title>2022 开心大于烦恼 - sweetying</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -263,7 +267,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="coroutine"></span>
+            <span id="subtitle" data-typed-text="2022 开心大于烦恼"></span>
           
         </div>
 
@@ -279,8 +283,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-12-13 10:29" pubdate>
-          2022年12月13日 上午
+        <time datetime="2022-09-24 18:15" pubdate>
+          2022年9月24日 晚上
         </time>
       </span>
     
@@ -291,7 +295,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3k 字
+          2.9k 字
         
       </span>
     
@@ -413,24 +417,154 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">coroutine</h1>
+            <h1 style="display: none">2022 开心大于烦恼</h1>
             
             
               <div class="markdown-body">
                 
-                <p>源代码：</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">class</span> <span class="hljs-title class_">CoroutineActivity</span> : <span class="hljs-type">AppCompatActivity</span>() &#123;<br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onCreate</span><span class="hljs-params">(savedInstanceState: <span class="hljs-type">Bundle</span>?)</span></span> &#123;<br>        <span class="hljs-keyword">super</span>.onCreate(savedInstanceState)<br>        setContentView(R.layout.activity_coroutine)<br><br>        startCoroutine()<br>    &#125;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">startCoroutine</span><span class="hljs-params">()</span></span> &#123;<br>        <span class="hljs-keyword">val</span> funTest: <span class="hljs-keyword">suspend</span> CoroutineScope.() -&gt; <span class="hljs-built_in">Unit</span> = &#123;<br>            println(<span class="hljs-string">&quot;funTest&quot;</span>)<br>            suspendFun1()<br>            suspendFun2()<br>        &#125;<br><br>        GlobalScope.launch(Dispatchers.Default, block = funTest)<br>    &#125;<br><br>    <span class="hljs-keyword">suspend</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">suspendFun1</span><span class="hljs-params">()</span></span>&#123;<br>        println(<span class="hljs-string">&quot;suspendFun1&quot;</span>)<br>    &#125;<br><br>    <span class="hljs-keyword">suspend</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">suspendFun2</span><span class="hljs-params">()</span></span>&#123;<br>        println(<span class="hljs-string">&quot;suspendFun2&quot;</span>)<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>反编译后的代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">CoroutineActivity</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">AppCompatActivity</span> &#123;<br>   <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">onCreate</span><span class="hljs-params">(<span class="hljs-meta">@Nullable</span> Bundle savedInstanceState)</span> &#123;<br>      <span class="hljs-built_in">super</span>.onCreate(savedInstanceState);<br>      <span class="hljs-built_in">this</span>.setContentView(<span class="hljs-number">1300001</span>);<br>      <span class="hljs-built_in">this</span>.startCoroutine();<br>   &#125;<br><br>   <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">startCoroutine</span><span class="hljs-params">()</span> &#123;<br>      <span class="hljs-type">Function2</span> <span class="hljs-variable">funTest</span> <span class="hljs-operator">=</span> (Function2)(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Function2</span>((Continuation)<span class="hljs-literal">null</span>) &#123;<br>        <span class="hljs-comment">//当前状态机：默认为 0</span><br>         <span class="hljs-type">int</span> label;<br><br>         <span class="hljs-comment">//协程体被转换成 invokeSuspend 函数的调用</span><br>         <span class="hljs-meta">@Nullable</span><br>         <span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> Object <span class="hljs-title function_">invokeSuspend</span><span class="hljs-params">(<span class="hljs-meta">@NotNull</span> Object $result)</span> &#123;<br>            <span class="hljs-type">Object</span> <span class="hljs-variable">var3</span> <span class="hljs-operator">=</span> IntrinsicsKt.getCOROUTINE_SUSPENDED();<br>            CoroutineActivity var10000;<br>            <span class="hljs-keyword">switch</span>(<span class="hljs-built_in">this</span>.label) &#123;<br>            <span class="hljs-keyword">case</span> <span class="hljs-number">0</span>:<br>               ResultKt.throwOnFailure($result);<br>               <span class="hljs-type">String</span> <span class="hljs-variable">var2</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;funTest&quot;</span>;<br>               System.out.println(var2);<br>               var10000 = CoroutineActivity.<span class="hljs-built_in">this</span>;<br>               <span class="hljs-comment">//状态机状态设置为 1</span><br>               <span class="hljs-built_in">this</span>.label = <span class="hljs-number">1</span>;<br>               <span class="hljs-comment">//suspendFun1 函数调用</span><br>               <span class="hljs-keyword">if</span> (var10000.suspendFun1(<span class="hljs-built_in">this</span>) == var3) &#123;<br>                  <span class="hljs-keyword">return</span> var3;<br>               &#125;<br>               <span class="hljs-keyword">break</span>;<br>            <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:<br>               <span class="hljs-comment">//异常处理</span><br>               ResultKt.throwOnFailure($result);<br>               <span class="hljs-keyword">break</span>;<br>            <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>:<br>                <span class="hljs-comment">//异常处理</span><br>               ResultKt.throwOnFailure($result);<br>               <span class="hljs-keyword">return</span> Unit.INSTANCE;<br>            <span class="hljs-keyword">default</span>:<br>               <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">IllegalStateException</span>(<span class="hljs-string">&quot;call to &#x27;resume&#x27; before &#x27;invoke&#x27; with coroutine&quot;</span>);<br>            &#125;<br><br>            var10000 = CoroutineActivity.<span class="hljs-built_in">this</span>;<br>           	<span class="hljs-comment">//状态机状态设置为 2</span><br>            <span class="hljs-built_in">this</span>.label = <span class="hljs-number">2</span>;<br>           	<span class="hljs-comment">//suspendFun2 函数调用</span><br>            <span class="hljs-keyword">if</span> (var10000.suspendFun2(<span class="hljs-built_in">this</span>) == var3) &#123;<br>               <span class="hljs-keyword">return</span> var3;<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>               <span class="hljs-keyword">return</span> Unit.INSTANCE;<br>            &#125;<br>         &#125;<br><br>         <span class="hljs-comment">//创建 Continuation</span><br>         <span class="hljs-meta">@NotNull</span> <br>         <span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> Continuation <span class="hljs-title function_">create</span><span class="hljs-params">(<span class="hljs-meta">@Nullable</span> Object value, <span class="hljs-meta">@NotNull</span> Continuation completion)</span> &#123;<br>            Intrinsics.checkNotNullParameter(completion, <span class="hljs-string">&quot;completion&quot;</span>);<br>            <span class="hljs-type">Function2</span> <span class="hljs-variable">var3</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> &lt;anonymous constructor&gt;(completion);<br>            <span class="hljs-keyword">return</span> var3;<br>         &#125;<br>				<br>         <span class="hljs-comment">//实际是调用 invokeSuspend</span><br>         <span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> Object <span class="hljs-title function_">invoke</span><span class="hljs-params">(Object var1, Object var2)</span> &#123;<br>            <span class="hljs-keyword">return</span> ((&lt;undefinedtype&gt;)<span class="hljs-built_in">this</span>.create(var1, (Continuation)var2)).invokeSuspend(Unit.INSTANCE);<br>         &#125;<br>      &#125;);<br>      BuildersKt.launch$<span class="hljs-keyword">default</span>((CoroutineScope)GlobalScope.INSTANCE, (CoroutineContext)Dispatchers.getDefault(), (CoroutineStart)<span class="hljs-literal">null</span>, funTest, <span class="hljs-number">2</span>, (Object)<span class="hljs-literal">null</span>);<br>   &#125;<br><br>   <span class="hljs-meta">@Nullable</span><br>   <span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> Object <span class="hljs-title function_">suspendFun1</span><span class="hljs-params">(<span class="hljs-meta">@NotNull</span> Continuation $completion)</span> &#123;<br>      <span class="hljs-type">String</span> <span class="hljs-variable">var2</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;suspendFun1&quot;</span>;<br>      System.out.println(var2);<br>      <span class="hljs-keyword">return</span> Unit.INSTANCE;<br>   &#125;<br><br>   <span class="hljs-meta">@Nullable</span><br>   <span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> Object <span class="hljs-title function_">suspendFun2</span><span class="hljs-params">(<span class="hljs-meta">@NotNull</span> Continuation $completion)</span> &#123;<br>      <span class="hljs-type">String</span> <span class="hljs-variable">var2</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;suspendFun2&quot;</span>;<br>      System.out.println(var2);<br>      <span class="hljs-keyword">return</span> Unit.INSTANCE;<br>   &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>上述代码：</p>
-<p>1、funTest 协程体两个重要方法：</p>
+                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>很高兴遇见你～</p>
+<p>2022 年，是被疫情笼罩的一年，疫情反反复复，整得很是忧愁。以前大街上车水马龙，灯红酒绿，好是一个热闹，现在大家出来走的少了，没事就待在家，店铺该关门的关门，该倒闭的倒闭，前后对比好是一个萧条。好在今年年底疫情放开了，不用多久我们又可以看到以前的那种景象了，但在此之前大家要注意好防护哦。</p>
+<p>2022 年，对于我来说是开心远大于烦恼的一年，回忆起这一年发生的点点滴滴，着实令我感到心情愉悦，感叹时间过得好快呀：</p>
+<p>这一年，我的偶像勒布朗詹姆斯加冕 NBA 历史总得分王，Congratulatoin 🍺</p>
+<p>这一年，孩子来到了我的身边生活，每天带着他玩耍，看着他的成长，心里有说不出的温暖 😊</p>
+<p>这一年，组织了一次计划周全的团队潮汕三天两夜游，很有成就感 😎</p>
+<p>这一年，参加了公司文化价值观宣传片拍摄，演技获得大家认可 😄</p>
+<p>这一年，参加了公司组织的篮球杯赛，虽败犹荣，重在参与 😂</p>
+<p>这一年，持续创作，不忘初心 💪</p>
+<p>这一年 …</p>
+<p>开心的事情着实太多，多的让我数不过来。</p>
+<p>从这种开心里回来，先看看我去年年终总结里立的一些 Flag。</p>
+<h2 id="2022-flag-回顾"><a href="#2022-flag-回顾" class="headerlink" title="2022 flag 回顾"></a>2022 flag 回顾</h2><p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/99bc1d2cd0f94d83b84c584e91af0e38~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="flag.png"></p>
+<h3 id="每一天"><a href="#每一天" class="headerlink" title="每一天"></a>每一天</h3><p>1、早睡早起，保持 8 小时睡眠</p>
 <blockquote>
-<p>invokeSuspend</p>
-<p>create</p>
+<p> 完成度：50%。早睡早起没做到，但有保持 8 小时睡眠。每天基本晚上11:30-12:00 这个时间段睡，早上 8:20 左右起床。</p>
 </blockquote>
-<p>2、suspendFun1，suspendFun2 方法多了一个 Contination 参数，这也是普通函数无法调起挂机函数的原因</p>
+<p>2、花半小时阅读技术文章</p>
+<blockquote>
+<p>完成度：100%。每天坐地铁都会打开掘金，公众号看一下大佬们的文章。</p>
+</blockquote>
+<p>3、1w步，每月至少1次突破2w</p>
+<blockquote>
+<p>完成度：40% 。前 5 个月没带饭，在公司附近餐馆吃，每天吃完都会和三五同事一起散散步，此时还能每天达到 1 w步，后面丈母娘带着孩子上来了，每天都会带饭，吃完也没下去走，此时一天大概 5 k步左右。隔三差五会去爬爬山能突破 2 w步。</p>
+</blockquote>
+<p>4、至少吃一种水果</p>
+<blockquote>
+<p>完成度：100%。每天都有吃水果的习惯，坚持。</p>
+</blockquote>
+<h3 id="每一周"><a href="#每一周" class="headerlink" title="每一周"></a>每一周</h3><p>1、花半天的周末时间集中学习提升</p>
+<blockquote>
+<p> 完成度：100%。大部分周末都有学习，一来总结下这周工作中遇到的问题及解决方案，二来学习一些新技术：Flutter</p>
+</blockquote>
+<p>2、花半天的周末时间自己做饭</p>
+<blockquote>
+<p>完成度：10%。做得少</p>
+</blockquote>
+<p>3、每周五测量一次体脂</p>
+<blockquote>
+<p>完成度：50% 。今年并没有系统的训练，体重保持一个稳定的状态，测的少</p>
+</blockquote>
+<p>4、周末给家人通一次电话</p>
+<blockquote>
+<p>完成度：50%。每两周通一次电话</p>
+</blockquote>
+<h3 id="每个月"><a href="#每个月" class="headerlink" title="每个月"></a>每个月</h3><p>1、整理学习的内容，至少输出一篇技术文章</p>
+<blockquote>
+<p>完成度：100%。今年输出 21 篇文章，平均下来每月超过一篇</p>
+</blockquote>
+<p>2、整理有道云笔记，手写一些随笔</p>
+<blockquote>
+<p>完成度：100%。记录生活的点滴令我心情愉悦</p>
+</blockquote>
+<p>3、每个月至少花两天时间撸铁，踩动感单车</p>
+<blockquote>
+<p>完成度：0%。没时间报健身房了，主要还是没寻到有动感单车的健身房，话说我真的很喜欢踩</p>
+</blockquote>
+<p>4、给重要的朋友问候</p>
+<blockquote>
+<p>完成度：20%。今年的重心都放在家庭孩子身上，很少和朋友们聚，这一点做的不好，明年疫情放开了，多出去走走，联络联络感情</p>
+</blockquote>
+<h3 id="每季度"><a href="#每季度" class="headerlink" title="每季度"></a>每季度</h3><p>1、深入学习一个技术框架</p>
+<blockquote>
+<p>完成度：100%。阅读了大量的第三方框架源码以及 Android 系统源码</p>
+</blockquote>
+<p>2、一次家庭聚餐</p>
+<blockquote>
+<p>完成度：100%。丈母娘和小孩上来后，每天都是聚餐，逢年过节会精心的安排一些菜，非常的 nice</p>
+</blockquote>
+<p>3、给孩子准备一份成长礼物</p>
+<blockquote>
+<p>完成度：100%。隔三差五就会给他买玩具。</p>
+</blockquote>
+<p>4、做一次清扫断舍离</p>
+<blockquote>
+<p>完成度：100%。看到房子脏乱了，我就会去收拾一下，有点点小洁癖</p>
+</blockquote>
+<h3 id="每一年"><a href="#每一年" class="headerlink" title="每一年"></a>每一年</h3><p>1、至少学习一门新技术：Flutter，JetPack Compose</p>
+<blockquote>
+<p>完成度：100%。输出了 Flutter 系列文章</p>
+</blockquote>
+<p>2、一次计划周全的家庭旅游</p>
+<blockquote>
+<p>完成度：0%。取而代之的是一次计划周全的团队旅游</p>
+</blockquote>
+<p>3、洗牙，口腔检查</p>
+<blockquote>
+<p>完成度：100%</p>
+</blockquote>
+<p>4、年度体检</p>
+<blockquote>
+<p>明年三四月份做</p>
+</blockquote>
+<p>5、年度总结</p>
+<blockquote>
+<p>即将完成</p>
+</blockquote>
+<h2 id="这一年，勒布朗詹姆斯加冕-NBA-历史总得分王"><a href="#这一年，勒布朗詹姆斯加冕-NBA-历史总得分王" class="headerlink" title="这一年，勒布朗詹姆斯加冕 NBA 历史总得分王"></a>这一年，勒布朗詹姆斯加冕 NBA 历史总得分王</h2><p>2、优质偶像，人品，成就，深情，自律，天赋</p>
+<h2 id="这一年，孩子在身边的生活"><a href="#这一年，孩子在身边的生活" class="headerlink" title="这一年，孩子在身边的生活"></a>这一年，孩子在身边的生活</h2><p>5 月份来到我们身边，深圳野生动物园，。。。</p>
+<h2 id="这一年，组织了一次计划周全的团队潮汕三天两夜游"><a href="#这一年，组织了一次计划周全的团队潮汕三天两夜游" class="headerlink" title="这一年，组织了一次计划周全的团队潮汕三天两夜游"></a>这一年，组织了一次计划周全的团队潮汕三天两夜游</h2><p>之前从来没组织过这么多人的活动，说句实话，当时压力还挺大的，但是既然揽下了这个活，就硬着头皮上吧。</p>
+<p>一开始也是网上各种查攻略，后面慢慢的也就上道了。</p>
+<p>我们这次旅行是潮汕三天两夜游：</p>
+<p>1、确定好出发的日期。我选择了 7.15 - 7.17，这点时间点刚好是周五连着周末，只需要报备一天，另外查看天气预报，这几天都是晴天非常适合游玩。</p>
+<p>2、确定出行交通。当时做了两个方案：</p>
+<blockquote>
+<p>方案一：全程自驾游</p>
+<p>方案二：高铁 + 当地租车自驾游</p>
+</blockquote>
+<p>方案一需要从深圳开过去，考虑到一是耗时太久（从深圳开过去要 5 个小时左右），二是开太久车容易疲劳驾驶，于是 pass 掉了</p>
+<p>最终我们还是选择了方案二，这种方案大家都轻松，留着精力当地租车自驾，欣赏美景简直太香了</p>
+<p>3、确定酒店住宿</p>
+<p>4、行程规划</p>
+<p>用一组图来感受一下我们的快乐：</p>
+<p>潮州打卡：</p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202212261926817.png" srcset="/img/loading.gif" lazyload alt="image-20221226155838355"></p>
+<p>南澳岛打卡：</p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202212261926823.png" srcset="/img/loading.gif" lazyload alt="image-20221226155135667"></p>
+<h2 id="这一年，参加了公司文化价值观宣传片拍摄"><a href="#这一年，参加了公司文化价值观宣传片拍摄" class="headerlink" title="这一年，参加了公司文化价值观宣传片拍摄"></a>这一年，参加了公司文化价值观宣传片拍摄</h2><p>当时公司说要从每个部门找一些人去拍视频，领导直接找到我和另外一个女生，可能平时做事比较积极吧，于是就这么硬着头皮上了。</p>
+<p>本来认为就简单的拍拍视频，应该没啥难度，结果出乎了意料，他这种拍摄是有导演编剧的，整得跟拍戏一样，顿时就慌了，拍摄前的一个周末疯狂看剧本，演练，最终拍戏那天就是这种打扮，我扮演的是一个无所不能的大牛程序猿，负责装逼（逼装的有多过，后面打脸就有多痛😂）</p>
+<img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202212261926953.jpeg" srcset="/img/loading.gif" lazyload alt="WechatIMG178" style="zoom: 25%;" />
+
+<p>好在拍完大家看了后，都一致好评，我就这样在公司出圈了，哈哈。</p>
+<p>想看视频的可以点击链接哦：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Lv4y167iu/?spm_id_from=333.999.0.0&amp;vd_source=d0b24cb21c438ff4a9ac2e589eacb3d9">https://www.bilibili.com/video/BV1Lv4y167iu/?spm_id_from=333.999.0.0&amp;vd_source=d0b24cb21c438ff4a9ac2e589eacb3d9</a></p>
+<h2 id="这一年，参加了公司组织的篮球杯赛"><a href="#这一年，参加了公司组织的篮球杯赛" class="headerlink" title="这一年，参加了公司组织的篮球杯赛"></a>这一年，参加了公司组织的篮球杯赛</h2><p>生命在于运动，我是很热爱运动的，篮球，桌球，乒乓球，羽毛球是又菜又爱玩。大学的时候还会经常撸铁，踩动感单车，包括刚出来的前两年，我每换一个地，都会去报一个健身房加强身体的锻炼。现在结婚生小孩后，健身房基本没去过了，运动的时间也变少了。这不公司刚好举行了篮球比赛，索性就参加了。</p>
+<p>虽然打的很菜，但是重在参与嘛😂</p>
+<p>宣战海报：</p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202212261927433.jpeg" srcset="/img/loading.gif" lazyload alt="basket1"></p>
+<p>对战图：</p>
+<img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202212261927610.jpeg" srcset="/img/loading.gif" lazyload alt="basket2" style="zoom: 50%;" />
+
+
+
+<h2 id="这一年，保持持续创作，不忘初心"><a href="#这一年，保持持续创作，不忘初心" class="headerlink" title="这一年，保持持续创作，不忘初心"></a>这一年，保持持续创作，不忘初心</h2><p>今年我大号在掘金输出了</p>
+<h2 id="这一年，新冠阳性"><a href="#这一年，新冠阳性" class="headerlink" title="这一年，新冠阳性"></a>这一年，新冠阳性</h2><p>记录一下自己从阳到恢复的过程，历时 7 天：12.19-12.25</p>
+<p>第一天：喉咙痛，晚上洗了个澡，开始不对劲发烧，吃了布洛芬缓释胶囊睡觉，此时特别怕冷，多盖点被子</p>
+<p>第二天：早上烧退，昨晚的药效还在发挥作用。洗了个澡，结果中午烧到 39.5 度，头痛欲裂，吃了美林布洛芬混悬液，睡了一觉，烧退，头还是很痛。晚上继续烧，吃了布洛芬缓释胶囊睡觉。</p>
+<p>第三天：烧退，头痛减弱，结果咳嗽来了，多喝梨水，橘子水，罗汉果茶等甜水，慢慢的喝，让甜水浸润你的喉咙，多吸蒸汽，快咳嗽的时候用手捂住嘴巴做吞咽的动作，这些做法能有效的保护你的喉咙</p>
+<p>第四天：头痛没有了，除了咳嗽，还会流鼻涕</p>
+<p>第五天：咳嗽，流鼻涕，嗅觉，味觉减弱</p>
+<p>第六天：咳嗽，流鼻涕</p>
+<p>第七天：咳嗽没了，也不流鼻涕了，嗅觉，味觉恢复中，核酸阴性</p>
+<h2 id="这一年，我收房了"><a href="#这一年，我收房了" class="headerlink" title="这一年，我收房了"></a>这一年，我收房了</h2><p>2020 年 12 月买的期房，开发商通知 2022 年 12 月 31 日正式收房，历经两年，终于在珠三角有个属于自己的房了。</p>
+<p>买期房真的是心累，期间经过了6，7次维权，真的就是和开发商在斗智斗勇，其中的心酸只有经历过的人才知道。所以建议大家买房一定要买现房，或二手房。</p>
 
                 
               </div>
@@ -439,6 +573,36 @@
             <div>
               <div class="post-metas my-3">
   
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%80%BB%E7%BB%93/" class="category-chain-item">总结</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%8E%9F%E5%88%9B/">#原创</a>
+      
+        <a href="/tags/%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/">#年终总结</a>
+      
+    </div>
   
 </div>
 
@@ -448,8 +612,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>coroutine</div>
-      <div>https://sweetying520.github.io/2022/12/13/coroutine/</div>
+      <div>2022 开心大于烦恼</div>
+      <div>https://sweetying520.github.io/2022/09/24/2022final/</div>
     </div>
     <div class="license-meta">
       
@@ -461,7 +625,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年12月13日</div>
+          <div>2022年9月24日</div>
         </div>
       
       
@@ -491,12 +655,18 @@
                   <article class="post-prev col-6">
                     
                     
+                      <a href="/2022/10/01/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" title="正则表达式">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">正则表达式</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/12/09/App%20%E9%BB%91%E7%99%BD%E5%8C%96%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5%E4%B8%8B%E7%AF%87/" title="App 黑白化技术实践下篇">
-                        <span class="hidden-mobile">App 黑白化技术实践下篇</span>
+                      <a href="/2022/09/13/thread4/" title="thread4">
+                        <span class="hidden-mobile">thread4</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
