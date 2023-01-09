@@ -1,0 +1,923 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <!--自定义看板娘-->
+    <!--自定义看板娘-->
+    <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+    <script src="/live2d-widget/autoload.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
+<!--   <link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css"> -->
+<!--   <script src="https://fastly.jsdelivr.net/gh/stevenjoezhang/live2d-widget@latest/autoload.js"></script> -->
+
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar.png">
+  <link rel="icon" href="/img/avatar.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="sweetying">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前言1、我们都希望自己开发的 App 得到肯定，通常的做法是在应用内预置一个弹窗，在合适的时机弹出，并引导用户去商店评价。 2、App 开发中，应用内更新是比不可少的，国内常见的做法是在 App 中实现下载并安装，但是如果要上架 GooglePlay，这种做法会过不了审核。 接下来我们就使用 GooglePlay 应用内评价和应用内更新实现上面两个需求。 注意： GooglePlay 应用内评价">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GooglePlay 应用内评价，应用内更新">
+<meta property="og:url" content="https://sweetying520.github.io/2023/01/06/GooglePlay%20%E5%BA%94%E7%94%A8%E5%86%85%E8%AF%84%E4%BB%B7%EF%BC%8C%E5%BA%94%E7%94%A8%E5%86%85%E6%9B%B4%E6%96%B0/index.html">
+<meta property="og:site_name" content="sweetying">
+<meta property="og:description" content="前言1、我们都希望自己开发的 App 得到肯定，通常的做法是在应用内预置一个弹窗，在合适的时机弹出，并引导用户去商店评价。 2、App 开发中，应用内更新是比不可少的，国内常见的做法是在 App 中实现下载并安装，但是如果要上架 GooglePlay，这种做法会过不了审核。 接下来我们就使用 GooglePlay 应用内评价和应用内更新实现上面两个需求。 注意： GooglePlay 应用内评价">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6bf970c4c3f9418c9586ecd7f9f4a011~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="article:published_time" content="2023-01-06T02:26:01.000Z">
+<meta property="article:modified_time" content="2023-01-09T07:20:20.611Z">
+<meta property="article:author" content="sweetying">
+<meta property="article:tag" content="原创">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="GooglePlay">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6bf970c4c3f9418c9586ecd7f9f4a011~tplv-k3u1fbpfcp-watermark.image?">
+  
+  
+  
+  <title>GooglePlay 应用内评价，应用内更新 - sweetying</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/iconfont_juejin/iconfont.css">
+<link rel="stylesheet" href="/css/custom.css">
+<link rel="stylesheet" href="/css/fluid-extention.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sweetying520.github.io","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"zN1E017kYhKuj6GqXHJSbGMb-gzGzoHsz","app_key":"JSwY8PjtA131Y78OHn7kKtio","server_url":"https://zn1e017k.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  <div>
+	<div class='real_mask' style="
+		background-color: rgba(0,0,0,0.3);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -777;
+	"></div>
+	<div id="banner_video_insert">
+	</div>
+	<div id='vvd_banner_img'>
+	</div>
+</div>
+<div id="banner"></div>
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>sweetying</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" target="_blank" rel="noopener" href="https://www.foreverblog.cn/go.html">
+                <i class="iconfont icon-rss"></i>
+                虫洞
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://101.43.39.125/HexoFiles/new/bg-trans.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="GooglePlay 应用内评价，应用内更新"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        sweetying
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-01-06 10:26" pubdate>
+          2023年1月6日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          8.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          72 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
+
+	<div class="banner" id='banner' >
+
+		<div class="full-bg-img" >
+
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
+
+					function set_video_attr(id){
+
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
+
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
+					}
+
+					$.getJSON('/vvd_js/video_url.json', function(data){
+						if (true){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
+
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
+
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
+							set_video_attr('banner_img_item')
+
+							if (!isMobile) {
+								video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+								document.getElementById("banner_video_insert").innerHTML = video_html_res;
+								set_video_attr('video_item')
+							}
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+			</div>
+		</div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">GooglePlay 应用内评价，应用内更新</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6bf970c4c3f9418c9586ecd7f9f4a011~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>1、我们都希望自己开发的 App 得到肯定，通常的做法是在应用内预置一个弹窗，在合适的时机弹出，并引导用户去商店评价。</p>
+<p>2、App 开发中，应用内更新是比不可少的，国内常见的做法是在 App 中实现下载并安装，但是如果要上架 GooglePlay，这种做法会过不了审核。</p>
+<p>接下来我们就使用 GooglePlay 应用内评价和应用内更新实现上面两个需求。</p>
+<p><strong>注意</strong>： GooglePlay 应用内评价和应用内更新只适用于 GooglePlay 上上架的 App，国内的应用商店并不适用</p>
+<h2 id="一、GooglePlay-应用内评价"><a href="#一、GooglePlay-应用内评价" class="headerlink" title="一、GooglePlay 应用内评价"></a>一、GooglePlay 应用内评价</h2><h3 id="1-1、设备要求"><a href="#1-1、设备要求" class="headerlink" title="1.1、设备要求"></a>1.1、设备要求</h3><p>1、需 5.0 或更高版本的 Android 设备</p>
+<p>2、 Android 设备安装了 Google Play 商店</p>
+<h3 id="1-2、Play-Core-库要求"><a href="#1-2、Play-Core-库要求" class="headerlink" title="1.2、Play Core 库要求"></a>1.2、Play Core 库要求</h3><p>如需在你的应用中集成 GooglePlay 应用内评价，库版本必须使用 1.8.0：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs groovy">dependencies &#123;<br>    <span class="hljs-comment">//核心库</span><br>    implementation <span class="hljs-string">&#x27;com.google.android.play:core:1.8.0&#x27;</span><br>    <span class="hljs-comment">//项目使用了 Kotlin 可以集成</span><br>    implementation <span class="hljs-string">&#x27;com.google.android.play:core-ktx:1.8.0&#x27;</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>或者更高版本的<a target="_blank" rel="noopener" href="https://developer.android.com/guide/playcore?hl=zh-cn">Play Core 库</a>，目前最新版本如下：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs groovy">dependencies &#123;<br>    <span class="hljs-comment">//核心库</span><br>    implementation <span class="hljs-string">&#x27;com.google.android.play:review:2.0.1&#x27;</span><br>    <span class="hljs-comment">//项目使用了 Kotlin 可以集成</span><br>    implementation <span class="hljs-string">&#x27;com.google.android.play:review-ktx:2.0.1&#x27;</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="1-3、集成-GooglePlay-应用内评价"><a href="#1-3、集成-GooglePlay-应用内评价" class="headerlink" title="1.3、集成 GooglePlay 应用内评价"></a>1.3、集成 GooglePlay 应用内评价</h3><h4 id="1-3-1、添加-Gradle-远程依赖"><a href="#1-3-1、添加-Gradle-远程依赖" class="headerlink" title="1.3.1、添加 Gradle 远程依赖"></a>1.3.1、添加 Gradle 远程依赖</h4><p>在 app 的 build.gradle 中添加如下依赖：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-comment">//核心库</span><br>implementation <span class="hljs-string">&#x27;com.google.android.play:review:2.0.1&#x27;</span><br><span class="hljs-comment">//项目使用了 Kotlin 可以集成</span><br>implementation <span class="hljs-string">&#x27;com.google.android.play:review-ktx:2.0.1&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="1-3-2、初始化-GooglePlay-应用内评价"><a href="#1-3-2、初始化-GooglePlay-应用内评价" class="headerlink" title="1.3.2、初始化 GooglePlay 应用内评价"></a>1.3.2、初始化 GooglePlay 应用内评价</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment">  * 初始化 GooglePlay 应用内评价</span><br><span class="hljs-comment">  */</span><br>fun <span class="hljs-title function_">initInnerReview</span><span class="hljs-params">()</span>&#123;<br>   <span class="hljs-comment">//1、通过 ReviewManagerFactory 创建 ReviewManager 对象，用于启动应用内评价的流程</span><br>   manager = ReviewManagerFactory.create(MyApplication.getInstance())<br>   <span class="hljs-comment">//2、获取 ReviewInfo 对象。当我们判断可以让用户进行评价时，使用 ReviewManager 创建一个请求，</span><br>   <span class="hljs-comment">//用于真正启动应用内评价流程。这里我们可以先缓存好 ReviewInfo 对象。</span><br>   <span class="hljs-type">val</span> <span class="hljs-variable">request</span> <span class="hljs-operator">=</span> manager?.requestReviewFlow()<br>   request?.addOnCompleteListener &#123;<br>      <span class="hljs-keyword">if</span>(it.isSuccessful)&#123;<br>          reviewInfo = it.result<br>          Log.d(<span class="hljs-string">&quot;erdai&quot;</span>, <span class="hljs-string">&quot;init: get reviewInfo sucess&quot;</span>)<br>      &#125;<span class="hljs-keyword">else</span>&#123;<br>          Log.d(<span class="hljs-string">&quot;erdai&quot;</span>, <span class="hljs-string">&quot;init: get reviewInfo failed&quot;</span>)<br>      &#125;<br>   &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="1-3-3、启动-GooglePlay-应用内评价"><a href="#1-3-3、启动-GooglePlay-应用内评价" class="headerlink" title="1.3.3、启动 GooglePlay 应用内评价"></a>1.3.3、启动 GooglePlay 应用内评价</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment">  * 启动应用内评价</span><br><span class="hljs-comment">  *</span><br><span class="hljs-comment">  * <span class="hljs-doctag">@param</span> activity 当前 Activity</span><br><span class="hljs-comment">  */</span><br>fun <span class="hljs-title function_">innerReview</span><span class="hljs-params">(activity: Activity)</span>&#123;<br>  <span class="hljs-comment">//调用 launchReviewFlow 来启动评价流程，剩下的事情就交给 Google 了</span><br>  reviewInfo?.apply &#123;<br>    <span class="hljs-type">val</span> <span class="hljs-variable">flow</span> <span class="hljs-operator">=</span> manager?.launchReviewFlow(activity, <span class="hljs-built_in">this</span>)<br>    flow?.addOnCompleteListener &#123;<br>        <span class="hljs-keyword">if</span>(it.isSuccessful)&#123;<br>            Log.d(<span class="hljs-string">&quot;erdai&quot;</span>, <span class="hljs-string">&quot;innerReview: launchReviewFlow success&quot;</span>)<br>        &#125;<span class="hljs-keyword">else</span>&#123;<br>            Log.d(<span class="hljs-string">&quot;erdai&quot;</span>, <span class="hljs-string">&quot;innerReview: launchReviewFlow failed&quot;</span>)<br>        &#125;<br>    &#125;<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="1-3-4、完整代码"><a href="#1-3-4、完整代码" class="headerlink" title="1.3.4、完整代码"></a>1.3.4、完整代码</h4><p>我们可以将 GooglePlay 应用内评价的代码进行封装，放到一个单例里面：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * function: GooglePlay 应用内 app 辅助类</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">object</span> GooglePlayInnerAppHelper &#123;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * ReviewInfo 对象</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">var</span> reviewInfo: ReviewInfo? = <span class="hljs-literal">null</span><br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * ReviewManager 对象</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">var</span> manager: ReviewManager? = <span class="hljs-literal">null</span><br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 初始化 GooglePlay 应用内评价</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">initInnerReview</span><span class="hljs-params">()</span></span>&#123;<br>        <span class="hljs-comment">//1、通过 ReviewManagerFactory 创建 ReviewManager 对象，用于启动应用内评价的流程</span><br>        manager = ReviewManagerFactory.create(MyApplication.getInstance())<br>        <span class="hljs-comment">//2、获取ReviewInfo对象。当我们判断可以让用户进行评价时，使用ReviewManager创建一个任务，</span><br>        <span class="hljs-comment">//用于真正启动应用内评价流程。这里谷歌文档中建议提前一点缓存好 ReviewInfo 对象。</span><br>        <span class="hljs-keyword">val</span> request = manager?.requestReviewFlow()<br>        request?.addOnCompleteListener &#123;<br>            <span class="hljs-keyword">if</span>(it.isSuccessful)&#123;<br>                reviewInfo = it.result<br>                Log.d(<span class="hljs-string">&quot;erdai&quot;</span>, <span class="hljs-string">&quot;init: get reviewInfo sucess&quot;</span>)<br>            &#125;<span class="hljs-keyword">else</span>&#123;<br>                Log.d(<span class="hljs-string">&quot;erdai&quot;</span>, <span class="hljs-string">&quot;init: get reviewInfo failed&quot;</span>)<br>            &#125;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 应用内评价</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> activity 当前 Activity</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">innerReview</span><span class="hljs-params">(activity: <span class="hljs-type">Activity</span>)</span></span>&#123;<br>        <span class="hljs-comment">//调用 launchReviewFlow 来启动评价流程，剩下的事情就交给 Google 了</span><br>        reviewInfo?.apply &#123;<br>            <span class="hljs-keyword">val</span> flow = manager?.launchReviewFlow(activity, <span class="hljs-keyword">this</span>)<br>            flow?.addOnCompleteListener &#123;<br>                <span class="hljs-keyword">if</span>(it.isSuccessful)&#123;<br>                    Log.d(<span class="hljs-string">&quot;erdai&quot;</span>, <span class="hljs-string">&quot;innerReview: launchReviewFlow success&quot;</span>)<br>                &#125;<span class="hljs-keyword">else</span>&#123;<br>                    Log.d(<span class="hljs-string">&quot;erdai&quot;</span>, <span class="hljs-string">&quot;innerReview: launchReviewFlow failed&quot;</span>)<br>                &#125;<br>            &#125;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>在合适的时机，以我的为例子：</p>
+<blockquote>
+<p>在 Application 的 onCreate 里面初始化 GooglePlay 应用内评价，然后在项目的首页启动 GooglePlay 应用内评价。</p>
+</blockquote>
+<p>进行调用即可。</p>
+<h3 id="1-4、测试"><a href="#1-4、测试" class="headerlink" title="1.4、测试"></a>1.4、测试</h3><p>上述集成代码比较简单，主要还是测比较麻烦，测试的方式有多种，讲下我推荐的一种：</p>
+<p>1、将你的应用打包成 .aab 格式的文件上传到 GooglePlay 的 Internal testing（内测）渠道：</p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/bce086b60a1d476580cb95c9f3c7cbb5~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20230106152628078.png"></p>
+<p>上传到  Internal testing 渠道的好处就是只要你没有进行评价，那么每次都会进行评价弹窗提示。Production（生产）渠道则不会。</p>
+<p>2、将你的 GooglePlay 账号加入到内测渠道中，然后从 GooglePlay 商店中下载应用：</p>
+<img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/796d66ef44db47c3907108e6ae8422e9~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="image-20230106154045505.png" width="50%" />
+
+<p>可以看到，GooglePlay 商店会提示你是一个内测账号</p>
+<p><strong>注意：</strong> 这里不能使用受保护的用户账号（如企业账号），我当时就是使用了企业分配的 GooglePlay 账号导致一直弹不出评价弹窗。需要改用 Gmail 账号，后面使用私人的 Gmail 账号，就成功的弹出了评价弹窗。</p>
+<p>3、保证你使用的 GooglePlay 账号没有评价过该应用，如果评价了也弹不出来</p>
+<h3 id="1-5、效果展示"><a href="#1-5、效果展示" class="headerlink" title="1.5、效果展示"></a>1.5、效果展示</h3><p>如下图：</p>
+<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/068199451d6b4f2ca78dd11d63545016~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="ezgif.com-gif-maker.gif" width="30%" />
+
+<h2 id="二、GooglePlay-应用内更新"><a href="#二、GooglePlay-应用内更新" class="headerlink" title="二、GooglePlay 应用内更新"></a>二、GooglePlay 应用内更新</h2><h3 id="2-1、设备要求"><a href="#2-1、设备要求" class="headerlink" title="2.1、设备要求"></a>2.1、设备要求</h3><p>1、需 5.0 或更高版本的 Android 设备</p>
+<p>2、 Android 设备安装了 Google Play 商店</p>
+<h3 id="2-2、Play-Core-库要求"><a href="#2-2、Play-Core-库要求" class="headerlink" title="2.2、Play Core 库要求"></a>2.2、Play Core 库要求</h3><p>如需在你的应用中集成 GooglePlay 应用内评价，库版本必须使用 1.8.0：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs groovy">dependencies &#123;<br>    <span class="hljs-comment">//核心库</span><br>    implementation <span class="hljs-string">&#x27;com.google.android.play:core:1.8.0&#x27;</span><br>    <span class="hljs-comment">//项目使用了 Kotlin 可以集成</span><br>    implementation <span class="hljs-string">&#x27;com.google.android.play:core-ktx:1.8.0&#x27;</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>或者更高版本的<a target="_blank" rel="noopener" href="https://developer.android.com/guide/playcore?hl=zh-cn">Play Core 库</a>，目前最新版本如下：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs groovy">dependencies &#123;<br>    <span class="hljs-comment">//核心库</span><br>    implementation <span class="hljs-string">&#x27;com.google.android.play:app-update:2.0.1&#x27;</span><br>    <span class="hljs-comment">//项目使用了 Kotlin 可以集成</span><br>    implementation <span class="hljs-string">&#x27;com.google.android.play:app-update-ktx:2.0.1&#x27;</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="2-3、集成-GooglePlay-应用内更新"><a href="#2-3、集成-GooglePlay-应用内更新" class="headerlink" title="2.3、集成 GooglePlay 应用内更新"></a>2.3、集成 GooglePlay 应用内更新</h3><h4 id="2-3-1、添加-Gradle-远程依赖"><a href="#2-3-1、添加-Gradle-远程依赖" class="headerlink" title="2.3.1、添加 Gradle 远程依赖"></a>2.3.1、添加 Gradle 远程依赖</h4><p>在 app 的 build.gradle 中添加如下依赖：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-comment">//核心库</span><br>implementation <span class="hljs-string">&#x27;com.google.android.play:app-update:2.0.1&#x27;</span><br><span class="hljs-comment">//项目使用了 Kotlin 可以集成</span><br>implementation <span class="hljs-string">&#x27;com.google.android.play:app-update-ktx:2.0.1&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="2-3-2、启动应用内更新"><a href="#2-3-2、启动应用内更新" class="headerlink" title="2.3.2、启动应用内更新"></a>2.3.2、启动应用内更新</h4><p>GooglePlay 应用内更新方式有两种：</p>
+<p>1、立即更新</p>
+<p>2、灵活更新</p>
+<h5 id="2-3-2-1、立即更新"><a href="#2-3-2-1、立即更新" class="headerlink" title="2.3.2.1、立即更新"></a>2.3.2.1、立即更新</h5><p>立即更新你也可以理解为强制更新，它会打断用户与 app 的交互，弹出一个新的页面提示你升级</p>
+<p>代码实现：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-comment">/**</span><br><span class="hljs-comment">  * 应用内强制更新</span><br><span class="hljs-comment">  */</span><br><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">innerAppForceUpdate</span><span class="hljs-params">(activity: <span class="hljs-type">Activity</span>)</span></span> &#123;<br>    <span class="hljs-keyword">val</span> appUpdateManager = AppUpdateManagerFactory.create(MyApplication.getInstance())<br>    appUpdateManager.appUpdateInfo.addOnSuccessListener &#123;<br>        <span class="hljs-keyword">if</span> (it.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE &amp;&amp; <br>           it.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) &#123;<br>            <span class="hljs-comment">//启动强制更新</span><br>            appUpdateManager.startUpdateFlowForResult(it,<br>                AppUpdateType.IMMEDIATE,<br>                activity,<br>                UPDATE_REQUEST_CODE)<br>         &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h5 id="2-3-2-2、灵活更新"><a href="#2-3-2-2、灵活更新" class="headerlink" title="2.3.2.2、灵活更新"></a>2.3.2.2、灵活更新</h5><p>灵活更新不会打断用户与 app 的交互，它是在后台静默下载新版本，等下在完了在提示更新</p>
+<p>代码实现：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 应用内灵活更新</span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">innerAppSmartUpdate</span><span class="hljs-params">(activity: <span class="hljs-type">Activity</span>)</span></span> &#123;<br>    <span class="hljs-keyword">val</span> appUpdateManager = AppUpdateManagerFactory.create(MyApplication.getInstance())<br>    appUpdateManager.appUpdateInfo.addOnSuccessListener &#123;<br>        <span class="hljs-keyword">if</span> (it.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE &amp;&amp; <br>            it.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) &#123;<br>            <span class="hljs-comment">//灵活更新</span><br>            <span class="hljs-keyword">val</span> installListener = <span class="hljs-keyword">object</span> : InstallStateUpdatedListener &#123;<br>                <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onStateUpdate</span><span class="hljs-params">(installState: <span class="hljs-type">InstallState</span>)</span></span> &#123;<br>                    <span class="hljs-keyword">if</span>(installState.installStatus() == InstallStatus.DOWNLOADING)&#123;<br>                      	<span class="hljs-comment">//下载中，我们可以在此获取进度给用户进行提示</span><br>                      	<span class="hljs-comment">//已下载文件字节大小</span><br>                				<span class="hljs-keyword">val</span> bytesDownloaded = installState.bytesDownloaded()<br>                				<span class="hljs-comment">//文件总的字节大小</span><br>                				<span class="hljs-keyword">val</span> totalBytesToDownload = installState.totalBytesToDownload()<br>                      	<span class="hljs-comment">//todo 对于户进行下载进度提示</span><br>                      	<br>                    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (installState.installStatus() == InstallStatus.DOWNLOADED) &#123;<br>                        <span class="hljs-comment">//通知用户更新已下载完毕，重启以安装应用</span><br>                        appUpdateManager.unregisterListener(<span class="hljs-keyword">this</span>)<br>                        appUpdateManager.completeUpdate()<br>                    &#125;<br>                &#125;<br>            &#125;<br>            appUpdateManager.registerListener(installListener)<br>            appUpdateManager.startUpdateFlowForResult(it,<br>                AppUpdateType.FLEXIBLE,<br>                activity,<br>                UPDATE_REQUEST_CODE)<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="2-3-3、完整代码"><a href="#2-3-3、完整代码" class="headerlink" title="2.3.3、完整代码"></a>2.3.3、完整代码</h4><p>同样的，我们可以对其进行封装，放到一个单例里面：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * function: GooglePlay 应用内 app 辅助类</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">object</span> GooglePlayInnerAppHelper &#123;<br>    <br>    <span class="hljs-keyword">const</span> <span class="hljs-keyword">val</span> UPDATE_REQUEST_CODE: <span class="hljs-built_in">Int</span> = <span class="hljs-number">0x001</span><br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 应用内强制更新</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">innerAppForceUpdate</span><span class="hljs-params">(activity: <span class="hljs-type">Activity</span>)</span></span> &#123;<br>        <span class="hljs-keyword">val</span> appUpdateManager = AppUpdateManagerFactory.create(MyApplication.getInstance())<br>        appUpdateManager.appUpdateInfo.addOnSuccessListener &#123;<br>            <span class="hljs-keyword">if</span> (it.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE &amp;&amp; it.isUpdateTypeAllowed(<br>                    AppUpdateType.IMMEDIATE)<br>            ) &#123;<br>                <span class="hljs-comment">//强制更新</span><br>                appUpdateManager.startUpdateFlowForResult(it,<br>                    AppUpdateType.IMMEDIATE,<br>                    activity,<br>                    UPDATE_REQUEST_CODE)<br>            &#125;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 应用内灵活更新</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">innerAppSmartUpdate</span><span class="hljs-params">(activity: <span class="hljs-type">Activity</span>)</span></span> &#123;<br>        <span class="hljs-keyword">val</span> appUpdateManager = AppUpdateManagerFactory.create(MyApplication.getInstance())<br>        appUpdateManager.appUpdateInfo.addOnSuccessListener &#123;<br>            <span class="hljs-keyword">if</span> (it.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE &amp;&amp;<br>                it.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) &#123;<br>                <span class="hljs-comment">//灵活更新</span><br>                <span class="hljs-keyword">val</span> installListener = <span class="hljs-keyword">object</span> : InstallStateUpdatedListener &#123;<br>                    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onStateUpdate</span><span class="hljs-params">(installState: <span class="hljs-type">InstallState</span>)</span></span> &#123;<br>                        <span class="hljs-keyword">if</span>(installState.installStatus() == InstallStatus.DOWNLOADING)&#123;<br>                            <span class="hljs-comment">//下载中，我们可以在此获取进度给用户进行提示</span><br>                            <span class="hljs-comment">//已下载文件字节大小</span><br>                            <span class="hljs-keyword">val</span> bytesDownloaded = installState.bytesDownloaded()<br>                            <span class="hljs-comment">//文件总的字节大小</span><br>                            <span class="hljs-keyword">val</span> totalBytesToDownload = installState.totalBytesToDownload()<br>                            <span class="hljs-comment">//todo 对于户进行下载进度提示</span><br><br>                        &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (installState.installStatus() == InstallStatus.DOWNLOADED) &#123;<br>                            <span class="hljs-comment">//通知用户更新已下载完毕，重启以安装应用</span><br>                            appUpdateManager.unregisterListener(<span class="hljs-keyword">this</span>)<br>                            appUpdateManager.completeUpdate()<br>                        &#125;<br>                    &#125;<br>                &#125;<br>                appUpdateManager.registerListener(installListener)<br>                appUpdateManager.startUpdateFlowForResult(it,<br>                    AppUpdateType.FLEXIBLE,<br>                    activity,<br>                    UPDATE_REQUEST_CODE)<br>            &#125;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>在合适的时机，以我的为例子，立即更新和灵活更新结合使用：</p>
+<blockquote>
+<p>根据后台下发配置，判断是使用立即更新还是灵活更新</p>
+</blockquote>
+<h3 id="2-4、测试"><a href="#2-4、测试" class="headerlink" title="2.4、测试"></a>2.4、测试</h3><p>我们需要做以下三步：</p>
+<p>1、打包高版本 .aab 格式的文件上传到 GooglePlay 的 Internal testing（内测）渠道，将 GooglePlay 账号，添加到内测渠道</p>
+<p><strong>注意：</strong> 此时无受保护的用户账号要求，因此这里你可以使用企业账号</p>
+<p>2、确保你目前使用的账号至少从 GooglePlay 下载过一次应用，因为只有拥有应用的用户帐号才可以使用应用内更新</p>
+<p>3、还原到低版本，使用 AndroidStudio 编译打包即可</p>
+<h3 id="2-5、效果展示"><a href="#2-5、效果展示" class="headerlink" title="2.5、效果展示"></a>2.5、效果展示</h3><h4 id="2-5-1、后台下发配置立即更新"><a href="#2-5-1、后台下发配置立即更新" class="headerlink" title="2.5.1、后台下发配置立即更新"></a>2.5.1、后台下发配置立即更新</h4><p>如下图：</p>
+<img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/59d0d7c521f24c4fbef96ecad5cf0d0b~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="force_update.gif" width="30%" />
+
+<p>立即更新给我们新开了一个页面进行下载，等待下载完成会自动给你更新并重启应用。</p>
+<h4 id="2-5-2、后台下发配置灵活更新"><a href="#2-5-2、后台下发配置灵活更新" class="headerlink" title="2.5.2、后台下发配置灵活更新"></a>2.5.2、后台下发配置灵活更新</h4><p>如下图：</p>
+<img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b60edcf4b299437890de09ceef15f1ad~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="smart_update.gif" width="30%" />
+
+<p>灵活更新会在后台静默下载，等下载完成会自动给你更新并重启应用。</p>
+<h2 id="三、总结"><a href="#三、总结" class="headerlink" title="三、总结"></a>三、总结</h2><p>本篇文章我们介绍了：</p>
+<p>1、GooglePlay 应用内评价</p>
+<p>2、GooglePlay 应用内更新</p>
+<p>两者集成过程比较简单，主要就是测试效果比较麻烦，按照我文中的步骤，问题不大。</p>
+<p>好了，本篇文章到这里就结束了，希望能给你带来帮助 🤝</p>
+<p><strong>感谢你阅读这篇文章</strong></p>
+<h3 id="参考和推荐"><a href="#参考和推荐" class="headerlink" title="参考和推荐"></a>参考和推荐</h3><p><a target="_blank" rel="noopener" href="https://developer.android.com/guide/playcore/in-app-review?hl=zh-cn">GooglePlay 应用内评价官方文档</a></p>
+<p><a target="_blank" rel="noopener" href="https://developer.android.com/guide/playcore/in-app-updates?hl=zh-cn&from_wecom=1">GooglePlay 应用内更新官方文档</a></p>
+<blockquote>
+<p><strong>你的点赞，评论，是对我巨大的鼓励！</strong></p>
+<p>欢迎关注我的<strong>公众号：</strong>  <a href="https://link.juejin.cn/?target=http://m6z.cn/6jwi7b" title="http://m6z.cn/6jwi7b"><strong>sweetying</strong></a> ，文章更新可第一时间收到</p>
+<p>如果<strong>有问题</strong>，公众号内有加我微信的入口，在技术学习、个人成长的道路上，我们一起前进！</p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Android/" class="category-chain-item">Android</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Android/GooglePlay/" class="category-chain-item">GooglePlay</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%8E%9F%E5%88%9B/">#原创</a>
+      
+        <a href="/tags/Android/">#Android</a>
+      
+        <a href="/tags/GooglePlay/">#GooglePlay</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>GooglePlay 应用内评价，应用内更新</div>
+      <div>https://sweetying520.github.io/2023/01/06/GooglePlay 应用内评价，应用内更新/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>sweetying</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年1月6日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/12/30/2022final/" title="2022 开心大于烦恼">
+                        <span class="hidden-mobile">2022 开心大于烦恼</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.4.17/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"zN1E017kYhKuj6GqXHJSbGMb-gzGzoHsz","appKey":"JSwY8PjtA131Y78OHn7kKtio","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <div style="font-size: 0.85rem;"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div> <div style="font-size: 0.85rem;"> <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #d7d8d9;" id="hitokoto">hitokoto</span></a> <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script> </div> <div id="music_div" style="position: fixed; z-index: 100; bottom: 350px; left: 0px;"> <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=100 src="//music.163.com/outchain/player?type=0&id=5426937413&auto=0&height=100"> </iframe> <script src="https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js"></script> <script src="/vvd_js/musicshow.js"></script> </div> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/vvd_js/star.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
