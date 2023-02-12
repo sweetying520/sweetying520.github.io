@@ -24,19 +24,23 @@
   <meta name="author" content="sweetying">
   <meta name="keywords" content="">
   
-    <meta name="description" content="sweetying的个人博客">
+    <meta name="description" content="一、题目描述这是 LeetCode 上的第一百四十一题：环形链表，难度为 简单。 Tag：「哈希表」、「链表」、「双指针」 给你一个链表的头节点 head ，判断链表中是否有环。 如果链表中有某个节点，可以通过连续跟踪 next 指针再次到达，则链表中存在环。 为了表示给定链表中的环，评测系统内部使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。注意：pos 不作为参数进行传递">
 <meta property="og:type" content="article">
 <meta property="og:title" content="环形链表（十七）">
 <meta property="og:url" content="https://sweetying520.github.io/2022/08/21/%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8%EF%BC%88%E5%8D%81%E4%B8%83%EF%BC%89/index.html">
 <meta property="og:site_name" content="sweetying">
-<meta property="og:description" content="sweetying的个人博客">
+<meta property="og:description" content="一、题目描述这是 LeetCode 上的第一百四十一题：环形链表，难度为 简单。 Tag：「哈希表」、「链表」、「双指针」 给你一个链表的头节点 head ，判断链表中是否有环。 如果链表中有某个节点，可以通过连续跟踪 next 指针再次到达，则链表中存在环。 为了表示给定链表中的环，评测系统内部使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。注意：pos 不作为参数进行传递">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/bbd04c93f2c04228aed5ae5cfd52c0f1~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f1ca5ecd6d944bcf87933d4583c738cb~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3347748c8e9d4d82919824984483c20e~tplv-k3u1fbpfcp-watermark.image">
 <meta property="article:published_time" content="2022-08-21T02:42:57.000Z">
-<meta property="article:modified_time" content="2023-02-12T12:04:32.611Z">
+<meta property="article:modified_time" content="2023-02-12T12:05:16.056Z">
 <meta property="article:author" content="sweetying">
 <meta property="article:tag" content="原创">
 <meta property="article:tag" content="数据结构和算法">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/bbd04c93f2c04228aed5ae5cfd52c0f1~tplv-k3u1fbpfcp-watermark.image">
   
   
   
@@ -293,7 +297,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          0 字
+          1.9k 字
         
       </span>
     
@@ -304,7 +308,7 @@
         
         
         
-          1 分钟
+          7 分钟
         
       </span>
     
@@ -420,7 +424,49 @@
             
               <div class="markdown-body">
                 
-                
+                <h2 id="一、题目描述"><a href="#一、题目描述" class="headerlink" title="一、题目描述"></a>一、题目描述</h2><p>这是 LeetCode 上的第一百四十一题：<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/linked-list-cycle/">环形链表</a>，难度为 <strong>简单</strong>。</p>
+<p>Tag：「哈希表」、「链表」、「双指针」</p>
+<p>给你一个链表的头节点 head ，判断链表中是否有环。</p>
+<p>如果链表中有某个节点，可以通过连续跟踪 next 指针再次到达，则链表中存在环。 为了表示给定链表中的环，评测系统内部使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。注意：pos 不作为参数进行传递 。仅仅是为了标识链表的实际情况。</p>
+<p>如果链表中存在环 ，则返回 true 。 否则，返回 false 。</p>
+<p>示例 1：</p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/bbd04c93f2c04228aed5ae5cfd52c0f1~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">输入：<span class="hljs-built_in">head</span> = [3,2,0,-4], pos = 1<br>输出：<span class="hljs-literal">true</span><br>解释：链表中有一个环，其尾部连接到第二个节点。<br></code></pre></td></tr></table></figure>
+
+<p>示例 2：</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f1ca5ecd6d944bcf87933d4583c738cb~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">输入：<span class="hljs-built_in">head</span> = [1,2], pos = 0<br>输出：<span class="hljs-literal">true</span><br>解释：链表中有一个环，其尾部连接到第一个节点。<br></code></pre></td></tr></table></figure>
+
+<p>示例 3：</p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3347748c8e9d4d82919824984483c20e~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">输入： <span class="hljs-built_in">head</span> = [1], pos = -1<br>输出： <span class="hljs-literal">false</span><br>解释： 链表中没有环。<br></code></pre></td></tr></table></figure>
+
+<p><strong>提示：</strong></p>
+<p>1、链表中节点的数目范围是 [0, 104]</p>
+<p>2、-10^5 &lt;&#x3D; Node.val &lt;&#x3D; 10^5<br>3、pos 为 -1 或者链表中的一个 有效索引 。</p>
+<h2 id="二、解题思路"><a href="#二、解题思路" class="headerlink" title="二、解题思路"></a>二、解题思路</h2><p>本题我们使用两种解法：</p>
+<p>1、哈希表</p>
+<p>2、快慢指针</p>
+<h3 id="2-1、法一：哈希表"><a href="#2-1、法一：哈希表" class="headerlink" title="2.1、法一：哈希表"></a>2.1、法一：哈希表</h3><p>最容易想到的方法是遍历所有节点，每次遍历到一个节点时，判断该节点此前是否被访问过。</p>
+<p>具体地，我们可以使用哈希表来存储所有已经访问过的节点。每次我们到达一个节点，如果该节点已经存在于哈希表中，则说明该链表是环形链表，否则就将该节点加入哈希表中。重复这一过程，直到我们遍历完整个链表即可。</p>
+<p>代码实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">hasCycle</span><span class="hljs-params">(ListNode head)</span> &#123;<br>        Set&lt;ListNode&gt; seen = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashSet</span>&lt;ListNode&gt;();<br>        <span class="hljs-keyword">while</span> (head != <span class="hljs-literal">null</span>) &#123;<br>            <span class="hljs-keyword">if</span> (!seen.add(head)) &#123;<br>                <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>            &#125;<br>            head = head.next;<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>复杂度分析：</p>
+<p>1、时间复杂度：O(N)，其中 N 是链表中的节点数。最坏情况下我们需要遍历每个节点一次。</p>
+<p>2、空间复杂度：O(N)，其中 N 是链表中的节点数。主要为哈希表的开销，最坏情况下我们需要将每个节点插入到哈希表中一次。</p>
+<h3 id="2-2、法二：快慢指针"><a href="#2-2、法二：快慢指针" class="headerlink" title="2.2、法二：快慢指针"></a>2.2、法二：快慢指针</h3><p>本方法需要读者对龟兔赛跑算法有所了解。</p>
+<p>假想「乌龟」和「兔子」在链表上移动，「兔子」跑得快，「乌龟」跑得慢。当「乌龟」和「兔子」从链表上的同一个节点开始移动时，如果该链表中没有环，那么「兔子」将一直处于「乌龟」的前方；如果该链表中有环，那么「兔子」会先于「乌龟」进入环，并且一直在环内移动。等到「乌龟」进入环时，由于「兔子」的速度快，它一定会在某个时刻与乌龟相遇，即套了「乌龟」若干圈。</p>
+<p>我们可以根据上述思路来解决本题。具体地，我们定义两个指针，一快一慢。慢指针每次只移动一步，而快指针每次移动两步。初始时，慢指针在位置 head，而快指针在位置 head.next。这样一来，如果在移动的过程中，快指针反过来追上慢指针，就说明该链表为环形链表。否则快指针将到达链表尾部，该链表不为环形链表。</p>
+<p>代码实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">hasCycle</span><span class="hljs-params">(ListNode head)</span> &#123;<br>        <span class="hljs-keyword">if</span> (head == <span class="hljs-literal">null</span> || head.next == <span class="hljs-literal">null</span>) &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>        &#125;<br>        <span class="hljs-type">ListNode</span> <span class="hljs-variable">slow</span> <span class="hljs-operator">=</span> head;<br>        <span class="hljs-type">ListNode</span> <span class="hljs-variable">fast</span> <span class="hljs-operator">=</span> head.next;<br>        <span class="hljs-keyword">while</span> (slow != fast) &#123;<br>            <span class="hljs-keyword">if</span> (fast == <span class="hljs-literal">null</span> || fast.next == <span class="hljs-literal">null</span>) &#123;<br>                <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>            &#125;<br>            slow = slow.next;<br>            fast = fast.next.next;<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>复杂度分析：</p>
+<p>1、时间复杂度：O(N)，其中 N 是链表中的节点数。</p>
+<p>当链表中不存在环时，快指针将先于慢指针到达链表尾部，链表中每个节点至多被访问两次。</p>
+<p>当链表中存在环时，每一轮移动后，快慢指针的距离将减小一。而初始距离为环的长度，因此至多移动 N 轮。</p>
+<p>2、空间复杂度：O(1)。我们只使用了两个指针的额外空间。</p>
+<h2 id="三、总结"><a href="#三、总结" class="headerlink" title="三、总结"></a>三、总结</h2><p>本道算法题难度为简单，我们使用了哈希表和快慢指针两种方式进行了求解</p>
+<p>好了，本篇文章到这里就结束了，感谢你的阅读🤝</p>
+
                 
               </div>
             
