@@ -1596,6 +1596,35 @@
   
   
   <entry>
+    <title>汉明距离（二十三）</title>
+    <link href="/2022/08/27/%E6%B1%89%E6%98%8E%E8%B7%9D%E7%A6%BB%EF%BC%88%E4%BA%8C%E5%8D%81%E4%B8%89%EF%BC%89/"/>
+    <url>/2022/08/27/%E6%B1%89%E6%98%8E%E8%B7%9D%E7%A6%BB%EF%BC%88%E4%BA%8C%E5%8D%81%E4%B8%89%EF%BC%89/</url>
+    
+    <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>汉明距离广泛应用于多个领域。在编码理论中用于错误检测，在信息论中量化字符串之间的差异。<br>两个整数之间的汉明距离是对应位置上数字不同的位数。</p><p>根据以上定义，我们使用异或运算，记为 ^，当且仅当输入位不同时输出为 1</p><p>计算 x 和 y 之间的汉明距离，可以先计算 x ^ y，然后统计结果中等于 1 的位数。</p><h2 id="一、题目描述"><a href="#一、题目描述" class="headerlink" title="一、题目描述"></a>一、题目描述</h2><p>这是 LeetCode 上的第四百六十一题题：<a href="https://leetcode.cn/problems/hamming-distance/">汉明距离</a>，难度为 <strong>简单</strong>。</p><p>Tag：「位运算」</p><p>两个整数之间的 <a href="https://baike.baidu.com/item/%E6%B1%89%E6%98%8E%E8%B7%9D%E7%A6%BB">汉明距离</a> 指的是这两个数字对应二进制位不同的位置的数目。</p><p>给你两个整数 <code>x</code> 和 <code>y</code>，计算并返回它们之间的汉明距离。</p><p>示例 1：</p><figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs dns">输入：x = <span class="hljs-number">1</span>, y = <span class="hljs-number">4</span><br>输出：<span class="hljs-number">2</span><br>解释：<br><span class="hljs-number">1</span>   (<span class="hljs-number">0 0 0 1</span>)<br><span class="hljs-number">4</span>   (<span class="hljs-number">0 1 0 0</span>)<br>       ↑   ↑<br>上面的箭头指出了对应二进制位不同的位置。<br></code></pre></td></tr></table></figure><p>示例 2：</p><figure class="highlight fix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs fix"><span class="hljs-attr">输入：x </span>=<span class="hljs-string"> 3, y = 1</span><br><span class="hljs-string">输出：1</span><br></code></pre></td></tr></table></figure><p><strong>提示：</strong></p><p>1、0 &lt;&#x3D; x, y &lt;&#x3D; 2^31 - 1</p><h2 id="二、解题思路"><a href="#二、解题思路" class="headerlink" title="二、解题思路"></a>二、解题思路</h2><h3 id="法一：内置位计数功能"><a href="#法一：内置位计数功能" class="headerlink" title="法一：内置位计数功能"></a>法一：内置位计数功能</h3><p>大多数编程语言都内置了计算二进制表达中 111 的数量的函数。在工程中，我们应该直接使用内置函数</p><p>代码实现：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">hammingDistance</span><span class="hljs-params">(<span class="hljs-type">int</span> x, <span class="hljs-type">int</span> y)</span> &#123;<br>        <span class="hljs-keyword">return</span> Integer.bitCount(x ^ y);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure><p>复杂度分析：</p><p>1、时间复杂度：O(1)。不同语言的实现方法不一，我们可以近似认为其时间复杂度为 O(1)。</p><p>2、空间复杂度：O(1)。</p><h3 id="法二：移位实现位计数"><a href="#法二：移位实现位计数" class="headerlink" title="法二：移位实现位计数"></a>法二：移位实现位计数</h3><p>在锻炼算法能力时，重复造轮子是不可避免的，也是应当的。因此读者们也需要尝试使用各种方法自己实现几个具有位计数功能的函数。本方法将使用位运算中移位的操作实现位计数功能。</p><p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/73396d4f1b154ef4a4c0bacafb0d833d~tplv-k3u1fbpfcp-watermark.image" alt="image.png"></p><p>具体地，记 s&#x3D;x^y，我们可以不断地检查 s 的最低位，如果最低位为 1，那么令计数器加一，然后我们令 s 整体右移一位，这样 s 的最低位将被舍去，原本的次低位就变成了新的最低位。我们重复这个过程直到 s&#x3D;0 为止。这样计数器中就累计了 s 的二进制表示中 1 的数量。</p><p>代码实现：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">hammingDistance</span><span class="hljs-params">(<span class="hljs-type">int</span> x, <span class="hljs-type">int</span> y)</span> &#123;<br>        <span class="hljs-type">int</span> <span class="hljs-variable">s</span> <span class="hljs-operator">=</span> x ^ y, ret = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">while</span> (s != <span class="hljs-number">0</span>) &#123;<br>            ret += s &amp; <span class="hljs-number">1</span>;<br>            s &gt;&gt;= <span class="hljs-number">1</span>;<br>        &#125;<br>        <span class="hljs-keyword">return</span> ret;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure><p>复杂度分析：</p><p>1、时间复杂度：O(logN)，其中 N 是元素的数据范围，在本题中 logN&#x3D;log2^31&#x3D;31。</p><p>2、空间复杂度：O(1)。</p><h2 id="三、总结"><a href="#三、总结" class="headerlink" title="三、总结"></a>三、总结</h2><p>本道算法题难度为简单，我们使用了系统内置和移位两种方式进行了实现</p><p>好了，本篇文章到这里就结束了，感谢你的阅读🤝</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>数据结构和算法</category>
+      
+      <category>算法</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>原创</tag>
+      
+      <tag>数据结构和算法</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>找到所有数组中消失的数字（二十二）</title>
     <link href="/2022/08/26/%E6%89%BE%E5%88%B0%E6%89%80%E6%9C%89%E6%95%B0%E7%BB%84%E4%B8%AD%E6%B6%88%E5%A4%B1%E7%9A%84%E6%95%B0%E5%AD%97%EF%BC%88%E4%BA%8C%E5%8D%81%E4%BA%8C%EF%BC%89/"/>
     <url>/2022/08/26/%E6%89%BE%E5%88%B0%E6%89%80%E6%9C%89%E6%95%B0%E7%BB%84%E4%B8%AD%E6%B6%88%E5%A4%B1%E7%9A%84%E6%95%B0%E5%AD%97%EF%BC%88%E4%BA%8C%E5%8D%81%E4%BA%8C%EF%BC%89/</url>
