@@ -241,9 +241,9 @@
     
     <categories>
       
-      <category>Android</category>
+      <category>Java</category>
       
-      <category>一篇就够</category>
+      <category>设计模式</category>
       
     </categories>
     
@@ -252,9 +252,11 @@
       
       <tag>原创</tag>
       
-      <tag>Android</tag>
+      <tag>Java</tag>
       
       <tag>一篇就够</tag>
+      
+      <tag>设计模式</tag>
       
     </tags>
     
