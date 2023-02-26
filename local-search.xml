@@ -1598,6 +1598,35 @@
   
   
   <entry>
+    <title>二分查找（三十一）</title>
+    <link href="/2022/09/04/A31-%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%88%E4%B8%89%E5%8D%81%E4%B8%80%EF%BC%89/"/>
+    <url>/2022/09/04/A31-%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%88%E4%B8%89%E5%8D%81%E4%B8%80%EF%BC%89/</url>
+    
+    <content type="html"><![CDATA[<h2 id="一、题目描述"><a href="#一、题目描述" class="headerlink" title="一、题目描述"></a>一、题目描述</h2><p>这是 LeetCode 上的第七百零四题：<a href="https://leetcode.cn/problems/binary-search/description/">二分查找</a>，难度为 <strong>简单</strong>。</p><p>Tag：「数组」、「二分查找」</p><p>给定一个 n 个元素有序的（升序）整型数组 nums 和一个目标值 target  ，写一个函数搜索 nums 中的 target，如果目标值存在返回下标，否则返回 -1。</p><p>示例 1：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">输入: nums = [-<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">3</span>,<span class="hljs-number">5</span>,<span class="hljs-number">9</span>,<span class="hljs-number">12</span>], target = <span class="hljs-number">9</span><br>输出: <span class="hljs-number">4</span><br>解释: <span class="hljs-number">9</span> 出现在 nums 中并且下标为 <span class="hljs-number">4</span><br></code></pre></td></tr></table></figure><p>示例 2：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">输入: nums = [-<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">3</span>,<span class="hljs-number">5</span>,<span class="hljs-number">9</span>,<span class="hljs-number">12</span>], target = <span class="hljs-number">2</span><br>输出: -<span class="hljs-number">1</span><br>解释: <span class="hljs-number">2</span> 不存在 nums 中因此返回 -<span class="hljs-number">1</span><br></code></pre></td></tr></table></figure><p><strong>提示：</strong></p><p>1、你可以假设 nums 中的所有元素是不重复的。</p><p>2、n 将在 [1, 10000]之间。</p><p>3、nums 的每个元素都将在 [-9999, 9999]之间。</p><h2 id="二、解题思路"><a href="#二、解题思路" class="headerlink" title="二、解题思路"></a>二、解题思路</h2><p>在升序数组 nums 中寻找目标值 target，对于特定下标 i，比较 nums[i] 和 target 的大小：</p><blockquote><p>1、如果 nums[i]&#x3D;target，则下标 i 即为要寻找的下标；</p><p>2、如果 nums[i]&gt;target，则 target 只可能在下标 i 的左侧；</p><p>3、如果 nums[i]&lt;target，则 target 只可能在下标 i 的右侧。</p></blockquote><p>基于上述事实，可以在有序数组中使用二分查找寻找目标值。</p><p>二分查找的做法是，定义查找的范围 [left,right]，初始查找范围是整个数组。每次取查找范围的中点 mid，比较 nums[mid] 和 target 的大小，如果相等则 mid 即为要寻找的下标，如果不相等则根据 nums[mid] 和 target 的大小关系将查找范围缩小一半。</p><p>由于每次查找都会将查找范围缩小一半，因此二分查找的时间复杂度是 O(logn)，其中 n 是数组的长度。</p><p>二分查找的条件是查找范围不为空，即 left≤right。如果 target 在数组中，二分查找可以保证找到 target，返回 target 在数组中的下标。如果 target 不在数组中，则当 left&gt;right 时结束查找，返回 −1。</p><p>代码实现：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">search</span><span class="hljs-params">(<span class="hljs-type">int</span>[] nums, <span class="hljs-type">int</span> target)</span> &#123;<br>        <span class="hljs-type">int</span> <span class="hljs-variable">left</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>, right = nums.length - <span class="hljs-number">1</span>;<br>        <span class="hljs-keyword">while</span> (left &lt;= right) &#123;<br>            <span class="hljs-type">int</span> <span class="hljs-variable">mid</span> <span class="hljs-operator">=</span> (right - left) / <span class="hljs-number">2</span> + left;<br>            <span class="hljs-type">int</span> <span class="hljs-variable">num</span> <span class="hljs-operator">=</span> nums[mid];<br>            <span class="hljs-keyword">if</span> (num == target) &#123;<br>                <span class="hljs-keyword">return</span> mid;<br>            &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (num &gt; target) &#123;<br>                right = mid - <span class="hljs-number">1</span>;<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                left = mid + <span class="hljs-number">1</span>;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure><p>复杂度分析</p><p>1、时间复杂度：O(logn)，其中 n 是数组的长度。</p><p>2、空间复杂度：O(1)，仅使用常数个额外的变量</p><h2 id="三、总结"><a href="#三、总结" class="headerlink" title="三、总结"></a>三、总结</h2><p>本道算法题难度为简单，二分查找是一种高效的查询方式，我们应该尽可能多的去使用它</p><p>好了，本篇文章到这里就结束了，感谢你的阅读🤝</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>数据结构和算法</category>
+      
+      <category>算法</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>原创</tag>
+      
+      <tag>数据结构和算法</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>合并二叉树（三十）</title>
     <link href="/2022/09/03/A30-%E5%90%88%E5%B9%B6%E4%BA%8C%E5%8F%89%E6%A0%91%EF%BC%88%E4%B8%89%E5%8D%81%EF%BC%89/"/>
     <url>/2022/09/03/A30-%E5%90%88%E5%B9%B6%E4%BA%8C%E5%8F%89%E6%A0%91%EF%BC%88%E4%B8%89%E5%8D%81%EF%BC%89/</url>
