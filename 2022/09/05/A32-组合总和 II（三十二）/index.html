@@ -24,15 +24,15 @@
   <meta name="author" content="sweetying">
   <meta name="keywords" content="">
   
-    <meta name="description" content="一、题目描述这是 LeetCode 上的第七百零四题：二分查找，难度为 简单。 Tag：「数组」、「二分查找」 给定一个 n 个元素有序的（升序）整型数组 nums 和一个目标值 target  ，写一个函数搜索 nums 中的 target，如果目标值存在返回下标，否则返回 -1。 示例 1： 123输入: nums &#x3D; [-1,0,3,5,9,12], target &#x3D; 9输出: 4解释: 9">
+    <meta name="description" content="一、题目描述这是 LeetCode 上的第四十题：组合总和 II，难度为 中等。 Tag：「数组」、「回溯」 给定一个候选人编号的集合 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。 candidates 中的每个数字在每个组合中只能使用一次 。 注意：解集不能包含重复的组合。  示例 1： 12345678输入: ca">
 <meta property="og:type" content="article">
-<meta property="og:title" content="二分查找（三十一）">
-<meta property="og:url" content="https://sweetying520.github.io/2022/09/04/A31-%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%88%E4%B8%89%E5%8D%81%E4%B8%80%EF%BC%89/index.html">
+<meta property="og:title" content="组合总和 II（三十二）">
+<meta property="og:url" content="https://sweetying520.github.io/2022/09/05/A32-%E7%BB%84%E5%90%88%E6%80%BB%E5%92%8C%20II%EF%BC%88%E4%B8%89%E5%8D%81%E4%BA%8C%EF%BC%89/index.html">
 <meta property="og:site_name" content="sweetying">
-<meta property="og:description" content="一、题目描述这是 LeetCode 上的第七百零四题：二分查找，难度为 简单。 Tag：「数组」、「二分查找」 给定一个 n 个元素有序的（升序）整型数组 nums 和一个目标值 target  ，写一个函数搜索 nums 中的 target，如果目标值存在返回下标，否则返回 -1。 示例 1： 123输入: nums &#x3D; [-1,0,3,5,9,12], target &#x3D; 9输出: 4解释: 9">
+<meta property="og:description" content="一、题目描述这是 LeetCode 上的第四十题：组合总和 II，难度为 中等。 Tag：「数组」、「回溯」 给定一个候选人编号的集合 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。 candidates 中的每个数字在每个组合中只能使用一次 。 注意：解集不能包含重复的组合。  示例 1： 12345678输入: ca">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-09-04T02:42:57.000Z">
-<meta property="article:modified_time" content="2023-02-26T07:42:31.336Z">
+<meta property="article:published_time" content="2022-09-05T02:42:57.000Z">
+<meta property="article:modified_time" content="2023-02-28T02:32:29.302Z">
 <meta property="article:author" content="sweetying">
 <meta property="article:tag" content="原创">
 <meta property="article:tag" content="数据结构和算法">
@@ -40,7 +40,7 @@
   
   
   
-  <title>二分查找（三十一） - sweetying</title>
+  <title>组合总和 II（三十二） - sweetying</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -265,7 +265,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="二分查找（三十一）"></span>
+            <span id="subtitle" data-typed-text="组合总和 II（三十二）"></span>
           
         </div>
 
@@ -281,8 +281,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-09-04 10:42" pubdate>
-          2022年9月4日 上午
+        <time datetime="2022-09-05 10:42" pubdate>
+          2022年9月5日 上午
         </time>
       </span>
     
@@ -293,7 +293,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.3k 字
+          4k 字
         
       </span>
     
@@ -304,7 +304,7 @@
         
         
         
-          5 分钟
+          14 分钟
         
       </span>
     
@@ -415,41 +415,45 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">二分查找（三十一）</h1>
+            <h1 style="display: none">组合总和 II（三十二）</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="一、题目描述"><a href="#一、题目描述" class="headerlink" title="一、题目描述"></a>一、题目描述</h2><p>这是 LeetCode 上的第七百零四题：<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/binary-search/description/">二分查找</a>，难度为 <strong>简单</strong>。</p>
-<p>Tag：「数组」、「二分查找」</p>
-<p>给定一个 n 个元素有序的（升序）整型数组 nums 和一个目标值 target  ，写一个函数搜索 nums 中的 target，如果目标值存在返回下标，否则返回 -1。</p>
+                <h2 id="一、题目描述"><a href="#一、题目描述" class="headerlink" title="一、题目描述"></a>一、题目描述</h2><p>这是 LeetCode 上的第四十题：<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/combination-sum-ii/description/">组合总和 II</a>，难度为 <strong>中等</strong>。</p>
+<p>Tag：「数组」、「回溯」</p>
+<p>给定一个候选人编号的集合 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。</p>
+<p>candidates 中的每个数字在每个组合中只能使用一次 。</p>
+<p>注意：解集不能包含重复的组合。 </p>
 <p>示例 1：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">输入: nums = [-<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">3</span>,<span class="hljs-number">5</span>,<span class="hljs-number">9</span>,<span class="hljs-number">12</span>], target = <span class="hljs-number">9</span><br>输出: <span class="hljs-number">4</span><br>解释: <span class="hljs-number">9</span> 出现在 nums 中并且下标为 <span class="hljs-number">4</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java">输入: candidates = [<span class="hljs-number">10</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">7</span>,<span class="hljs-number">6</span>,<span class="hljs-number">1</span>,<span class="hljs-number">5</span>], target = <span class="hljs-number">8</span>,<br>输出:<br>[<br>[<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">6</span>],<br>[<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">5</span>],<br>[<span class="hljs-number">1</span>,<span class="hljs-number">7</span>],<br>[<span class="hljs-number">2</span>,<span class="hljs-number">6</span>]<br>]<br></code></pre></td></tr></table></figure>
 
 <p>示例 2：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">输入: nums = [-<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">3</span>,<span class="hljs-number">5</span>,<span class="hljs-number">9</span>,<span class="hljs-number">12</span>], target = <span class="hljs-number">2</span><br>输出: -<span class="hljs-number">1</span><br>解释: <span class="hljs-number">2</span> 不存在 nums 中因此返回 -<span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java">输入: candidates = [<span class="hljs-number">2</span>,<span class="hljs-number">5</span>,<span class="hljs-number">2</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>], target = <span class="hljs-number">5</span>,<br>输出:<br>[<br>[<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">2</span>],<br>[<span class="hljs-number">5</span>]<br>]<br></code></pre></td></tr></table></figure>
 
 <p><strong>提示：</strong></p>
-<p>1、你可以假设 nums 中的所有元素是不重复的。</p>
-<p>2、n 将在 [1, 10000]之间。</p>
-<p>3、nums 的每个元素都将在 [-9999, 9999]之间。</p>
-<h2 id="二、解题思路"><a href="#二、解题思路" class="headerlink" title="二、解题思路"></a>二、解题思路</h2><p>在升序数组 nums 中寻找目标值 target，对于特定下标 i，比较 nums[i] 和 target 的大小：</p>
-<blockquote>
-<p>1、如果 nums[i]&#x3D;target，则下标 i 即为要寻找的下标；</p>
-<p>2、如果 nums[i]&gt;target，则 target 只可能在下标 i 的左侧；</p>
-<p>3、如果 nums[i]&lt;target，则 target 只可能在下标 i 的右侧。</p>
-</blockquote>
-<p>基于上述事实，可以在有序数组中使用二分查找寻找目标值。</p>
-<p>二分查找的做法是，定义查找的范围 [left,right]，初始查找范围是整个数组。每次取查找范围的中点 mid，比较 nums[mid] 和 target 的大小，如果相等则 mid 即为要寻找的下标，如果不相等则根据 nums[mid] 和 target 的大小关系将查找范围缩小一半。</p>
-<p>由于每次查找都会将查找范围缩小一半，因此二分查找的时间复杂度是 O(logn)，其中 n 是数组的长度。</p>
-<p>二分查找的条件是查找范围不为空，即 left≤right。如果 target 在数组中，二分查找可以保证找到 target，返回 target 在数组中的下标。如果 target 不在数组中，则当 left&gt;right 时结束查找，返回 −1。</p>
+<p>1、1 &lt;&#x3D; candidates.length &lt;&#x3D; 100</p>
+<p>2、1 &lt;&#x3D; candidates[i] &lt;&#x3D; 50</p>
+<p>3、1 &lt;&#x3D; target &lt;&#x3D; 30</p>
+<h2 id="二、解题思路"><a href="#二、解题思路" class="headerlink" title="二、解题思路"></a>二、解题思路</h2><p>由于我们需要求出所有和为 target 的组合，并且每个数只能使用一次，因此我们可以使用递归 + 回溯的方法来解决这个问题：</p>
+<p>我们用 dfs(pos,rest) 表示递归的函数，其中 pos 表示我们当前递归到了数组 candidates 中的第 pos 个数，而 rest 表示我们还需要选择和为 rest 的数放入列表作为一个组合；</p>
+<p>对于当前的第 pos 个数，我们有两种方法：选或者不选。如果我们选了这个数，那么我们调用 dfs(pos+1,rest−candidates[pos]) 进行递归，注意这里必须满足 rest≥candidates[pos]。如果我们不选这个数，那么我们调用 dfs(pos+1,rest) 进行递归；</p>
+<p>在某次递归开始前，如果 rest 的值为 0，说明我们找到了一个和为 target 的组合，将其放入答案中。每次调用递归函数前，如果我们选了那个数，就需要将其放入列表的末尾，该列表中存储了我们选的所有数。在回溯时，如果我们选了那个数，就要将其从列表的末尾删除。</p>
+<p>上述算法就是一个标准的递归 + 回溯算法，但是它并不适用于本题。这是因为题目描述中规定了解集不能包含重复的组合，而上述的算法中并没有去除重复的组合。</p>
+<p>例如当 candidates&#x3D;[2,2]，target&#x3D;2 时，上述算法会将列表 [2] 放入答案两次。</p>
+<p>因此，我们需要改进上述算法，在求出组合的过程中就进行去重的操作。我们可以考虑将相同的数放在一起进行处理，也就是说，如果数 x 出现了 y 次，那么在递归时一次性地处理它们，即分别调用选择0,1,⋯,y 次 x 的递归函数。这样我们就不会得到重复的组合。具体地：</p>
+<p>我们使用一个哈希映射（HashMap）统计数组 candidates 中每个数出现的次数。在统计完成之后，我们将结果放入一个列表 freq 中，方便后续的递归使用。</p>
+<p>列表 freq 的长度即为数组 candidates 中不同数的个数。其中的每一项对应着哈希映射中的一个键值对，即某个数以及它出现的次数。<br>在递归时，对于当前的第 pos 个数，它的值为 freq[pos][0]，出现的次数为 freq[pos][1]，那么我们可以调用 dfs(pos+1,rest−i×freq[pos][0])，即我们选择了这个数 i 次。这里 i 不能大于这个数出现的次数，并且 i×freq[pos][0] 也不能大于 rest。同时，我们需要将 i 个 freq[pos][0] 放入列表中。</p>
+<p>这样一来，我们就可以不重复地枚举所有的组合了。</p>
+<p>我们还可以进行什么优化（剪枝）呢？一种比较常用的优化方法是，我们将 freq 根据数从小到大排序，这样我们在递归时会先选择小的数，再选择大的数。这样做的好处是，当我们递归到 dfs(pos,rest) 时，如果 freq[pos][0] 已经大于 rest，那么后面还没有递归到的数也都大于 rest，这就说明不可能再选择若干个和为 rest 的数放入列表了。此时，我们就可以直接回溯。</p>
 <p>代码实现：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">search</span><span class="hljs-params">(<span class="hljs-type">int</span>[] nums, <span class="hljs-type">int</span> target)</span> &#123;<br>        <span class="hljs-type">int</span> <span class="hljs-variable">left</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>, right = nums.length - <span class="hljs-number">1</span>;<br>        <span class="hljs-keyword">while</span> (left &lt;= right) &#123;<br>            <span class="hljs-type">int</span> <span class="hljs-variable">mid</span> <span class="hljs-operator">=</span> (right - left) / <span class="hljs-number">2</span> + left;<br>            <span class="hljs-type">int</span> <span class="hljs-variable">num</span> <span class="hljs-operator">=</span> nums[mid];<br>            <span class="hljs-keyword">if</span> (num == target) &#123;<br>                <span class="hljs-keyword">return</span> mid;<br>            &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (num &gt; target) &#123;<br>                right = mid - <span class="hljs-number">1</span>;<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                left = mid + <span class="hljs-number">1</span>;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    List&lt;<span class="hljs-type">int</span>[]&gt; freq = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;<span class="hljs-type">int</span>[]&gt;();<br>    List&lt;List&lt;Integer&gt;&gt; ans = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;List&lt;Integer&gt;&gt;();<br>    List&lt;Integer&gt; sequence = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;Integer&gt;();<br><br>    <span class="hljs-keyword">public</span> List&lt;List&lt;Integer&gt;&gt; <span class="hljs-title function_">combinationSum2</span><span class="hljs-params">(<span class="hljs-type">int</span>[] candidates, <span class="hljs-type">int</span> target)</span> &#123;<br>        Arrays.sort(candidates);<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> num : candidates) &#123;<br>            <span class="hljs-type">int</span> <span class="hljs-variable">size</span> <span class="hljs-operator">=</span> freq.size();<br>            <span class="hljs-keyword">if</span> (freq.isEmpty() || num != freq.get(size - <span class="hljs-number">1</span>)[<span class="hljs-number">0</span>]) &#123;<br>                freq.add(<span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[]&#123;num, <span class="hljs-number">1</span>&#125;);<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                ++freq.get(size - <span class="hljs-number">1</span>)[<span class="hljs-number">1</span>];<br>            &#125;<br>        &#125;<br>        dfs(<span class="hljs-number">0</span>, target);<br>        <span class="hljs-keyword">return</span> ans;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">dfs</span><span class="hljs-params">(<span class="hljs-type">int</span> pos, <span class="hljs-type">int</span> rest)</span> &#123;<br>        <span class="hljs-keyword">if</span> (rest == <span class="hljs-number">0</span>) &#123;<br>            ans.add(<span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;Integer&gt;(sequence));<br>            <span class="hljs-keyword">return</span>;<br>        &#125;<br>        <span class="hljs-keyword">if</span> (pos == freq.size() || rest &lt; freq.get(pos)[<span class="hljs-number">0</span>]) &#123;<br>            <span class="hljs-keyword">return</span>;<br>        &#125;<br><br>        dfs(pos + <span class="hljs-number">1</span>, rest);<br><br>        <span class="hljs-type">int</span> <span class="hljs-variable">most</span> <span class="hljs-operator">=</span> Math.min(rest / freq.get(pos)[<span class="hljs-number">0</span>], freq.get(pos)[<span class="hljs-number">1</span>]);<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">1</span>; i &lt;= most; ++i) &#123;<br>            sequence.add(freq.get(pos)[<span class="hljs-number">0</span>]);<br>            dfs(pos + <span class="hljs-number">1</span>, rest - i * freq.get(pos)[<span class="hljs-number">0</span>]);<br>        &#125;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">1</span>; i &lt;= most; ++i) &#123;<br>            sequence.remove(sequence.size() - <span class="hljs-number">1</span>);<br>        &#125;<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//上述解法我们还可以优化写的更加简洁一点，如下：</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    List&lt;List&lt;Integer&gt;&gt; res = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();<br>    List&lt;Integer&gt; path = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();<br>    <span class="hljs-type">int</span> <span class="hljs-variable">sum</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">public</span> List&lt;List&lt;Integer&gt;&gt; <span class="hljs-title function_">combinationSum2</span><span class="hljs-params">(<span class="hljs-type">int</span>[] candidates, <span class="hljs-type">int</span> target)</span> &#123;<br>        <span class="hljs-comment">// 先进行排序</span><br>        Arrays.sort(candidates);<br>        backtrack(<span class="hljs-number">0</span>, candidates, target);<br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">backtrack</span><span class="hljs-params">(<span class="hljs-type">int</span> start, <span class="hljs-type">int</span>[] candidates, <span class="hljs-type">int</span> target)</span> &#123;<br>        <span class="hljs-keyword">if</span> (sum == target) &#123;<br>            res.add(<span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;(path));<br>            <span class="hljs-keyword">return</span>;<br>        &#125;<br>        <span class="hljs-comment">// 剪枝操作</span><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> start; i &lt; candidates.length &amp;&amp; sum + candidates[i] &lt;= target; ++i) &#123;<br>            <span class="hljs-comment">// 去重</span><br>            <span class="hljs-keyword">if</span> (i &gt; start &amp;&amp; candidates[i] == candidates[i - <span class="hljs-number">1</span>]) <span class="hljs-keyword">continue</span>;<br>            path.add(candidates[i]);<br>            sum += candidates[i];<br>            backtrack(i + <span class="hljs-number">1</span>, candidates, target);<br>            sum -= candidates[i];<br>            path.remove(path.size() - <span class="hljs-number">1</span>);<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>复杂度分析</p>
-<p>1、时间复杂度：O(logn)，其中 n 是数组的长度。</p>
-<p>2、空间复杂度：O(1)，仅使用常数个额外的变量</p>
-<h2 id="三、总结"><a href="#三、总结" class="headerlink" title="三、总结"></a>三、总结</h2><p>本道算法题难度为简单，二分查找是一种高效的查询方式，我们应该尽可能多的去使用它</p>
+<p>1、时间复杂度：O(2^n×n)，其中 n 是数组 candidates 的长度。在大部分递归 + 回溯的题目中，我们无法给出一个严格的渐进紧界，故这里只分析一个较为宽松的渐进上界。在最坏的情况下，数组中的每个数都不相同，那么列表 freq 的长度同样为 n。在递归时，每个位置可以选或不选，如果数组中所有数的和不超过 target，那么 2^n 种组合都会被枚举到；在 target 小于数组中所有数的和时，我们并不能解析地算出满足题目要求的组合的数量，但我们知道每得到一个满足要求的组合，需要 O(n) 的时间将其放入答案中，因此我们将 O(2^n) 与 O(n) 相乘，即可估算出一个宽松的时间复杂度上界。</p>
+<p>由于 O(2^n×n) 在渐进意义下大于排序的时间复杂度 O(nlogn)，因此后者可以忽略不计。</p>
+<p>2、空间复杂度：O(n)。除了存储答案的数组外，我们需要 O(n) 的空间存储列表 freq、递归中存储当前选择的数的列表、以及递归需要的栈。</p>
+<h2 id="三、总结"><a href="#三、总结" class="headerlink" title="三、总结"></a>三、总结</h2><p>本道算法题难度为中等，一个清晰的思路：递归 + 回溯 + 去重。按照这三个点然后在实现的过程中注意细节方能正确的解答出来</p>
 <p>好了，本篇文章到这里就结束了，感谢你的阅读🤝</p>
 
                 
@@ -505,8 +509,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>二分查找（三十一）</div>
-      <div>https://sweetying520.github.io/2022/09/04/A31-二分查找（三十一）/</div>
+      <div>组合总和 II（三十二）</div>
+      <div>https://sweetying520.github.io/2022/09/05/A32-组合总和 II（三十二）/</div>
     </div>
     <div class="license-meta">
       
@@ -518,7 +522,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年9月4日</div>
+          <div>2022年9月5日</div>
         </div>
       
       
@@ -548,9 +552,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/09/05/A32-%E7%BB%84%E5%90%88%E6%80%BB%E5%92%8C%20II%EF%BC%88%E4%B8%89%E5%8D%81%E4%BA%8C%EF%BC%89/" title="组合总和 II（三十二）">
+                      <a href="/2022/09/05/Flutter%E7%B3%BB%E5%88%97%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9A%E8%BF%90%E8%A1%8C%E4%BD%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AAFlutter%E5%BA%94%E7%94%A8/" title="Flutter系列（一）：运行你的第一个Flutter应用">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">组合总和 II（三十二）</span>
+                        <span class="hidden-mobile">Flutter系列（一）：运行你的第一个Flutter应用</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -558,8 +562,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/09/03/A30-%E5%90%88%E5%B9%B6%E4%BA%8C%E5%8F%89%E6%A0%91%EF%BC%88%E4%B8%89%E5%8D%81%EF%BC%89/" title="合并二叉树（三十）">
-                        <span class="hidden-mobile">合并二叉树（三十）</span>
+                      <a href="/2022/09/04/A31-%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%88%E4%B8%89%E5%8D%81%E4%B8%80%EF%BC%89/" title="二分查找（三十一）">
+                        <span class="hidden-mobile">二分查找（三十一）</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
