@@ -31,15 +31,15 @@
 <meta property="og:site_name" content="sweetying">
 <meta property="og:description" content="前言很高兴遇见你~ 在App 黑白化技术实践上篇这篇文章，我们介绍了： 1、App 黑白化实现原理：将 Paint 的饱和度设置为 0，然后进行 View 的绘制 2、App 黑白化两种方案实践：  1、对页面的 DecorView 进行黑白化设置 2、替换页面的内容栏 FramLaout 为黑白化 FrameLayout  3、分析了 App 黑白化两种方案存在的一些问题  1、方案一：Dia">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e55fa56181124b82b4b58ff6815cf745~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309261445849.jpeg">
 <meta property="article:published_time" content="2022-12-09T07:57:18.000Z">
-<meta property="article:modified_time" content="2022-12-10T14:21:19.035Z">
+<meta property="article:modified_time" content="2023-09-26T06:46:27.534Z">
 <meta property="article:author" content="sweetying">
 <meta property="article:tag" content="原创">
 <meta property="article:tag" content="Android">
 <meta property="article:tag" content="App 黑白化">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e55fa56181124b82b4b58ff6815cf745~tplv-k3u1fbpfcp-watermark.image?">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309261445849.jpeg">
   
   
   
@@ -423,7 +423,7 @@
             
               <div class="markdown-body">
                 
-                <p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e55fa56181124b82b4b58ff6815cf745~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload></p>
+                <p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309261445849.jpeg" srcset="/img/loading.gif" lazyload></p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>很高兴遇见你~</p>
 <p>在<a target="_blank" rel="noopener" href="https://juejin.cn/post/7174768835927965733">App 黑白化技术实践上篇</a>这篇文章，我们介绍了：</p>
 <p>1、App 黑白化实现原理：将 Paint 的饱和度设置为 0，然后进行 View 的绘制</p>
@@ -457,10 +457,10 @@
 <p>才能完成上述操作</p>
 <h2 id="一、Hook-介绍"><a href="#一、Hook-介绍" class="headerlink" title="一、Hook 介绍"></a>一、Hook 介绍</h2><h3 id="1-1、什么是-Hook？"><a href="#1-1、什么是-Hook？" class="headerlink" title="1.1、什么是 Hook？"></a>1.1、什么是 Hook？</h3><p>简单理解：<strong>Hook 就是使用代理对象对原始对象进行劫持，插入一段我们自己的逻辑，实现偷梁换柱</strong></p>
 <p>正常调用：</p>
-<img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/339acb0bbac3470faed0fd5a1f3e49de~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="image-20221210162609850.png" width="50%" />
+<img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309261446167.png" srcset="/img/loading.gif" lazyload alt="image-20221210162609850.png" width="50%" />
 
 <p>Hook 调用：</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3e2d4eb88cb6417eb8862a075fde4ed5~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221210162658307.png"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309261446036.png" srcset="/img/loading.gif" lazyload alt="image-20221210162658307.png"></p>
 <h3 id="1-2、怎么进行-Hook？"><a href="#1-2、怎么进行-Hook？" class="headerlink" title="1.2、怎么进行 Hook？"></a>1.2、怎么进行 Hook？</h3><p>Hook 通常是有固定套路的：</p>
 <blockquote>
 <p>1、确认 Hook 点（被劫持的原始对象我们称之为 Hook 点）</p>
@@ -501,7 +501,7 @@
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">class</span> <span class="hljs-title class_">MainActivity</span>: <span class="hljs-type">BaseActivity</span>() &#123;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">val</span> btnHook <span class="hljs-keyword">by</span> lazy &#123;<br>        findViewById&lt;Button&gt;(R.id.btnHook)<br>    &#125;<br><br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">getLayoutId</span><span class="hljs-params">()</span></span>: <span class="hljs-built_in">Int</span> &#123;<br>        <span class="hljs-keyword">return</span> R.layout.activity_main<br>    &#125;<br><br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">initView</span><span class="hljs-params">()</span></span> &#123;<br>        btnHook.setOnClickListener&#123;<br>            Log.d(<span class="hljs-string">&quot;MainActivity&quot;</span>, <span class="hljs-string">&quot;Hello&quot;</span>)<br>        &#125;<br>      	<span class="hljs-comment">//Hook</span><br>        HookSetOnClickListenerHelper.hook(<span class="hljs-keyword">this</span>,btnHook)<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>运行 App，效果如下：</p>
-<img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c484ff858a854e899070c64db3ab9aa1~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="image-20221210182733451.png" width="30%" />
+<img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309261446533.png" srcset="/img/loading.gif" lazyload alt="image-20221210182733451.png" width="30%" />
 
 <p>了解了 Hook，接下来我们就 Hook WindowManagerGlobal 中的 mViews 实现 App 黑白化</p>
 <h2 id="二、Hook-WindowManagerGlobal-中-mViews-实现-App-黑白化"><a href="#二、Hook-WindowManagerGlobal-中-mViews-实现-App-黑白化" class="headerlink" title="二、Hook WindowManagerGlobal 中 mViews 实现 App 黑白化"></a>二、Hook WindowManagerGlobal 中 mViews 实现 App 黑白化</h2><p>我们的思路很明确：</p>
@@ -514,7 +514,7 @@
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">class</span> <span class="hljs-title class_">MyApp</span>: <span class="hljs-type">Application</span>() &#123;<br><br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onCreate</span><span class="hljs-params">()</span></span> &#123;<br>        <span class="hljs-keyword">super</span>.onCreate()<br>      	<span class="hljs-comment">//Hook 全局 App 黑白化</span><br>        GlobalGray.hook()<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>运行 App ，效果验证：</p>
-<img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6553c3c2766c42c0bb2545b9f15340a7~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="ezgif.com-gif-maker.gif" width="30%" />
+<img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309261446753.gif" srcset="/img/loading.gif" lazyload alt="ezgif.com-gif-maker.gif" width="30%" />
 
 <h3 id="2-1、关于视频"><a href="#2-1、关于视频" class="headerlink" title="2.1、关于视频"></a>2.1、关于视频</h3><p>我们这种方案只是针对 WindowManagerGlobal addView 过程中的所有 View 实现黑白化，如果不是这个范畴的则实现不了，例如：SurfaceView</p>
 <p>1、对于普通的 View，Android 中的窗口界面包括多个 View 组成的 View Hierachy 的树形结构，只有最顶层的 DecorView才对 WMS 可见，这个 DecorView 在 WMS 中有一个对应的 WindowState，此时 APP 请求创建 Surface 时，会在SurfaceFlinger 内部建立对应的 Layer。</p>
