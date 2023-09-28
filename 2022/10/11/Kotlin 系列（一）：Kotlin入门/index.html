@@ -31,15 +31,15 @@
 <meta property="og:site_name" content="sweetying">
 <meta property="og:description" content="前言Google 在2017年 I&#x2F;O 大会上宣布，Kotlin 正式成为 Android 的一级开发语言，和 Java 平起平坐，AndroidStudio 也对 Kotlin 进行了全面的支持，两年后，Google 又在2019年 I&#x2F;O 大会上宣布，Kotlin 已经成为 Android 的第一开发语言，虽然说 Java 仍然可以继续使用，但 Google 更加推荐我们">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/448dcf3e2a204e2d8ec6643313775c5c~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281624715.jpeg">
 <meta property="article:published_time" content="2022-10-11T02:50:15.000Z">
-<meta property="article:modified_time" content="2022-10-13T03:05:26.495Z">
+<meta property="article:modified_time" content="2023-09-28T08:26:46.473Z">
 <meta property="article:author" content="sweetying">
 <meta property="article:tag" content="原创">
 <meta property="article:tag" content="Android">
 <meta property="article:tag" content="Kotlin">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/448dcf3e2a204e2d8ec6643313775c5c~tplv-k3u1fbpfcp-watermark.image?">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281624715.jpeg">
   
   
   
@@ -423,7 +423,7 @@
             
               <div class="markdown-body">
                 
-                <p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/448dcf3e2a204e2d8ec6643313775c5c~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload></p>
+                <p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281624715.jpeg" srcset="/img/loading.gif" lazyload></p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Google 在2017年 I&#x2F;O 大会上宣布，Kotlin 正式成为 Android 的一级开发语言，和 Java 平起平坐，AndroidStudio 也对 Kotlin 进行了全面的支持，两年后，Google 又在2019年 I&#x2F;O 大会上宣布，Kotlin 已经成为 Android 的第一开发语言，虽然说 Java 仍然可以继续使用，但 Google 更加推荐我们使用 Kotlin 来开发 Android 应用程序，后续提供的官方 Api 也会优先考虑 Kotlin 版本，而且现在的开发者无论是写技术博客，还是第三方库，基本上都用的Kotlin，外加公司技术演进需要使用到 Kotlin，因此学习 Kotlin 编程是非常重要和紧急的一件事情。</p>
 <h2 id="Kotlin-介绍"><a href="#Kotlin-介绍" class="headerlink" title="Kotlin 介绍"></a>Kotlin 介绍</h2><p>官网对 Kotlin 的介绍：A modern programming languagethat makes developers happier. 翻译过来就是：<strong>Kotlin 是一门让开发者更开心的现代程序设计语言 。</strong> 由 JetBrains 公司开发和设计，它也是一门基于 JVM 的静态语言。</p>
 <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>在学习 Kotlin 的时候我心里会有一些疑问🤔️ ？</p>
@@ -440,7 +440,7 @@
 <p>因为一个类默认可被继承的话，它无法预知子类会如何去实现，因此存在一些未知的风险。类比 val 关键字是同样的道理，在 Java 中，除非你主动给变量声明 final 关键字，否则这个变量就是可变的，随着项目复杂度增加，多人协作开发，你永远不知道一个可变的变量会在什么时候被谁修改了，即使它原本不应该修改，也很难去排查问题。因此 Kotlin 这样的设计是为了让程序更加的健壮，也更符合高质量编码的规范</p>
 <p>下面我们就正式进入到 Kotlin 的学习</p>
 <p><strong>附上一张学习 Kotlin 的思维导图</strong></p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c02ae1fd55784c0593e53afa00fd1fec~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210116114509401"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281624187.png" srcset="/img/loading.gif" lazyload alt="image-20210116114509401"></p>
 <p><strong>注意： Kotlin 现作为 Android 第一开发语言，AndroidStudio 作为 Google 的亲儿子，对 Kotlin 进行了完美的支持，开发提示应有尽有，因此下面所有的演示代码都是跑在 AndroidStudio 上的</strong></p>
 <h2 id="一、变量和函数"><a href="#一、变量和函数" class="headerlink" title="一、变量和函数"></a>一、变量和函数</h2><h3 id="1、变量"><a href="#1、变量" class="headerlink" title="1、变量"></a>1、变量</h3><p>1）、使用 val（value 的简写）关键字来声明一个不可变的变量，也就是只读变量，这种变量初始赋值后就不能重新赋值了，对应 Java 中的 final 变量</p>
 <p>2）、使用 var （variable 的简写）关键字用来声明一个可变的变量，也就是可读写变量，这种变量初始赋初值后仍然可以重新被赋值，对应 Java 中的非 final 变量</p>
@@ -548,7 +548,7 @@
 
 <h2 id="三、面向对象编程"><a href="#三、面向对象编程" class="headerlink" title="三、面向对象编程"></a>三、面向对象编程</h2><p>对于面向对象编程的理解：面向对象的语言是可以创建类的，类是对事物一种的封装，例如人，汽车我们都可以把他们封装成类，类名通常是名词，类中有自己的字段和函数，字段表示该类拥有的属性，通常也是名词，就像人可以拥有姓名和年龄，汽车可以拥有品牌和价格，函数表示该类拥有那些行为，一般为动词，就像人需要吃饭睡觉，汽车可以驾驶和保养，通过这种类的封装，我们就可以在适当的地方创建这些类，然后调用他们的字段和函数来满足实际的编程需求，这就是面向对象编程最基本的思想</p>
 <h3 id="1、类与对象"><a href="#1、类与对象" class="headerlink" title="1、类与对象"></a>1、类与对象</h3><p>我们使用 AndroidStudio 创建一个 Person 类，在弹出的对话框中输入 Person ，选择Class，对话框默认情况下自动选中的是创建一个File，File 通常是用于编写 Kotlin 顶层函数和扩展函数等，如下图：</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/71d1af4be3224b1c8bc6e8b0264aa18b~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210316190225365"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281625732.png" srcset="/img/loading.gif" lazyload alt="image-20210316190225365"></p>
 <p>1）、当我们在类中创建属性的时候，Kotlin 会自动帮我们创建 get 和 set 方法</p>
 <p>2）、Kotlin 中实例化对象和 Java 类似，但是把 new 关键字给去掉了</p>
 <p>3）、一般在类中，我们会用 var 关键字去定义一个属性，因为属性一般是可变的，如果你确定某个属性不需要改变，则用 val</p>
@@ -658,9 +658,9 @@
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">Study</span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">readBooks</span><span class="hljs-params">()</span></span><br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">domeHomework</span><span class="hljs-params">()</span></span>&#123;<br>        println(<span class="hljs-string">&quot;do homework default implementation&quot;</span>)<br>    &#125;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">doStudy</span><span class="hljs-params">(study: <span class="hljs-type">Study</span>)</span></span>&#123;<br>    study.readBooks()<br>    study.domeHomework()<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>上面这段代码是不会出现空指针异常的，如果你尝试向 doStudy 这个方法传递一个 null ，编译器会报错：</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0d3e0d4640674c8cbfb70c4cb81b0ef0~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210317101826003"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281625051.png" srcset="/img/loading.gif" lazyload alt="image-20210317101826003"></p>
 <p>因此这种情况我们就可以使用可空类型，把 Study 改成 Study？，如下图：</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0aeed15a301b4de1b3c6b3f5c43eed42~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210317104058401"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281625139.png" srcset="/img/loading.gif" lazyload alt="image-20210317104058401"></p>
 <p>你会发现虽然调用 doStudy 方法不报错了，但是 doStudy 内部的调用却报错了，因为此时 doStudy 接受一个可空的类型参数，可能会造成内部的空指针， Kotlin 编译器不允许这种情况存在，那么我们进行如下改造就好了：</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">doStudy</span><span class="hljs-params">(study: <span class="hljs-type">Study</span>?)</span></span>&#123;<br>    <span class="hljs-keyword">if</span>(study != <span class="hljs-literal">null</span>)&#123;<br>        study.readBooks()<br>        study.domeHomework()<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
@@ -775,7 +775,7 @@
 <h3 id="2、有趣的运算符重载"><a href="#2、有趣的运算符重载" class="headerlink" title="2、有趣的运算符重载"></a>2、有趣的运算符重载</h3><p>Kotlin 的运算符重载允许我们让任意两个对象进行相加，或者是进行其他更多的运算操作</p>
 <p>1）运算符重载使用的是 operator 关键字，我们只需要在指定函数前面加上 operator 关键字，就可以实现运算符重载的功能了。</p>
 <p>上面所说的指定函数有下面这些，如图：</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/df8ae50fc7cf4799bebe405014069ddd~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210319102601471"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281625052.png" srcset="/img/loading.gif" lazyload alt="image-20210319102601471"></p>
 <p>2）例如我现在要实现两个对象相加的功能，它的语法结构如下：</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Obj</span> &#123;<br>   <span class="hljs-keyword">operator</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">plus</span><span class="hljs-params">(obj: <span class="hljs-type">Obj</span>)</span></span>: Obj&#123;<br>     	<span class="hljs-comment">//do something</span><br>   &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
@@ -811,12 +811,12 @@
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">inline</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">numberPlus</span><span class="hljs-params">(num1: <span class="hljs-type">Int</span>,num2: <span class="hljs-type">Int</span>,func: (<span class="hljs-type">Int</span>,<span class="hljs-type">Int</span>) -&gt; <span class="hljs-type">Int</span>)</span></span>: <span class="hljs-built_in">Int</span>&#123;<br>    <span class="hljs-keyword">val</span> sum = func(num1,num2)<br>    <span class="hljs-keyword">return</span> sum<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>    <span class="hljs-keyword">val</span> num1 = <span class="hljs-number">10</span><br>    <span class="hljs-keyword">val</span> num2 = <span class="hljs-number">20</span><br>    <span class="hljs-keyword">val</span> numberPlus = numberPlus(num1, num2)&#123; num1,num2 -&gt;<br>        num1 + num2<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p><strong>第一步替换过程：Kotlin 编译器会把 Lambda 表达式中的代码替换到函数类型参数调用的地方</strong> ，如下图：</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3d72c3b1f9004f1f8fbea4f3f8353a3b~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210318103738396"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281626657.png" srcset="/img/loading.gif" lazyload alt="image-20210318103738396"></p>
 <p>替换后代码变成了这样：</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">inline</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">numberPlus</span><span class="hljs-params">(num1: <span class="hljs-type">Int</span>,num2: <span class="hljs-type">Int</span>,func: (<span class="hljs-type">Int</span>,<span class="hljs-type">Int</span>) -&gt; <span class="hljs-type">Int</span>)</span></span>: <span class="hljs-built_in">Int</span>&#123;<br>    <span class="hljs-keyword">val</span> sum = num1 + num2<br>    <span class="hljs-keyword">return</span> sum<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>    <span class="hljs-keyword">val</span> num1 = <span class="hljs-number">10</span><br>    <span class="hljs-keyword">val</span> num2 = <span class="hljs-number">20</span><br>    <span class="hljs-keyword">val</span> numberPlus = numberPlus(num1, num2);<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p><strong>第二步替换过程：Kotlin 编译器会把内联函数中的全部代码替换到函数调用的地方</strong> ，如下图： </p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3ed6033ee5354e8e8752ac4255fbb2ce~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210318104214303"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281626540.png" srcset="/img/loading.gif" lazyload alt="image-20210318104214303"></p>
 <p>替换后代码变成了这样：</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>    <span class="hljs-keyword">val</span> num1 = <span class="hljs-number">10</span><br>    <span class="hljs-keyword">val</span> num2 = <span class="hljs-number">20</span><br>    <span class="hljs-keyword">val</span> numberPlus = num1 + num2<br>&#125;<br></code></pre></td></tr></table></figure>
 
@@ -832,7 +832,7 @@
 
 <p>4）、使用 crossinline 关键字保证内联函数的 Lambda 表达式中一定不会使用 return 关键字，但是还是可以使用 return@Method 语法结构进行局部返回，其他方面和内联函数特性一致</p>
 <p>举个使用 crossinline 场景的🌰 ：</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7c7beec9bdbb4e789d1814381accc36f~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210318115342264"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281626997.png" srcset="/img/loading.gif" lazyload alt="image-20210318115342264"></p>
 <p>上面图片中的代码报错了，编译器提示我们的大致原因是：这个地方不能使用 inline ,因为它可能包含非局部的 return 返回，添加 crossinline 修饰符去修饰这个函数类型的参数。</p>
 <p>为啥呢？我们来分析一下：</p>
 <p>我们创建了一个 Runnable 对象，在 Runnable 中的 Lambda 表达式中调用了函数类型参数，Lambda 表达式在编译的时候会被转换成匿名内部类的方式，内联函数允许我们在 Lambda 表达式中使用 return 关键字进行函数返回，但是由于我们是在匿名类中调用的函数类型参数，此时是不可能进行外层调用函数返回的，最多是在匿名函数中进行返回，因此这里就提示了错误，知道了原因那我们使用 crossinline 关键字来修改一下</p>
@@ -883,7 +883,7 @@
 <p>1）、直接将 Java 代码复制到 Kotlin 文件中，AndroidStudio 会出来提示框询问你是否转换</p>
 <p>2）、打开要转换的 Java 文件，在导航栏点击 Code -&gt; Convert Java File to Kotlin File</p>
 <h3 id="Kotlin-代码转-Java-代码"><a href="#Kotlin-代码转-Java-代码" class="headerlink" title="Kotlin 代码转 Java 代码"></a>Kotlin 代码转 Java 代码</h3><p>打开当前需要转换的 Kotlin 文件，在导航栏点击 Tools -&gt; Kotlin -&gt;Show Kotlin Bytecode ，会出来如下界面：</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c0008a17b27f4c8990ad726501654dbd~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210318152946177"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281626880.png" srcset="/img/loading.gif" lazyload alt="image-20210318152946177"></p>
 <p>点击 Decompile 就可以把 Kotlin 字节码文件反编译成 Java 代码了</p>
 <h2 id="十四、总结"><a href="#十四、总结" class="headerlink" title="十四、总结"></a>十四、总结</h2><p>本篇文章很长，我们介绍了 Kotlin 大部分知识点，按照文章开头的思维导图，我们就只剩下 Kotlin 泛型高级特性和 Kotlin 携程没有讲了，这两部分相对来说比较难，咋们后续在来仔细分析。相信你如果从头看到这里，收获一定很多，如果觉得我写得还不错，请给我点个赞吧🤝</p>
 <h3 id="参考和推荐"><a href="#参考和推荐" class="headerlink" title="参考和推荐"></a>参考和推荐</h3><p>[第一行代码 Android 第3版] ：郭神出品，必属精品，对 Kotlin 的讲解写得通俗易懂</p>

@@ -31,16 +31,16 @@
 <meta property="og:site_name" content="sweetying">
 <meta property="og:description" content="前言很高兴遇见你~ 在本系列的上一篇文章中，我们讲了： 1、反编译工具 jadx 的安装与使用  jadx 相当于是 apktool + dex2jar + jd-gui 的结合体，既能反编译代码也能反编译资源，一定程度上提高了我们的开发效率  2、混淆 APK 代码  1、准备了一些类（自定义编写的类，第三方库的类）用于混淆后的效果验证 2、在 app -&gt; build.gradle -">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/fdec2a9e1e244b4cb7345f9bafc0a5e2~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281515440.jpeg">
 <meta property="article:published_time" content="2022-12-03T02:22:00.000Z">
-<meta property="article:modified_time" content="2022-12-04T11:53:42.949Z">
+<meta property="article:modified_time" content="2023-09-28T07:19:02.853Z">
 <meta property="article:author" content="sweetying">
 <meta property="article:tag" content="原创">
 <meta property="article:tag" content="Android">
 <meta property="article:tag" content="Android 逆向">
 <meta property="article:tag" content="反编译">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/fdec2a9e1e244b4cb7345f9bafc0a5e2~tplv-k3u1fbpfcp-watermark.image?">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281515440.jpeg">
   
   
   
@@ -424,7 +424,7 @@
             
               <div class="markdown-body">
                 
-                <p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/fdec2a9e1e244b4cb7345f9bafc0a5e2~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload></p>
+                <p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281515440.jpeg" srcset="/img/loading.gif" lazyload></p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>很高兴遇见你~</p>
 <p>在本系列的上一篇文章中，我们讲了：</p>
 <p>1、反编译工具 jadx 的安装与使用</p>
@@ -450,7 +450,7 @@
 <p>4、Gradle 版本：7.4</p>
 <p>Github Demo 地址：<a target="_blank" rel="noopener" href="https://github.com/sweetying520/codeandnotes/tree/master/Reverse/AndroidReverseDemo">https://github.com/sweetying520/codeandnotes/tree/master/Reverse/AndroidReverseDemo</a></p>
 <h2 id="一、APK-资源混淆"><a href="#一、APK-资源混淆" class="headerlink" title="一、APK 资源混淆"></a>一、APK 资源混淆</h2><p>上篇文章我们对 APK 的代码进行了混淆，但是 APK 资源还是暴露在他人面前：</p>
-<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9e0df929225d433b94b18a6f934fd048~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221203180325392.png"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281515378.png" srcset="/img/loading.gif" lazyload alt="image-20221203180325392.png"></p>
 <p>可以看到：<strong>资源文件可读性很强，我们可以很轻松的去找到想要的资源</strong></p>
 <p>针对这种情况，可以对 APK 的资源进行混淆。那要如何混淆呢？🤔️</p>
 <p>答：使用微信开源的 AndResGuard 框架进行混淆</p>
@@ -467,13 +467,13 @@
 </blockquote>
 <p>2、在 app 的 build.gradle 中添加相关配置</p>
 <p>建议新建一个 gradle 脚本文件，然后在 app 的 build.gradle 中引入该 gradle 脚本，如下图：</p>
-<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/45304d4b9f544a45a5088fb3b2a7bc5f~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221203114342414.png"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281516184.png" srcset="/img/loading.gif" lazyload alt="image-20221203114342414.png"></p>
 <p>3、接着我们对 andresguard.gradle 进行配置，里面写了详细的注释</p>
 <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><code class="hljs groovy">apply <span class="hljs-attr">plugin:</span> <span class="hljs-string">&#x27;AndResGuard&#x27;</span><br><br>andResGuard &#123;<br><br>    <span class="hljs-comment">//1、启用签名。为 true 时，需要配置 signConfig</span><br>    useSign = <span class="hljs-literal">true</span><br>    <span class="hljs-comment">//2、keepRoot 为 true 时，会 keep 住所有资源的原始路径，只混淆资源的名字</span><br>  	<span class="hljs-comment">//实际测试 keepRoot 为 true 和 false 没啥区别</span><br>    keepRoot = <span class="hljs-literal">true</span><br>    <span class="hljs-comment">//3、白名单，指定不被混淆的资源文件，支持通配符，【+】代表 1 个或多个，【?】代表 0 个或 1 个，【*】代表 0 个或多个</span><br>    whiteList = [<br>           <span class="hljs-string">&quot;R.mipmap.ic_launcher&quot;</span><br>    ]<br>    <span class="hljs-comment">//4、配置需要压缩的文件的匹配规则，一般这里不需要动。支持 ? + * 通配符</span><br>    compressFilePattern = [<br>            <span class="hljs-string">&quot;*.png&quot;</span>,<br>            <span class="hljs-string">&quot;*.jpg&quot;</span>,<br>            <span class="hljs-string">&quot;*.jpeg&quot;</span>,<br>            <span class="hljs-string">&quot;*.gif&quot;</span>,<br>    ]<br><br>    <span class="hljs-comment">//5、配置7zip，只需设置 artifact 或 path；支持同时设置，但此时以 path 的值为优先</span><br>    <span class="hljs-comment">//    sevenzip &#123;</span><br>    <span class="hljs-comment">//        //artifact = &#x27;com.tencent.mm:SevenZip:1.2.21&#x27;</span><br>    <span class="hljs-comment">//        //path = &quot;/usr/local/bin/7za&quot;</span><br>    <span class="hljs-comment">//    &#125;</span><br><br>    <span class="hljs-comment">//6、用于 keep 住资源路径的 mapping 文件所在路径不被混淆</span><br>    <span class="hljs-comment">//mappingFile = file(&quot;./resource_mapping.txt&quot;)</span><br><br>    <span class="hljs-comment">//7、启用 7zip 压缩。为true时，useSign 必须为 true</span><br>    <span class="hljs-comment">//use7zip = false</span><br><br>    <span class="hljs-comment">//8、设置这个值，会把 arsc name 列混淆成相同的名字，减少 string 常量池的大小</span><br>    <span class="hljs-comment">//fixedResName = &quot;arg&quot;</span><br><br>    <span class="hljs-comment">//9、为 true 时会合并所有哈希值相同的资源，但请不要过度依赖这个功能去除去冗余资源</span><br>    <span class="hljs-comment">//mergeDuplicatedRes = true</span><br><br>    <span class="hljs-comment">//10、可选，指定生成的apk的保存路径</span><br>    <span class="hljs-comment">// finalApkBackupPath = &quot;$&#123;project.rootDir&#125;/final.apk&quot;</span><br><br>    <span class="hljs-comment">//11、可选: 指定v1签名时生成jar文件的摘要算法，默认值为“SHA-1”</span><br>    <span class="hljs-comment">// digestalg = &quot;SHA-256&quot;</span><br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>4、同步一下项目，就可以进行 resguard 打包了，方式有二：</p>
 <p>1）、使用 Gradle 可视化界面执行相应的任务进行打包：</p>
-<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d4b07280cd244865b90f6cd201a5a054~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221203192409739.png"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281516682.png" srcset="/img/loading.gif" lazyload alt="image-20221203192409739.png"></p>
 <p>如果想打 debug 包，则执行 resguardDebug 。</p>
 <p>如果想打 release 包，则执行 resguardRelease 。</p>
 <p>2）、使用 Gradle 命令进行打包</p>
@@ -481,7 +481,7 @@
 <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-comment">//打 debug 包</span><br>./gradlew resguardDebug<br><br><span class="hljs-comment">//打 release 包</span><br>./gradlew resguardRelease<br></code></pre></td></tr></table></figure>
 
 <p>5、这里我们打 release 包，等待任务执行完成，我们可以在 app的<code>/build/output/apk/release/AndResGuard_&#123;apk_name&#125;/</code>文件夹中找到混淆后的Apk，如下图：</p>
-<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/79cd2ae85777427eac1a4b8bcc83e1a2~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221203193101190.png"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281516549.png" srcset="/img/loading.gif" lazyload alt="image-20221203193101190.png"></p>
 <p>其中：</p>
 <p>1、<strong>app-release_aligned_signed.apk</strong>：为进行对齐混淆并签名过的 apk</p>
 <p>2、<strong>app-release_aligned_unsigned.apk</strong>：为进行对齐混淆但未签名过的 apk</p>
@@ -489,10 +489,10 @@
 <p>2，3 两个包因为没有签名是不能进行安装的，只有 1 能安装</p>
 <p>6、效果展示</p>
 <p>这里我们主要对 1 进行反编译查看，如下图：</p>
-<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3cdcbdcb42274027891216206a02f61c~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221203193839353.png"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281516957.png" srcset="/img/loading.gif" lazyload alt="image-20221203193839353.png"></p>
 <p>可以看到资源文件按照预期效果混淆了。</p>
 <p>另外我们配置的白名单资源没有被混淆，如下图：</p>
-<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/77f7c94e682b4fe99359f2b493cb7757~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221203194509171.png"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281516242.png" srcset="/img/loading.gif" lazyload alt="image-20221203194509171.png"></p>
 <p>至此，AndResGuard 混淆 APK 资源就介绍完了，如果有疑问，可以参考我的 demo 工程。</p>
 <p>接下来我们介绍一下混淆 AAB 资源，在此之前，我们应该先了解一下 AAB 是什么？</p>
 <h2 id="二、AAB-介绍"><a href="#二、AAB-介绍" class="headerlink" title="二、AAB 介绍"></a>二、AAB 介绍</h2><p>上传过应用到 GooglePlay 的同学肯定知道，现在 GooglePlay 强制要求我们上传 .aab 格式的文件，那你心中是否会有一些疑问呢？</p>
@@ -501,28 +501,28 @@
 <p>简介：<a target="_blank" rel="noopener" href="https://developer.android.com/guide/app-bundle">Android app bundle</a></p>
 <p><strong>Tips：.aab 是一种压缩包的格式（只用于上传 GooglePlay），最终用户下载的时候会通过用户手机机型配置的不同，生成一个最适合该配置的 APK，用户最终安装和下载的是 APK 文件</strong></p>
 <h3 id="2-2、AAB-和-APK-区别？"><a href="#2-2、AAB-和-APK-区别？" class="headerlink" title="2.2、AAB 和 APK 区别？"></a>2.2、AAB 和 APK 区别？</h3><p><code>*.aab</code> 和 <code>*.apk</code> 文件的结构对比如下图所示：</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2ef765c4dee14a68b639744e7fe13e32~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281516668.png" srcset="/img/loading.gif" lazyload alt="img"></p>
 <p>从图中可以看出，<code>*.aab</code> 和 <code>*.apk</code> 文件结构明显不同，<code>*.aab</code> 文件中的资源索引文件为 <code>resources.pb</code>，而 <code>*.apk</code> 文件中的资源索引文件为 <code>resources.arsc</code> 文件，二者的结构不同，解析自然也不相同，并且 <code>*.aab</code> 中的文件包含 <code>dynamic feature</code> 目录，所以 <code>*.aab</code> 中需要混淆更多的文件内容。</p>
 <h3 id="2-3、AAB-打包实践"><a href="#2-3、AAB-打包实践" class="headerlink" title="2.3、AAB 打包实践"></a>2.3、AAB 打包实践</h3><h4 id="2-3-1、使用-AndroidStudio-打-AAB-包"><a href="#2-3-1、使用-AndroidStudio-打-AAB-包" class="headerlink" title="2.3.1、使用 AndroidStudio 打 AAB 包"></a>2.3.1、使用 AndroidStudio 打 AAB 包</h4><p>之前我们介绍了如何使用 AndroidStudio 打一个 APK 包，接下来我们介绍一下如何打 AAB 包，流程其实差不多。</p>
 <p>1、选择 AndroidStudio 工具栏的 build，点击 Generate Singed Bundle or Apk</p>
-<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7a5b4931f0dd434690566213a09b2663~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221203203338084.png"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281516497.png" srcset="/img/loading.gif" lazyload alt="image-20221203203338084.png"></p>
 <p>然后选择 Android App Bundle，点击 next</p>
-<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/fe5a3157610c4efbb0beebda117125be~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221203203522968.png"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281516220.png" srcset="/img/loading.gif" lazyload alt="image-20221203203522968.png"></p>
 <p>2、选择签名文件，如果没有则新建一个，我这里已经有了：</p>
-<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f9effe525137416bb33b6606709bc500~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221203203733628.png"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281516355.png" srcset="/img/loading.gif" lazyload alt="image-20221203203733628.png"></p>
 <p>点击 next</p>
 <p>3、选择打 release 包：</p>
-<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a5c616e6622649cebced015db22e2b92~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221203203933035.png"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281517913.png" srcset="/img/loading.gif" lazyload alt="image-20221203203933035.png"></p>
 <p>点击 finish</p>
 <p>经过上面 3 步，如果没啥问题，我们就能成功打一个 AAB 包，如下图：</p>
-<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f1dcb65e42bb4fc2aa8a3f2caea8e0d5~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221203204127859.png"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281517549.png" srcset="/img/loading.gif" lazyload alt="image-20221203204127859.png"></p>
 <p>在 app&#x2F;release&#x2F; 目录下生成了一个 app-release.aab 文件</p>
 <h4 id="2-3-2、将-AAB-安装到手机"><a href="#2-3-2、将-AAB-安装到手机" class="headerlink" title="2.3.2、将 AAB 安装到手机"></a>2.3.2、将 AAB 安装到手机</h4><p>AAB 已经有了，接下来我们就把它安装到手机上。</p>
 <p>我们知道 APK 能直接安装到手机上，但是 AAB 不行，那如果我将 AAB 转成 APK 然后安装到手机是否可行呢？实践一下。</p>
 <p>1、下载 bundletool 工具</p>
 <p>要想将 AAB 转成 APK ，这里我们需要借助 Google 提供的 bundletool 工具</p>
 <p>下载链接：<a target="_blank" rel="noopener" href="https://github.com/google/bundletool/releases">https://github.com/google/bundletool/releases</a></p>
-<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/df991f5799734e458bfa242fe8be8bde~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221203205358585.png"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281517689.png" srcset="/img/loading.gif" lazyload alt="image-20221203205358585.png"></p>
 <p>2、然后通过 <code>bundletool</code> 将 aab 转为一组 apk，也就是 apks，使用如下命令：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs shell">java -jar [ bundletool 文件] build-apks --bundle [ aab 文件] --output [ apks 文件]<br> --ks=[签名文件]<br> --ks-pass=[pass:签名密码]<br> --ks-key-alias=[别名]<br> --key-pass=[pass:别名密码]<br></code></pre></td></tr></table></figure>
 
@@ -530,7 +530,7 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">java -jar bundletool-all-1.13.1.jar build-apks --bundle=app-release.aab --output=app-output.apks --ks=Certificate --ks-pass=pass:erdai666 --ks-key-alias=key0 --key-pass=pass:erdai666<br></code></pre></td></tr></table></figure>
 
 <p>生成的文件如下：</p>
-<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3b1eab6c7fa04fd48847db3bf1e612b7~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221203210544108.png"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281517318.png" srcset="/img/loading.gif" lazyload alt="image-20221203210544108.png"></p>
 <p>3、使用 bundletool 将生成的 app-output.apks 安装到手机，执行如下命令：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">java -jar [ bundletool 文件] install-apks --apks=[ apks 文件]<br></code></pre></td></tr></table></figure>
 
@@ -538,10 +538,10 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">java -jar bundletool-all-1.13.1.jar install-apks --apks=app-output.apks<br></code></pre></td></tr></table></figure>
 
 <p>如果没啥问题，你的手机将会收到一个安装的提示，如下图：</p>
-<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ade54f0f72d14c58ba125480b9b05dd3~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221203211406390.png"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281517735.png" srcset="/img/loading.gif" lazyload alt="image-20221203211406390.png"></p>
 <p>点击安装即可</p>
 <h2 id="三、AAB-资源混淆"><a href="#三、AAB-资源混淆" class="headerlink" title="三、AAB 资源混淆"></a>三、AAB 资源混淆</h2><p>上述 AAB 资源是没有经过混淆的，我们把它拖入 jadx-gui 即可验证这一点：</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d167dae22b1342a1960717a06ecc61f0~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221203211756626.png"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281518637.png" srcset="/img/loading.gif" lazyload alt="image-20221203211756626.png"></p>
 <p>接下来我们使用字节开源的 AabResGuard 框架对 AAB 资源进行混淆。</p>
 <h3 id="3-1、AabResGuard-使用"><a href="#3-1、AabResGuard-使用" class="headerlink" title="3.1、AabResGuard 使用"></a>3.1、AabResGuard 使用</h3><p>Github 地址：<a target="_blank" rel="noopener" href="https://github.com/bytedance/AabResGuard">https://github.com/bytedance/AabResGuard</a></p>
 <p>AabResGuard 和我们上面介绍的 AndResGuard 原理很类似，只不过一个是针对 AAB ，一个是针对 APK。</p>
@@ -554,7 +554,7 @@
 
 <p>2、在 app 的 build.gradle 中添加相关配置</p>
 <p>建议新建一个 gradle 脚本文件，然后在 app 的 build.gradle 中引入该 gradle 脚本，如下图：</p>
-<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/927458573d7b4017878a0cf5ea2bc9e8~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221203215616463.png"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281518855.png" srcset="/img/loading.gif" lazyload alt="image-20221203215616463.png"></p>
 <p>3、接着我们对 aabresguard.gradle 进行配置，里面写了详细的注释</p>
 <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs groovy">apply <span class="hljs-attr">plugin:</span> <span class="hljs-string">&quot;com.bytedance.android.aabResGuard&quot;</span><br><br>aabResGuard &#123;<br>    whiteList = [ <span class="hljs-comment">// 白名单规则</span><br>                  <span class="hljs-string">&quot;R.mipmap.ic_launcher&quot;</span><br>    ]<br>    obfuscatedBundleFileName = <span class="hljs-string">&quot;duplicated-app.aab&quot;</span> <span class="hljs-comment">// 混淆后的文件名称，必须以 `.aab` 结尾</span><br>    mergeDuplicatedRes = <span class="hljs-literal">true</span> <span class="hljs-comment">// 是否允许去除重复资源</span><br>    enableFilterFiles = <span class="hljs-literal">true</span> <span class="hljs-comment">// 是否允许过滤文件</span><br>    filterList = [ <span class="hljs-comment">// 文件过滤规则</span><br>                   <span class="hljs-string">&quot;*/arm64-v8a/*&quot;</span>,<br>                   <span class="hljs-string">&quot;META-INF/*&quot;</span><br>    ]<br>    enableFilterStrings = <span class="hljs-literal">false</span> <span class="hljs-comment">// 过滤文案</span><br>    <span class="hljs-comment">//mappingFile = file(&quot;mapping.txt&quot;).toPath() // 用于增量混淆的 mapping 文件</span><br>    <span class="hljs-comment">//unusedStringPath = file(&quot;unused.txt&quot;).toPath() // 过滤文案列表路径 默认在mapping同目录查找</span><br>    <span class="hljs-comment">//languageWhiteList = [&quot;en&quot;, &quot;zh&quot;] // 保留en,en-xx,zh,zh-xx等语言，其余均删除</span><br>&#125;<br></code></pre></td></tr></table></figure>
 

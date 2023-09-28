@@ -31,17 +31,17 @@
 <meta property="og:site_name" content="sweetying">
 <meta property="og:description" content="前言之前我们介绍了使用顺序存储结构实现顺序表，我们发现虽然顺序表的查询很快，时间复杂度为 O(1)，但是增删的效率是比较低的，因为每一次增删操作都伴随着大量的数据元素移动。这个问题有没有解决方案呢？ 答：有，我们可以使用另外一种存储结构实现线性表：链式存储结构。 一、链表介绍链表是一种物理存储单元上非连续，非顺序的存储结构，其物理结构不能直观的表示数据元素的逻辑顺序，数据元素的逻辑顺序是通过链表中">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/036000ba797c44149f213daf855883b7~tplv-k3u1fbpfcp-watermark.image">
-<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/fc4dc14667fd4c5896304bfc08b117ed~tplv-k3u1fbpfcp-watermark.image">
-<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/149b087164b146268aa71d19f036a7b2~tplv-k3u1fbpfcp-watermark.image">
-<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/196cd5e9b8e742efaccf7c53f3316401~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281553664.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281554244.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281554863.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281554441.png">
 <meta property="article:published_time" content="2022-08-04T02:42:57.000Z">
-<meta property="article:modified_time" content="2023-02-05T15:17:53.302Z">
+<meta property="article:modified_time" content="2023-09-28T07:57:24.954Z">
 <meta property="article:author" content="sweetying">
 <meta property="article:tag" content="原创">
 <meta property="article:tag" content="数据结构和算法">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/036000ba797c44149f213daf855883b7~tplv-k3u1fbpfcp-watermark.image">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281553664.png">
   
   
   
@@ -428,9 +428,9 @@
                 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>之前我们介绍了使用顺序存储结构实现顺序表，我们发现虽然顺序表的查询很快，时间复杂度为 O(1)，但是增删的效率是比较低的，因为每一次增删操作都伴随着大量的数据元素移动。这个问题有没有解决方案呢？</p>
 <p>答：有，我们可以使用另外一种存储结构实现线性表：链式存储结构。</p>
 <h2 id="一、链表介绍"><a href="#一、链表介绍" class="headerlink" title="一、链表介绍"></a>一、链表介绍</h2><p>链表是一种物理存储单元上非连续，非顺序的存储结构，其物理结构不能直观的表示数据元素的逻辑顺序，数据元素的逻辑顺序是通过链表中的指针链接次序实现的。链表由一系列的节点（链表中的每一个元素称为节点）组成，节点可以运行时动态生成，如下图演示：</p>
-<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/036000ba797c44149f213daf855883b7~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221205220501273.png"></p>
-<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/fc4dc14667fd4c5896304bfc08b117ed~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221205220555432.png"></p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/149b087164b146268aa71d19f036a7b2~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221205220714410.png"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281553664.png" srcset="/img/loading.gif" lazyload alt="image-20221205220501273.png"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281554244.png" srcset="/img/loading.gif" lazyload alt="image-20221205220555432.png"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281554863.png" srcset="/img/loading.gif" lazyload alt="image-20221205220714410.png"></p>
 <p>那我们如何使用链表呢？按照面向对象的思想，我们可以设计一个类，来描述节点这个事物，用一个属性描述这个节点存储的元素，用另外一个属性描述这个节点的下一个节点。</p>
 <p><strong>节点 API 设计：</strong></p>
 <table>
@@ -456,7 +456,7 @@
 <p>1、单向链表</p>
 <p>2、双向链表</p>
 <h2 id="二、单向链表"><a href="#二、单向链表" class="headerlink" title="二、单向链表"></a>二、单向链表</h2><p>单向链表是链表的一种，它由多个节点组成，每个节点都由一个数据域和一个指针域组成，数据域用来存储数据，指针域用来指向其后继节点。链表的头节点的数据域不存储数据，指针域指向第一个真正存储数据的节点。</p>
-<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/196cd5e9b8e742efaccf7c53f3316401~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221205215218206.png"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281554441.png" srcset="/img/loading.gif" lazyload alt="image-20221205215218206.png"></p>
 <h3 id="1-1、单向链表-API-设计"><a href="#1-1、单向链表-API-设计" class="headerlink" title="1.1、单向链表 API 设计"></a>1.1、单向链表 API 设计</h3><table>
 <thead>
 <tr>

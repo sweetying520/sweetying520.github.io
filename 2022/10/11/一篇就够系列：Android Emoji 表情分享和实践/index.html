@@ -31,15 +31,15 @@
 <meta property="og:site_name" content="sweetying">
 <meta property="og:description" content="前言很高兴遇见你~ 最近开发了一个 LiveChat 客服聊天的模块，里面涉及到 Emoji 表情，遇到了一些问题，分享下自己的一个解决过程以及关于 Android Emoji 的相关知识点 一、Emoji 表情介绍下面大概介绍一下关于 Emoji 表情： 1、Emoji 是可以被插入文字中的图形符号，它是一个日本语，e 表示”绘”，moji 表示 “文字” ，连在一起就是 “绘文字”，它最早是">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/301a8e00a98440299835b6d3220b110a~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281529196.jpeg">
 <meta property="article:published_time" content="2022-10-11T02:50:54.000Z">
-<meta property="article:modified_time" content="2022-10-13T03:08:00.006Z">
+<meta property="article:modified_time" content="2023-09-28T08:35:10.708Z">
 <meta property="article:author" content="sweetying">
 <meta property="article:tag" content="原创">
 <meta property="article:tag" content="Android">
 <meta property="article:tag" content="一篇就够">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/301a8e00a98440299835b6d3220b110a~tplv-k3u1fbpfcp-watermark.image?">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281529196.jpeg">
   
   
   
@@ -423,7 +423,7 @@
             
               <div class="markdown-body">
                 
-                <p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/301a8e00a98440299835b6d3220b110a~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload></p>
+                <p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281529196.jpeg" srcset="/img/loading.gif" lazyload></p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>很高兴遇见你~</p>
 <p>最近开发了一个 LiveChat 客服聊天的模块，里面涉及到 Emoji 表情，遇到了一些问题，分享下自己的一个解决过程以及关于 Android Emoji 的相关知识点</p>
 <h2 id="一、Emoji-表情介绍"><a href="#一、Emoji-表情介绍" class="headerlink" title="一、Emoji 表情介绍"></a>一、Emoji 表情介绍</h2><p>下面大概介绍一下关于 Emoji 表情：</p>
@@ -434,7 +434,7 @@
 <h2 id="二、需求"><a href="#二、需求" class="headerlink" title="二、需求"></a>二、需求</h2><p>对 Emoji 表情有了一个大概的了解之后，下面讲下产品给我提的一个需求，大概就是：<strong>从 <a target="_blank" rel="noopener" href="http://www.unicode.org/emoji/charts/full-emoji-list.html">http://www.unicode.org/emoji/charts/full-emoji-list.html</a> 这个网站中，筛选一些常用的 Emoji 表情，然后根据 UI 设计稿，实现表情包功能即可</strong></p>
 <p>了解了需求之后，我们就要去思考如何去实现这个功能🤔？</p>
 <p>首先打开这个网站看看，如下图：</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/880be0265dfc4da18cd2e30d6566aa66~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210521105455542"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281529360.png" srcset="/img/loading.gif" lazyload alt="image-20210521105455542"></p>
 <p>从上图我们可以看到：</p>
 <p>1、每个表情的 Unicode 字符</p>
 <p>这里解释一下 Unicode：Unicode 就是统一的字符编码标准，当需要表示一个 Unicode 字符时，通常会用 U+ 然后紧接着一个十六进制的数字来表示，如上图所列举的这些</p>
@@ -446,13 +446,13 @@
 
 <p>经过上述转换，将生成的 String 对象，传递给 TextView，如果是当前设备支持的 Emoji，就可以正常显示了</p>
 <h2 id="四、Emoji-表情实践"><a href="#四、Emoji-表情实践" class="headerlink" title="四、Emoji 表情实践"></a>四、Emoji 表情实践</h2><p>有了思路，就开始撸起柚子干，把筛选出的表情 code 放到一个集合中，然后通过 ViewPager + Fragment + RecyclerView 等一系列控件的配合，实现了 UI 需要的效果，如下图：</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b3a456040f8a4825854a804bdbdc73b4~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210510130326366"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281529478.png" srcset="/img/loading.gif" lazyload alt="image-20210510130326366"></p>
 <p>从上图可以发现一个问题：<strong>有些 Emoji 表情显示出来像一个信封</strong></p>
 <p>原因是当前设备不支持，上面我讲到每一个 Unicode 字符对应一个字体，它会被渲染为图片显示，但是如果当前系统不支持这种字体，那么就会显示出一个信封，而且随着 Android 版本越来越低，这种情况越来越多，这种效果肯定是不行的</p>
 <p>知道了出现的问题和原因，我们就要去想解决方法，这个时候 EmojiCompat 就来了</p>
 <h2 id="五、EmojiCompat-介绍"><a href="#五、EmojiCompat-介绍" class="headerlink" title="五、EmojiCompat 介绍"></a>五、EmojiCompat 介绍</h2><h3 id="1、什么是-EmojiCompat-？"><a href="#1、什么是-EmojiCompat-？" class="headerlink" title="1、什么是 EmojiCompat ？"></a>1、什么是 EmojiCompat ？</h3><p>EmojiCompat 是 Google 官方给我们提供的一个 Emoji 表情兼容库，最低支持到 Android 4.4(Api Level 19) 的系统设备，它可以防止应用中，出现以信封的形式来显示 Emoji，虽然它仅仅只是因为你当前的设备没有这个字体而已。通过 EmojiCompat ，你的设备无需等待 Android 系统更新，就可以获得最新的 Emoji 表情显示效果。</p>
 <p>EmojiCompat 的运行原理如下图所示：</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/269e10afe7234f38bec1d40cb4c86be1~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210510142708101"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281529628.png" srcset="/img/loading.gif" lazyload alt="image-20210510142708101"></p>
 <p>从上图我们可以知道：EmojiCompat 会判断当前设备是否支持这个 Emoji，如果支持则还是使用系统内置的字体加载，如果不支持，则使用 EmojiSpan 来进行替换，从而达到替换渲染的效果</p>
 <h3 id="2、如何使用-EmojiCompat-？"><a href="#2、如何使用-EmojiCompat-？" class="headerlink" title="2、如何使用 EmojiCompat ？"></a>2、如何使用 EmojiCompat ？</h3><p>要使用 EmojiCompat ，我们需要先对其进行初始化，如下：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java">EmojiCompat.init(config);<br><span class="hljs-comment">//EmojiCompat 的 init 方法</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> EmojiCompat <span class="hljs-title function_">init</span><span class="hljs-params">(<span class="hljs-meta">@NonNull</span> <span class="hljs-keyword">final</span> Config config)</span> &#123;<br>    <span class="hljs-keyword">if</span> (sInstance == <span class="hljs-literal">null</span>) &#123;<br>        <span class="hljs-keyword">synchronized</span> (sInstanceLock) &#123;<br>            <span class="hljs-keyword">if</span> (sInstance == <span class="hljs-literal">null</span>) &#123;<br>                sInstance = <span class="hljs-keyword">new</span> <span class="hljs-title class_">EmojiCompat</span>(config);<br>            &#125;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">return</span> sInstance;<br>&#125;<br></code></pre></td></tr></table></figure>
@@ -501,7 +501,7 @@
 
 <p>实际上这些控件的源码里面最终还是会调用 EmojiCompat 的 process 方法对之前的 emoji 字符串做兼容处理，如果 EmojiCompat 初始化失败，这些 EmojiCompat 提供的控件和它继承的控件功能是一样的，仅此而已</p>
 <p>最终我的实现方案就是：<strong>使用可下载字体配置初始化 EmojiCompat，在使用 EmojiCompat 提供的控件替换之前的控件实现了表情包的兼容</strong>，效果如下：</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/451cf961936f4522a18c3b8e29d1feb5~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210526145027221"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281530063.png" srcset="/img/loading.gif" lazyload alt="image-20210526145027221"></p>
 <p>可能你会发现这张效果图和之前那张一些能显示出来的 Emoji 表情效果不一样，这是啥情况呢？</p>
 <p>之前我讲过：EmojiCompat 会判断当前设备是否支持这个 Emoji，如果支持则还是使用系统内置的字体加载，如果不支持，则使用 EmojiSpan 来进行替换，从而达到替换渲染的效果。这是在你没设置 config.setReplaceAll(true) 的情况下，而如果你设置了  config.setReplaceAll(true) ，那么所有的 Emoji 表情都会使用 EmojiSpan 替换并渲染</p>
 <h2 id="六、新的问题"><a href="#六、新的问题" class="headerlink" title="六、新的问题"></a>六、新的问题</h2><p>好了，到了这里似乎就要结束了，我也觉得要结束了，然而测试那边发现还是会有显示问题，原因其实我也猜到了，那就是当前设备没有 GMS 服务</p>
@@ -563,7 +563,7 @@
 <p>3、通过拉取的字体信息构建一个 ByteBuffer 流对象</p>
 <p>4、通过 typeface 和 buffer 构建一个 MetadataRepo 对象并最终回调 onLoaded 方法，初始化成功</p>
 <p>MetadataRepo 解释：实际上 MetadataRepo 就是 EmojiCompat 处理和绘制表情的一个数据仓库，我们可以使用三种方式去构建它：</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4fb9455f949940dd8b2354fb3d1f7a53~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210526191217511"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281530822.png" srcset="/img/loading.gif" lazyload alt="image-20210526191217511"></p>
 <p>从截图中我们可以看到它有三个重载方法：</p>
 <p>1、方式一：传入一个 Typeface 对象和一个 InputStream 流对象</p>
 <p>2、方式二：传入一个  Typeface 对象和一个 ByteBuffer 流对象</p>

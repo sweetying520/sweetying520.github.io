@@ -31,15 +31,15 @@
 <meta property="og:site_name" content="sweetying">
 <meta property="og:description" content="前言很高兴遇见你~ 最近我负责的 LiveChat 客服聊天系统到了自研阶段，类似做一个腾讯 IM 通信 SDK。和后台讨论后，确定数据传输方式使用 Protobuf，简单的介绍下自己的一个使用心得 一、Protobuf 介绍Protobuf 全称：Protocol Buffers，是 Google 推出的一种与平台无关、语言无关、可扩展的轻便高效的序列化数据存储格式，类似于我们常用的 xml">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b8ddd1d4e057458ab3c236644e0ae27c~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281527364.jpeg">
 <meta property="article:published_time" content="2022-10-11T02:50:57.000Z">
-<meta property="article:modified_time" content="2022-10-13T03:08:49.295Z">
+<meta property="article:modified_time" content="2023-09-28T07:29:16.227Z">
 <meta property="article:author" content="sweetying">
 <meta property="article:tag" content="原创">
 <meta property="article:tag" content="Android">
 <meta property="article:tag" content="一篇就够">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b8ddd1d4e057458ab3c236644e0ae27c~tplv-k3u1fbpfcp-watermark.image?">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281527364.jpeg">
   
   
   
@@ -423,7 +423,7 @@
             
               <div class="markdown-body">
                 
-                <p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b8ddd1d4e057458ab3c236644e0ae27c~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload></p>
+                <p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281527364.jpeg" srcset="/img/loading.gif" lazyload></p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>很高兴遇见你~</p>
 <p>最近我负责的 LiveChat 客服聊天系统到了自研阶段，类似做一个腾讯 IM 通信 SDK。和后台讨论后，确定数据传输方式使用 Protobuf，简单的介绍下自己的一个使用心得</p>
 <h2 id="一、Protobuf-介绍"><a href="#一、Protobuf-介绍" class="headerlink" title="一、Protobuf 介绍"></a>一、Protobuf 介绍</h2><p>Protobuf 全称：Protocol Buffers，是 Google 推出的一种与平台无关、语言无关、可扩展的轻便高效的序列化数据存储格式，类似于我们常用的 xml 和 json。</p>
@@ -464,16 +464,16 @@
 <h3 id="2-1、方式一：Github-下载-Protobuf-并安装"><a href="#2-1、方式一：Github-下载-Protobuf-并安装" class="headerlink" title="2.1、方式一：Github 下载 Protobuf 并安装"></a>2.1、方式一：Github 下载 Protobuf 并安装</h3><p><strong>注意</strong>：Protobuf 版本尽量保持前后台一致，这里是后台和我约定的一个版本</p>
 <p>Protobuf Github 下载地址：<a target="_blank" rel="noopener" href="https://github.com/protocolbuffers/protobuf/releases/tag/v3.19.2">https://github.com/protocolbuffers/protobuf/releases/tag/v3.19.2</a></p>
 <p>1、根据自己的系统选择相应的 zip 包：</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8e6590e6d53f442b96f578cd6b78d726~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20220823172254077"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281527331.png" srcset="/img/loading.gif" lazyload alt="image-20220823172254077"></p>
 <p>2、解压并配置环境变量</p>
 <p>以我下载的为例，解压后结构如下：</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7e9e549beafa401cad0ea26b1dcda3b5~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20220823172812299"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281528715.png" srcset="/img/loading.gif" lazyload alt="image-20220823172812299"></p>
 <p>可以看到 bin 目录下有个 protoc 的可执行文件，我们给它配置一下环境变量就可以使用了，以我的为例：</p>
 <figure class="highlight protobuf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs protobuf"># protobuf 环境变量<br>export PROTOBUF_HOME=/Users/zhouying/Downloads/protoc-<span class="hljs-number">3.19</span>.<span class="hljs-number">2</span>-osx-x86_64<br>export PATH=$&#123;PATH&#125;:$&#123;PROTOBUF_HOME&#125;/bin<br></code></pre></td></tr></table></figure>
 
 <p>3、配置好后，使用 protoc –version 验证</p>
 <p>打开终端键入 protoc –version 命令：</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4e0b7da1f5d0489884a6e361977c1888~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20220823174015288"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281528952.png" srcset="/img/loading.gif" lazyload alt="image-20220823174015288"></p>
 <p>可以看到打印出了版本，证明我们安装成功了</p>
 <h3 id="2-2、方式二：brew-安装"><a href="#2-2、方式二：brew-安装" class="headerlink" title="2.2、方式二：brew 安装"></a>2.2、方式二：brew 安装</h3><p>直接使用以下命令就可以一键安装或卸载：</p>
 <figure class="highlight protobuf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs protobuf"><span class="hljs-comment">//一键安装 protobuf</span><br>brew install protobuf<br><br><span class="hljs-comment">//一键卸载 protobuf</span><br>brew uninstall protobuf<br></code></pre></td></tr></table></figure>
@@ -481,12 +481,12 @@
 <p><strong>注意</strong>：这种方式只适用于 Mac 系统，而且安装的 protobuf 为最新版本，因此如果想要使用指定的版本，建议使用方式一</p>
 <h2 id="三、使用-IDE-创建-Protobuf-文件"><a href="#三、使用-IDE-创建-Protobuf-文件" class="headerlink" title="三、使用 IDE 创建 Protobuf 文件"></a>三、使用 IDE 创建 Protobuf 文件</h2><p><strong>注意</strong>：这里我使用的 IDE 是 AndroidStudio</p>
 <p>1、创建一个以 .proto 为后缀的文件，如下图：</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b8b17c40fb4545c4ad25fb481a7be618~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20220823192237038"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281528167.png" srcset="/img/loading.gif" lazyload alt="image-20220823192237038"></p>
 <p>可以看到这个文件前面的 icon 是个文本类型的，而且你在编写代码时，没有任何提示，关键字也没高亮显示，此时我们需要集成一个插件来支持 Protobuf 的编写</p>
 <p>2、集成 Protocol Buffers 插件</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/700811520b5347c994017a72637f2f3b~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20220823192414258"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281528461.png" srcset="/img/loading.gif" lazyload alt="image-20220823192414258"></p>
 <p>当我们集成这个插件后，可以看到文件 icon 和代码高亮的变化，而且还会有语法提示</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3a54b01c63be42c1bcd1ad2038c4495b~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20220823192636386"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281528568.png" srcset="/img/loading.gif" lazyload alt="image-20220823192636386"></p>
 <p>ok，接下来我们就可以愉快的编写 Protobuf 了，但是要怎么写呢😂 ？你是不是还不会 Protobuf 的语法，接着往下看</p>
 <h2 id="四、Protobuf-语法基础"><a href="#四、Protobuf-语法基础" class="headerlink" title="四、Protobuf 语法基础"></a>四、Protobuf 语法基础</h2><p>关于 Protobuf 的语法有很多，我们讲一些常用的</p>
 <h3 id="4-1、Protobuf-常用关键字介绍"><a href="#4-1、Protobuf-常用关键字介绍" class="headerlink" title="4.1、Protobuf 常用关键字介绍"></a>4.1、Protobuf 常用关键字介绍</h3><table>
@@ -668,7 +668,7 @@
 <p>1、Protobuf 中定义集合，就是在你定义好的属性前面加 repeated 关键字</p>
 <p>2、Protobuf 中定义 map 和 Java 类似，只不过 map 是小写的</p>
 <h3 id="4-6、reserved-保留字段"><a href="#4-6、reserved-保留字段" class="headerlink" title="4.6、reserved 保留字段"></a>4.6、reserved 保留字段</h3><p>当我们使用 reserved 关键字指定一个字段编号或字段名为保留字段后，我们就不能去使用它，否则编译器会报错，如下：</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/345fc00ef64c48638750c2de5a2d7b0f~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20220824165406735"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281528748.png" srcset="/img/loading.gif" lazyload alt="image-20220824165406735"></p>
 <p>ok，简单的介绍了 Protobuf 语法后，接下来我们使用 AndroidStudio 将 Protobuf 文件转换为对应的 Java 文件来进行开发</p>
 <h2 id="五、Protobuf-转-Java-文件"><a href="#五、Protobuf-转-Java-文件" class="headerlink" title="五、Protobuf 转 Java 文件"></a>五、Protobuf 转 Java 文件</h2><p>首先我们要明白一点：Protobuf 是一种与平台，语言无关的数据存储格式，因此我们要在其它语言如：Java，Kotlin，Dart 等语言中使用它，则必须将 Protobuf 文件转换为对应平台的语言文件去使用，这里我们以转 Java 文件为例，介绍两种转换的方式：</p>
 <p>1、集成 Protobuf 插件转换</p>
@@ -696,16 +696,16 @@
 <figure class="highlight protobuf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs protobuf"><span class="hljs-comment">//指定 Protobuf 版本</span><br>syntax = <span class="hljs-string">&quot;proto3&quot;</span>;<br><br><span class="hljs-comment">//指定包名</span><br><span class="hljs-keyword">package</span> erdai;<br><br><span class="hljs-comment">//定义一个学生的消息类</span><br><span class="hljs-keyword">message </span><span class="hljs-title class_">Student</span>&#123;<br>  <span class="hljs-comment">//姓名</span><br>  <span class="hljs-type">string</span> name = <span class="hljs-number">1</span>;<br>  <span class="hljs-comment">//年龄</span><br>  <span class="hljs-type">int32</span> age = <span class="hljs-number">2</span>;<br>  <span class="hljs-comment">//邮箱</span><br>  <span class="hljs-type">string</span> email = <span class="hljs-number">3</span>;<br>  <span class="hljs-comment">//课程</span><br>  <span class="hljs-keyword">repeated</span> <span class="hljs-type">string</span> course = <span class="hljs-number">4</span>;<br><br>&#125;<br><br><span class="hljs-comment">//定义一个天气的消息类</span><br><span class="hljs-keyword">message </span><span class="hljs-title class_">Weather</span>&#123;<br>  <span class="hljs-type">int32</span> query = <span class="hljs-number">1</span>;<br><br>  <span class="hljs-comment">//季节</span><br>  <span class="hljs-keyword">enum </span><span class="hljs-title class_">Season</span>&#123;<br>    <span class="hljs-keyword">option</span> allow_alias = <span class="hljs-literal">true</span>;<br>    <span class="hljs-comment">//春</span><br>    SPRING = <span class="hljs-number">0</span>;<br>    <span class="hljs-comment">//夏</span><br>    SUMMER = <span class="hljs-number">1</span>;<br>    <span class="hljs-comment">//秋</span><br>    FALL = <span class="hljs-number">2</span>;<br>    AUTUMN = <span class="hljs-number">2</span>;<br>    <span class="hljs-comment">//冬</span><br>    WINTER = <span class="hljs-number">3</span>;<br>  &#125;<br><br>  Season season = <span class="hljs-number">2</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>编译后，会在 app&#x2F;build&#x2F;generated&#x2F;source&#x2F;proto&#x2F; 目录下生成如下文件：</p>
-<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202208241633803.png" srcset="/img/loading.gif" lazyload alt="image-20220824110842489"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281528649.png" srcset="/img/loading.gif" lazyload alt="image-20220824110842489"></p>
 <p>这种方式会自动给我们生成对应的 Java 类，就是集成的时候麻烦一点</p>
 <h3 id="5-2、使用-protoc-命令行转换"><a href="#5-2、使用-protoc-命令行转换" class="headerlink" title="5.2、使用 protoc 命令行转换"></a>5.2、使用 protoc 命令行转换</h3><p>执行如下命令：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java">protoc --java_out=$&#123;<span class="hljs-string">&quot;你要生成的 Java 文件目录&quot;</span>&#125; $&#123;<span class="hljs-string">&quot;Protobuf 文件位置&quot;</span>&#125;<br><br><span class="hljs-comment">//以我的为例：</span><br>protoc --java_out=./app/src/main/java ./app/src/main/proto/student.proto<br></code></pre></td></tr></table></figure>
 
 <p>生成的文件：</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9d84f8aace4f4fa2a3bc04b6465d5e9c~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20220824112730091"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281528807.png" srcset="/img/loading.gif" lazyload alt="image-20220824112730091"></p>
 <p>这种方式的优点是使用非常简单，但是每一次创建新的 Protobuf 文件都需要执行一下命令</p>
 <h3 id="5-3、生成的-Java-文件介绍"><a href="#5-3、生成的-Java-文件介绍" class="headerlink" title="5.3、生成的 Java 文件介绍"></a>5.3、生成的 Java 文件介绍</h3><p>关于这个类的内容简单介绍下，大家也可以生成后自行看源码，如下图：</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/33a15c47616b447191f4f468e4e6d284~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20220824143229899"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281529260.png" srcset="/img/loading.gif" lazyload alt="image-20220824143229899"></p>
 <p>1、生成的类 StudentOuterClass 有 4 个子类：</p>
 <blockquote>
 <p>Student （实现了 StudentOrBuilder 接口）</p>

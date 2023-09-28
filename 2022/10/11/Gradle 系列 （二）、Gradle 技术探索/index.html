@@ -31,15 +31,15 @@
 <meta property="og:site_name" content="sweetying">
 <meta property="og:description" content="前言很高兴遇见你~ 这又是一个新的系列，关于 Gradle 学习，我所理解的流程如下图：  在本系列的上一篇文章中，我们对 Gradle 的一些基础概念及 Groovy 语法进行了讲解，完成了第一个环节。还没有看过上一篇文章的朋友，建议先去阅读 Gradle 系列 （一）、Gradle相关概念理解，Groovy基础。 今天我们主要介绍环节二：熟悉 Gradle 常用 API，了解 Setting">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/53d3bd66723741b5a9f491bdde66be50~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281611669.jpeg">
 <meta property="article:published_time" content="2022-10-11T02:17:20.000Z">
-<meta property="article:modified_time" content="2022-10-18T09:17:48.392Z">
+<meta property="article:modified_time" content="2023-09-28T08:12:29.337Z">
 <meta property="article:author" content="sweetying">
 <meta property="article:tag" content="原创">
 <meta property="article:tag" content="Android">
 <meta property="article:tag" content="Gradle">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/53d3bd66723741b5a9f491bdde66be50~tplv-k3u1fbpfcp-watermark.image?">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281611669.jpeg">
   
   
   
@@ -423,10 +423,10 @@
             
               <div class="markdown-body">
                 
-                <p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/53d3bd66723741b5a9f491bdde66be50~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload></p>
+                <p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281611669.jpeg" srcset="/img/loading.gif" lazyload></p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>很高兴遇见你~</p>
 <p>这又是一个新的系列，关于 Gradle 学习，我所理解的流程如下图：</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f65d4a418c9f4c209d6eb3d26a452fba~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="Gradle_learning"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281611675.png" srcset="/img/loading.gif" lazyload alt="Gradle_learning"></p>
 <p>在本系列的上一篇文章中，我们对 Gradle 的一些基础概念及 Groovy 语法进行了讲解，完成了第一个环节。还没有看过上一篇文章的朋友，建议先去阅读 <a target="_blank" rel="noopener" href="https://juejin.cn/post/6939662617224937503">Gradle 系列 （一）、Gradle相关概念理解，Groovy基础</a>。</p>
 <p>今天我们主要介绍环节二：熟悉 Gradle 常用 API，了解 Settings，Project，Task 等等。</p>
 <p><a target="_blank" rel="noopener" href="https://github.com/sweetying520/GradleDemo">Github Demo 地址</a> , 大家可以结合 demo 一起看，效果杠杠滴🍺</p>
@@ -450,7 +450,7 @@
 <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-comment">//步骤一：在 settings.gradle 中引入源码工程</span><br>include <span class="hljs-string">&#x27;:test&#x27;</span><br>project(<span class="hljs-string">&#x27;:test&#x27;</span>).projectDir = file(<span class="hljs-string">&#x27;当前工程的绝对路径&#x27;</span>)<br><br><span class="hljs-comment">//步骤二：在根 build.gradle 下进行如下配置</span><br>allprojects &#123;<br>    configurations.all &#123;<br>        resolutionStrategy &#123;<br>            dependencySubstitution &#123;<br>                substitute module(<span class="hljs-string">&quot;com.dream:test&quot;</span>) with project(<span class="hljs-string">&#x27;:test&#x27;</span>)<br>            &#125;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <h5 id="2、Settings"><a href="#2、Settings" class="headerlink" title="2、Settings"></a>2、Settings</h5><p>关于 Settings 的所有属性和方法，如下图：</p>
-<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/353d7348729c4e50bd3ebb0ed107c623~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210707215114352" style="zoom:50%;" />
+<img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281611439.png" srcset="/img/loading.gif" lazyload alt="image-20210707215114352" style="zoom:50%;" />
 
 <p>结合官网提供的文档 <a target="_blank" rel="noopener" href="https://docs.gradle.org/current/javadoc/org/gradle/api/initialization/Settings.html">传送门</a> 去查看，效果杠杠的😄</p>
 <h4 id="2、配置阶段"><a href="#2、配置阶段" class="headerlink" title="2、配置阶段"></a>2、配置阶段</h4><p>Gradle 配置阶段主要就是解析 Project 对象(build.gradle 脚本文件)，构建 Task 有向无环图</p>
@@ -461,7 +461,7 @@
 <p><strong>注意：</strong> 执行任何 Gradle 命令，在初始化阶段和配置阶段的代码都会被执行</p>
 <h4 id="3、执行阶段"><a href="#3、执行阶段" class="headerlink" title="3、执行阶段"></a>3、执行阶段</h4><p>Gradle 执行阶段主要就是执行 Task 及其依赖的 Task</p>
 <h3 id="2）、Gradle-生命周期-Hook-点"><a href="#2）、Gradle-生命周期-Hook-点" class="headerlink" title="2）、Gradle 生命周期 Hook 点"></a>2）、Gradle 生命周期 Hook 点</h3><p>引用 joe_H 一张完整的 Gradle 生命周期图，如下：</p>
-<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/403a1114a8ad4d8bb725224a70dedc5a~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210704212912830" style="zoom:50%;" />
+<img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281611530.png" srcset="/img/loading.gif" lazyload alt="image-20210704212912830" style="zoom:50%;" />
 
 <p>上图对 Gradle 生命周期总结的很到位，我们解析一波：</p>
 <p><strong>注意</strong>：Gradle 执行脚本文件的时候会生成对应的实例，主要有如下三种对象：</p>
@@ -502,7 +502,7 @@
 
 <p>了解了 Gradle 的三个阶段及生命周期，接下来我们就学习 Gradle 的一些核心 API</p>
 <h2 id="二、Project-介绍"><a href="#二、Project-介绍" class="headerlink" title="二、Project 介绍"></a>二、Project 介绍</h2><p>对于一个 Android 项目，build.gradle 脚本文件是我们经常操作的文件之一，而每个 build.gradle 就对应了一个 Project 对象，因此学习好   Project 对应的 API 能帮助我们更好的去操作 build.gradle 脚本文件, 同时也能看懂大佬们所写的一些配置语句。</p>
-<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e9bc9ab568af4fb2af66bcb398926898~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210718164127432" style="zoom:50%;" />
+<img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281611649.png" srcset="/img/loading.gif" lazyload alt="image-20210718164127432" style="zoom:50%;" />
 
 <p>首先看一眼我的项目结构，后续就是基于它来做演示</p>
 <p><strong>注意</strong>：</p>
@@ -735,7 +735,7 @@
 <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-comment">//1、在根 build.gradle 添加如下代码</span><br>buildscript &#123;<br>    repositories &#123;<br>      	<span class="hljs-comment">//...</span><br>        maven&#123;<br>           url <span class="hljs-string">&quot;https://plugins.gradle.org/m2/&quot;</span><br>        &#125;<br>    &#125;<br>    dependencies &#123;<br>      	<span class="hljs-comment">//..</span><br>        classpath <span class="hljs-string">&quot;gradle.plugin.com.dorongold.plugins:task-tree:1.5&quot;</span><br>    &#125;<br>&#125;<br><br><br><span class="hljs-comment">// 2、在 app 的 build.gradle 中应用插件</span><br>apply <span class="hljs-attr">plugin:</span> com.dorongold.gradle.tasktree.TaskTreePlugin<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 3、在命令行中执行：./gradlew &lt;任务名&gt; taskTree --no-repeat 命令即可查看</span><br><span class="hljs-comment"> * 这里以执行 build 这个 task 为例</span><br><span class="hljs-comment"> */</span><br>./gradlew build taskTree --no-repeat<br></code></pre></td></tr></table></figure>
 
 <p>经过上面 3 步，我们看下依赖关系图，仅截取部分：</p>
-<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/86c516a5a77b459da8395072715338d8~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210718114010544" style="zoom:50%;" />
+<img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281612518.png" srcset="/img/loading.gif" lazyload alt="image-20210718114010544" style="zoom:50%;" />
 
 <h3 id="2）、自定义-Task-挂接到-Android-构建流程"><a href="#2）、自定义-Task-挂接到-Android-构建流程" class="headerlink" title="2）、自定义 Task 挂接到 Android 构建流程"></a>2）、自定义 Task 挂接到 Android 构建流程</h3><p>我们知道，Gradle 在执行阶段就是执行 Task 及其依赖的 Task，就比如上面截图的 build Task 的关系依赖图，它会按照这个依赖图有条不紊的去执行。</p>
 <p>那么如果我想把自己自定义的 Task 挂接到这个构建流程，该怎么做呢？</p>
@@ -745,11 +745,11 @@
 
 <p>接下来我们验证一下</p>
 <p>首先看一眼 Task 依赖关系图：</p>
-<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/abf5fd86aaed4ecd818e9df7b0aa8ba1~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210718130023237" style="zoom:50%;" />
+<img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281612796.png" srcset="/img/loading.gif" lazyload alt="image-20210718130023237" style="zoom:50%;" />
 
 <p>我们自定义的 Task 挂接到了 mergeDebugResources 上</p>
 <p>执行下 build 这个 Task，可以发现我们的 Task 被执行了：</p>
-<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4d4a4b36ece04058ba2430def0685a72~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210718130303391" style="zoom:50%;" />
+<img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281612854.png" srcset="/img/loading.gif" lazyload alt="image-20210718130303391" style="zoom:50%;" />
 
 <h5 id="2、通过-finalizedBy-指定"><a href="#2、通过-finalizedBy-指定" class="headerlink" title="2、通过 finalizedBy 指定"></a>2、通过 finalizedBy 指定</h5><p>在某个 Task 执行完成后，指定需要执行的 Task</p>
 <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs groovy">task myCustomTask&#123;<br>    doLast &#123;<br>        println <span class="hljs-string">&#x27;This is myCustomTask&#x27;</span><br>    &#125;<br>&#125;<br><br>afterEvaluate &#123;<br>    <span class="hljs-keyword">def</span> mergeDebugResources = tasks.findByName(<span class="hljs-string">&quot;mergeDebugResources&quot;</span>)<br>    <span class="hljs-comment">//将 myCustomTask 挂接在 mergeDebugResources 后面执行</span><br>    mergeDebugResources.finalizedBy(myCustomTask)<br>&#125;<br></code></pre></td></tr></table></figure>

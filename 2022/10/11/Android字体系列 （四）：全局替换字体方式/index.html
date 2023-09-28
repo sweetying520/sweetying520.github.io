@@ -31,15 +31,15 @@
 <meta property="og:site_name" content="sweetying">
 <meta property="og:description" content="前言很高兴遇见你~ 在本系列的上一篇文章中，我们了解了 Xml 中的字体，还没有看过上一篇文章的朋友，建议先去阅读 Android字体系列 （三）：Xml中的字体，有了前面的基础，接下来我们就看下 Android 中全局替换字体的几种方式 注意：本文所展示的系统源码都是基于Android-30 ，并提取核心部分进行分析  Github Demo 地址 , 大家可以看 Demo 跟随我的思路一起分">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a81428b3b57d46fd953022835fecb19e~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281550573.jpeg">
 <meta property="article:published_time" content="2022-10-11T02:30:59.000Z">
-<meta property="article:modified_time" content="2022-10-13T02:56:47.879Z">
+<meta property="article:modified_time" content="2023-09-28T07:51:11.772Z">
 <meta property="article:author" content="sweetying">
 <meta property="article:tag" content="原创">
 <meta property="article:tag" content="Android">
 <meta property="article:tag" content="Android Font">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a81428b3b57d46fd953022835fecb19e~tplv-k3u1fbpfcp-watermark.image?">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281550573.jpeg">
   
   
   
@@ -423,7 +423,7 @@
             
               <div class="markdown-body">
                 
-                <p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a81428b3b57d46fd953022835fecb19e~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload></p>
+                <p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281550573.jpeg" srcset="/img/loading.gif" lazyload></p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>很高兴遇见你~</p>
 <p>在本系列的上一篇文章中，我们了解了 Xml 中的字体，还没有看过上一篇文章的朋友，建议先去阅读 <a target="_blank" rel="noopener" href="https://juejin.cn/post/6974388756275019812">Android字体系列 （三）：Xml中的字体</a>，有了前面的基础，接下来我们就看下 Android 中全局替换字体的几种方式</p>
 <p><strong>注意：本文所展示的系统源码都是基于Android-30 ，并提取核心部分进行分析</strong></p>
@@ -439,9 +439,9 @@
 <p>2、创建了一个 Activity 基类，并在其中写入字体替换的逻辑</p>
 <p>3、最后让上层 Activity 继承基类 Activity</p>
 <p>逻辑很简单，在看下我们编写的 Xml 的一个效果：</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/92b45198f4a6491f9be4eeb275ac4461~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210616144417422"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281550683.png" srcset="/img/loading.gif" lazyload alt="image-20210616144417422"></p>
 <p>接下来我们运行看下实际替换后的一个效果：</p>
-<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7879ac4a76214c1bad6841f20cd0bf04~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210616144927196" style="zoom:50%;" />
+<img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281550792.png" srcset="/img/loading.gif" lazyload alt="image-20210616144927196" style="zoom:50%;" />
 
 <p>可以看到，字体被替换了。</p>
 <p>现在我们来讨论一下这种方式的优缺点：</p>
@@ -468,7 +468,7 @@
 
 <p><strong>注意</strong>：上面 AppCompatActivity 中设置 Factory 是 android.appcompat  1.1.0 版本，而如果是更高的版本，如 1.3.0，可能设置的地方会有点变化，但是不影响我们设置位置的变化，感兴趣的可以去看下源码，这里你只要知道我们必须在 Activity 的 super.onCreate(savedInstanceState) 之前设置 Factory 就可以了</p>
 <p>运行应用程序，看下几个主要控件的截图打印信息：</p>
-<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d11def9507f94b05bfd95556137142ee~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210616150016885" style="zoom:50%;" />
+<img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281550436.png" srcset="/img/loading.gif" lazyload alt="image-20210616150016885" style="zoom:50%;" />
 
 <p>从 Log 输出可以看出，你所有的 Xml 控件，都会经过 LayoutInflaterFactory.onCreateView 方法走一遍去实现初始化的过程，在其中可以有效的分辨出是什么控件，以及它有什么属性。并且 onCreateView 方法的返回值就是一个 View，因此我们在此处可以对控件进行替换或者做相关的逻辑处理</p>
 <p>到这里，你是否有了全体替换字体的思路了呢？</p>
@@ -481,7 +481,7 @@
 <p>2、判断是系统提供的一些控件，使用 appcompat 系列 View 进行替换</p>
 <p>3、判断是 TextView 或其子类，进行字体的替换</p>
 <p>运行应用程序，最终实现了和方式一一样的效果：</p>
-<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0f36137458d145c3a1847624f1db2c4b~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210616144927196" style="zoom:50%;" />
+<img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281550179.png" srcset="/img/loading.gif" lazyload alt="image-20210616144927196" style="zoom:50%;" />
 
 <h2 id="三、方式三：通过配置应用主题，全局替换默认字体"><a href="#三、方式三：通过配置应用主题，全局替换默认字体" class="headerlink" title="三、方式三：通过配置应用主题，全局替换默认字体"></a>三、方式三：通过配置应用主题，全局替换默认字体</h2><p>这种方式挺简单的，在 application 中，通过 android:theme 来配置一个 App 的主题。一般新创建的项目，都是会有一个默认基础主题。在其中追加关于字体的属性，就可以完成全局默认字体的替换，在主题中我们可以对以下三个属性进行配置：</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">item</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;android:typeface&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">item</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">item</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;android:fontFamily&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">item</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">item</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;android:textStyle&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">item</span>&gt;</span><br></code></pre></td></tr></table></figure>
@@ -500,7 +500,7 @@
 <p>setTypefaceFromAttrs 方法是 TextView 最终设置字体的方法，<strong>当 typeface 和 familyName 都为空，则会根据 typefaceIndex 的值取相应的系统默认字体</strong>。当我们设置  <strong>android:typeface</strong>  属性时，会将对应的属性值赋给 typefaceIndex ，并把 familyName 置为 null，而 typeface 默认为 null，因此满足条件</p>
 <h3 id="2、通过反射修改-Typeface-默认字体"><a href="#2、通过反射修改-Typeface-默认字体" class="headerlink" title="2、通过反射修改 Typeface 默认字体"></a>2、通过反射修改 Typeface 默认字体</h3><p><strong>注意</strong>：Google 在 Android 9.0 及之后对反射做了限制，被使用 <code>@hide</code> 标记的属性和方法通过反射拿不到</p>
 <p>在 Typeface 中，自带的一些默认字体被标记的是 <strong>public static final</strong>，因此这里无需担心反射的限制</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ae1c4453f9f94bc08754628b525bd687~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210618174439624"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281551718.png" srcset="/img/loading.gif" lazyload alt="image-20210618174439624"></p>
 <p>因为在上一步配置的主题中，我们设置的是 serif ，所以这里替换它就好了，完整的方法就是通过反射拿到 Typeface 的默认字体 SERIF，然后使用反射将它修改成我们需要的字体即可：</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs kotlin"><span class="hljs-keyword">object</span> ChangeDefaultFontUtils &#123;<br>    <span class="hljs-keyword">const</span> <span class="hljs-keyword">val</span> NOTO_SANS_BOLD = R.font.noto_sans_bold<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">changeDefaultFont</span><span class="hljs-params">(mContext: <span class="hljs-type">Context</span>)</span></span> &#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-keyword">val</span> typeface = ResourcesCompat.getFont(mContext, NOTO_SANS_BOLD)<br>            <span class="hljs-keyword">val</span> defaultField = Typeface::<span class="hljs-keyword">class</span>.java.getDeclaredField(<span class="hljs-string">&quot;SERIF&quot;</span>)<br>            defaultField.isAccessible = <span class="hljs-literal">true</span><br>            defaultField[<span class="hljs-literal">null</span>] = typeface<br>        &#125; <span class="hljs-keyword">catch</span> (e: Exception) &#123;<br>            e.printStackTrace()<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 

@@ -31,15 +31,15 @@
 <meta property="og:site_name" content="sweetying">
 <meta property="og:description" content="前言很高兴遇见你~ 关于 Gradle 学习，我所理解的流程如下图：  在本系列的上一篇文章中，我们讲了 Gradle 的生命周期及一些常用 API，了解了 Settings，Project，Task 等等，完成了第二个环节。还没有看过上一篇文章的朋友，建议先去阅读 Gradle 系列 （二）、Gradle 技术探索。 今天我们主要介绍环节三：熟悉自定义 Gradle 插件 Gradle 给我们">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/88e8b68394d54c0c958f093127b3ce96~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281614631.jpeg">
 <meta property="article:published_time" content="2022-10-11T02:17:23.000Z">
-<meta property="article:modified_time" content="2022-10-13T03:03:51.854Z">
+<meta property="article:modified_time" content="2023-09-28T08:17:26.177Z">
 <meta property="article:author" content="sweetying">
 <meta property="article:tag" content="原创">
 <meta property="article:tag" content="Android">
 <meta property="article:tag" content="Gradle">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/88e8b68394d54c0c958f093127b3ce96~tplv-k3u1fbpfcp-watermark.image?">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281614631.jpeg">
   
   
   
@@ -423,10 +423,10 @@
             
               <div class="markdown-body">
                 
-                <p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/88e8b68394d54c0c958f093127b3ce96~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload></p>
+                <p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281614631.jpeg" srcset="/img/loading.gif" lazyload></p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>很高兴遇见你~</p>
 <p>关于 Gradle 学习，我所理解的流程如下图：</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c09f872b2165474f81381f51f996cde5~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="Gradle_learning"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281615207.png" srcset="/img/loading.gif" lazyload alt="Gradle_learning"></p>
 <p>在本系列的上一篇文章中，我们讲了 Gradle 的生命周期及一些常用 API，了解了 Settings，Project，Task 等等，完成了第二个环节。还没有看过上一篇文章的朋友，建议先去阅读 <a target="_blank" rel="noopener" href="https://juejin.cn/post/6986191903888769032">Gradle 系列 （二）、Gradle 技术探索</a>。</p>
 <p>今天我们主要介绍环节三：熟悉自定义 Gradle 插件</p>
 <p>Gradle 给我们提供了构建应用的核心功能，但是如果要编译构建 Android 工程，就需要通过 Gradle 插件来实现了，Google 开发了一套 Android Gradle Plugin 插件专门来编译构建 Android 工程。我们在日常开发中也可以自定义 Gradle 插件去完成一些特定的功能</p>
@@ -443,7 +443,7 @@
 <p>然后通过 <code>apply plugin</code> 的方式去引用这个插件</p>
 <p>下面我们就来一一演示一下</p>
 <h2 id="二、脚本插件"><a href="#二、脚本插件" class="headerlink" title="二、脚本插件"></a>二、脚本插件</h2><p>1）、创建一个以 <code>.gradle</code> 为后缀的文件，名字随意取。这里我在根目录下创建了一个 script.gradle 的文件并随意编写了一些逻辑</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/fea94ae1d3d04696960ef930ad82a052~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210721213439960"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281615078.png" srcset="/img/loading.gif" lazyload alt="image-20210721213439960"></p>
 <p>2）、在 build.gradle 中通过 <code>apply from</code> 进行插件的引用，我们可以传入一个绝对路径，也可以传入一个相对路径，如下：</p>
 <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-comment">//当前在 app 的 build.gradle 中</span><br><br><span class="hljs-comment">//相对路径</span><br>apply <span class="hljs-attr">from:</span> <span class="hljs-string">&#x27;../script.gradle&#x27;</span><br><br><span class="hljs-comment">//绝对路径</span><br>apply <span class="hljs-attr">from:</span> rootDir.path + <span class="hljs-string">&#x27;/script.gradle&#x27;</span><br></code></pre></td></tr></table></figure>
 
@@ -464,14 +464,14 @@
 <p>1、创建的 Module 名字一定要是 buildSrc , 不然会找不到插件</p>
 <p>2、buildSrc 的执行时机不仅早于任何⼀个 project（build.gradle），而且也早于 settings.gradle</p>
 <p>3、当你创建一个 buildSrc Module 后（无论是 Java Module 还是 Android Module），Gradle 构建的时候会在 settings.gradle 文件中引入当前 module， 因此它会被执行两遍，这个时候 Gradle 会报如下错误：</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/48731dd12c4d4829940395f69a83e7fa~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210722104436027"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281615163.png" srcset="/img/loading.gif" lazyload alt="image-20210722104436027"></p>
 <p>大致意思是：’buildSrc’ 不能用作项目名，因为它是保留名。因此我们需要删除 settings.gradle 文件中引入的 buildSrc 配置</p>
 <h4 id="2、步骤二"><a href="#2、步骤二" class="headerlink" title="2、步骤二"></a>2、步骤二</h4><p>修改 build.gradle 文件中的内容</p>
 <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-comment">//依赖 groovy 插件，这个是 Gradle 内置的插件</span><br>apply <span class="hljs-attr">plugin:</span> <span class="hljs-string">&#x27;groovy&#x27;</span><br><br><span class="hljs-comment">//引入相关的依赖</span><br>dependencies &#123;<br>    <span class="hljs-comment">//Groovy DSL</span><br>    implementation gradleApi()<br>    <span class="hljs-comment">//Gradle DSL</span><br>    implementation localGroovy()<br>&#125;<br><br><span class="hljs-comment">//引入相关的仓库</span><br>repositories &#123;<br>    mavenCentral()<br>&#125;<br><br><span class="hljs-comment">//指定好相关资源目录，实际上也可以不用指定，AndroidStudio 能够自动识别出来</span><br>sourceSets &#123;<br>    main &#123;<br>        groovy &#123;<br>            srcDir <span class="hljs-string">&#x27;src/main/groovy&#x27;</span><br>        &#125;<br>      <br>      	resources &#123;<br>            srcDir <span class="hljs-string">&#x27;src/main/resources&#x27;</span><br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>修改好后， build 一下项目，这个时候你就能看到 Gradle 把它识别为一个插件目录了</p>
 <h4 id="3、步骤三"><a href="#3、步骤三" class="headerlink" title="3、步骤三"></a>3、步骤三</h4><p>在 src&#x2F;main 下创建 groovy 目录，然后根据自己喜好创建插件代码存放的包路径，编写插件即可，我编写的插件代码如下截图：</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7ad37d5e82334a7298b3b764a4eb78f4~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210722160741350"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281615181.png" srcset="/img/loading.gif" lazyload alt="image-20210722160741350"></p>
 <p><strong>注意：</strong></p>
 <p>1、我这里是用 groovy 语法写的，因此我们需要创建一个 <code>.groovy</code> 为后缀的文件编写插件代码，我创建的是： BuildSrcPlugin.groovy</p>
 <p>2、创建的 groovy 文件里面啥都没有，需要我们手动引入包路径，然后进行相关逻辑编写</p>
@@ -487,7 +487,7 @@
 <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs groovy">apply <span class="hljs-attr">plugin:</span> <span class="hljs-string">&#x27;BuildSrcPlugin&#x27;</span><br></code></pre></td></tr></table></figure>
 
 <p>上面三，四步骤完成后，项目结构如下图：</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2cd9b620154744b5882de52ccd4aae62~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210722143609118"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281615629.png" srcset="/img/loading.gif" lazyload alt="image-20210722143609118"></p>
 <p>这种注册方式比较固定，容易出错，不推荐使用，下面介绍另外一种注册方式</p>
 <h5 id="2、通过-Gradle-配置进行插件注册"><a href="#2、通过-Gradle-配置进行插件注册" class="headerlink" title="2、通过 Gradle 配置进行插件注册"></a>2、通过 Gradle 配置进行插件注册</h5><p>在插件的 build.gradle 中进行如下配置：</p>
 <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-comment">//...</span><br><span class="hljs-comment">//1、引入 java-gradle-plugin 插件</span><br>apply <span class="hljs-attr">plugin:</span> <span class="hljs-string">&#x27;java-gradle-plugin&#x27;</span><br><br><br><span class="hljs-comment">//2、进行插件注册相关的配置</span><br>gradlePlugin &#123;<br>    plugins &#123;<br>        greeting &#123;<br>            <span class="hljs-comment">// 插件id</span><br>            id = <span class="hljs-string">&#x27;BuildSrcPlugin&#x27;</span><br>            <span class="hljs-comment">// 插件实现类</span><br>            implementationClass = <span class="hljs-string">&#x27;com.dream.plugin.BuildSrcPlugin&#x27;</span><br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
@@ -496,7 +496,7 @@
 <p>ok, 经过上面 4 个步骤，我们的插件就编写完成了，接下来直接引用即可，在需要的 build.gradle 进行引用：</p>
 <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-comment">//当前在 app 的 build.gradle 下</span><br><br>apply <span class="hljs-attr">plugin:</span> <span class="hljs-string">&#x27;BuildSrcPlugin&#x27;</span><br><br><span class="hljs-comment">//因为当前插件中的 Task 挂接到了构建流程中的 Task，我们直接运行项目就可以看到打印结果，如下截图</span><br></code></pre></td></tr></table></figure>
 
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/534911a6b92e463588a32874ec3f3548~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210722142743405"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281615563.png" srcset="/img/loading.gif" lazyload alt="image-20210722142743405"></p>
 <p>buildSrc 方式的缺点：<strong>只能在当前工程中使用，其他的项目工程使用不了，那如果我希望编写的插件其他项目也能用，这种方式就做不到了</strong></p>
 <h3 id="3）、在自定义项目下编写"><a href="#3）、在自定义项目下编写" class="headerlink" title="3）、在自定义项目下编写"></a>3）、在自定义项目下编写</h3><p>前面我们讲到，buildSrc 方式的缺点就是只能在当前项目工程下使用，如果要在其他的工程使用，则使用不了。那么这个时候我们就可以采用自定义项目下编写插件，然后把当前插件发布到远程仓库，最后对插件进行引用即可</p>
 <p>类似于 Android Gradle Plugin 的插件引用，如下：</p>
@@ -515,7 +515,7 @@
 <p>因此如果你不想通过自定义项目的方式编写插件，你可以把上传到远程仓库的配置写在 buildSrc 的 build.gradle 里面，然后进行上传</p>
 <p>下面我们就通过自定义项目的方式去编写一个插件</p>
 <h4 id="1、自定义一个-Java-Module，名字任意取"><a href="#1、自定义一个-Java-Module，名字任意取" class="headerlink" title="1、自定义一个 Java Module，名字任意取"></a>1、自定义一个 Java Module，名字任意取</h4><p>我这里自定义了一个 customplugin 的 Java Module，其余步骤和 buildSrc 方式基本一样，唯一的不同就是 build.gradle 这个文件中新增了上传到 Maven 的配置，这里我是上传到本地 Maven</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/842ac9d4e76e4cadb1481ffca307aeeb~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210723155621390"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281615312.png" srcset="/img/loading.gif" lazyload alt="image-20210723155621390"></p>
 <p>看一眼我们的 build.gradle 文件：</p>
 <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><code class="hljs groovy">apply <span class="hljs-attr">plugin:</span> <span class="hljs-string">&#x27;groovy&#x27;</span><br>apply <span class="hljs-attr">plugin:</span> <span class="hljs-string">&#x27;java-gradle-plugin&#x27;</span><br>apply <span class="hljs-attr">plugin:</span> <span class="hljs-string">&#x27;maven&#x27;</span><br><br><br><span class="hljs-comment">//引入相关的依赖</span><br>dependencies &#123;<br>    <span class="hljs-comment">//Groovy DSL</span><br>    implementation gradleApi()<br>    <span class="hljs-comment">//Gradle DSL</span><br>    implementation localGroovy()<br>&#125;<br><br><span class="hljs-comment">//引入相关的仓库</span><br>repositories &#123;<br>    mavenCentral()<br>&#125;<br><br><span class="hljs-comment">//Gradle 配置的方式注册插件</span><br>gradlePlugin &#123;<br>    plugins &#123;<br>        greeting &#123;<br>            <span class="hljs-comment">// 插件id</span><br>            id = <span class="hljs-string">&#x27;CustomPlugin&#x27;</span><br>            <span class="hljs-comment">// 插件实现类</span><br>            implementationClass = <span class="hljs-string">&#x27;com.dream.plugin.CustomPlugin&#x27;</span><br>        &#125;<br>    &#125;<br>&#125;<br><br><br><span class="hljs-comment">//将插件打包上传到本地maven仓库</span><br>uploadArchives &#123;<br>    repositories &#123;<br>        mavenDeployer &#123;<br>            <span class="hljs-comment">//指定 maven 发布三剑客</span><br>            pom.groupId = <span class="hljs-string">&#x27;com.dream&#x27;</span><br>            pom.artifactId = <span class="hljs-string">&#x27;customplugin&#x27;</span><br>            pom.version = <span class="hljs-string">&#x27;1.0.0&#x27;</span><br>            <span class="hljs-comment">//指定本地 maven 仓库的路径，这里我指定的就是当前 Module 目录下</span><br>            repository(<span class="hljs-attr">url:</span> uri(<span class="hljs-string">&#x27;../customplugin&#x27;</span>))<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
@@ -523,14 +523,14 @@
 <p>1、采用了 Gradle 配置的方式进行插件的注册</p>
 <p>2、增加了上传到 maven 本地仓库的配置</p>
 <p>接着看一眼我们的项目结构和编写的插件：</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d3d5d3e543dd4b58851958448fe435e4~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210722201238241"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281615399.png" srcset="/img/loading.gif" lazyload alt="image-20210722201238241"></p>
 <h4 id="2、将当前插件发布到本地-Maven-仓库"><a href="#2、将当前插件发布到本地-Maven-仓库" class="headerlink" title="2、将当前插件发布到本地 Maven 仓库"></a>2、将当前插件发布到本地 Maven 仓库</h4><p>我们可以通过两种方式去操作：</p>
 <blockquote>
 <p>1、执行 <code>./gradlew uploadArchives</code> 命令</p>
 <p>2、在 AndroidStudio 找到 Gradle 可视化界面的 uploadArchives Task 点击发布</p>
 </blockquote>
 <p>如果上传成功，你将看到如下一些文件：</p>
-<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1b1ee1594cad4394be3515a825a4ade6~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210722203228840"  />
+<img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281615127.png" srcset="/img/loading.gif" lazyload alt="image-20210722203228840"  />
 
 <p>上传到本地 Maven 仓库成功后，我们就可以像使用 Android Gradle Plugin 那样使用插件了</p>
 <h4 id="3、插件依赖配置"><a href="#3、插件依赖配置" class="headerlink" title="3、插件依赖配置"></a>3、插件依赖配置</h4><p><strong>注意</strong>：插件依赖就是我们在上传到 Maven 仓库配置的那三剑客，格式为：</p>
@@ -542,7 +542,7 @@
 <p>上述步骤完成之后，我们就可以使用插件了，在需要的 build.gradle 进行引用：</p>
 <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-comment">//当前在 app 的 build.gradle 下</span><br><br>apply <span class="hljs-attr">plugin:</span> <span class="hljs-string">&#x27;CustomPlugin&#x27;</span><br><br><span class="hljs-comment">//因为当前插件中的 Task 挂接到了构建流程中的 Task，我们直接运行项目就可以看到打印结果，如下截图</span><br></code></pre></td></tr></table></figure>
 
-<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/75c517e03ea14ed9812d78d9b867dd32~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210722204535977"  />
+<img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281616263.png" srcset="/img/loading.gif" lazyload alt="image-20210722204535977"  />
 
 <p>至此，关于对象插件的编写及应用就讲的差不多了，接下来讲下如何发布插件到远程仓库</p>
 <h2 id="四、发布插件到远程仓库"><a href="#四、发布插件到远程仓库" class="headerlink" title="四、发布插件到远程仓库"></a>四、发布插件到远程仓库</h2><p>我们常用的远程仓库有：Jcenter，mavenCentral，Maven 私服仓库，JitPack等等</p>
@@ -561,7 +561,7 @@
 <h3 id="2）、发布插件到-JitPack"><a href="#2）、发布插件到-JitPack" class="headerlink" title="2）、发布插件到 JitPack"></a>2）、发布插件到 JitPack</h3><p>之前我写过一篇文章教大家如何上传第三方库到 JitPack <a target="_blank" rel="noopener" href="https://juejin.cn/post/6916061679079915528#heading-9">传送门</a> ，实际上上传插件也是同样的操作</p>
 <h4 id="1、创建好项目并编写-Gradle-插件"><a href="#1、创建好项目并编写-Gradle-插件" class="headerlink" title="1、创建好项目并编写 Gradle 插件"></a>1、创建好项目并编写 Gradle 插件</h4><p>这一步我们已经完成，但是有一个需要注意的地方：</p>
 <p><strong>你的项目名称（根工程的名称）将会作为插件依赖的 artifactId，因此我们在创建项目的时候尽量取一个好点的名字</strong></p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8064a27b3f004af3a40b2f0b99d236c1~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210723155739473"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281616721.png" srcset="/img/loading.gif" lazyload alt="image-20210723155739473"></p>
 <h4 id="2、配置好上传插件并将项目上传至-Github"><a href="#2、配置好上传插件并将项目上传至-Github" class="headerlink" title="2、配置好上传插件并将项目上传至 Github"></a>2、配置好上传插件并将项目上传至 Github</h4><p>上传 JitPack 插件 <a target="_blank" rel="noopener" href="https://github.com/dcendents/android-maven-gradle-plugin">传送门</a></p>
 <p>在根 build.gradle 文件下添加如下插件依赖：</p>
 <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs groovy">buildscript &#123;<br>    <span class="hljs-comment">//...</span><br>    dependencies &#123;<br>      	<span class="hljs-comment">//...</span><br>        <span class="hljs-comment">//上传 JitPack 插件依赖</span><br>        classpath <span class="hljs-string">&#x27;com.github.dcendents:android-maven-gradle-plugin:2.1&#x27;</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
@@ -582,9 +582,9 @@
 <p>2、将你项目仓库 Github 地址放入搜索栏，点击look up，这个时候就会进行编译，如果编译成功，那么就证明你成功的将插件上传到 JitPack 了</p>
 </blockquote>
 <p>下面的 Version 是我之前生成的一些版本</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/48b574c3c1174a9098bafd64fc3a3af1~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210723115443338"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281616322.png" srcset="/img/loading.gif" lazyload alt="image-20210723115443338"></p>
 <p>编译完成后 JitPack 会自动给你生成相关的配置信息，按照如下配置，配置你的项目即可</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/33197a69700d4b1fa42086d21956e364~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210723115812720"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281616837.png" srcset="/img/loading.gif" lazyload alt="image-20210723115812720"></p>
 <p><strong>注意：</strong> 上述截图是教我们如何引用第三方库，而我们上传的是插件，因此按照插件的依赖引入规则即可，如下：</p>
 <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-comment">//当前在根 build.gradle 下</span><br><br>buildscript &#123;<br>    repositories &#123;<br>      	<span class="hljs-comment">//...</span><br><br>        <span class="hljs-comment">//远程 JitPack 仓库地址</span><br>        maven &#123;<br>            url <span class="hljs-string">&#x27;https://jitpack.io&#x27;</span><br>        &#125;<br>    &#125;<br>    dependencies &#123;<br>      	<span class="hljs-comment">//...</span><br>      <br>        <span class="hljs-comment">//引入插件依赖</span><br>        classpath <span class="hljs-string">&#x27;com.github.sweetying520:GradleDemo:1.0.1&#x27;</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
@@ -597,29 +597,29 @@
 <p>1、简单版调试：直接在 AndroidStudio 提供的 Gradle 可视化界面，找到需要调试的 Task，打开可选项，选择 debug 即可</p>
 <p>2、复杂版调试：通过 Gradle 命令结合一些相关的配置开启调试功能</p>
 <h3 id="1）、简单版调试"><a href="#1）、简单版调试" class="headerlink" title="1）、简单版调试"></a>1）、简单版调试</h3><p>直接在 AndroidStudio 提供的 Gradle 可视化界面，找到需要调试的 Task，打开可选项，选择 debug 即可</p>
-<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/beca96f53fb541ad946361f986bd4a6c~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="debug_gradle_simple_use.png"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281616778.png" srcset="/img/loading.gif" lazyload alt="debug_gradle_simple_use.png"></p>
 <p>接下来的步骤就和我们调试 Java 代码是一样的</p>
 <p><strong>注意：</strong> 提前打好断点</p>
 <p>这种方式使用极其简单，推荐使用</p>
 <h3 id="2）、复杂版调试"><a href="#2）、复杂版调试" class="headerlink" title="2）、复杂版调试"></a>2）、复杂版调试</h3><p>通过 Gradle 命令结合一些相关的配置开启调试功能</p>
 <h4 id="1、新增一个-Remote-类型的-Configuration"><a href="#1、新增一个-Remote-类型的-Configuration" class="headerlink" title="1、新增一个 Remote 类型的 Configuration"></a>1、新增一个 Remote 类型的 Configuration</h4><p>第一步：点击图中的 Edit Configurations…</p>
-<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e5eb33347e0b4da49759f67c43601410~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210722150428439" style="zoom:50%;" />
+<img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281616022.png" srcset="/img/loading.gif" lazyload alt="image-20210722150428439" style="zoom:50%;" />
 
 <p>第二步：点击图中 1 的 + 号，选择 2 </p>
-<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2272681c45044c77b9d67f62fd628372~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210722150750481" style="zoom:50%;" />
+<img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281616520.png" srcset="/img/loading.gif" lazyload alt="image-20210722150750481" style="zoom:50%;" />
 
 <p>第三步：1 中的名字随意取，然后点击 2 ，即可完成  Remote 类型 Configuration 的创建</p>
-<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/84ede40ea66c4915808bbc3b436742cc~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210722151029556" style="zoom:50%;" />
+<img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281617073.png" srcset="/img/loading.gif" lazyload alt="image-20210722151029556" style="zoom:50%;" />
 
 <p>第四步：切换到刚才创建的 erdai Configuration</p>
-<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6ff3fe29e49142bba44e9b949598b00a~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210722151407226" style="zoom:50%;" />
+<img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281617019.png" srcset="/img/loading.gif" lazyload alt="image-20210722151407226" style="zoom:50%;" />
 
 <h4 id="2、执行-Gradle-命令：-gradlew-需要执行的Task-Dorg-gradle-debug-true-no-daemon"><a href="#2、执行-Gradle-命令：-gradlew-需要执行的Task-Dorg-gradle-debug-true-no-daemon" class="headerlink" title="2、执行 Gradle 命令：./gradlew 需要执行的Task -Dorg.gradle.debug=true --no-daemon"></a>2、执行 Gradle 命令：<code>./gradlew 需要执行的Task -Dorg.gradle.debug=true --no-daemon</code></h4><p>以执行 assembleDebug 这个 task 为例：</p>
 <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs groovy">./gradlew assembleDebug -Dorg.gradle.debug=<span class="hljs-literal">true</span> --no-daemon<br></code></pre></td></tr></table></figure>
 
 <p>此时我们的命令会进入一个锁定状态，等待我们进行下一步操作，如下图：</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8cd10b40fc3943b49ca49e382be442aa~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210722152335257"></p>
-<h4 id="3、打好图中-1-的断点，点击-2-的-debug-按钮，就可以进行愉快的调试了"><a href="#3、打好图中-1-的断点，点击-2-的-debug-按钮，就可以进行愉快的调试了" class="headerlink" title="3、打好图中 1 的断点，点击 2 的 debug 按钮，就可以进行愉快的调试了"></a>3、打好图中 1 的断点，点击 2 的 debug 按钮，就可以进行愉快的调试了</h4><p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/379fcb2762e949beaab3dbe0f65e0204~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210722152553072"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281617631.png" srcset="/img/loading.gif" lazyload alt="image-20210722152335257"></p>
+<h4 id="3、打好图中-1-的断点，点击-2-的-debug-按钮，就可以进行愉快的调试了"><a href="#3、打好图中-1-的断点，点击-2-的-debug-按钮，就可以进行愉快的调试了" class="headerlink" title="3、打好图中 1 的断点，点击 2 的 debug 按钮，就可以进行愉快的调试了"></a>3、打好图中 1 的断点，点击 2 的 debug 按钮，就可以进行愉快的调试了</h4><p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281617823.png" srcset="/img/loading.gif" lazyload alt="image-20210722152553072"></p>
 <p>接下来的步骤就和我们调试 Java 代码是一样的。这种方式稍微复杂一点</p>
 <h2 id="六、总结"><a href="#六、总结" class="headerlink" title="六、总结"></a>六、总结</h2><p>本篇文章讲的一些重点内容：</p>
 <p>1、脚本插件的定义与使用</p>

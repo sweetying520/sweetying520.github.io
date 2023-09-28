@@ -31,16 +31,16 @@
 <meta property="og:site_name" content="sweetying">
 <meta property="og:description" content="前言很高兴遇见你~ 日常开发中，我们可能需要反编译 apk 去查看或分析一些问题，如： 1、这个 app 效果挺酷的啊，怎么实现的呢？此时你就可以反编译看下它的布局和代码实现 2、这个 app 里面的资源挺多的啊，我想拿过来用，此时你就可以反编译去拿这个 app 里面的资源 3、使用 aop 在一个类里面插入了一些代码，想验证一下，此时你就可以反编译查看是否按照你的预期插入了代码 4、我想改吧改">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3ab04bb7513747959b3401bd60266181~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281542784.jpeg">
 <meta property="article:published_time" content="2022-10-21T07:42:55.000Z">
-<meta property="article:modified_time" content="2022-10-24T15:57:51.297Z">
+<meta property="article:modified_time" content="2023-09-28T07:45:33.372Z">
 <meta property="article:author" content="sweetying">
 <meta property="article:tag" content="原创">
 <meta property="article:tag" content="Android">
 <meta property="article:tag" content="Android 逆向">
 <meta property="article:tag" content="反编译">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3ab04bb7513747959b3401bd60266181~tplv-k3u1fbpfcp-watermark.image?">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281542784.jpeg">
   
   
   
@@ -424,7 +424,7 @@
             
               <div class="markdown-body">
                 
-                <p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3ab04bb7513747959b3401bd60266181~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload></p>
+                <p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281542784.jpeg" srcset="/img/loading.gif" lazyload></p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>很高兴遇见你~</p>
 <p>日常开发中，我们可能需要反编译 apk 去查看或分析一些问题，如：</p>
 <p>1、这个 app 效果挺酷的啊，怎么实现的呢？此时你就可以反编译看下它的布局和代码实现</p>
@@ -434,23 +434,23 @@
 <p>上面列举的 4 种场景基本可以覆盖我们日常开发中遇到的问题了，接下来我们就正式进入 APK 反编译技术的讲解</p>
 <p><strong>注意</strong>：下面演示均是在 mac 下进行</p>
 <h2 id="一、反编译工具介绍"><a href="#一、反编译工具介绍" class="headerlink" title="一、反编译工具介绍"></a>一、反编译工具介绍</h2><p>如果我们只是需要 app 中的图片资源，可以直接修改 <code>xxx.apk</code>的后缀为 <code>xxx.zip</code>，解压后的文件目录如下：</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4f3fe2ed61584c35a6b6284902e7f1d1~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221022210917119.png"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281542473.png" srcset="/img/loading.gif" lazyload alt="image-20221022210917119.png"></p>
 <p>所有的代码处于 <code>classes.dex</code> 中，图片布局等资源处于 res 目录下。此时你可以直接去 res 目录下复制图片资源使用，但是你去打开 AndroidManifest.xml 文件和 activity_main.xml 文件，会发现看不懂</p>
 <p>AndroidManifest.xml 文件：</p>
-<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/44b5736525c345898c4ab5e7638202ff~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="image-20221022175713114.png" width="50%" />
+<img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281542492.png" srcset="/img/loading.gif" lazyload alt="image-20221022175713114.png" width="50%" />
 
 <p>activity_main.xml 文件：</p>
-<img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/01ccf592ea8f48f8bcfd793c47a63da2~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="image-20221022175816393.png" width="50%" />
+<img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281542276.png" srcset="/img/loading.gif" lazyload alt="image-20221022175816393.png" width="50%" />
 
 <p>就是一推整齐排列的 16 进制数，那如果我想看懂要怎么办呢？</p>
 <p>答：使用 apktool</p>
 <h3 id="1-1、apktool"><a href="#1-1、apktool" class="headerlink" title="1.1、apktool"></a>1.1、apktool</h3><p>作用：反编译 APK 中的资源</p>
 <p>下载链接：<a target="_blank" rel="noopener" href="https://ibotpeaches.github.io/Apktool/install/">https://ibotpeaches.github.io/Apktool/install/</a></p>
 <p>打开下载链接会出现如下界面：</p>
-<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3ef9157c45414b0ca8143fee8e98d327~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221021173948270.png"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281542428.png" srcset="/img/loading.gif" lazyload alt="image-20221021173948270.png"></p>
 <p>mac 建议使用红框中的 Homebrew 去安装，执行 <code>brew install apktool</code> 命令一键安装，它会自动给你配置好环境变量以及增加文件的操作权限</p>
 <p>安装完成后，输入<code>apktool</code>命令 ，如果展示了 apktool 相关信息证明你配置成功了，如下图：</p>
-<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/cc044f1b08334ca8aa8dcbf285e236d8~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221021174740419.png"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281542252.png" srcset="/img/loading.gif" lazyload alt="image-20221021174740419.png"></p>
 <h4 id="1-1-1、apktool-使用"><a href="#1-1-1、apktool-使用" class="headerlink" title="1.1.1、apktool 使用"></a>1.1.1、apktool 使用</h4><p>接下来我们通过 apktool 来反编译 apk 中的资源</p>
 <p>1、先准备一个 apk 文件</p>
 <p>2、执行 <code>apktool d xxx.apk</code> 命令</p>
@@ -462,19 +462,19 @@
 <p>-r ：不反编译资源文件，也就是说 resources.arsc 文件会被保留（默认会将 resources.arsc 解码成具体的资源文件）</p>
 </blockquote>
 <p>常用的用法就这么多，上述命令的执行结果如下图所示：</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b7fc82cc34d240dfb6a42bd6a9485846~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221022172954424.png"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281543144.png" srcset="/img/loading.gif" lazyload alt="image-20221022172954424.png"></p>
 <p>这就说明反编译资源成功了</p>
 <p><strong>需要注意的是</strong>：</p>
 <p>1、上述 <code>app-debug.apk</code>，mac 的 terminal 会自动添加 <code>.zip</code> 后缀，大家别给误导了哈</p>
 <p>2、另外生成的文件夹会在 <code>apk-debug.apk.zip</code> 的基础上在增加 <code>.out</code> 后缀：</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b2c1a1eabc75446b95c4335552378e7d~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221022173342679.png"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281543595.png" srcset="/img/loading.gif" lazyload alt="image-20221022173342679.png"></p>
 <p>这种现象和 windows 系统表现不太一样，大家注意一下，如果看着不爽，可以使用上述讲的附加参数<code>-o</code> ，来对输出的文件夹进行重命名</p>
 <p>3、建议大家新建一个文件夹来进行反编译的操作，例如上面我新建了一个 apktool_reverse 的文件夹，然后将 apk 资源放到下面，通过 terminal cd 到这个目录，最后执行解码的命令</p>
 <p>4、如果我们执行解码命令 <code>apktool d xxx.apk</code> 成功后，想添加附加参数继续执行，如：<code>apktool d -s -r xxx.apk</code>，此时会报错：</p>
-<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/203c37f04db742c1a732b6ea631e4055~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221022174758839.png"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281543463.png" srcset="/img/loading.gif" lazyload alt="image-20221022174758839.png"></p>
 <p>报错提示我们该文件夹已经存在了，因此在这种文件夹已经存在的情况下，大家应该加上附加参数<code>-f</code>强制删除现有文件夹</p>
 <p>ok，看一下 apktool 反编译后生成的一些具体文件：</p>
-<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/80148ce5bee2429ab1d27fa81ac091c9~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221022180713615.png"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281543278.png" srcset="/img/loading.gif" lazyload alt="image-20221022180713615.png"></p>
 <blockquote>
 <p>1、AndroidManifest.xml：经过反编译还原后的 manifest 文件</p>
 <p>2、original 文件夹：存放了未经反编译过、原始的 AndroidManifest.xml 文件</p>
@@ -483,22 +483,22 @@
 </blockquote>
 <p>看一眼反编译后的 AndroidManifest.xml 文件和 activity_main.xml 文件</p>
 <p>AndroidManifest.xml 文件：</p>
-<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f8978eadfcc846b6b4bd6db736906642~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221022180343979.png"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281543394.png" srcset="/img/loading.gif" lazyload alt="image-20221022180343979.png"></p>
 <p>activity_main.xml 文件：</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/16c6072a853d4b11bf9a2d7cf7dccb75~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221022180428331.png"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281543477.png" srcset="/img/loading.gif" lazyload alt="image-20221022180428331.png"></p>
 <p>已经还原成我们看得懂的文件了，格式差点意思，你可以将内容复制出来放到 AndroidStudio 里面格式化一下就完美了，这样我们就把反编译资源的方法给掌握了</p>
 <p>另外使用 apktool 反编译后的代码处于 smali 文件夹下，且都是<code>.smali</code>格式的，我们简单截取一段 MainActivity.smali 文件的代码：</p>
-<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2f640f3207d74456ab42724c37648f02~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221022205951161.png"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281543994.png" srcset="/img/loading.gif" lazyload alt="image-20221022205951161.png"></p>
 <p>嗯，看不懂😂，如果你能看得懂，那么做的事情就多了，你可以随意修改应用程序内的逻辑，将其进行破解发布。</p>
 <p>那怎么才能转换成能看懂的 Java 代码呢？</p>
 <p>答：使用 dex2jar + jd-gui</p>
 <h3 id="1-2、dex2jar"><a href="#1-2、dex2jar" class="headerlink" title="1.2、dex2jar"></a>1.2、dex2jar</h3><p>作用：将 dex 文件转换成 jar 文件</p>
 <p>下载地址：<a target="_blank" rel="noopener" href="https://sourceforge.net/projects/dex2jar/files/">https://sourceforge.net/projects/dex2jar/files/</a></p>
 <h4 id="1-1-1、dex2jar-使用"><a href="#1-1-1、dex2jar-使用" class="headerlink" title="1.1.1、dex2jar 使用"></a>1.1.1、dex2jar 使用</h4><p>将下载的 dex2jar 压缩包解压，可以看到如下内容：</p>
-<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9204b93487bf4ec6856e1ca5ab606649~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221021165416847.png"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281543803.png" srcset="/img/loading.gif" lazyload alt="image-20221021165416847.png"></p>
 <p>在 mac 中使用 <code>d2j-dex2jar.sh</code> 文件就 ok 了</p>
 <p>1、将需要转换的 dex 文件复制到当前 dex2jar 目录：</p>
-<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/43231aff34ed42d3b8b519257f6e1d46~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221021165712150.png"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281543369.png" srcset="/img/loading.gif" lazyload alt="image-20221021165712150.png"></p>
 <p>2、执行如下命令：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">sh d2j-dex2jar.sh classes.dex<br></code></pre></td></tr></table></figure>
 
@@ -507,18 +507,18 @@
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">chmod</span> 777 d2j_invoke.sh<br></code></pre></td></tr></table></figure>
 
 <p>接着在执行上述反编译命令，过程如下：</p>
-<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/33df075c54194c43bd0e2f916fa6bb15~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221021170548196.png"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281543530.png" srcset="/img/loading.gif" lazyload alt="image-20221021170548196.png"></p>
 <p>我们可以看到 dex2jar 多了两个压缩包：</p>
-<img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1ab69073a78e4379ae98cb15688ed95f~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="image-20221021170810169.png" width="30%" />
+<img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281544429.png" srcset="/img/loading.gif" lazyload alt="image-20221021170810169.png" width="30%" />
 
 <p>其中代码都处于 classes-dex2jar.jar 中， dex2jar 已经完成它的使命，接下来我们需要通过 jd-gui 去查看 jar 包下的内容</p>
 <h3 id="1-2、jd-gui"><a href="#1-2、jd-gui" class="headerlink" title="1.2、jd-gui"></a>1.2、jd-gui</h3><p>作用：查看 jar 包里面的具体类容</p>
 <p>下载地址：<a target="_blank" rel="noopener" href="http://java-decompiler.github.io/">http://java-decompiler.github.io/</a></p>
 <p>打开下载链接如下图：</p>
-<img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5bd16ed40b3749dd8cc94ace9b82e534~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="image-20221022212449198.png" width="50%" />
+<img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281544952.png" srcset="/img/loading.gif" lazyload alt="image-20221022212449198.png" width="50%" />
 
 <p>根据自己的操作系统下载不同的压缩包即可，这里我下载的是 <code>jd-gui-osx-1.6.6.tar</code>，解压后你会看到下面 4 个文件：</p>
-<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/96a2e03ca12248fba16164ca98d6e68e~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="image-20221022212625065.png" width="50%" />
+<img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281544914.png" srcset="/img/loading.gif" lazyload alt="image-20221022212625065.png" width="50%" />
 
 <p>双击打开 JD-GUI ，你会发现系统给我们报了个错误：</p>
 <blockquote>
@@ -527,15 +527,15 @@
 </blockquote>
 <p>这是因为 <code>universalJavaApplicationStub.sh</code> 脚本在 Mac Big Sur 及以上版本有兼容性问题，我们需要对这个脚本的内容进行替换</p>
 <p>1、双击 JD-GUI 显示包内容</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6c48e47d5faf4f74871f8294dabe67e5~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221022213637572.png"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281544932.png" srcset="/img/loading.gif" lazyload alt="image-20221022213637572.png"></p>
 <p>2、根据截图找到 <code>universalJavaApplicationStub.sh</code></p>
-<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c11f33feea7046e3bd7a6e35161139c8~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221022213535766.png"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281544531.png" srcset="/img/loading.gif" lazyload alt="image-20221022213535766.png"></p>
 <p>3、将此文件内容替换为   <a target="_blank" rel="noopener" href="https://github.com/tofi86/universalJavaApplicationStub/blob/v3.0.6/src/universalJavaApplicationStub">https://github.com/tofi86/universalJavaApplicationStub/blob/v3.0.6/src/universalJavaApplicationStub</a> 这个链接中的内容</p>
 <p><strong>注意</strong>：安装之前你要保证系统已经安装了 JDK 1.8 及以上版本</p>
 <p>经过上面 3 步，你就可以正确的打开 JD-GUI 了：</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/078b71c3bf9e4c60ba1c591299de9820~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221022214020602.png"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281544346.png" srcset="/img/loading.gif" lazyload alt="image-20221022214020602.png"></p>
 <p>接着将需要打开的 jar 包给拖进去，查看 MainActivity：</p>
-<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/72cc2408924348e0b86a4613945d4c12~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221022214433643.png"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281544378.png" srcset="/img/loading.gif" lazyload alt="image-20221022214433643.png"></p>
 <p>上述 MainActivity 我使用 AspectJ 在 onCreate 方法中插入了一些代码，效果符合我的预期</p>
 <p>至此，我们就学会了如何反编译代码和资源了，简单的小结一下：</p>
 <p><strong>1、如果要反编译 app 的代码，就使用 dex2jar + jd-gui</strong></p>
@@ -543,18 +543,18 @@
 <p>ok，还没结束，现在你还只会我在前言中提到的 1，2，3 点，对于第 4 点：<strong>反编译一个 app，将它打包成一个新的 app</strong> 你还不会，跟着我的步伐继续往下走</p>
 <h2 id="二、基于一个-app-打造一个新的-app"><a href="#二、基于一个-app-打造一个新的-app" class="headerlink" title="二、基于一个 app 打造一个新的 app"></a>二、基于一个 app 打造一个新的 app</h2><p><strong>提醒</strong>：这里大家就站在一个技术的角度去学习，千万别干坏事</p>
 <p>我们基于上述使用 apktool 反编译后的文件夹去做修改，先再看一眼：</p>
-<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/80148ce5bee2429ab1d27fa81ac091c9~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221022180713615.png"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281544609.png" srcset="/img/loading.gif" lazyload alt="image-20221022180713615.png"></p>
 <p>未修改前 activity_main.xml 文件的代码如下：</p>
-<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b212d00ac7754f7c87d658e472a23200~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221023094920363.png"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281544606.png" srcset="/img/loading.gif" lazyload alt="image-20221023094920363.png"></p>
 <p>我们这里就简单的对 activity_main.xml 文件进行一些修改然后打包，修改如下：</p>
-<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/dfaf1d2dfea9478eab100970a4ea9cd9~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221023095336625.png"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281544947.png" srcset="/img/loading.gif" lazyload alt="image-20221023095336625.png"></p>
 <p>接着使用 apktool 将我们反编译的<code>app-debug.apk.zip.out</code>文件夹重新打包成 apk，使用如下命令：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">apktool b app-debug.apk.zip.out -o new_app_debug.apk<br></code></pre></td></tr></table></figure>
 
 <p>执行过程如下图：</p>
-<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ac452017b89b4bc4bb2e79370f98b70f~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221023100440147.png"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281545487.png" srcset="/img/loading.gif" lazyload alt="image-20221023100440147.png"></p>
 <p>现在你会发现同级目录有了一个新的 apk 文件：</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/09669596505f4e629bd4a499de3539a2~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221023100528479.png"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281545756.png" srcset="/img/loading.gif" lazyload alt="image-20221023100528479.png"></p>
 <p>结果猴急猴急的拿去安装，你会发现安装报错了：</p>
 <blockquote>
 <p>adb: failed to install xxx&#x2F;new_app_debug.apk: Failure [INSTALL_PARSE_FAILED_NO_CERTIFICATES: Failed to collect certificates from &#x2F;data&#x2F;app&#x2F;vmdl2142334632.tmp&#x2F;base.apk: Attempt to get length of null array]</p>
@@ -571,9 +571,9 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">zipalign 4 new_app_debug.apk new_app_debug_aligned.apk<br></code></pre></td></tr></table></figure>
 
 <p>其中 4 是固定的值，后面指定待对齐的 apk 文件名和对齐后的 apk 文件名，运行这段命令之后，会生成一个<code>new_app_debug_aligned.apk</code>文件，如下所示：</p>
-<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/bd2d9d53fd7f4c01bcb739d4fb518a3c~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload alt="image-20221023102830691.png"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281545850.png" srcset="/img/loading.gif" lazyload alt="image-20221023102830691.png"></p>
 <p>接下来我们把这个签名对齐后的 apk 安装到手机上，效果如下图所示：</p>
-<img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/933c32ea1cf44f9b939ae59583d076b5~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="ezgif.com-gif-maker.gif" width="30%" />
+<img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281545159.gif" srcset="/img/loading.gif" lazyload alt="ezgif.com-gif-maker.gif" width="30%" />
 
 <p>可以看到，当我们打开 app 后，页面的布局变成我们修改后的了，说明我们基于一个 app 打造一个新的 app 成功了</p>
 <h2 id="三、总结"><a href="#三、总结" class="headerlink" title="三、总结"></a>三、总结</h2><p>本篇文章我讲了：</p>

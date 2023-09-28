@@ -31,15 +31,15 @@
 <meta property="og:site_name" content="sweetying">
 <meta property="og:description" content="前言很高兴遇见你~ 众所周知，RxJava 是一个非常流行的第三方开源库，它能将复杂的逻辑简单化，提高我们的开发效率，一个这么好用的库，来让我们学习一下吧🍺 下面我抛出一些问题，如果你都知道，那么恭喜你，你对 RxJava 掌握的很透彻，如果你对下面这些问题有一些疑惑，那么你就可以接着往下看，我会由浅入深的给你讲解 RxJava，看完之后，这些问题你会非常明了 1、什么是观察者模式？什么是装饰">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/95599612f89a4939b24dc92b23a41f5a~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281536551.jpeg">
 <meta property="article:published_time" content="2022-10-11T02:51:00.000Z">
-<meta property="article:modified_time" content="2022-10-13T03:09:21.456Z">
+<meta property="article:modified_time" content="2023-09-28T07:37:00.159Z">
 <meta property="article:author" content="sweetying">
 <meta property="article:tag" content="原创">
 <meta property="article:tag" content="Android">
 <meta property="article:tag" content="一篇就够">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/95599612f89a4939b24dc92b23a41f5a~tplv-k3u1fbpfcp-watermark.image?">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281536551.jpeg">
   
   
   
@@ -423,7 +423,7 @@
             
               <div class="markdown-body">
                 
-                <p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/95599612f89a4939b24dc92b23a41f5a~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload></p>
+                <p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281536551.jpeg" srcset="/img/loading.gif" lazyload></p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>很高兴遇见你~</p>
 <p>众所周知，RxJava 是一个非常流行的第三方开源库，它能将复杂的逻辑简单化，提高我们的开发效率，一个这么好用的库，来让我们学习一下吧🍺</p>
 <p>下面我抛出一些问题，如果你都知道，那么恭喜你，你对 RxJava 掌握的很透彻，如果你对下面这些问题有一些疑惑，那么你就可以接着往下看，我会由浅入深的给你讲解 RxJava，看完之后，这些问题你会非常明了</p>
@@ -449,7 +449,7 @@
 <h2 id="二、手撸-RxJava-核心源码实现"><a href="#二、手撸-RxJava-核心源码实现" class="headerlink" title="二、手撸 RxJava 核心源码实现"></a>二、手撸 RxJava 核心源码实现</h2><p>ok，了解了两种设计模式，接下来我们正式进入 RxJava 的学习</p>
 <h3 id="2-1、RxJava-介绍"><a href="#2-1、RxJava-介绍" class="headerlink" title="2.1、RxJava 介绍"></a>2.1、RxJava 介绍</h3><p>RxJava 是一个异步操作框架，其核心可以归纳为两点：1、异步事件流 2、响应式编程。接下来我们可以好好的去感受这两点</p>
 <h3 id="2-2、RxJava-操作符"><a href="#2-2、RxJava-操作符" class="headerlink" title="2.2、RxJava 操作符"></a>2.2、RxJava 操作符</h3><p>RxJava 之所以强大源于它各种强大的操作符，掌握好这些操作符能让你对 RxJava 的使用得心应手，RxJava 操作符主要分为 6 大类：</p>
-<img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/86c610f277a04ab786cd788ffb73a32c~tplv-k3u1fbpfcp-watermark.image?" srcset="/img/loading.gif" lazyload alt="RxJava 操作符.png" width="100%" />
+<img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281536198.png" srcset="/img/loading.gif" lazyload alt="RxJava 操作符.png" width="100%" />
 
 <p>每一个操作符背后都对应了一个具体的实现类，接下来我们就挑几个最常用，最核心的操作符：create，map，flatMap，observeOn，subscribeOn 进行手撸实现，相信看完这些操作符的实现后，你能融会贯通，举一反三</p>
 <p><strong>注意</strong>：下面这些操作符的实现和 RxJava 实现细节不尽相同，但核心思想是一致的，大家只要理解核心思想就好</p>

@@ -31,15 +31,15 @@
 <meta property="og:site_name" content="sweetying">
 <meta property="og:description" content="前言很高兴遇见你~ 最近接到一个需求，大致内容是：全局替换当前项目中的默认字体，并引入 UI 设计师提供的一些新字体。于是对字体做了些研究，把自己的一些心得分享给大家。 注意：本文所展示的系统源码都是基于Android-30 ，并提取核心部分进行分析 一、Android 默认字体介绍1、Android 系统默认使用的是一款叫做 Roboto 的字体，这也是 Google 推荐使用的一款字体 传送">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/860547fcae1c47e5ab8d633d991a54db~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281551655.jpeg">
 <meta property="article:published_time" content="2022-10-11T02:30:49.000Z">
-<meta property="article:modified_time" content="2022-10-13T02:53:50.618Z">
+<meta property="article:modified_time" content="2023-09-28T07:52:14.639Z">
 <meta property="article:author" content="sweetying">
 <meta property="article:tag" content="原创">
 <meta property="article:tag" content="Android">
 <meta property="article:tag" content="Android Font">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/860547fcae1c47e5ab8d633d991a54db~tplv-k3u1fbpfcp-watermark.image?">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281551655.jpeg">
   
   
   
@@ -423,13 +423,13 @@
             
               <div class="markdown-body">
                 
-                <p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/860547fcae1c47e5ab8d633d991a54db~tplv-k3u1fbpfcp-watermark.image" srcset="/img/loading.gif" lazyload></p>
+                <p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281551655.jpeg" srcset="/img/loading.gif" lazyload></p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>很高兴遇见你~</p>
 <p>最近接到一个需求，大致内容是：全局替换当前项目中的默认字体，并引入 UI 设计师提供的一些新字体。于是对字体做了些研究，把自己的一些心得分享给大家。</p>
 <p><strong>注意：本文所展示的系统源码都是基于Android-30 ，并提取核心部分进行分析</strong></p>
 <h2 id="一、Android-默认字体介绍"><a href="#一、Android-默认字体介绍" class="headerlink" title="一、Android 默认字体介绍"></a>一、Android 默认字体介绍</h2><p>1、Android 系统默认使用的是一款叫做 <strong>Roboto</strong> 的字体，这也是 Google 推荐使用的一款字体 <a target="_blank" rel="noopener" href="https://fonts.google.com/specimen/Roboto">传送门</a>。它提供了多种字体形式的选择，例如：粗体，斜体等等。</p>
 <p>2、在 Android 中，我们一般会直接或间接的通过 TextView 控件去承载字体的显示，因为关于 Android 提供的承载字体显示的控件都会直接或间接继承 TextView，例如：EditText，Button 等等，下面给出一张 TextView 继承图：</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d39161a73f724a768e1eabde15b04c4e~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210612124458481"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281551273.png" srcset="/img/loading.gif" lazyload alt="image-20210612124458481"></p>
 <p>3、TextView 中有三个属性可以设置字体的显示：</p>
 <p>1）、textStyle</p>
 <p>2）、typeface</p>
@@ -447,7 +447,7 @@
 </ul>
 <p>2、textStyle 是用 flag 来承载的，flag 表示的值可以做或运算，也就是说我们可以设置多种字体样式进行叠加</p>
 <p>接下来我们在 xml 中设置一下，如下图：</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2e2f6c4a7ba141e0b05c0c45bd802b0a~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210612205549971"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281551158.png" srcset="/img/loading.gif" lazyload alt="image-20210612205549971"></p>
 <p>可以看到，我们给 TextView 的 textStyle 属性设置了<strong>粗体和斜体</strong>两种样式叠加，右边可以看到预览效果</p>
 <p>同样我们也可以在代码中对其进行设置，但是在代码中设置字体样式只能设置一种，不能叠加：</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs kotlin">mTextView.setTypeface(<span class="hljs-literal">null</span>, Typeface.BOLD)<br></code></pre></td></tr></table></figure>
@@ -465,11 +465,11 @@
 </ul>
 <p>2、typeface 是用 enum 来承载的，enum 表示枚举类型，每次只能选择一个，因此我们每次只能设置一种字体，不能叠加</p>
 <p>接下来我们在 xml 中设置一下，如下图：</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/af5a02a649b74a8b8ca9eb05eeb7bbff~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210612133722082"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281551388.png" srcset="/img/loading.gif" lazyload alt="image-20210612133722082"></p>
 <p>简单介绍这几种字体的区别：</p>
 <p>serif (衬线字体)：在字的笔划开始及结束的地方有额外的装饰，而且笔划的粗细会因直横的不同而有不同相</p>
 <p>sans (非衬线字体)：没有 serif 字体这些额外的装饰，和 noraml 字体是一样的</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/cdccfc3d87ec4fc29d5e8459f6a0972d~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210612134441993"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281551041.png" srcset="/img/loading.gif" lazyload alt="image-20210612134441993"></p>
 <p>monospace (等宽字体)：限制每个字符的宽度，让它们达到一个等宽的效果</p>
 <p>同样我们也可以在代码中进行设置：</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs kotlin">mTv.setTypeface(Typeface.SERIF)<br></code></pre></td></tr></table></figure>
@@ -479,9 +479,9 @@
 
 <p>从上述自定义属性中我们可以知道：</p>
 <p>fontFamily 接收的是一个 String 类型的值，也就是我们可以通过字体别名设置这种字体，如下图：</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/eb550779d94c4e2d9765e9e965a64239~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="fontFamily"></p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281551543.png" srcset="/img/loading.gif" lazyload alt="fontFamily"></p>
 <p>可以看到，它细致的区分了每个系列字体的样式，同样我们在 xml 中对它进行一个设置：</p>
-<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/58193c885a64490aaf7d5f2f77b50348~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload alt="image-20210612212209243"><br>我们在代码中在对他进行一个设置：</p>
+<p><img src="https://raw.githubusercontent.com/sweetying520/picgo/master/img/202309281552775.png" srcset="/img/loading.gif" lazyload alt="image-20210612212209243"><br>我们在代码中在对他进行一个设置：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">mTv.setTypeface(Typeface.create(<span class="hljs-string">&quot;sans-serif-medium&quot;</span>,Typeface.NORMAL))<br></code></pre></td></tr></table></figure>
 <p><strong>值的注意的是</strong>：fontFamily 设置的某些字体有兼容性问题，如我上面设置的 sans-serif-medium 字体，它在 Android 系统版本大于等于 21 才会生效，如果小于 21 ，则会使用默认字体，因此我们在使用 fontFamily<br>属性时，需要注意这个问题</p>
 <p>到这里，我们就把影响 Android 字体的 3 个属性给讲完了，但是我心里有个疑问🤔️ ？假设我这三个属性同时设置，会一起生效吗？</p>
