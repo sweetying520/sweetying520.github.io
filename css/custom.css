@@ -50,7 +50,7 @@ p.admonition-title {
     page-break-inside: avoid;
     border-left: 0.3rem solid #42b983;
     border-radius: 0.3rem;
-    box-shadow: 0 .1rem .4remrgba(0,0,0,.05),0 0 .05remrgba(0,0,0,.1);
+    box-shadow: 0 .1rem .4rem rgba(0,0,0,.05),0 0 .05rem rgba(0,0,0,.1);
     background-color: #fafafa;
 }
 
@@ -76,11 +76,6 @@ p.admonition-title-blue {
     page-break-inside: avoid;
     border-left: 0.3rem solid #00b8d4;
     border-radius: 0.3rem;
-    box-shadow: 0 .1rem .4remrgba(0,0,0,.05),0 0 .05remrgba(0,0,0,.1);
+    box-shadow: 0 .1rem .4rem rgba(0,0,0,.05),0 0 .05rem rgba(0,0,0,.1);
     background-color: #fafafa;
 }
-
-::-webkit-scrollbar {
-  width: 0px;
-  height: 6px;
-}<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
