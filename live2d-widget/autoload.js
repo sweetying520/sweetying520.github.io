@@ -14,6 +14,10 @@
     });
   }
   Promise.all([load('waifu.css', 'css'), load('live2d.min.js', 'js'), load('waifu-tips.js', 'js')])
-    .then(() => window.initWidget({waifuPath: base + 'waifu-tips.json', cdnPath: 'https://fastly.jsdelivr.net/gh/fghrsh/live2d_api/'}))
+    .then(() => window.initWidget({
+      waifuPath: base + 'waifu-tips.json',
+      cdnPath: 'https://fastly.jsdelivr.net/gh/fghrsh/live2d_api/',
+      defaultModel: 'ShizukuTalk/shizuku-pajama' // Shizuku：橙色长发、粉色睡衣。
+    }))
     .catch(() => { /* Optional decoration must not stop the blog. */ });
 })();
