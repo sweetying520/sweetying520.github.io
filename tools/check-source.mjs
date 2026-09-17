@@ -1,6 +1,16 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
+// Surface validation failures in the Actions summary, even without log access.
+process.on('uncaughtException', error => {
+  if (process.env.GITHUB_ACTIONS === 'true') {
+    const message = error.message.replaceAll('%', '%25').replaceAll('\r', '%0D').replaceAll('\n', '%0A');
+    console.error(`::error title=Blog validation::${message}`);
+  }
+  console.error(error);
+  process.exitCode = 1;
+});
+
 const root = process.cwd();
 const ignored = new Set(['.git', 'node_modules', 'public', '.deploy_git', '.idea']);
 const credential = /gh[pousr]_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{30,}|-----BEGIN (?:RSA |OPENSSH |EC )?PRIVATE KEY-----/;

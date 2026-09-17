@@ -1,6 +1,16 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
+// Surface validation failures in the Actions summary, even without log access.
+process.on('uncaughtException', error => {
+  if (process.env.GITHUB_ACTIONS === 'true') {
+    const message = error.message.replaceAll('%', '%25').replaceAll('\r', '%0D').replaceAll('\n', '%0A');
+    console.error(`::error title=Blog validation::${message}`);
+  }
+  console.error(error);
+  process.exitCode = 1;
+});
+
 const publicDir = path.resolve('public');
 const legacy = JSON.parse(fs.readFileSync('docs/legacy-post-routes.json','utf8'));
 for (const route of legacy) assert(fs.existsSync(path.join(publicDir, route)), `Historical article URL lost: ${route}`);
