@@ -1,0 +1,18 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: weekly
+  target-branch: source
+  open-pull-requests-limit: 5
+  groups:
+    hexo:
+      patterns:
+        - "hexo*"
+- package-ecosystem: github-actions
+  directory: "/"
+  target-branch: source
+  schedule:
+    interval: weekly
+  open-pull-requests-limit: 5

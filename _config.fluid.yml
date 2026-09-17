@@ -1,0 +1,138 @@
+# Fluid 个性化覆盖配置。未列出的选项使用 npm 主题默认值。
+# 主题源码由 package-lock.json 固定；请勿修改 node_modules。
+favicon: /img/avatar.png
+apple_touch_icon: /img/avatar.png
+custom_js:
+  - /vvd_js/star.js
+  - /vvd_js/duration.js
+  - /vvd_js/musicshow.js
+  - /js/background.js
+custom_css:
+  - /css/iconfont_juejin/iconfont.css
+  - /css/custom.css
+  - /css/fluid-extention.css
+  - /css/site-maintenance.css
+web_analytics:
+  enable: true
+  leancloud:
+    app_id: zN1E017kYhKuj6GqXHJSbGMb-gzGzoHsz
+    app_key: JSwY8PjtA131Y78OHn7kKtio
+    server_url: https://zn1e017k.lc-cn-n1-shared.com
+    ignore_local: true
+navbar:
+  blog_title: sweetying
+  ground_glass:
+    enable: true
+  menu:
+    - key: home
+      link: /
+      icon: iconfont icon-home-fill
+    - key: archive
+      link: /archives/
+      icon: iconfont icon-archive-fill
+    - key: category
+      link: /categories/
+      icon: iconfont icon-category-fill
+    - key: tag
+      link: /tags/
+      icon: iconfont icon-tags-fill
+    - key: about
+      link: /about/
+      icon: iconfont icon-user-fill
+    - key: links
+      link: /links/
+      icon: iconfont icon-link-fill
+    - key: wormhole
+      link: https://www.foreverblog.cn/go.html
+      icon: iconfont icon-rss
+footer:
+  content: |-
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener">Hexo</a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">Fluid</a>
+    <div class="site-runtime"><span id="timeDate">载入天数...</span> <span id="times"></span></div>
+    <div id="music_div" hidden>
+      <iframe title="网易云音乐歌单" loading="lazy" width="330" height="100" frameborder="0"
+        data-src="https://music.163.com/outchain/player?type=0&id=5426937413&auto=0&height=100"></iframe>
+    </div>
+  statistics:
+    enable: true
+    source: leancloud
+    pv_format: 总访问量 {} 次
+    uv_format: 总访客数 {} 人
+index:
+  banner_img: /img/default.png
+  banner_mask_alpha: 0.2
+  slogan:
+    text: sweetying的个人博客
+    api:
+      enable: true
+      url: https://v1.hitokoto.cn/?encode=json
+      keys:
+        - hitokoto
+  post_url_target: _blank
+post:
+  banner_img: /img/default.png
+  banner_mask_alpha: 0.2
+  meta:
+    author:
+      enable: true
+    min2read:
+      wpm: 150
+    views:
+      enable: true
+      source: leancloud
+      format: '{} 次'
+  comments:
+    enable: true
+    type: valine
+valine:
+  appId: zN1E017kYhKuj6GqXHJSbGMb-gzGzoHsz
+  appKey: JSwY8PjtA131Y78OHn7kKtio
+archive:
+  banner_img: /img/default.png
+  banner_mask_alpha: 0.2
+category:
+  banner_img: /img/default.png
+  banner_mask_alpha: 0.2
+tag:
+  banner_img: /img/default.png
+  banner_mask_alpha: 0.2
+about:
+  banner_img: /img/default.png
+  banner_mask_alpha: 0.2
+  name: sweetying
+  intro: 每天进步一厘米
+  icons:
+    - class: iconfont icon-github-fill
+      link: https://github.com/sweetying520
+      tip: GitHub
+    - class: iconfont icon-wangzhi_huaban
+      link: https://juejin.cn/user/3210229682022888/posts
+      tip: 掘金
+    - class: iconfont icon-wechat-fill
+      qrcode: /img/wechat_qrcode.jpg
+page404:
+  banner_img: /img/default.png
+  banner_mask_alpha: 0.2
+links:
+  banner_img: /img/default.png
+  banner_mask_alpha: 0.2
+  items:
+    - title: 又见苍岚
+      intro: 蓝天依旧，明眸如初
+      link: https://www.zywvvd.com/
+      avatar: https://www.zywvvd.com/image/avatar.png
+  custom:
+    enable: true
+    content: >-
+      <hr><p>欢迎在下方留言互换友链，按如下格式提供信息：</p><hr><p class="note
+      note-success"><b>友链格式</b></p><ul><li>网站名称：sweetying</li><li>网站链接：https://sweetying520.github.io/</li><li>网站简介：每天进步一厘米</li><li>网站头像：https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/627905560bad449ea78f97d7dd965fdd~tplv-k3u1fbpfcp-watermark.image?</li></ul>
+  comments:
+    enable: true
+    type: valine
+static_prefix:
+  jquery: /vendor/jquery/
+site_extras:
+  live2d: true
+  video_background: false

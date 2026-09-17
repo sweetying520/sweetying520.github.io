@@ -1,0 +1,16 @@
+# 本地阅读不写入线上统计或加载评论。
+theme_config:
+  web_analytics:
+    enable: false
+  footer:
+    statistics:
+      enable: false
+  post:
+    meta:
+      views:
+        enable: false
+    comments:
+      enable: false
+  links:
+    comments:
+      enable: false

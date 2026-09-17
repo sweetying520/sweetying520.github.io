@@ -1,0 +1,92 @@
+/*中间显示框*/
+.col-lg-8.nopadding-x-md > .container.nopadding-x-md > #board.py-5 {
+    width: 123%;
+    left: -23%;
+}
+@media (max-width: 767px) {
+    .col-lg-8.nopadding-x-md > .container.nopadding-x-md > #board.py-5 {
+        width: 100%;
+        left: 0;
+    }
+}
+@media (max-width: 424px) {
+    .col-lg-8.nopadding-x-md > .container.nopadding-x-md > #board.py-5 {
+        width: 100%;
+        left: 0;
+    }
+}
+
+
+/*Mac风格代码块*/
+figure.highlight {
+    /*
+    background: #21252b;
+    background: rgb(246,248,250);
+    */
+    background: rgb(246,248,250);
+    border-radius: 8px;
+    box-shadow: 1px 2px 22px 1px rgba(0, 0, 0, .3);
+    padding-top: 25px;
+
+}
+
+figure.highlight::before {
+    background: #fc625d;
+    border-radius: 50%;
+    box-shadow: 20px 0 #fdbc40, 40px 0 #35cd4b;
+    content: ' ';
+    height: 12px;
+    left: 12px;
+    margin-top: -15px;
+    position: absolute;
+    width: 12px;
+
+}
+
+/*自定义光标*/
+body, header, div.mask.flex-center, div.scroll-down-bar, #banner.banner, h1,h2,h3,h4,h5,h6 {
+    cursor: auto;
+}
+
+a:hover, button:hover, i:hover {
+    cursor: pointer;
+}
+
+#rightside>div>button,
+#rightside>div>a {
+    display: block;
+    margin-bottom: 2px;
+    width: 30px;
+    height: 30px;
+    color: var(--btn-color);
+    text-align: center;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* 文章标签 */
+.layout_post .tag_share .post-meta__tags {
+    cursor: pointer;
+}
+/* 评论区 */
+.vcol * {
+    cursor: pointer;
+}
+.v[data-class=v] .vicon {
+    cursor: pointer;
+}
+.v[data-class=v] .vbtn {
+    cursor: pointer;
+}
+/* 回复 */
+.vat {
+    cursor: pointer;
+}
+/*分页器*/
+#pagination .page-number:hover {
+    cursor: pointer;
+}
+/* 分页器的三个点(...) */
+.space {
+    color: #00c4b6;
+}

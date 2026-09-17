@@ -1,0 +1,55 @@
+name: Blog build and Pages
+
+on:
+  push:
+    branches: [source]
+  pull_request:
+    branches: [source]
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: Publish this source revision to GitHub Pages
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: blog-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npm run verify
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+  deploy:
+    # Remains disabled until Pages is switched to Actions and AUTO_DEPLOY is enabled,
+    # or an explicitly requested manual publish is run from the source branch.
+    if: >-
+      github.ref == 'refs/heads/source' &&
+      ((github.event_name == 'push' && vars.AUTO_DEPLOY == 'true') ||
+       (github.event_name == 'workflow_dispatch' && inputs.publish))
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

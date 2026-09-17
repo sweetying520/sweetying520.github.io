@@ -1,0 +1,14 @@
+.DS_Store
+Thumbs.db
+db.json
+*.log
+node_modules/
+public/
+.deploy*/
+_multiconfig.yml
+.idea/
+.env
+.env.*
+!.env.example
+_config.local.yml
+source/vendor/
