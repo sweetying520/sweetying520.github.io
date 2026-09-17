@@ -4,7 +4,7 @@
  */
 
 function loadWidget(config) {
-	let { waifuPath, apiPath, cdnPath } = config;
+	let { waifuPath, apiPath, cdnPath, defaultModel } = config;
 	let useCDN = false, modelList;
 	if (typeof cdnPath === "string") {
 		useCDN = true;
@@ -157,15 +157,28 @@ function loadWidget(config) {
 		}, timeout);
 	}
 
-	(function initModel() {
+	(async function initModel() {
 		let modelId = localStorage.getItem("modelId"),
 			modelTexturesId = localStorage.getItem("modelTexturesId");
+		if (useCDN && typeof defaultModel === "string") {
+			await loadModelList();
+			const defaultId = modelList.models.findIndex(model => [].concat(model).includes(defaultModel));
+			if (defaultId >= 0) {
+				// Apply a changed site default once, then remember the visitor's later choices.
+				const preferenceKey = "hexo-blog:live2d-default";
+				if (localStorage.getItem(preferenceKey) !== defaultModel || !modelList.models[modelId]) {
+					modelId = defaultId;
+					modelTexturesId = [].concat(modelList.models[defaultId]).indexOf(defaultModel);
+				}
+				localStorage.setItem(preferenceKey, defaultModel);
+			}
+		}
 		if (modelId === null) {
 			// 首次访问加载 指定模型 的 指定材质
 			modelId = 1; // 模型 ID
 			modelTexturesId = 53; // 材质 ID
 		}
-		loadModel(modelId, modelTexturesId);
+		await loadModel(modelId, modelTexturesId);
 		fetch(waifuPath)
 			.then(response => response.json())
 			.then(result => {
@@ -199,7 +212,7 @@ function loadWidget(config) {
 					}
 				});
 			});
-	})();
+	})().catch(error => console.warn("Live2D initialization failed:", error));
 
 	async function loadModelList() {
 		const response = await fetch(`${cdnPath}model_list.json`);
@@ -212,8 +225,12 @@ function loadWidget(config) {
 		showMessage(message, 4000, 10);
 		if (useCDN) {
 			if (!modelList) await loadModelList();
-			const target = randomSelection(modelList.models[modelId]);
-			loadlive2d("live2d", `${cdnPath}model/${target}/index.json`);
+			// CDN variants use a zero-based index; reloading must not pick a random outfit.
+			const variants = [].concat(modelList.models[modelId]);
+			const requestedIndex = Number(modelTexturesId);
+			const index = Number.isInteger(requestedIndex) && variants[requestedIndex] ? requestedIndex : 0;
+			localStorage.setItem("modelTexturesId", index);
+			loadlive2d("live2d", `${cdnPath}model/${variants[index]}/index.json`);
 		} else {
 			loadlive2d("live2d", `${apiPath}get/?id=${modelId}-${modelTexturesId}`);
 			console.log(`Live2D 模型 ${modelId}-${modelTexturesId} 加载完成`);
@@ -225,9 +242,11 @@ function loadWidget(config) {
 			modelTexturesId = localStorage.getItem("modelTexturesId");
 		if (useCDN) {
 			if (!modelList) await loadModelList();
-			const target = randomSelection(modelList.models[modelId]);
-			loadlive2d("live2d", `${cdnPath}model/${target}/index.json`);
-			showMessage("我的新衣服好看嘛？", 4000, 10);
+			const choices = [].concat(modelList.models[modelId])
+				.map((model, index) => index)
+				.filter(index => index !== Number(modelTexturesId));
+			if (!choices.length) showMessage("我还没有其他衣服呢！", 4000, 10);
+			else await loadModel(modelId, randomSelection(choices), "我的新衣服好看嘛？");
 		} else {
 			// 可选 "rand"(随机), "switch"(顺序)
 			fetch(`${apiPath}rand_textures/?id=${modelId}-${modelTexturesId}`)
