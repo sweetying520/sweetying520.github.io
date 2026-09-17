@@ -16,15 +16,17 @@ npm ci --ignore-scripts
 npm run server
 ```
 
+所有 npm 命令会在加载 Hexo 前固定进程时区为 `Asia/Shanghai`，避免 UTC 构建机器把午夜文章的地址生成到前一天。
+
 本地预览地址为 <http://127.0.0.1:4000/>。预览额外加载 `_config.preview.yml`，关闭评论及统计，避免本地阅读影响线上数据。生产构建使用正常配置。
 
 ## 写文章
 
 ```bash
-npx hexo new post "文章标题"
-npx hexo new draft "还没写完的文章"
+npm run hexo -- new post "文章标题"
+npm run hexo -- new draft "还没写完的文章"
 npm run server -- --draft
-npx hexo publish "还没写完的文章"
+npm run hexo -- publish "还没写完的文章"
 ```
 
 文章在 `source/_posts/`，草稿在 `source/_drafts/`，图片可以放在 `source/img/blog/`。`hexo publish` 只把草稿转为文章，不会推送网站。

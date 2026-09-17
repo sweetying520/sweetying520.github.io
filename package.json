@@ -3,15 +3,16 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "hexo generate",
-    "clean": "hexo clean",
-    "deploy": "npm run verify && hexo deploy",
-    "server": "hexo server --ip 127.0.0.1 --config _config.yml,_config.preview.yml",
+    "build": "node tools/hexo.cjs generate",
+    "clean": "node tools/hexo.cjs clean",
+    "deploy": "npm run verify && node tools/hexo.cjs deploy",
+    "server": "node tools/hexo.cjs server --ip 127.0.0.1 --config _config.yml,_config.preview.yml",
     "check": "node tools/check-site.mjs",
     "check:source": "node tools/check-source.mjs",
     "verify": "npm run check:source && npm run clean && npm run build && npm run check",
     "prebuild": "node tools/sync-vendor.mjs",
-    "preserver": "node tools/sync-vendor.mjs"
+    "preserver": "node tools/sync-vendor.mjs",
+    "hexo": "node tools/hexo.cjs"
   },
   "hexo": {
     "version": "8.1.2"
